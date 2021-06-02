@@ -5,14 +5,16 @@ const json = await readJSON(filename)
 
 const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
   return {
-    dia: Dia,
-    hora: parseDate(Hora),
-    precio: +(PCB.split(',')[0]) / 1000
+    day: Dia,
+    firstHour: parseDate(Hora),
+    secondHour: parseDate(Hora, true),
+    price: +(PCB.split(',')[0]) / 1000
   }
 })
 
-function parseDate(hora) {
-  const hour = hora.split('-')[0]
+function parseDate(hora, second = false) {
+  let hour = +(hora.split('-')[0])
+  hour = second ? hour + 1 : hour
   const todayIs = new Date()
   const year = todayIs.getFullYear()
   const month = todayIs.getMonth()
