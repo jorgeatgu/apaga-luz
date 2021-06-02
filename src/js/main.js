@@ -1,5 +1,5 @@
 import './../css/styles.css';
-import data from '../../price-postprocessed.json';
+import data from '../../public/data/price-postprocessed.json';
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
@@ -40,7 +40,6 @@ function getZone(zone) {
   } else {
     bgColor = '#ec1d2f';
   }
-  console.log('bgColor', bgColor);
   return bgColor;
 }
 
