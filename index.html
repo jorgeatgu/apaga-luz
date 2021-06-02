@@ -8,23 +8,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <main>
     <section class="container">
       <article class="container-hour">
-        <span class="container-hour-date">2 de junio</span>
-        <span class="container-hour-datetime">11:12</span>
-        <span id="price" class="container-hour-price">0,11 €</span>
-      </article>
-      <article>
+        <div class="container-hour-datetime">
+          <span id="hours"></span><span>:</span><span id="minutes"></span>
+        </div>
+        <span id="price" class="container-hour-price"></span>
+        <article class="container-cheap">
+          <span>La hora más barata es a las <b id="cheaphour"></b><b>:00</b> - <b id="price-cheap-hour"></b> €</span>
+        </article>
+        <article class="container-expensive">
+          <span>La hora más cara es a las <b id="expensivehour"></b><b>:00</b> - <b id="price-expensive-hour"></b> € </span>
+        </article>
       </article>
     </section>
   </main>
   <footer class="footer">
-    <div class="container">
+    <div class="container-footer">
       <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com" target="_blank">maño</a> - 2021</p>
       <p class="footer-texto">Cualquier consulta escribid a: data@jorgeatgu.com</p>
       <a class="footer-links" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub</a>

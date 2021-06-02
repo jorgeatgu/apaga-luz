@@ -14,7 +14,6 @@ const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
 });
 
 function getZone(hour) {
-  console.log('hour', hour);
   if (hour >= 0 && hour < 8) {
     return 'valle';
   } else if (
@@ -28,5 +27,5 @@ function getZone(hour) {
   }
 }
 
-const newFilename = `price-postprocessed.json`;
+const newFilename = `public/price-postprocessed.json`;
 await writeJSON(newFilename, filteredData)

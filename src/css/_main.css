@@ -8,10 +8,16 @@ html {
   line-height: 1.4;
   color: var(--black);
   font-family: var(--text);
+  position: relative;
 }
 
 .container {
-  max-width: 50vw;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+.container-footer {
+  max-width: 90vw;
   margin: 0 auto;
 }
 
@@ -23,7 +29,6 @@ main {
 .container-hour {
   padding: 1rem;
   border-radius: 4px;
-  margin-top: 2rem;
 }
 
 .container-hour-date {
@@ -35,11 +40,62 @@ main {
 .container-hour-price,
 .container-hour-datetime {
   font-family: var(--numbers);
-  font-size: 8rem;
+  font-size: 6rem;
   display: block;
   line-height: 1;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.container-cheap,
+.container-expensive {
+  background: var(--white);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-right-radius-top: 5px;
+  border-right-radius-bottom: 5px;
+  width: max-content;
+  border-left: 5px solid var(--green-dark);
+}
+
+.container-expensive {
+  border-left: 5px solid var(--red-dark);
+}
+
+.container-cheap {
+  margin-top: 4rem;
 }
 
 .container-hour-datetime {
   font-size: 3rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: max-content;
+}
+
+.icon-clock {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media only screen and (min-width: 48rem) {
+
+  .container {
+    max-width: 50vw;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .container-footer {
+    max-width: 50vw;
+  }
+
+  .container-hour-price {
+    font-size: 8rem;
+  }
 }
