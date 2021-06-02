@@ -1,11 +1,10 @@
 import './../css/styles.css';
 import data from '../../price-postprocessed.json';
 
-console.log(data);
 const timeZoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 const userHour = new Date().getHours();
-console.log('userHour', userHour);
+const [{ price }] = data.filter(({ hour }) => +hour === userHour);
 
-const getHour = data.filter(({ hour }) => hour === userHour);
-console.log('getHour', getHour);
+const getPriceElement = document.getElementById('price');
+
+getPriceElement.textContent = `${price}€`;
