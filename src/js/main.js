@@ -7,7 +7,5 @@ const timeZoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const userHour = new Date().getHours();
 console.log('userHour', userHour);
 
-const getHour = data.filter(({ firstHour }) =>
-  console.log(new Date(firstHour).getHours() - 1)
-);
+const getHour = data.filter(({ hour }) => hour === userHour);
 console.log('getHour', getHour);
