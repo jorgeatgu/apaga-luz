@@ -1,5 +1,5 @@
 import './../css/styles.css';
-import data from '../../public/data/price-postprocessed.json';
+import data from '../../public/price-postprocessed.json';
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
