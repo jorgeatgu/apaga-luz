@@ -27,5 +27,5 @@ function getZone(hour) {
   }
 }
 
-const newFilename = `/public/price-postprocessed.json`;
+const newFilename = `public/price-postprocessed.json`;
 await writeJSON(newFilename, filteredData)
