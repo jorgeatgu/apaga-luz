@@ -1,0 +1,32 @@
+{
+  "env":
+  {
+    "browser": true,
+    "es6": true
+  },
+  "globals":
+  {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "d3": false,
+    "react": true,
+    "customElements": true,
+    "HTMLImports": true,
+    "Polymer": true,
+    "ShadyDOM": true
+  },
+  "parserOptions":
+  {
+    "ecmaVersion": 2018,
+    "ecmaFeatures":
+    {
+      "experimentalObjectRestSpread": true
+    },
+    "sourceType": "module"
+  },
+  "rules":
+  {
+    "indent": ["error", 2],
+    "space-before-function-paren": ["error", "never"]
+  }
+}

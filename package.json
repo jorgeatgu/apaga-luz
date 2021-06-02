@@ -1,0 +1,47 @@
+{
+  "name": "apaga-luz",
+  "version": "1.0.0",
+  "author": "Jorge Aznar",
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "src/css/*.css": "stylelint",
+    "src/js/*.js": "prettier --write"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint-css": "stylelint src/css/**",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.12.17",
+    "animejs": "^3.2.1",
+    "babel-eslint": "^10.1.0",
+    "d3-array": "2.11.0",
+    "d3-axis": "2.0.0",
+    "d3-collection": "^1.0.7",
+    "d3-fetch": "2.0.0",
+    "d3-format": "2.0.0",
+    "d3-interpolate-path": "^2.2.1",
+    "d3-scale": "3.2.3",
+    "d3-selection": "2.0.0",
+    "d3-shape": "2.0.0",
+    "d3-transition": "2.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-standard": "16.0.2",
+    "lint-staged": "10.5.4",
+    "postcss": "7.0.32",
+    "postcss-cli": "^7.1.1",
+    "postcss-custom-properties": "9.1.1",
+    "postcss-custom-selectors": "^5.1.2",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "4.2.3",
+    "postcss-sorting": "^5.0.1",
+    "pre-commit": "^1.2.2",
+    "prettier": "2.2.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "stylelint": "13.10.0",
+    "vite": "2.0.1"
+  }
+}

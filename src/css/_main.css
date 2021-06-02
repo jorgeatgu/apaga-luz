@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--black);
+  font-family: var(--text);
+}
+
+.container {
+  max-width: 50vw;
+  margin: 0 auto;
+}
+
+main {
+  height: 100vh;
+  background: var(--green);
+}
+
+.container-hour {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 2rem;
+}
+
+.container-hour-date {
+  font-size: 1rem;
+  font-family: var(--fontSystem);
+  display: block;
+}
+
+.container-hour-price,
+.container-hour-datetime {
+  font-family: var(--numbers);
+  font-size: 8rem;
+  display: block;
+  line-height: 1;
+}
+
+.container-hour-datetime {
+  font-size: 3rem;
+}

@@ -1,0 +1,17 @@
+:root {
+  --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  --monospace: 'SFMono-Regular', Consolas, Menlo, Courier, monospace;
+  --numbers: 'Russo One', sans-serif;
+  --text: 'Roboto Condensed', sans-serif;
+  --black: #111;
+  --white: #fff;
+  --green: #a2fcc1;
+  --green-dark: #5cba95;
+  --green-gradient: linear-gradient(172deg, rgba(162, 252, 193, 1) 0%, rgba(92, 186, 149, 1) 100%);
+  --orange: #ffae3a;
+  --orange-dark: #e86d5f;
+  --orange-gradient: linear-gradient(172deg, rgba(255, 174, 58, 1) 0%, rgba(232, 109, 95, 1) 100%);
+  --red: #ec1d2f;
+  --red-dark: #8c1540;
+  --red-gradient: linear-gradient(172deg, rgba(236, 29, 47, 1) 0%, rgba(140, 21, 64, 1) 100%);
+}
