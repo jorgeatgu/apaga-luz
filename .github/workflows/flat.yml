@@ -1,8 +1,8 @@
 name: data
 on:
-  workflow_dispatch:x
+  workflow_dispatch:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 2 * * *'
   push:
     paths:
       - .github/workflows/flat.yml
