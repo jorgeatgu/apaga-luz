@@ -1,8 +1,8 @@
 name: flat
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '31,32 22,23 * * *'
+    - cron: 0 24 * * *
+  workflow_dispatch:
 jobs:
   scheduled:
     runs-on: ubuntu-latest

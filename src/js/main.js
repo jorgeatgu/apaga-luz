@@ -7,6 +7,7 @@ const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
+console.log('userMinutes', userMinutes);
 
 const priceElement = document.getElementById('price');
 const hoursElement = document.getElementById('hours');
@@ -45,3 +46,11 @@ function getZone(zone) {
 
 const mainElement = document.getElementsByTagName('main')[0];
 mainElement.style.backgroundColor = getZone(zone);
+
+const reloadPage = 60 - userMinutes;
+const milliseconds = (h, m, s) => (h * 60 * 60 + m * 60 + s) * 1000;
+const result = milliseconds(0, reloadPage, 0);
+
+setTimeout(() => {
+  location.reload();
+}, result);

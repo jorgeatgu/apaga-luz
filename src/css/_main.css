@@ -5,7 +5,6 @@
 body,
 html {
   margin: 0;
-  line-height: 1.4;
   color: var(--black);
   font-family: var(--text);
   position: relative;
@@ -13,17 +12,13 @@ html {
 
 .container {
   max-width: 90vw;
+  height: 80vh;
   margin: 0 auto;
 }
 
 .container-footer {
   max-width: 90vw;
   margin: 0 auto;
-}
-
-main {
-  height: 100vh;
-  background: var(--green);
 }
 
 .container-hour {
@@ -78,21 +73,65 @@ main {
   font-size: 2rem;
 }
 
-.icon-clock {
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  vertical-align: middle;
+.container-calendar {
+  height: auto;
+  background: var(--white);
+  padding: 2rem;
+  margin: 0 auto;
+  margin-top: 0;
+}
+
+.container-calendar-title {
+  font-size: 1.25rem;
+  margin: 0 0 .5rem;
+  font-weight: normal;
+}
+
+.container-calendar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 1rem;
+}
+
+.container-calendar-element {
+  font-size: 1rem;
+  font-family: var(--roboto);
+  padding: 1rem;
+  text-align: center;
+  border-radius: 4px;
+  &.valle {
+    background: var(--green);
+  }
+  &.punta {
+    background: var(--red);
+  }
+  &.intermedia {
+    background: var(--orange);
+  }
+}
+
+.container-calendar-element-hour,
+.container-calendar-element-text {
+  display: block;
+}
+
+.container-calendar-element-hour {
+  font-family: var(--numbers);
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 @media only screen and (min-width: 48rem) {
 
-  .container {
-    max-width: 50vw;
+  .container-hour {
     position: absolute;
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .container {
+    max-width: 50vw;
   }
 
   .container-footer {
@@ -112,5 +151,11 @@ main {
   .container-hour-price,
   .container-hour-datetime {
     padding: 2rem;
+  }
+
+  .container-calendar-grid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 2rem;
+    grid-row-gap: 0;
   }
 }
