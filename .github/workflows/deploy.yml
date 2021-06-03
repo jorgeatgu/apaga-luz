@@ -1,8 +1,7 @@
 name: deploy website
 on:
   schedule:
-    - cron: "*/1 * * * *"
-  workflow_dispatch: {}
+    - cron: "* * * * *"
 jobs:
   deploy:
     runs-on: ubuntu-latest
