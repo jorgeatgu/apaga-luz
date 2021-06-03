@@ -2,10 +2,7 @@ name: data
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'
-  push:
-    paths:
-      - .github/workflows/flat.yml
+    - cron: '2,10 2,3 * * *'
 jobs:
   scheduled:
     runs-on: ubuntu-latest
