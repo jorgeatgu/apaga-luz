@@ -8,7 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -18,12 +19,14 @@
         <div class="container-hour-datetime">
           <span id="hours"></span><span>:</span><span id="minutes"></span>
         </div>
-        <span id="price" class="container-hour-price"></span>
+        <div class="container-hour-price">
+          <span id="price"></span><span id="price" class="container-euro-kwm"> €/kWh</span>
+        </div>
         <article class="container-cheap">
-          <span>La hora más barata es a las <b id="cheaphour"></b><b>:00</b> - <b id="price-cheap-hour"></b> €</span>
+          <span>La hora más barata es a las <b id="cheaphour"></b><b>:00</b> - <b id="price-cheap-hour"></b> <b>€/kWh</b></span>
         </article>
         <article class="container-expensive">
-          <span>La hora más cara es a las <b id="expensivehour"></b><b>:00</b> - <b id="price-expensive-hour"></b> € </span>
+          <span>La hora más cara es a las <b id="expensivehour"></b><b>:00</b> - <b id="price-expensive-hour"></b> <b>€/kWh</b> </span>
         </article>
       </article>
     </section>

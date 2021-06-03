@@ -27,7 +27,7 @@ main {
 }
 
 .container-hour {
-  padding: 1rem;
+  padding: 1rem 0;
   border-radius: 4px;
 }
 
@@ -44,7 +44,7 @@ main {
   display: block;
   line-height: 1;
   background: var(--white);
-  padding: 2rem;
+  padding: 2rem 1rem;
   border-radius: 1rem;
 }
 
@@ -55,7 +55,7 @@ main {
   margin: 1rem 0;
   border-right-radius-top: 5px;
   border-right-radius-bottom: 5px;
-  width: max-content;
+  width: 90%;
   border-left: 5px solid var(--green-dark);
 }
 
@@ -72,6 +72,10 @@ main {
   margin-bottom: 1rem;
   padding: 1rem;
   width: max-content;
+}
+
+.container-euro-kwm {
+  font-size: 2rem;
 }
 
 .icon-clock {
@@ -97,5 +101,16 @@ main {
 
   .container-hour-price {
     font-size: 8rem;
+  }
+
+  .container-cheap,
+  .container-expensive {
+    width: max-content;
+    min-width: 20rem;
+  }
+
+  .container-hour-price,
+  .container-hour-datetime {
+    padding: 2rem;
   }
 }

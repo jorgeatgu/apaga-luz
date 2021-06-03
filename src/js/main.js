@@ -27,7 +27,7 @@ const expensivePriceElement = document.getElementById('price-expensive-hour');
 expensiveHourElement.textContent = expensiveHour.hour;
 expensivePriceElement.textContent = expensiveHour.price;
 
-priceElement.textContent = `${price} €`;
+priceElement.textContent = `${price}`;
 hoursElement.textContent = userHour;
 minutesElement.textContent = userMinutes;
 
