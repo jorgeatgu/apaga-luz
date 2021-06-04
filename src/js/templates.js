@@ -30,7 +30,7 @@ export const week = `<div class="container-calendar-element valle">
 
 export const weekEnd = `<div class="container-calendar-element valle">
           <span class="container-calendar-element-hour">00:00 - 24:00</span>
-          <span class="container-calendar-element-text">Sábado, Domino y festivos nacionales</span>
+          <span class="container-calendar-element-text">Sábado, Domingo y festivos nacionales</span>
           <span class="container-calendar-element-text">Horas valle</span>
           <span class="container-calendar-element-text">Las más baratas</span>
         </div>`;
