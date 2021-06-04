@@ -19,17 +19,11 @@ const calendar = document.getElementById('calendar');
 const expensiveHour = data.reduce((p, c) => (p.price > c.price ? p : c));
 const cheapHour = data.reduce((p, c) => (p.price < c.price ? p : c));
 
-const cheapHourElement = document.getElementById('cheaphour');
-const cheapPriceElement = document.getElementById('price-cheap-hour');
+const cheapElement = document.getElementById('cheap-element');
+const cheapText = (cheapElement.innerHTML = `<span>La hora más barata es a las <b>${cheapHour.hour}</b><b>:00</b> - <b>${cheapHour.price}</b> <b>€/kWh</b></span>`);
 
-cheapHourElement.textContent = cheapHour.hour;
-cheapPriceElement.textContent = cheapHour.price;
-
-const expensiveHourElement = document.getElementById('expensivehour');
-const expensivePriceElement = document.getElementById('price-expensive-hour');
-
-expensiveHourElement.textContent = expensiveHour.hour;
-expensivePriceElement.textContent = expensiveHour.price;
+const expensiveElement = document.getElementById('expensive-element');
+const expensiveText = (expensiveElement.innerHTML = `<span>La hora más barata es a las <b>${expensiveHour.hour}</b><b>:00</b> - <b>${expensiveHour.price}</b> <b>€/kWh</b></span>`);
 
 priceElement.textContent = `${price}`;
 hoursElement.textContent = userHour;
@@ -51,6 +45,7 @@ if (userDay <= 5) {
   calendar.innerHTML = week;
 } else {
   calendar.innerHTML = weekEnd;
+  calendar.style.gridTemplateColumns = '1fr';
 }
 
 const mainElement = document.getElementsByTagName('main')[0];
