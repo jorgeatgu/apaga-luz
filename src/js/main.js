@@ -1,17 +1,20 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
+import { week, weekEnd } from './templates.js';
+import { nextCheapHour } from './utils.js';
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
+let userDay = new Date().getDay();
 const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
-console.log('userMinutes', userMinutes);
 
 const priceElement = document.getElementById('price');
 const hoursElement = document.getElementById('hours');
 const minutesElement = document.getElementById('minutes');
+const calendar = document.getElementById('calendar');
 
 const expensiveHour = data.reduce((p, c) => (p.price > c.price ? p : c));
 const cheapHour = data.reduce((p, c) => (p.price < c.price ? p : c));
@@ -42,6 +45,12 @@ function getZone(zone) {
     bgColor = '#ec1d2f';
   }
   return bgColor;
+}
+
+if (userDay <= 5) {
+  calendar.innerHTML = week;
+} else {
+  calendar.innerHTML = weekEnd;
 }
 
 const mainElement = document.getElementsByTagName('main')[0];

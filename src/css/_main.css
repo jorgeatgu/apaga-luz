@@ -81,12 +81,6 @@ html {
   margin-top: 0;
 }
 
-.container-calendar-title {
-  font-size: 1.25rem;
-  margin: 0 0 .5rem;
-  font-weight: normal;
-}
-
 .container-calendar-grid {
   display: grid;
   grid-template-columns: 1fr;
