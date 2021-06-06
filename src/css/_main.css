@@ -39,27 +39,49 @@ html {
   display: block;
   line-height: 1;
   background: var(--white);
-  padding: 2rem 1rem;
+  padding: 1rem;
   border-radius: 1rem;
 }
 
-.container-cheap,
-.container-expensive {
+.container-cheap {
+  margin: 1rem 0;
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+#cheap-element,
+#expensive-element {
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top: 5px solid var(--green-dark);
   background: var(--white);
   padding: 1rem;
-  margin: 1rem 0;
-  border-right-radius-top: 5px;
-  border-right-radius-bottom: 5px;
-  width: 90%;
-  border-left: 5px solid var(--green-dark);
 }
 
-.container-expensive {
-  border-left: 5px solid var(--red-dark);
+#expensive-element {
+  border-color: var(--red-dark);
 }
 
-.container-cheap {
-  margin-top: 4rem;
+.cheap-element-text {
+  font-size: 1rem;
+  font-family: var(--roboto);
+  display: block;
+}
+
+.cheap-element-hour,
+.cheap-element-price {
+  font-size: 1.5rem;
+  font-family: var(--numbers);
+  display: block;
+  margin-top: .25rem;
+}
+
+.cheap-element-price {
+  font-size: 2rem;
+  .symbols {
+    font-size: 1rem;
+  }
 }
 
 .container-hour-datetime {
@@ -93,12 +115,15 @@ html {
   padding: 1rem;
   text-align: center;
   border-radius: 4px;
+
   &.valle {
     background: var(--green);
   }
+
   &.punta {
     background: var(--red);
   }
+
   &.intermedia {
     background: var(--orange);
   }
@@ -134,12 +159,6 @@ html {
 
   .container-hour-price {
     font-size: 8rem;
-  }
-
-  .container-cheap,
-  .container-expensive {
-    width: max-content;
-    min-width: 20rem;
   }
 
   .container-hour-price,
