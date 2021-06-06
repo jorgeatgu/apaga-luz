@@ -50,8 +50,8 @@ html {
   grid-template-columns: 1fr 1fr;
 }
 
-#cheap-element,
-#expensive-element {
+.cheap-element-container,
+.expensive-element-container {
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
   border-top: 5px solid var(--green-dark);
@@ -59,7 +59,7 @@ html {
   padding: 1rem;
 }
 
-#expensive-element {
+.expensive-element {
   border-color: var(--red-dark);
 }
 

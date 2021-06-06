@@ -14,5 +14,14 @@ export function nextCheapHour() {
   timeHour = timeHour !== 0 ? textHour : '';
   const textMinutes = timerMinutes > 1 ? 'minutos' : 'minuto';
   const text = `La próxima hora más barata es dentro de ${timerHour} ${textHour} ${timerMinutes} ${textMinutes}`;
-  console.log('text', text);
+}
+
+export function reloadPage(minutes) {
+  const reloadPage = 60 - minutes;
+  const milliseconds = (h, m, s) => (h * 60 * 60 + m * 60 + s) * 1000;
+  const result = milliseconds(0, reloadPage, 0);
+
+  setTimeout(() => {
+    location.reload();
+  }, result);
 }
