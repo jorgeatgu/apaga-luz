@@ -59,7 +59,7 @@ html {
   padding: 1rem;
 }
 
-.expensive-element {
+.expensive-element-container {
   border-color: var(--red-dark);
 }
 
