@@ -6,9 +6,12 @@
   --black: #111;
   --white: #fff;
   --green: #a2fcc1;
+  --green-light: #a2fcc1b3;
   --green-dark: #5cba95;
   --orange: #ffae3a;
+  --orange-light: #ffae3ab3;
   --orange-dark: #e86d5f;
   --red: #ec1d2f;
+  --red-light: #ec1d2fb3;
   --red-dark: #8c1540;
 }

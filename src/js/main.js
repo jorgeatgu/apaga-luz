@@ -1,7 +1,7 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
 import { week, weekEnd } from './templates.js';
-import { nextCheapHour, reloadPage } from './utils.js';
+import { nextCheapHour, reloadPage, tablePrice } from './utils.js';
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
@@ -17,25 +17,6 @@ const priceElement = document.getElementById('price');
 const hoursElement = document.getElementById('hours');
 const minutesElement = document.getElementById('minutes');
 const calendar = document.getElementById('calendar');
-
-const filterData =
-  userHour < 23
-    ? filterDataByUserHour
-    : data.filter(({ hour }) => +hour === userHour);
-const expensiveHour = filterData.reduce((p, c) => (p.price > c.price ? p : c));
-const cheapHour = filterData.reduce((p, c) => (p.price < c.price ? p : c));
-
-const cheapElement = document.getElementById('cheap-element');
-const cheapText =
-  cheapHour && userHour < 23
-    ? (cheapElement.innerHTML = `<div class="cheap-element-container"><span class="cheap-element-text">La próxima hora más barata</span><span class="cheap-element-hour">${cheapHour.hour}:00</span><span class="cheap-element-price">${cheapHour.price}<b class="symbols"> €/kWh</b></span></div>`)
-    : '';
-
-const expensiveElement = document.getElementById('expensive-element');
-const expensiveText =
-  expensiveHour && expensiveHour.hour !== cheapHour.hour
-    ? (expensiveElement.innerHTML = `<div class="expensive-element-container"><span class="cheap-element-text">La próxima hora más cara</span><span class="cheap-element-hour">${expensiveHour.hour}:00</span><span class="cheap-element-price">${expensiveHour.price}<b class="symbols"> €/kWh</b></span></div>`)
-    : '';
 
 priceElement.textContent = `${price}`;
 hoursElement.textContent = userHour;
@@ -56,3 +37,14 @@ if (userDay > 0 && userDay <= 5) {
 }
 
 reloadPage(userMinutes);
+
+let expensiveHours = data.sort((a, b) => b.price - a.price);
+
+let cheapHours = expensiveHours.slice(13, 23);
+const reverseCheapHours = [...cheapHours].reverse();
+console.log('reverseCheapHours', reverseCheapHours);
+
+expensiveHours = expensiveHours.slice(0, 10);
+
+tablePrice(reverseCheapHours, 'cheap-element');
+tablePrice(expensiveHours, 'expensive-element');

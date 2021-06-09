@@ -25,3 +25,30 @@ export function reloadPage(minutes) {
     location.reload();
   }, result);
 }
+
+export function tablePrice(dataHours, element) {
+  const container = document.getElementById(element);
+
+  const title =
+    element === 'cheap-element'
+      ? `<h3 class="container-table-price-element-title">Las horas más baratas</h3>`
+      : `<h3 class="container-table-price-element-title">Las horas más caras</h3>`;
+
+  container.insertAdjacentHTML('beforeend', title);
+
+  for (let element of dataHours) {
+    const { price, hour, zone } = element;
+    const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+
+    const blockHour = `<div class="container-table-price-element">
+      <span class="container-table-price-element-hour ${zone}">
+        ${transformHour}
+      </span>
+      <span class="container-table-price-element-price">
+        ${price} €/kWh
+      </span>
+    </div>`;
+
+    container.insertAdjacentHTML('beforeend', blockHour);
+  }
+}

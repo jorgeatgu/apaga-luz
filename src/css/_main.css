@@ -12,7 +12,6 @@ html {
 
 .container {
   max-width: 90vw;
-  height: 80vh;
   margin: 0 auto;
 }
 
@@ -47,41 +46,7 @@ html {
   margin: 1rem 0;
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: 1fr 1fr;
-}
-
-.cheap-element-container,
-.expensive-element-container {
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-top: 5px solid var(--green-dark);
-  background: var(--white);
-  padding: 1rem;
-}
-
-.expensive-element-container {
-  border-color: var(--red-dark);
-}
-
-.cheap-element-text {
-  font-size: 1rem;
-  font-family: var(--roboto);
-  display: block;
-}
-
-.cheap-element-hour,
-.cheap-element-price {
-  font-size: 1.5rem;
-  font-family: var(--numbers);
-  display: block;
-  margin-top: .25rem;
-}
-
-.cheap-element-price {
-  font-size: 2rem;
-  .symbols {
-    font-size: 1rem;
-  }
+  grid-template-columns: 1fr;
 }
 
 .container-hour-datetime {
@@ -117,15 +82,15 @@ html {
   border-radius: 4px;
 
   &.valle {
-    background: var(--green);
+    background: var(--green-light);
   }
 
   &.punta {
-    background: var(--red);
+    background: var(--red-light);
   }
 
   &.intermedia {
-    background: var(--orange);
+    background: var(--orange-light);
   }
 }
 
@@ -140,14 +105,52 @@ html {
   font-weight: bold;
 }
 
-@media only screen and (min-width: 48rem) {
+.container-table-price {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--white);
+  margin-bottom: 1rem;
+}
 
-  .container-hour {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.container-table-price-element {
+  display: grid;
+  column-gap: .25rem;
+  grid-template-columns: 1fr 1fr;
+
+  &:not(:last-child) {
+    margin-bottom: .75rem;
   }
+}
+
+.container-table-price-element-title {
+  font-size: 1rem;
+  font-family: var(--roboto);
+  margin-top: 0;
+  margin-bottom: .5rem;
+  text-transform: uppercase;
+}
+
+.container-table-price-element-hour,
+.container-table-price-element-price {
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: var(--numbers);
+  padding: .25rem .5rem;
+
+  &.valle {
+    background: var(--green-light);
+  }
+
+  &.punta {
+    background: var(--red-light);
+  }
+
+  &.llano {
+    background: var(--orange-light);
+  }
+}
+
+@media only screen and (min-width: 48rem) {
 
   .container {
     max-width: 50vw;
@@ -170,5 +173,13 @@ html {
     grid-template-columns: repeat(6, 1fr);
     grid-column-gap: 2rem;
     grid-row-gap: 0;
+  }
+
+  .container-cheap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .container-table-price {
+    margin-bottom: 0;
   }
 }
