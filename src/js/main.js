@@ -38,13 +38,13 @@ if (userDay > 0 && userDay <= 5) {
 
 reloadPage(userMinutes);
 
-let expensiveHours = data.sort((a, b) => b.price - a.price);
+const filteredData = data.filter(({ hour }) => +hour > userHour);
 
-let cheapHours = expensiveHours.slice(13, 23);
-const reverseCheapHours = [...cheapHours].reverse();
-console.log('reverseCheapHours', reverseCheapHours);
+let expensiveHours = data.sort((a, b) => b.price - a.price);
+let reverseCheapHours = [...expensiveHours].reverse();
 
 expensiveHours = expensiveHours.slice(0, 10);
+reverseCheapHours = reverseCheapHours.slice(0, 10);
 
 tablePrice(reverseCheapHours, 'cheap-element');
 tablePrice(expensiveHours, 'expensive-element');
