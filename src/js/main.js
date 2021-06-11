@@ -43,8 +43,8 @@ const filteredData = data.filter(({ hour }) => +hour > userHour);
 let expensiveHours = data.sort((a, b) => b.price - a.price);
 let reverseCheapHours = [...expensiveHours].reverse();
 
-expensiveHours = expensiveHours.slice(0, 10);
-reverseCheapHours = reverseCheapHours.slice(0, 10);
+expensiveHours = expensiveHours.slice(0, 12);
+reverseCheapHours = reverseCheapHours.slice(0, 12);
 
 tablePrice(reverseCheapHours, 'cheap-element');
 tablePrice(expensiveHours, 'expensive-element');
