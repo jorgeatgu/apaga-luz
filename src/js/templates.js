@@ -10,7 +10,7 @@ export const week = `<div class="container-calendar-element valle">
         </div>
         <div class="container-calendar-element punta">
           <span class="container-calendar-element-hour">10:00 - 14:00</span>
-          <span class="container-calendar-element-text">Horas puntas</span>
+          <span class="container-calendar-element-text">Horas punta</span>
           <span class="container-calendar-element-text">Las más caras</span>
         </div>
         <div class="container-calendar-element intermedia">
@@ -20,7 +20,7 @@ export const week = `<div class="container-calendar-element valle">
         </div>
         <div class="container-calendar-element punta">
           <span class="container-calendar-element-hour">18:00 - 22:00</span>
-          <span class="container-calendar-element-text">Horas puntas - las más caras</span>
+          <span class="container-calendar-element-text">Horas punta - las más caras</span>
         </div>
         <div class="container-calendar-element intermedia">
           <span class="container-calendar-element-hour">22:00 - 24:00</span>
