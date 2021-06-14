@@ -29,6 +29,8 @@ export function reloadPage(minutes) {
 export function tablePrice(dataHours, element) {
   const container = document.getElementById(element);
 
+  let userDay = new Date().getDay();
+
   const title =
     element === 'cheap-element'
       ? `<h3 class="container-table-price-element-title">Las horas más baratas</h3>`
@@ -39,9 +41,11 @@ export function tablePrice(dataHours, element) {
   for (let element of dataHours) {
     const { price, hour, zone } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const userDay = new Date().getDay();
+    const zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
 
     const blockHour = `<div class="container-table-price-element">
-      <span class="container-table-price-element-hour ${zone}">
+      <span class="container-table-price-element-hour ${zoneClass}">
         ${transformHour}
       </span>
       <span class="container-table-price-element-price">

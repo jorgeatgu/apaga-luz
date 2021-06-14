@@ -40,6 +40,7 @@ html {
   background: var(--white);
   padding: 1rem;
   border-radius: 1rem;
+  width: max-content;
 }
 
 .container-cheap {
@@ -120,6 +121,14 @@ html {
   &:not(:last-child) {
     margin-bottom: .75rem;
   }
+}
+
+.taxes {
+  font-size: 12px;
+  font-family: var(--text);
+  margin: 0;
+  width: 100%;
+  text-align: right;
 }
 
 .container-table-price-element-title {
