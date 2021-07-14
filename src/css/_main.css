@@ -123,6 +123,10 @@ html {
   }
 }
 
+.element-hour-disabled {
+  opacity: .3;
+}
+
 .taxes {
   font-size: 12px;
   font-family: var(--text);

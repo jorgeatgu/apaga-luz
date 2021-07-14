@@ -39,12 +39,13 @@ export function tablePrice(dataHours, element) {
   container.insertAdjacentHTML('beforeend', title);
 
   for (let element of dataHours) {
-    const { price, hour, zone } = element;
+    const { price, hour, zone, hourHasPassed } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const userDay = new Date().getDay();
     const zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+    const hourHasPassedClass = hourHasPassed ? 'element-hour-disabled' : '';
 
-    const blockHour = `<div class="container-table-price-element">
+    const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
       <span class="container-table-price-element-hour ${zoneClass}">
         ${transformHour}
       </span>

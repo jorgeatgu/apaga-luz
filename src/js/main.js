@@ -8,7 +8,6 @@ let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
 
 const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
-const filterDataByUserHour = data.filter(({ hour }) => +hour > userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
@@ -38,13 +37,23 @@ if (userDay > 0 && userDay <= 5) {
 
 reloadPage(userMinutes);
 
-const filteredData = data.filter(({ hour }) => +hour > userHour);
+const filterDataByUserHour = data.map(({ hour, ...rest }) => {
+  return {
+    hourHasPassed: +hour < userHour ? true : false,
+    hour,
+    ...rest
+  };
+});
 
-let expensiveHours = data.sort((a, b) => b.price - a.price);
+let expensiveHours = filterDataByUserHour.sort((a, b) => b.price - a.price);
 let reverseCheapHours = [...expensiveHours].reverse();
 
-expensiveHours = expensiveHours.slice(0, 12);
-reverseCheapHours = reverseCheapHours.slice(0, 12);
+expensiveHours = expensiveHours
+  .slice(0, 12)
+  .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price);
+reverseCheapHours = reverseCheapHours
+  .slice(0, 12)
+  .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || a.price - b.price);
 
 tablePrice(reverseCheapHours, 'cheap-element');
 tablePrice(expensiveHours, 'expensive-element');
