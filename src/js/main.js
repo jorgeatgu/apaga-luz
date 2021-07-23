@@ -37,9 +37,10 @@ if (userDay > 0 && userDay <= 5) {
 
 reloadPage(userMinutes);
 
-const filterDataByUserHour = data.map(({ hour, ...rest }) => {
+const filterDataByUserHour = data.map(({ hour, price, ...rest }) => {
   return {
     hourHasPassed: +hour < userHour ? true : false,
+    price: price.toFixed(3),
     hour,
     ...rest
   };
