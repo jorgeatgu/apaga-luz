@@ -1,11 +1,17 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
 import { week, weekEnd } from './templates.js';
-import { nextCheapHour, reloadPage, tablePrice } from './utils.js';
+import {
+  nextCheapHour,
+  reloadPage,
+  tablePrice,
+  getZoneColor
+} from './utils.js';
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
+console.log('userDay', userDay);
 
 const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
 
@@ -21,14 +27,11 @@ priceElement.textContent = `${price}`;
 hoursElement.textContent = userHour;
 minutesElement.textContent = userMinutes;
 
-const getZone = zone =>
-  zone === 'valle' ? '#a2fcc1' : zone === 'llano' ? '#ffae3a' : '#ec1d2f';
-
 const mainElement = document.getElementsByTagName('main')[0];
 
 if (userDay > 0 && userDay <= 5) {
   calendar.innerHTML = week;
-  mainElement.style.backgroundColor = getZone(zone);
+  mainElement.style.backgroundColor = getZoneColor(zone);
 } else {
   calendar.innerHTML = weekEnd;
   calendar.style.gridTemplateColumns = '1fr';
