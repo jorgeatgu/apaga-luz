@@ -17,7 +17,7 @@ const hoursElement = document.getElementById('hours');
 const minutesElement = document.getElementById('minutes');
 const calendar = document.getElementById('calendar');
 
-priceElement.textContent = `${price}`;
+priceElement.textContent = `${price.toFixed(3)}`;
 hoursElement.textContent = userHour;
 minutesElement.textContent = userMinutes;
 
