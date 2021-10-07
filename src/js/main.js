@@ -70,7 +70,7 @@ this table will only be available until 24:00.
 */
 
 const containerTableNextDay = document.querySelector('.table-next-day');
-if (userHour >= 21 && userHour <= 24) {
+if (userHour >= 21 && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
   const filterDataNextDay = dataNextDay.map(({ price, ...rest }) => {
     return {
