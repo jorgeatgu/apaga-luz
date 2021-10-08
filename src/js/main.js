@@ -1,6 +1,5 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
-import dataNextDay from '../../public/price-next-day.json';
 import { week, weekEnd } from './templates.js';
 import {
   nextCheapHour,
