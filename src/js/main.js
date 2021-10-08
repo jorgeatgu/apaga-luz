@@ -80,5 +80,5 @@ if (userHour >= 21 && userHour < 24) {
 
   tablePriceNextDay(filterDataNextDay);
 } else {
+  containerTableNextDay.style.display = 'none';
 }*/
-containerTableNextDay.style.display = 'none';
