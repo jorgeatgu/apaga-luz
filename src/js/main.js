@@ -69,7 +69,7 @@ at 21:00 I publish the next day's data,
 this table will only be available until 24:00.
 */
 
-const containerTableNextDay = document.querySelector('.table-next-day');
+/*const containerTableNextDay = document.querySelector('.table-next-day');
 if (userHour >= 21 && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
   const filterDataNextDay = dataNextDay.map(({ price, ...rest }) => {
@@ -81,5 +81,5 @@ if (userHour >= 21 && userHour < 24) {
 
   tablePriceNextDay(filterDataNextDay);
 } else {
-  containerTableNextDay.style.display = 'none';
-}
+}*/
+containerTableNextDay.style.display = 'none';
