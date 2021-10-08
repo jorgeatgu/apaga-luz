@@ -57,3 +57,70 @@ export function tablePrice(dataHours, element) {
     container.insertAdjacentHTML('beforeend', blockHour);
   }
 }
+
+export function createZone(hour) {
+  if (hour >= 0 && hour < 8) {
+    return 'valle';
+  } else if (
+    (hour >= 8 && hour < 10) ||
+    (hour >= 14 && hour < 18) ||
+    (hour >= 22 && hour < 24)
+  ) {
+    return 'llano';
+  } else {
+    return 'punta';
+  }
+}
+
+export const getZoneColor = zone =>
+  zone === 'valle' ? '#a2fcc1' : zone === 'llano' ? '#ffae3a' : '#ec1d2f';
+
+export function tablePriceNextDay(dataHours) {
+  const container = document.querySelector('.table-next-day');
+  const tableGrid = document.querySelector('.table-next-day-grid');
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+
+  const title = `<h3 class="container-table-next-day-title">Precios para el ${tomorrow.toLocaleDateString(
+    'es-ES',
+    options
+  )}</h3>`;
+
+  container.insertAdjacentHTML('afterbegin', title);
+
+  for (let element of dataHours) {
+    const { price, hour, zone } = element;
+    const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const userDay = new Date().getDay();
+    const zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+
+    const blockHour = `<div class="container-table-price-element">
+      <span class="container-table-price-element-hour ${zoneClass}">
+        ${transformHour}
+      </span>
+      <span class="container-table-price-element-price">
+        ${price} €/kWh
+      </span>
+    </div>`;
+
+    tableGrid.insertAdjacentHTML('beforeend', blockHour);
+  }
+
+  document
+    .querySelector('.container-table-next-day-title')
+    .addEventListener('click', e => {
+      const { target } = e;
+      const gridTableNextDay = document.querySelector('.table-next-day-grid');
+      gridTableNextDay.classList.toggle('show');
+      target.classList.toggle('rotate');
+    });
+}
