@@ -1,4 +1,4 @@
-name: flat
+name: flat-next
 on:
   schedule:
     - cron: 55 18 * * *
