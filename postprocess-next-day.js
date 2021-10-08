@@ -14,6 +14,6 @@ const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
   };
 });
 
-const newFilename = `public/price-postprocessed.json`;
+const newFilename = `public/price-next-day.json`;
 
 await writeJSON(newFilename, filteredData)

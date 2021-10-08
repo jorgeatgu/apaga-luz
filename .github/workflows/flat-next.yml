@@ -19,4 +19,4 @@ jobs:
           http_url: https://api.esios.ree.es/archives/70/download_json
           downloaded_filename: price.json
           authorization: ${{ secrets.API_KEY }}
-          postprocess: postprocess.js
+          postprocess: postprocess-next-day.js
