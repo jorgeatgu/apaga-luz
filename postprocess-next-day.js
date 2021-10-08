@@ -1,7 +1,7 @@
 import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.9/mod.ts'
 import { createZone } from './src/js/utils.js';
 
-const filename = 'price.json';
+const filename = 'price-next.json';
 const json = await readJSON(filename)
 
 const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
