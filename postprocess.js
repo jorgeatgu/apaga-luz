@@ -15,5 +15,11 @@ const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
 });
 
 let gitHubHour = new Date().getHours();
-const newFilename = gitHubHour < 23 ? `public/price-next-day.json`; : `public/price-postprocessed.json`;
+let newFilename
+if (gitHubHour < 23) {
+  newFilename = `public/price-next-day.json`
+} else {
+  newFilename = `public/price-postprocessed.json`
+}
+
 await writeJSON(newFilename, filteredData)
