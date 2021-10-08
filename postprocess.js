@@ -1,4 +1,5 @@
-import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.9/mod.ts'
+import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.11/mod.ts'
+
 import { createZone } from './src/js/utils.js';
 
 const filename = 'price.json';
