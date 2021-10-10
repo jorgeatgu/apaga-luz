@@ -7,7 +7,8 @@ import {
   reloadPage,
   tablePrice,
   tablePriceNextDay,
-  getZoneColor
+  getZoneColor,
+  isNationalDay
 } from './utils.js';
 
 let userHour = new Date().getHours();
@@ -30,13 +31,13 @@ minutesElement.textContent = userMinutes;
 
 const mainElement = document.getElementsByTagName('main')[0];
 
-if (userDay > 0 && userDay <= 5) {
-  calendar.innerHTML = week;
-  mainElement.style.backgroundColor = getZoneColor(zone);
-} else {
+if (userDay === 6 || userDay === 0 || isNationalDay) {
   calendar.innerHTML = weekEnd;
   calendar.style.gridTemplateColumns = '1fr';
   mainElement.style.backgroundColor = '#a2fcc1';
+} else {
+  calendar.innerHTML = week;
+  mainElement.style.backgroundColor = getZoneColor(zone);
 }
 
 reloadPage(userMinutes);

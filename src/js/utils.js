@@ -34,7 +34,7 @@ const nationalDays = [
   new Date(2021, 11, 25)
 ];
 const userDate = new Date();
-const isNationalDay = nationalDays.some(
+export const isNationalDay = nationalDays.some(
   d => d.getTime() === userDate.getTime()
 );
 
