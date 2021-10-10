@@ -125,10 +125,7 @@ html {
   display: grid;
   column-gap: .25rem;
   grid-template-columns: 1fr 1fr;
-
-  &:not(:last-child) {
-    margin-bottom: .75rem;
-  }
+  margin-bottom: .75rem;
 }
 
 .element-hour-disabled {

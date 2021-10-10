@@ -26,10 +26,24 @@ export function reloadPage(minutes) {
   }, result);
 }
 
+const nationalDays = [
+  new Date(2021, 9, 12),
+  new Date(2021, 10, 1),
+  new Date(2021, 11, 6),
+  new Date(2021, 11, 8),
+  new Date(2021, 11, 25)
+];
+const userDate = new Date();
+const isNationalDay = nationalDays.some(
+  d => d.getTime() === userDate.getTime()
+);
+
 export function tablePrice(dataHours, element) {
   const container = document.getElementById(element);
 
   let userDay = new Date().getDay();
+  let userDate = new Date().getDate();
+  let userMonth = new Date().getMonth();
 
   const title =
     element === 'cheap-element'
@@ -42,7 +56,8 @@ export function tablePrice(dataHours, element) {
     const { price, hour, zone, hourHasPassed } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const userDay = new Date().getDay();
-    const zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+    const zoneClass =
+      userDay > 0 && userDay <= 5 ? zone : isNationalDay ? 'valle' : 'valle';
     const hourHasPassedClass = hourHasPassed ? 'element-hour-disabled' : '';
 
     const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
@@ -90,7 +105,7 @@ export function tablePriceNextDay(dataHours) {
     day: 'numeric'
   };
 
-  const title = `<h3 class="container-table-next-day-title">Precios para el ${tomorrow.toLocaleDateString(
+  const title = `<h3 class="container-table-next-day-title">Precios para mañana: ${tomorrow.toLocaleDateString(
     'es-ES',
     options
   )}</h3>`;
@@ -100,8 +115,12 @@ export function tablePriceNextDay(dataHours) {
   for (let element of dataHours) {
     const { price, hour, zone } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    const userDay = new Date().getDay();
-    const zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+    const zoneClass =
+      tomorrow.getDay() > 0 && tomorrow.getDay() <= 5
+        ? zone
+        : isNationalDay
+        ? 'valle'
+        : 'valle';
 
     const blockHour = `<div class="container-table-price-element">
       <span class="container-table-price-element-hour ${zoneClass}">
