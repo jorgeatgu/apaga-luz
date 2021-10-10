@@ -1,5 +1,5 @@
 import { readJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
-import { writeTXT } from 'https://deno.land/x/flat@0.0.10/src/txt.ts'
+import { writeJSON } from 'https://deno.land/x/flat@0.0.10/src/txt.ts'
 
 const filename = 'price.json';
 const json = await readJSON(filename)
