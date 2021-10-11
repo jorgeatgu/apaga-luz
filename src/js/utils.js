@@ -27,15 +27,15 @@ export function reloadPage(minutes) {
 }
 
 const nationalDays = [
-  new Date(2021, 9, 12),
-  new Date(2021, 10, 1),
-  new Date(2021, 11, 6),
-  new Date(2021, 11, 8),
-  new Date(2021, 11, 25)
+  new Date(2021, 9, 12).setHours(0, 0, 0, 0),
+  new Date(2021, 10, 1).setHours(0, 0, 0, 0),
+  new Date(2021, 11, 6).setHours(0, 0, 0, 0),
+  new Date(2021, 11, 8).setHours(0, 0, 0, 0),
+  new Date(2021, 11, 25).setHours(0, 0, 0, 0)
 ];
-const userDate = new Date();
+const userDate = new Date().setHours(0, 0, 0, 0);
 export const isNationalDay = nationalDays.some(
-  d => d.getTime() === userDate.getTime()
+  d => d.valueOf() > userDate.valueOf()
 );
 
 export function tablePrice(dataHours, element) {
@@ -56,8 +56,8 @@ export function tablePrice(dataHours, element) {
     const { price, hour, zone, hourHasPassed } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const userDay = new Date().getDay();
-    const zoneClass =
-      userDay > 0 && userDay <= 5 ? zone : isNationalDay ? 'valle' : 'valle';
+    let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+    zoneClass = isNationalDay ? 'valle' : zoneClass;
     const hourHasPassedClass = hourHasPassed ? 'element-hour-disabled' : '';
 
     const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
@@ -115,12 +115,10 @@ export function tablePriceNextDay(dataHours) {
   for (let element of dataHours) {
     const { price, hour, zone } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    const zoneClass =
-      tomorrow.getDay() > 0 && tomorrow.getDay() <= 5
-        ? zone
-        : isNationalDay
-        ? 'valle'
-        : 'valle';
+    let zoneClass =
+      tomorrow.getDay() > 0 && tomorrow.getDay() <= 5 ? zone : 'valle';
+
+    zoneClass = isNationalDay ? 'valle' : zoneClass;
 
     const blockHour = `<div class="container-table-price-element">
       <span class="container-table-price-element-hour ${zoneClass}">
