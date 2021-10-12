@@ -118,8 +118,6 @@ export function tablePriceNextDay(dataHours) {
     let zoneClass =
       tomorrow.getDay() > 0 && tomorrow.getDay() <= 5 ? zone : 'valle';
 
-    zoneClass = isNationalDay ? 'valle' : zoneClass;
-
     const blockHour = `<div class="container-table-price-element">
       <span class="container-table-price-element-hour ${zoneClass}">
         ${transformHour}
