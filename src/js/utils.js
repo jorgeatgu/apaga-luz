@@ -33,9 +33,10 @@ const nationalDays = [
   new Date(2021, 11, 8).setHours(0, 0, 0, 0),
   new Date(2021, 11, 25).setHours(0, 0, 0, 0)
 ];
+
 const userDate = new Date().setHours(0, 0, 0, 0);
 export const isNationalDay = nationalDays.some(
-  d => d.valueOf() > userDate.valueOf()
+  d => d.valueOf() === userDate.valueOf()
 );
 
 export function tablePrice(dataHours, element) {
