@@ -32,11 +32,11 @@ minutesElement.textContent = userMinutes;
 const mainElement = document.getElementsByTagName('main')[0];
 
 if (userDay === 6 || userDay === 0 || isNationalDay) {
-  calendar.innerHTML = weekEnd;
+  /*calendar.innerHTML = weekEnd;*/
   calendar.style.gridTemplateColumns = '1fr';
   mainElement.style.backgroundColor = '#a2fcc1';
 } else {
-  calendar.innerHTML = week;
+  /*calendar.innerHTML = week;*/
   mainElement.style.backgroundColor = getZoneColor(zone);
 }
 
@@ -52,6 +52,16 @@ const filterDataByUserHour = data.map(({ hour, price, ...rest }) => {
 });
 
 let expensiveHours = filterDataByUserHour.sort((a, b) => b.price - a.price);
+/*This code is temporary. Hours are reordered based on prices, not Government nomenclature.*/
+for (let [index, element] of expensiveHours.entries()) {
+  if (index < 8) {
+    element.zone = 'punta';
+  } else if (index >= 8 && index < 17) {
+    element.zone = 'llano';
+  } else {
+    element.zone = 'valle';
+  }
+}
 let reverseCheapHours = [...expensiveHours].reverse();
 
 expensiveHours = expensiveHours
@@ -70,15 +80,26 @@ at 21:00 I publish the next day's data,
 this table will only be available until 24:00.
 */
 
+let filterDataNextDay = dataNextDay.sort((a, b) => a.price - b.price);
 const containerTableNextDay = document.querySelector('.table-next-day');
 if (userHour >= 21 && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
-  const filterDataNextDay = dataNextDay.map(({ price, ...rest }) => {
+  filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
     return {
       price: price.toFixed(3),
       ...rest
     };
   });
+
+  for (let [index, element] of filterDataNextDay.entries()) {
+    if (index < 8) {
+      element.zone = 'valle';
+    } else if (index >= 8 && index < 17) {
+      element.zone = 'llano';
+    } else {
+      element.zone = 'punta';
+    }
+  }
 
   tablePriceNextDay(filterDataNextDay);
 } else {

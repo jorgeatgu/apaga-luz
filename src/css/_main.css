@@ -83,6 +83,23 @@ html {
   grid-row-gap: 1rem;
 }
 
+.container-calendar-text {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-family: var(--roboto);
+  max-width: 40rem;
+  margin: .5rem auto;
+}
+
+.temp-text {
+  padding: .5rem;
+  background: var(--white);
+  border-radius: .5rem;
+  display: block;
+  width: max-content;
+  margin-bottom: .5rem;
+}
+
 .container-calendar-element {
   font-size: 1rem;
   font-family: var(--roboto);
