@@ -56,7 +56,7 @@ let expensiveHours = filterDataByUserHour.sort((a, b) => b.price - a.price);
 for (let [index, element] of expensiveHours.entries()) {
   if (index < 8) {
     element.zone = 'punta';
-  } else if (index >= 8 && index < 17) {
+  } else if (index >= 8 && index < 16) {
     element.zone = 'llano';
   } else {
     element.zone = 'valle';
@@ -94,7 +94,7 @@ if (userHour >= 21 && userHour < 24) {
   for (let [index, element] of filterDataNextDay.entries()) {
     if (index < 8) {
       element.zone = 'valle';
-    } else if (index >= 8 && index < 17) {
+    } else if (index >= 8 && index < 16) {
       element.zone = 'llano';
     } else {
       element.zone = 'punta';
