@@ -15,7 +15,7 @@ let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
 
-const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
+const [{ price }] = data.filter(({ hour }) => +hour === userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
@@ -30,15 +30,6 @@ hoursElement.textContent = userHour;
 minutesElement.textContent = userMinutes;
 
 const mainElement = document.getElementsByTagName('main')[0];
-
-if (userDay === 6 || userDay === 0 || isNationalDay) {
-  /*calendar.innerHTML = weekEnd;*/
-  calendar.style.gridTemplateColumns = '1fr';
-  mainElement.style.backgroundColor = '#a2fcc1';
-} else {
-  /*calendar.innerHTML = week;*/
-  mainElement.style.backgroundColor = getZoneColor(zone);
-}
 
 reloadPage(userMinutes);
 
@@ -62,6 +53,18 @@ for (let [index, element] of expensiveHours.entries()) {
     element.zone = 'valle';
   }
 }
+
+const [{ zone }] = expensiveHours.filter(({ hour }) => +hour === userHour);
+
+if (userDay === 6 || userDay === 0 || isNationalDay) {
+  /*calendar.innerHTML = weekEnd;*/
+  calendar.style.gridTemplateColumns = '1fr';
+  mainElement.style.backgroundColor = '#a2fcc1';
+} else {
+  /*calendar.innerHTML = week;*/
+  mainElement.style.backgroundColor = getZoneColor(zone);
+}
+
 let reverseCheapHours = [...expensiveHours].reverse();
 
 expensiveHours = expensiveHours
