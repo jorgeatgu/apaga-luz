@@ -18,7 +18,6 @@ let userDay = new Date().getDay();
 data.forEach(d => {
   d.hour = d.hour < 10 ? `0${d.hour}` : d.hour;
 });
-console.log('data', data);
 
 const [{ price }] = data.filter(({ hour }) => +hour == userHour);
 
