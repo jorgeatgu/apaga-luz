@@ -15,7 +15,7 @@ let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
 
-const [{ price }] = data.filter(({ hour }) => +hour === userHour);
+const [{ price, zone }] = data.filter(({ hour }) => +hour === userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
@@ -53,8 +53,7 @@ for (let [index, element] of expensiveHours.entries()) {
     element.zone = 'valle';
   }
 }
-
-const [{ zone }] = expensiveHours.filter(({ hour }) => +hour === userHour);
+console.log('expensiveHours', expensiveHours);
 
 if (userDay === 6 || userDay === 0 || isNationalDay) {
   /*calendar.innerHTML = weekEnd;*/
