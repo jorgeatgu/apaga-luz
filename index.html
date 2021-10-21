@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
 </head>
 
@@ -37,24 +37,47 @@
       </article>
     </section>
     <section id="aviso" class="container-calendar">
-      <div id="calendar" class="container-calendar-grid"></div>
-      <p class="container-calendar-text">Desde hace unas semanas asistimos a una escala de precios de la luz. Esto ha hecho que algunos días las supuestas horas valle fueran más caras que las horas intermedia e incluso que las horas punta. Esto es un tanto engañoso, ya que todos creemos que de 00:00 a 08:00 las horas serán las más baratas.</p>
-      <p class="container-calendar-text">Así que desde el 18 de octubre de 2021 y hasta que los precios vuelvan a la normalidad, voy a clasificar las horas de otra manera a la actual.</p>
-      <ul class="container-calendar-text">
-        <li>Las 8 horas más baratas serán de color verde.</li>
-        <li>Las 8 horas intermedias serán de color naranja.</li>
-        <li>Las 8 horas más caras serán de color rojo.</li>
-      </ul>
-      <p class="container-calendar-text">
-        Adiós por el momento a las horas valle, llano y punta.
-      </p>
+      <article class="post-container">
+        <h3 class="post-title">Nueva clasificación de colores/horas</h3>
+        <p class="post-text-date">17 de octubre de 2021</p>
+        <p class="post-text">Desde hace unas semanas asistimos a una escala de precios de la luz. Esto ha hecho que algunos días las supuestas horas valle fueran más caras que las horas intermedia e incluso que las horas punta. Esto es un tanto engañoso, ya que todos creemos que de 00:00 a 08:00 las horas serán las más baratas.</p>
+        <p class="post-text">Así que desde el 18 de octubre de 2021 y hasta que los precios vuelvan a la normalidad, voy a clasificar las horas de otra manera a la actual.</p>
+        <ul class="post-text">
+          <li>Las 8 horas más baratas serán de color verde.</li>
+          <li>Las 8 horas intermedias serán de color naranja.</li>
+          <li>Las 8 horas más caras serán de color rojo.</li>
+        </ul>
+        <p class="post-text">
+          Adiós por el momento a las horas valle, llano y punta.
+        </p>
+      </article>
     </section>
-
+    <section id="motivation" class="container-calendar">
+      <article class="post-container">
+        <h3 class="post-title">Motivación</h3>
+        <p class="post-text">La motivación para este proyecto fue la reforma de las tarifas de la luz que aplico el Gobierno de España en junio de 2021. Aunque había otros proyectos que informaban del precio ninguno de ellos me servía para lo que quería, que era saber el precio exacto sin tener que perderme entre gráficas y datos.</p>
+        <p class="post-text">La inspiración fue por este <a href="https://twitter.com/editora/status/1399812168955174914">tweet de Nuria</a> donde contaba que se había hecho un excel con los precios, y además comentaba la existencia de la API de Red Electrica de España, que es el lugar de donde obtengo los datos.</p>
+      </article>
+    </section>
+    <section id="data" class="container-calendar">
+      <article class="post-container">
+        <h3 class="post-title">Datos</h3>
+        <p class="post-text">Los datos los obtengo de la <a href="https://api.esios.ree.es/">API de Red Electricas de España</a>.</p>
+        <p class="post-text">La aplicación recibe diariamente dos actualizaciones. La primera a las 21:00 de la noche, para mostrar una tabla con los precios del día siguiente, sin perder la tabla de precios del día en el que estamos. La segunda actualización se hace a las 00:00, y en esta se actualiza la tabla de las horas más baratas y las horas más caras.</p>
+      </article>
+    </section>
+    <section id="data" class="container-calendar">
+      <article class="post-container">
+        <h3 class="post-title">Sobre mí</h3>
+        <p class="post-text">Me llamo Jorge Aznar, y vivo en Zaragoza.</p>
+        <p class="post-text">Puedes ponerte en contacto conmigo a través de este email: <a href="mailto:data@jorgeatgu.com">data@jorgeatgu.com</a>. Los emails siempre son bien recibidos, y suelo contestar a todos, creo que ya van más de 300 sobre la luz, aunque te adelanto que no soy un experto en tarifas.</p>
+        <p class="post-text"><a href="https://jorgeatgu.com">En mi web tengo otros proyectos.</a></p>
+      </article>
+    </section>
   </main>
   <footer class="footer">
     <div class="container-footer">
       <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com" target="_blank">maño</a> - 2021</p>
-      <p class="footer-texto">Cualquier consulta escribid a: data@jorgeatgu.com</p>
       <a class="footer-links" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub</a>
     </div>
   </footer>

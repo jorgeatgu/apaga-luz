@@ -6,7 +6,7 @@ body,
 html {
   margin: 0;
   color: var(--black);
-  font-family: var(--text);
+  font-family: var(--roboto);
   position: relative;
 }
 
@@ -72,7 +72,7 @@ html {
 .container-calendar {
   height: auto;
   background: var(--white);
-  padding: 2rem;
+  padding: 1rem;
   margin: 0 auto;
   margin-top: 0;
 }
@@ -83,12 +83,33 @@ html {
   grid-row-gap: 1rem;
 }
 
-.container-calendar-text {
-  font-size: 1rem;
-  line-height: 1.4;
-  font-family: var(--roboto);
+.post-container {
   max-width: 40rem;
   margin: .5rem auto;
+  padding: 1rem 0;
+}
+
+.post-title {
+  font-size: 2rem;
+  font-family: var(--numbers);
+  margin-bottom: .25rem;
+  margin-top: 0;
+}
+
+.post-text {
+  font-size: 1rem;
+  font-family: var(--text);
+}
+
+.post-text-date {
+  font-size: .75rem;
+  margint-top: .25rem;
+  font-family: var(--numbers);
+}
+
+#motivation,
+#data {
+  background-color: var(--white);
 }
 
 .temp-text {
@@ -151,7 +172,7 @@ html {
 
 .taxes {
   font-size: 12px;
-  font-family: var(--text);
+  font-family: var(--roboto);
   margin: 0;
   width: 100%;
   text-align: right;
@@ -245,4 +266,5 @@ html {
   .container-table-price {
     margin-bottom: 0;
   }
+
 }
