@@ -91,7 +91,7 @@ html {
 
 .post-title {
   font-size: 2rem;
-  font-family: var(--numbers);
+  font-family: var(--roboto);
   margin-bottom: .25rem;
   margin-top: 0;
 }
@@ -105,11 +105,6 @@ html {
   font-size: .75rem;
   margint-top: .25rem;
   font-family: var(--numbers);
-}
-
-#motivation,
-#data {
-  background-color: var(--white);
 }
 
 .temp-text {
@@ -139,6 +134,10 @@ html {
   &.intermedia {
     background: var(--orange-light);
   }
+}
+
+.container-calendar-green {
+  background: var(--green);
 }
 
 .container-calendar-element-hour,
