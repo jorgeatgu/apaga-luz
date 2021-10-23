@@ -56,14 +56,14 @@ for (let [index, element] of expensiveHours.entries()) {
 
 const [{ zone }] = expensiveHours.filter(({ hour }) => hour == userHour);
 
-if (userDay === 6 || userDay === 0 || isNationalDay) {
-  /*calendar.innerHTML = weekEnd;*/
-  /*calendar.style.gridTemplateColumns = '1fr';*/
+mainElement.style.backgroundColor = getZoneColor(zone);
+/*if (userDay === 6 || userDay === 0 || isNationalDay) {
+  calendar.innerHTML = weekEnd;
+  calendar.style.gridTemplateColumns = '1fr';
   mainElement.style.backgroundColor = '#a2fcc1';
 } else {
-  /*calendar.innerHTML = week;*/
-  mainElement.style.backgroundColor = getZoneColor(zone);
-}
+  calendar.innerHTML = week;
+}*/
 
 let reverseCheapHours = [...expensiveHours].reverse();
 

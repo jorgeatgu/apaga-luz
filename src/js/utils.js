@@ -57,12 +57,12 @@ export function tablePrice(dataHours, element) {
     const { price, hour, zone, hourHasPassed } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const userDay = new Date().getDay();
-    let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
-    zoneClass = isNationalDay ? 'valle' : zoneClass;
+    /*let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
+    zoneClass = isNationalDay ? 'valle' : zoneClass;*/
     const hourHasPassedClass = hourHasPassed ? 'element-hour-disabled' : '';
 
     const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
-      <span class="container-table-price-element-hour ${zoneClass}">
+      <span class="container-table-price-element-hour ${zone}">
         ${transformHour}
       </span>
       <span class="container-table-price-element-price">
