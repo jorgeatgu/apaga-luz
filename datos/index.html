@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Apaga-luz</title>
+  <meta name="description" content="Consulta el precio actual de la luz">
+  <meta name="author" content="Jorge Aznar">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="menu"><a class="menu-element menu-root" href="/">INICIO</a><a class="menu-element" href="/noticias/">NOTICIAS</a> <a class="menu-element" href="/datos/">DATOS</a> <a class="menu-element" href="/contacto/">CONTACTO</a></nav>
+  <main>
+    <section id="data" class="container-calendar">
+      <article class="post-container">
+        <h3 class="post-title">Datos</h3>
+        <p class="post-text">Los datos los obtengo de la <a href="https://api.esios.ree.es/">API de Red Electricas de España</a>.</p>
+        <p class="post-text">La aplicación recibe diariamente dos actualizaciones. </p>
+        <p class="post-text">La primera actualización de las tarifas de la luz se realiza a las 21:00 de la noche, la web se actualiza para mostrar una tabla con los precios del día siguiente, sin perder la tabla de precios del día en el que estamos. Hay que tener en cuenta que los precios desglosados por hora para el siguiente día se hacen públicos a las 20:15.</p>
+        <p class="post-text">La segunda actualización se realiza a las 00:00, y en esta se actualiza la tabla de las horas más baratas y las horas más caras.</p>
+      </article>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container-footer">
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com" target="_blank">maño</a> - 2021</p>
+      <a class="footer-links" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub</a>
+    </div>
+  </footer>
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="jorgeatgu" data-description="Support me on Buy me a coffee!" data-message="Aquí puedes apoyar mis proyectos. Gracias! :)" data-color="#79D6B5" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+  <script type="module" src="/src/js/main.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-E9V8ZPM3P0');
+  </script>
+</body>
+
+</html>
