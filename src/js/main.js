@@ -1,7 +1,6 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
 import dataNextDay from '../../public/price-postprocessed-next-day.json';
-import { week, weekEnd } from './templates.js';
 import {
   nextCheapHour,
   reloadPage,
@@ -30,6 +29,7 @@ hoursElement.textContent = userHour;
 minutesElement.textContent = userMinutes;
 
 const mainElement = document.getElementsByTagName('main')[0];
+const menuElement = document.getElementsByTagName('nav')[0];
 
 reloadPage(userMinutes);
 
@@ -57,13 +57,7 @@ for (let [index, element] of expensiveHours.entries()) {
 const [{ zone }] = expensiveHours.filter(({ hour }) => hour == userHour);
 
 mainElement.style.backgroundColor = getZoneColor(zone);
-/*if (userDay === 6 || userDay === 0 || isNationalDay) {
-  calendar.innerHTML = weekEnd;
-  calendar.style.gridTemplateColumns = '1fr';
-  mainElement.style.backgroundColor = '#a2fcc1';
-} else {
-  calendar.innerHTML = week;
-}*/
+menuElement.style.backgroundColor = getZoneColor(zone);
 
 let reverseCheapHours = [...expensiveHours].reverse();
 

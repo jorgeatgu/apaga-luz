@@ -10,6 +10,14 @@ html {
   position: relative;
 }
 
+body {
+  min-height: 100vh;
+}
+
+main {
+  min-height: 70vh;
+}
+
 .container {
   max-width: 90vw;
   margin: 0 auto;
@@ -59,7 +67,7 @@ html {
 }
 
 .container-hour-datetime {
-  font-size: 3rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   padding: 1rem;
   width: max-content;
@@ -90,10 +98,22 @@ html {
 }
 
 .post-title {
-  font-size: 2rem;
-  font-family: var(--roboto);
+  font-size: 1.25rem;
+  font-family: var(--text);
   margin-bottom: .25rem;
   margin-top: 0;
+}
+
+.post-excerpt {
+  text-decoration: none;
+  color: var(--black);
+  padding: 1rem 0;
+  display: inline-block;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-family: var(--roboto);
 }
 
 .post-text {
@@ -232,6 +252,22 @@ html {
   margin-top: 1rem;
 }
 
+.menu {
+  background: none;
+  padding: 1rem;
+  text-align: center;
+}
+
+.menu-element {
+  font-family: var(--roboto);
+  color: var(--black);
+  font-weight: bold;
+  padding: 0 .5rem;
+  &:hover {
+    color: #333;
+  }
+}
+
 @media only screen and (min-width: 48rem) {
 
   .container {
@@ -244,11 +280,11 @@ html {
 
   .container-hour-price {
     font-size: 8rem;
+    padding: 2rem;
   }
 
-  .container-hour-price,
   .container-hour-datetime {
-    padding: 2rem;
+    padding: 1rem;
   }
 
   .container-calendar-grid {
