@@ -1,7 +1,7 @@
 name: flat-next
 on:
   schedule:
-    - cron: 55 18 * * *
+    - cron: 55 19 * * *
   workflow_dispatch:
 jobs:
   scheduled:
