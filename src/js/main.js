@@ -41,6 +41,7 @@ const filterDataByUserHour = data.map(({ hour, price, ...rest }) => {
     ...rest
   };
 });
+console.log('filterDataByUserHour', filterDataByUserHour);
 
 let expensiveHours = filterDataByUserHour.sort((a, b) => b.price - a.price);
 /*This code is temporary. Hours are reordered based on prices, not Government nomenclature.*/
