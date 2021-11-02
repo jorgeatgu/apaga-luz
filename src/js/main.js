@@ -7,7 +7,8 @@ import {
   tablePrice,
   tablePriceNextDay,
   getZoneColor,
-  isNationalDay
+  isNationalDay,
+  removeTables
 } from './utils.js';
 
 let userHour = new Date().getHours();
@@ -61,15 +62,41 @@ menuElement.style.backgroundColor = getZoneColor(zone);
 
 let reverseCheapHours = [...expensiveHours].reverse();
 
-expensiveHours = expensiveHours
-  .slice(0, 12)
-  .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price);
-reverseCheapHours = reverseCheapHours
-  .slice(0, 12)
-  .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || a.price - b.price);
+function orderByPrice() {
+  expensiveHours = expensiveHours
+    .slice(0, 12)
+    .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price);
+  reverseCheapHours = reverseCheapHours
+    .slice(0, 12)
+    .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || a.price - b.price);
 
-tablePrice(reverseCheapHours, 'cheap-element');
-tablePrice(expensiveHours, 'expensive-element');
+  tablePrice(reverseCheapHours, 'cheap-element');
+  tablePrice(expensiveHours, 'expensive-element');
+}
+
+function orderByHour() {
+  expensiveHours = expensiveHours
+    .slice(0, 12)
+    .sort(({ hour: a }, { hour: b }) => a - b);
+
+  reverseCheapHours = reverseCheapHours
+    .slice(0, 12)
+    .sort(({ hour: a }, { hour: b }) => a - b);
+  tablePrice(reverseCheapHours, 'cheap-element');
+  tablePrice(expensiveHours, 'expensive-element');
+}
+
+orderByPrice();
+
+document.getElementById('order-price').addEventListener('click', e => {
+  removeTables();
+  orderByPrice();
+});
+
+document.getElementById('order-hour').addEventListener('click', e => {
+  removeTables();
+  orderByHour();
+});
 
 /*
 Prices are published at 20:30,
