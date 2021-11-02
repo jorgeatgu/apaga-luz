@@ -48,8 +48,8 @@ export function tablePrice(dataHours, element) {
 
   const title =
     element === 'cheap-element'
-      ? `<h3 class="container-table-price-element-title">Las horas más baratas</h3>`
-      : `<h3 class="container-table-price-element-title">Las horas más caras</h3>`;
+      ? `<h3 class="container-table-price-element-title">Horas más baratas</h3>`
+      : `<h3 class="container-table-price-element-title">Horas más caras</h3>`;
 
   container.insertAdjacentHTML('beforeend', title);
 
