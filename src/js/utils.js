@@ -43,18 +43,16 @@ export function tablePrice(dataHours, element) {
   const container = document.getElementById(element);
 
   let userDay = new Date().getDay();
-  let userDate = new Date().getDate();
-  let userMonth = new Date().getMonth();
 
   const title =
     element === 'cheap-element'
-      ? `<h3 class="container-table-price-element-title">Horas más baratas</h3>`
-      : `<h3 class="container-table-price-element-title">Horas más caras</h3>`;
+      ? `<h3 id="cheap-title" class="container-table-price-element-title">horas más baratas</h3>`
+      : `<h3 id="expensive-title" class="container-table-price-element-title">horas más caras</h3>`;
 
-  container.insertAdjacentHTML('beforeend', title);
+  container.insertAdjacentHTML('afterbegin', title);
 
-  for (let element of dataHours) {
-    const { price, hour, zone, hourHasPassed } = element;
+  for (let elements of dataHours) {
+    const { price, hour, zone, hourHasPassed } = elements;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const userDay = new Date().getDay();
     /*let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
@@ -69,8 +67,12 @@ export function tablePrice(dataHours, element) {
         ${price} €/kWh
       </span>
     </div>`;
-
-    container.insertAdjacentHTML('beforeend', blockHour);
+    let containerId =
+      element === 'cheap-element'
+        ? 'container-cheap-elements'
+        : 'container-expensive-elements';
+    let containerElements = document.getElementById(containerId);
+    containerElements.insertAdjacentHTML('beforeend', blockHour);
   }
 }
 
@@ -139,4 +141,25 @@ export function tablePriceNextDay(dataHours) {
       gridTableNextDay.classList.toggle('show');
       target.classList.toggle('rotate');
     });
+}
+
+export function removeTables() {
+  const titleTables = document.querySelectorAll(
+    '.container-table-price-element-title'
+  );
+
+  titleTables.forEach(tableElement => {
+    tableElement.remove();
+  });
+  const cheapElement = document.getElementById('container-cheap-elements');
+  while (cheapElement.firstChild) {
+    cheapElement.removeChild(cheapElement.firstChild);
+  }
+
+  const expensiveElement = document.getElementById(
+    'container-expensive-elements'
+  );
+  while (expensiveElement.firstChild) {
+    expensiveElement.removeChild(expensiveElement.firstChild);
+  }
 }
