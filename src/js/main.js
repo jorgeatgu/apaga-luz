@@ -106,7 +106,7 @@ this table will only be available until 24:00.
 
 let filterDataNextDay = dataNextDay.sort((a, b) => a.price - b.price);
 const containerTableNextDay = document.querySelector('.table-next-day');
-if (userHour >= 21 && userHour < 24) {
+if (userHour >= 20 && userMinutes >= 30 && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
   filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
     return {
