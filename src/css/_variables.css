@@ -15,4 +15,6 @@
   --red: #ec1d2f;
   --red-light: #ec1d2fb3;
   --red-dark: #8c1540;
+  --btn-blue: rgb(0, 102, 255);
+  --btn-blue-hover: rgb(102, 145, 209);
 }

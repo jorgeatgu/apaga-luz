@@ -27,15 +27,19 @@ main {
 }
 
 .btn-order {
-  background: #ccc;
+  background: var(--btn-blue);
+  color: var(--white);
   border: 0;
   font-weight: bold;
   cursor: pointer;
-  padding: .5rem;
+  padding: .75rem 1rem;
   border-radius: 4px;
   transition: background 300ms ease-in-out;
   &:hover {
-    background: #989393;
+    background: var(--btn-blue-hover);
+  }
+  &:not(:last-child) {
+    margin-right: .5rem;
   }
 }
 
@@ -90,8 +94,14 @@ main {
   }
 }
 
-.table-next-day-grid {
+.container-table-next-day-grid {
   display: none;
+  &.show {
+    display: block;
+  }
+  .container-btns-order {
+    margin-top: .75rem;
+  }
 }
 
 .container-hour-datetime {
