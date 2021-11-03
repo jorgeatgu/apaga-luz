@@ -137,7 +137,9 @@ export function tablePriceNextDay(dataHours) {
     .querySelector('.container-table-next-day-title')
     .addEventListener('click', e => {
       const { target } = e;
-      const gridTableNextDay = document.querySelector('.table-next-day-grid');
+      const gridTableNextDay = document.querySelector(
+        '.container-table-next-day-grid'
+      );
       gridTableNextDay.classList.toggle('show');
       target.classList.toggle('rotate');
     });
@@ -161,5 +163,16 @@ export function removeTables() {
   );
   while (expensiveElement.firstChild) {
     expensiveElement.removeChild(expensiveElement.firstChild);
+  }
+}
+
+export function removeTableNextDay() {
+  const titleTables = document.querySelector('.container-table-next-day-title');
+
+  titleTables.remove();
+
+  const tableNextDay = document.querySelector('.table-next-day-grid');
+  while (tableNextDay.firstChild) {
+    tableNextDay.removeChild(tableNextDay.firstChild);
   }
 }

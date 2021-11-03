@@ -8,7 +8,8 @@ import {
   tablePriceNextDay,
   getZoneColor,
   isNationalDay,
-  removeTables
+  removeTables,
+  removeTableNextDay
 } from './utils.js';
 
 let userHour = new Date().getHours();
@@ -104,9 +105,10 @@ at 21:00 I publish the next day's data,
 this table will only be available until 24:00.
 */
 
-let filterDataNextDay = dataNextDay.sort((a, b) => a.price - b.price);
+let filterDataNextDay = dataNextDay.sort(({ price: a }, { price: b }) => a - b);
 const containerTableNextDay = document.querySelector('.table-next-day');
-if (userHour >= 20 && userMinutes >= 30 && userHour < 24) {
+const halfPastEight = 20 * 60 + 30;
+if (userHour * 60 >= halfPastEight && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
   filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
     return {
@@ -115,6 +117,15 @@ if (userHour >= 20 && userMinutes >= 30 && userHour < 24) {
     };
   });
 
+  orderTableNextDayByZone();
+} else {
+  containerTableNextDay.style.display = 'none';
+}
+
+function orderTableNextDayByZone() {
+  let filterDataNextDay = dataNextDay.sort(
+    ({ price: a }, { price: b }) => a - b
+  );
   for (let [index, element] of filterDataNextDay.entries()) {
     if (index < 8) {
       element.zone = 'valle';
@@ -126,6 +137,22 @@ if (userHour >= 20 && userMinutes >= 30 && userHour < 24) {
   }
 
   tablePriceNextDay(filterDataNextDay);
-} else {
-  containerTableNextDay.style.display = 'none';
 }
+
+function orderTableNextDayByHour() {
+  filterDataNextDay = filterDataNextDay.sort(
+    ({ hour: a }, { hour: b }) => a - b
+  );
+
+  tablePriceNextDay(filterDataNextDay);
+}
+
+document.getElementById('order-price-next').addEventListener('click', e => {
+  removeTableNextDay();
+  orderTableNextDayByZone();
+});
+
+document.getElementById('order-hour-next').addEventListener('click', e => {
+  removeTableNextDay();
+  orderTableNextDayByHour();
+});
