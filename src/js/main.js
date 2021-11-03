@@ -156,3 +156,14 @@ document.getElementById('order-hour-next').addEventListener('click', e => {
   removeTableNextDay();
   orderTableNextDayByHour();
 });
+
+document
+  .querySelector('.container-table-next-day-title')
+  .addEventListener('click', e => {
+    const { target } = e;
+    const gridTableNextDay = document.querySelector(
+      '.container-table-next-day-grid'
+    );
+    gridTableNextDay.classList.toggle('show');
+    target.classList.toggle('rotate');
+  });

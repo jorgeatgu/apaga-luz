@@ -96,6 +96,7 @@ export const getZoneColor = zone =>
 export function tablePriceNextDay(dataHours) {
   const container = document.querySelector('.table-next-day');
   const tableGrid = document.querySelector('.table-next-day-grid');
+  let title;
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -108,12 +109,13 @@ export function tablePriceNextDay(dataHours) {
     day: 'numeric'
   };
 
-  const title = `<h3 class="container-table-next-day-title">Precios para mañana: ${tomorrow.toLocaleDateString(
-    'es-ES',
-    options
-  )}</h3>`;
-
-  container.insertAdjacentHTML('afterbegin', title);
+  if (!document.querySelector('.container-table-next-day-title')) {
+    title = `<h3 class="container-table-next-day-title">Precios para mañana: ${tomorrow.toLocaleDateString(
+      'es-ES',
+      options
+    )}</h3>`;
+    container.insertAdjacentHTML('afterbegin', title);
+  }
 
   for (let element of dataHours) {
     const { price, hour, zone } = element;
@@ -132,17 +134,6 @@ export function tablePriceNextDay(dataHours) {
 
     tableGrid.insertAdjacentHTML('beforeend', blockHour);
   }
-
-  document
-    .querySelector('.container-table-next-day-title')
-    .addEventListener('click', e => {
-      const { target } = e;
-      const gridTableNextDay = document.querySelector(
-        '.container-table-next-day-grid'
-      );
-      gridTableNextDay.classList.toggle('show');
-      target.classList.toggle('rotate');
-    });
 }
 
 export function removeTables() {
@@ -167,10 +158,6 @@ export function removeTables() {
 }
 
 export function removeTableNextDay() {
-  const titleTables = document.querySelector('.container-table-next-day-title');
-
-  titleTables.remove();
-
   const tableNextDay = document.querySelector('.table-next-day-grid');
   while (tableNextDay.firstChild) {
     tableNextDay.removeChild(tableNextDay.firstChild);
