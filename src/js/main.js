@@ -121,7 +121,7 @@ if (userHour * 60 >= halfPastEight && userHour < 24) {
 }
 
 function orderTableNextDayByZone() {
-  let filterDataNextDay = dataNextDay.sort(
+  filterDataNextDay = filterDataNextDay.sort(
     ({ price: a }, { price: b }) => a - b
   );
 
