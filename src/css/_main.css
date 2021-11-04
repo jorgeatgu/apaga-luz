@@ -83,7 +83,7 @@ main {
   margin: 1rem 0;
 }
 
-.container-table-price,
+.container-wrapper,
 .table-next-day-grid {
   margin: 1rem 0;
   display: grid;
@@ -318,12 +318,12 @@ main {
     grid-row-gap: 0;
   }
 
-  .container-table-price,
+  .container-wrapper,
   .table-next-day-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  .container-table-price {
+  .container-wrapper {
     margin-bottom: 0;
   }
 

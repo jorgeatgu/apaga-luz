@@ -39,8 +39,10 @@ export const isNationalDay = nationalDays.some(
   d => d.valueOf() === userDate.valueOf()
 );
 
-export function tablePrice(dataHours) {
-  const container = document.querySelector('.container-table-price');
+export function tablePrice(dataHours, element) {
+  const container = document.querySelector(element);
+  const getValueCheckboxHours = document.getElementById('checkbox-hours')
+    .checked;
 
   let userDay = new Date().getDay();
 
@@ -50,7 +52,8 @@ export function tablePrice(dataHours) {
     const userDay = new Date().getDay();
     /*let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
     zoneClass = isNationalDay ? 'valle' : zoneClass;*/
-    const hourHasPassedClass = hourHasPassed ? 'element-hour-disabled' : '';
+    const hourHasPassedClass =
+      hourHasPassed && getValueCheckboxHours ? 'element-hour-disabled' : '';
 
     const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
       <span class="container-table-price-element-hour ${zone}">
@@ -81,9 +84,9 @@ export function createZone(hour) {
 export const getZoneColor = zone =>
   zone === 'valle' ? '#a2fcc1' : zone === 'llano' ? '#ffae3a' : '#ec1d2f';
 
-export function tablePriceNextDay(dataHours) {
+export function tablePriceNextDay(dataHours, element) {
   const container = document.querySelector('.table-next-day');
-  const tableGrid = document.querySelector('.table-next-day-grid');
+  const tableGrid = document.querySelector(element);
   let title;
 
   const today = new Date();
@@ -128,5 +131,37 @@ export function removeTable(element) {
   const containerTable = document.querySelector(element);
   while (containerTable.firstChild) {
     containerTable.removeChild(containerTable.firstChild);
+  }
+}
+
+export function removeTables() {
+  const containerTableLeft = document.querySelector(
+    '.container-table-price-left'
+  );
+  const containerTableRight = document.querySelector(
+    '.container-table-price-right'
+  );
+  while (containerTableLeft.firstChild) {
+    containerTableLeft.removeChild(containerTableLeft.firstChild);
+  }
+
+  while (containerTableRight.firstChild) {
+    containerTableRight.removeChild(containerTableRight.firstChild);
+  }
+}
+
+export function removeTablesNextDay() {
+  const containerTableLeft = document.querySelector(
+    '.table-next-day-grid-left'
+  );
+  const containerTableRight = document.querySelector(
+    '.table-next-day-grid-right'
+  );
+  while (containerTableLeft.firstChild) {
+    containerTableLeft.removeChild(containerTableLeft.firstChild);
+  }
+
+  while (containerTableRight.firstChild) {
+    containerTableRight.removeChild(containerTableRight.firstChild);
   }
 }

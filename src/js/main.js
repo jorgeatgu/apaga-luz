@@ -8,7 +8,8 @@ import {
   tablePriceNextDay,
   getZoneColor,
   isNationalDay,
-  removeTable
+  removeTables,
+  removeTablesNextDay
 } from './utils.js';
 
 let userHour = new Date().getHours();
@@ -49,11 +50,11 @@ let filterDataToday = filterDataByUserHour.sort(
 /*This code is temporary. Hours are reordered based on prices, not Government nomenclature.*/
 for (let [index, element] of filterDataToday.entries()) {
   if (index < 8) {
-    element.zone = 'punta';
+    element.zone = 'valle';
   } else if (index >= 8 && index < 16) {
     element.zone = 'llano';
   } else {
-    element.zone = 'valle';
+    element.zone = 'punta';
   }
 }
 
@@ -62,28 +63,32 @@ const [{ zone }] = filterDataToday.filter(({ hour }) => hour == userHour);
 mainElement.style.backgroundColor = getZoneColor(zone);
 menuElement.style.backgroundColor = getZoneColor(zone);
 
+let typeOfOrder;
+
 function orderByPrice() {
-  filterDataToday = filterDataToday.sort(
-    (a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price
-  );
-  tablePrice(filterDataToday);
+  filterDataToday = filterDataToday.sort(({ price: a }, { price: b }) => a - b);
+  tablePrice(filterDataToday.slice(0, 12), '.container-table-price-left');
+  tablePrice(filterDataToday.slice(12, 24), '.container-table-price-right');
+
+  typeOfOrder = 'price';
 }
 
 function orderByHour() {
   filterDataToday = filterDataToday.sort(({ hour: a }, { hour: b }) => a - b);
-
-  tablePrice(filterDataToday);
+  tablePrice(filterDataToday.slice(0, 12), '.container-table-price-left');
+  tablePrice(filterDataToday.slice(12, 24), '.container-table-price-right');
+  typeOfOrder = 'hour';
 }
 
 orderByPrice();
 
 document.getElementById('order-price').addEventListener('click', e => {
-  removeTable('.container-table-price');
+  removeTables();
   orderByPrice();
 });
 
 document.getElementById('order-hour').addEventListener('click', e => {
-  removeTable('.container-table-price');
+  removeTables();
   orderByHour();
 });
 
@@ -115,33 +120,47 @@ for (let [index, element] of filterDataNextDay.entries()) {
 const halfPastEight = 19 * 60 + 40;
 if (userHour * 60 >= halfPastEight && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
-  orderTableNextDayByZone();
+  orderTableNextDayByPrice();
 } else {
   containerTableNextDay.style.display = 'none';
 }
 
-function orderTableNextDayByZone() {
+function orderTableNextDayByPrice() {
   filterDataNextDay = filterDataNextDay.sort(
     ({ price: a }, { price: b }) => a - b
   );
 
-  tablePriceNextDay(filterDataNextDay);
+  tablePriceNextDay(
+    filterDataNextDay.slice(0, 12),
+    '.table-next-day-grid-left'
+  );
+  tablePriceNextDay(
+    filterDataNextDay.slice(12, 24),
+    '.table-next-day-grid-right'
+  );
 }
 
 function orderTableNextDayByHour() {
   filterDataNextDay = filterDataNextDay.sort(
     ({ hour: a }, { hour: b }) => a - b
   );
-  tablePriceNextDay(filterDataNextDay);
+  tablePriceNextDay(
+    filterDataNextDay.slice(0, 12),
+    '.table-next-day-grid-left'
+  );
+  tablePriceNextDay(
+    filterDataNextDay.slice(12, 24),
+    '.table-next-day-grid-right'
+  );
 }
 
 document.getElementById('order-price-next').addEventListener('click', () => {
-  removeTable('.table-next-day-grid');
-  orderTableNextDayByZone();
+  removeTablesNextDay();
+  orderTableNextDayByPrice();
 });
 
 document.getElementById('order-hour-next').addEventListener('click', () => {
-  removeTable('.table-next-day-grid');
+  removeTablesNextDay();
   orderTableNextDayByHour();
 });
 
@@ -155,3 +174,13 @@ document
     gridTableNextDay.classList.toggle('show');
     target.classList.toggle('rotate');
   });
+
+document.getElementById('checkbox-hours').addEventListener('change', () => {
+  if (typeOfOrder === 'price') {
+    removeTables();
+    orderByPrice();
+  } else {
+    removeTables();
+    orderByHour();
+  }
+});
