@@ -39,17 +39,10 @@ export const isNationalDay = nationalDays.some(
   d => d.valueOf() === userDate.valueOf()
 );
 
-export function tablePrice(dataHours, element) {
-  const container = document.getElementById(element);
+export function tablePrice(dataHours) {
+  const container = document.querySelector('.container-table-price');
 
   let userDay = new Date().getDay();
-
-  const title =
-    element === 'cheap-element'
-      ? `<h3 id="cheap-title" class="container-table-price-element-title">horas más baratas</h3>`
-      : `<h3 id="expensive-title" class="container-table-price-element-title">horas más caras</h3>`;
-
-  container.insertAdjacentHTML('afterbegin', title);
 
   for (let elements of dataHours) {
     const { price, hour, zone, hourHasPassed } = elements;
@@ -67,12 +60,7 @@ export function tablePrice(dataHours, element) {
         ${price} €/kWh
       </span>
     </div>`;
-    let containerId =
-      element === 'cheap-element'
-        ? 'container-cheap-elements'
-        : 'container-expensive-elements';
-    let containerElements = document.getElementById(containerId);
-    containerElements.insertAdjacentHTML('beforeend', blockHour);
+    container.insertAdjacentHTML('beforeend', blockHour);
   }
 }
 
@@ -136,30 +124,9 @@ export function tablePriceNextDay(dataHours) {
   }
 }
 
-export function removeTables() {
-  const titleTables = document.querySelectorAll(
-    '.container-table-price-element-title'
-  );
-
-  titleTables.forEach(tableElement => {
-    tableElement.remove();
-  });
-  const cheapElement = document.getElementById('container-cheap-elements');
-  while (cheapElement.firstChild) {
-    cheapElement.removeChild(cheapElement.firstChild);
-  }
-
-  const expensiveElement = document.getElementById(
-    'container-expensive-elements'
-  );
-  while (expensiveElement.firstChild) {
-    expensiveElement.removeChild(expensiveElement.firstChild);
-  }
-}
-
-export function removeTableNextDay() {
-  const tableNextDay = document.querySelector('.table-next-day-grid');
-  while (tableNextDay.firstChild) {
-    tableNextDay.removeChild(tableNextDay.firstChild);
+export function removeTable(element) {
+  const containerTable = document.querySelector(element);
+  while (containerTable.firstChild) {
+    containerTable.removeChild(containerTable.firstChild);
   }
 }

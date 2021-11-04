@@ -8,8 +8,7 @@ import {
   tablePriceNextDay,
   getZoneColor,
   isNationalDay,
-  removeTables,
-  removeTableNextDay
+  removeTable
 } from './utils.js';
 
 let userHour = new Date().getHours();
@@ -44,9 +43,11 @@ const filterDataByUserHour = data.map(({ hour, price, ...rest }) => {
   };
 });
 
-let expensiveHours = filterDataByUserHour.sort((a, b) => b.price - a.price);
+let filterDataToday = filterDataByUserHour.sort(
+  ({ price: a }, { price: b }) => a - b
+);
 /*This code is temporary. Hours are reordered based on prices, not Government nomenclature.*/
-for (let [index, element] of expensiveHours.entries()) {
+for (let [index, element] of filterDataToday.entries()) {
   if (index < 8) {
     element.zone = 'punta';
   } else if (index >= 8 && index < 16) {
@@ -56,58 +57,44 @@ for (let [index, element] of expensiveHours.entries()) {
   }
 }
 
-const [{ zone }] = expensiveHours.filter(({ hour }) => hour == userHour);
+const [{ zone }] = filterDataToday.filter(({ hour }) => hour == userHour);
 
 mainElement.style.backgroundColor = getZoneColor(zone);
 menuElement.style.backgroundColor = getZoneColor(zone);
 
-let reverseCheapHours = [...expensiveHours].reverse();
-
 function orderByPrice() {
-  expensiveHours = expensiveHours
-    .slice(0, 12)
-    .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price);
-  reverseCheapHours = reverseCheapHours
-    .slice(0, 12)
-    .sort((a, b) => +a.hourHasPassed - +b.hourHasPassed || a.price - b.price);
-
-  tablePrice(reverseCheapHours, 'cheap-element');
-  tablePrice(expensiveHours, 'expensive-element');
+  filterDataToday = filterDataToday.sort(
+    (a, b) => +a.hourHasPassed - +b.hourHasPassed || b.price - a.price
+  );
+  tablePrice(filterDataToday);
 }
 
 function orderByHour() {
-  expensiveHours = expensiveHours
-    .slice(0, 12)
-    .sort(({ hour: a }, { hour: b }) => a - b);
+  filterDataToday = filterDataToday.sort(({ hour: a }, { hour: b }) => a - b);
 
-  reverseCheapHours = reverseCheapHours
-    .slice(0, 12)
-    .sort(({ hour: a }, { hour: b }) => a - b);
-  tablePrice(reverseCheapHours, 'cheap-element');
-  tablePrice(expensiveHours, 'expensive-element');
+  tablePrice(filterDataToday);
 }
 
 orderByPrice();
 
 document.getElementById('order-price').addEventListener('click', e => {
-  removeTables();
+  removeTable('.container-table-price');
   orderByPrice();
 });
 
 document.getElementById('order-hour').addEventListener('click', e => {
-  removeTables();
+  removeTable('.container-table-price');
   orderByHour();
 });
 
 /*
-Prices are published at 20:30,
-at 21:00 I publish the next day's data,
-this table will only be available until 24:00.
+Prices are published at 20:15,
+at 20:30 I publish the next day's data,
+this table will only be available until 00:00.
 */
 
 let filterDataNextDay = dataNextDay.sort(({ price: a }, { price: b }) => a - b);
 const containerTableNextDay = document.querySelector('.table-next-day');
-const halfPastEight = 19 * 60 + 40;
 filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
   return {
     price: price.toFixed(3),
@@ -125,9 +112,9 @@ for (let [index, element] of filterDataNextDay.entries()) {
   }
 }
 
+const halfPastEight = 19 * 60 + 40;
 if (userHour * 60 >= halfPastEight && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
-
   orderTableNextDayByZone();
 } else {
   containerTableNextDay.style.display = 'none';
@@ -145,17 +132,16 @@ function orderTableNextDayByHour() {
   filterDataNextDay = filterDataNextDay.sort(
     ({ hour: a }, { hour: b }) => a - b
   );
-
   tablePriceNextDay(filterDataNextDay);
 }
 
-document.getElementById('order-price-next').addEventListener('click', e => {
-  removeTableNextDay();
+document.getElementById('order-price-next').addEventListener('click', () => {
+  removeTable('.table-next-day-grid');
   orderTableNextDayByZone();
 });
 
-document.getElementById('order-hour-next').addEventListener('click', e => {
-  removeTableNextDay();
+document.getElementById('order-hour-next').addEventListener('click', () => {
+  removeTable('.table-next-day-grid');
   orderTableNextDayByHour();
 });
 
