@@ -107,15 +107,26 @@ this table will only be available until 24:00.
 
 let filterDataNextDay = dataNextDay.sort(({ price: a }, { price: b }) => a - b);
 const containerTableNextDay = document.querySelector('.table-next-day');
-const halfPastEight = 20 * 60 + 30;
+const halfPastEight = 19 * 60 + 40;
+filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
+  return {
+    price: price.toFixed(3),
+    ...rest
+  };
+});
+
+for (let [index, element] of filterDataNextDay.entries()) {
+  if (index < 8) {
+    element.zone = 'valle';
+  } else if (index >= 8 && index < 16) {
+    element.zone = 'llano';
+  } else {
+    element.zone = 'punta';
+  }
+}
+
 if (userHour * 60 >= halfPastEight && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
-  filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
-    return {
-      price: price.toFixed(3),
-      ...rest
-    };
-  });
 
   orderTableNextDayByZone();
 } else {
@@ -126,15 +137,6 @@ function orderTableNextDayByZone() {
   let filterDataNextDay = dataNextDay.sort(
     ({ price: a }, { price: b }) => a - b
   );
-  for (let [index, element] of filterDataNextDay.entries()) {
-    if (index < 8) {
-      element.zone = 'valle';
-    } else if (index >= 8 && index < 16) {
-      element.zone = 'llano';
-    } else {
-      element.zone = 'punta';
-    }
-  }
 
   tablePriceNextDay(filterDataNextDay);
 }
