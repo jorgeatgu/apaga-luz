@@ -119,6 +119,18 @@ for (let [index, element] of filterDataNextDay.entries()) {
 
 const halfPastEight = 19 * 60 + 40;
 if (userHour * 60 >= halfPastEight && userHour < 24) {
+
+document
+  .querySelector('.container-table-next-day-title')
+  .addEventListener('click', e => {
+    const { target } = e;
+    const gridTableNextDay = document.querySelector(
+      '.container-table-next-day-grid'
+    );
+    gridTableNextDay.classList.toggle('show');
+    target.classList.toggle('rotate');
+  });
+
   containerTableNextDay.style.display = 'grid';
   orderTableNextDayByPrice();
 } else {
@@ -163,17 +175,6 @@ document.getElementById('order-hour-next').addEventListener('click', () => {
   removeTablesNextDay();
   orderTableNextDayByHour();
 });
-
-document
-  .querySelector('.container-table-next-day-title')
-  .addEventListener('click', e => {
-    const { target } = e;
-    const gridTableNextDay = document.querySelector(
-      '.container-table-next-day-grid'
-    );
-    gridTableNextDay.classList.toggle('show');
-    target.classList.toggle('rotate');
-  });
 
 document.getElementById('checkbox-hours').addEventListener('change', () => {
   if (typeOfOrder === 'price') {
