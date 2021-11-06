@@ -120,6 +120,9 @@ for (let [index, element] of filterDataNextDay.entries()) {
 const halfPastEight = 19 * 60 + 40;
 if (userHour * 60 >= halfPastEight && userHour < 24) {
 
+ containerTableNextDay.style.display = 'grid';
+  orderTableNextDayByPrice();
+
 document
   .querySelector('.container-table-next-day-title')
   .addEventListener('click', e => {
@@ -131,8 +134,7 @@ document
     target.classList.toggle('rotate');
   });
 
-  containerTableNextDay.style.display = 'grid';
-  orderTableNextDayByPrice();
+ 
 } else {
   containerTableNextDay.style.display = 'none';
 }
