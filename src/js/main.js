@@ -1,7 +1,7 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
 import dataNextDay from '../../public/price-postprocessed-next-day.json';
-import dataCanary from '../../public/price-postprocessed.json';
+import dataCanary from '../../public/price-postprocessed-canary.json';
 import {
   nextCheapHour,
   reloadPage,
@@ -20,7 +20,7 @@ let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
 
 const isUserCanary =
-  getTimeZone !== 'Atlantic/Canary' && userHour > 22 && userHour < 24;
+  getTimeZone === 'Atlantic/Canary' && userHour > 22 && userHour < 24;
 let dataPrices = isUserCanary ? dataCanary : data;
 
 const [{ price }] = dataPrices.filter(({ hour }) => +hour == userHour);
