@@ -1,6 +1,7 @@
 import './../css/styles.css';
 import data from '../../public/price-postprocessed.json';
 import dataNextDay from '../../public/price-postprocessed-next-day.json';
+import dataCanary from '../../public/price-postprocessed.json';
 import {
   nextCheapHour,
   reloadPage,
@@ -12,11 +13,17 @@ import {
   removeTablesNextDay
 } from './utils.js';
 
+const getTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
 let userDay = new Date().getDay();
 
-const [{ price }] = data.filter(({ hour }) => +hour == userHour);
+const isUserCanary =
+  getTimeZone !== 'Atlantic/Canary' && userHour > 22 && userHour < 24;
+let dataPrices = isUserCanary ? dataCanary : data;
+
+const [{ price }] = dataPrices.filter(({ hour }) => +hour == userHour);
 
 userHour = userHour < 10 ? `0${userHour}` : userHour;
 userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
@@ -35,7 +42,7 @@ const menuElement = document.getElementsByTagName('nav')[0];
 
 reloadPage(userMinutes);
 
-const filterDataByUserHour = data.map(({ hour, price, ...rest }) => {
+const filterDataByUserHour = dataPrices.map(({ hour, price, ...rest }) => {
   return {
     hourHasPassed: +hour < userHour ? true : false,
     price: price.toFixed(3),
