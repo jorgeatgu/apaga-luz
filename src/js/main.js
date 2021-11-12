@@ -119,22 +119,19 @@ for (let [index, element] of filterDataNextDay.entries()) {
 
 const halfPastEight = 19 * 60 + 40;
 if (userHour * 60 >= halfPastEight && userHour < 24) {
-
- containerTableNextDay.style.display = 'grid';
+  containerTableNextDay.style.display = 'grid';
   orderTableNextDayByPrice();
 
-document
-  .querySelector('.container-table-next-day-title')
-  .addEventListener('click', e => {
-    const { target } = e;
-    const gridTableNextDay = document.querySelector(
-      '.container-table-next-day-grid'
-    );
-    gridTableNextDay.classList.toggle('show');
-    target.classList.toggle('rotate');
-  });
-
- 
+  document
+    .querySelector('.container-table-next-day-title')
+    .addEventListener('click', e => {
+      const { target } = e;
+      const gridTableNextDay = document.querySelector(
+        '.container-table-next-day-grid'
+      );
+      gridTableNextDay.classList.toggle('show');
+      target.classList.toggle('rotate');
+    });
 } else {
   containerTableNextDay.style.display = 'none';
 }

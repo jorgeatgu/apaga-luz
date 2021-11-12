@@ -111,11 +111,9 @@ export function tablePriceNextDay(dataHours, element) {
   for (let element of dataHours) {
     const { price, hour, zone } = element;
     const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    let zoneClass =
-      tomorrow.getDay() > 0 && tomorrow.getDay() <= 5 ? zone : 'valle';
 
     const blockHour = `<div class="container-table-price-element">
-      <span class="container-table-price-element-hour ${zoneClass}">
+      <span class="container-table-price-element-hour ${zone}">
         ${transformHour}
       </span>
       <span class="container-table-price-element-price">
