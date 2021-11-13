@@ -66,7 +66,6 @@ for (let [index, element] of filterDataToday.entries()) {
 }
 
 const [{ zone }] = filterDataToday.filter(({ hour }) => hour == userHour);
-
 mainElement.style.backgroundColor = getZoneColor(zone);
 menuElement.style.backgroundColor = getZoneColor(zone);
 
@@ -189,5 +188,33 @@ document.getElementById('checkbox-hours').addEventListener('change', () => {
   } else {
     removeTables();
     orderByHour();
+  }
+});
+
+let root = document.documentElement;
+
+document.getElementById('color-blindness').addEventListener('change', e => {
+  const {
+    target: { checked }
+  } = e;
+  if (checked) {
+    root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
+    root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
+    root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
+
+    const getColorBlidnessZone =
+      zone === 'valle'
+        ? 'rgb(100, 143, 255)'
+        : zone === 'llano'
+        ? 'rgb(255, 176, 0)'
+        : 'rgb(220, 38, 127)';
+    mainElement.style.backgroundColor = getColorActualZone;
+    menuElement.style.backgroundColor = getColorActualZone;
+  } else {
+    root.style.setProperty('--orange-light', '#ffae3ab3');
+    root.style.setProperty('--green-light', '#a2fcc1b3');
+    root.style.setProperty('--red-light', '#ec1d2fb3');
+    mainElement.style.backgroundColor = getZoneColor(zone);
+    menuElement.style.backgroundColor = getZoneColor(zone);
   }
 });

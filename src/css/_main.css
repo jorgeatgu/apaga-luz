@@ -26,7 +26,8 @@ main {
   margin-bottom: .5rem;
 }
 
-.btn-order {
+.btn-order,
+.btn-blindness {
   background: var(--btn-blue);
   color: var(--white);
   border: 0;
@@ -41,6 +42,12 @@ main {
   &:not(:last-child) {
     margin-right: .5rem;
   }
+}
+
+.btn-blindness {
+  background: var(--black);
+  color: var(--white);
+  float: right;
 }
 
 .container {
@@ -231,8 +238,7 @@ main {
 .container-table-next-day-title {
   font-size: 1rem;
   font-family: var(--roboto);
-  margin-top: 0;
-  margin-bottom: .5rem;
+  margin: 0;
   text-transform: uppercase;
   cursor: pointer;
   &:before {
@@ -244,6 +250,7 @@ main {
     background-repeat: no-repeat;
   }
   &.rotate {
+    margin-bottom: .5rem;
     &:before {
       background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='far' data-icon='chevron-down' class='svg-inline--fa fa-chevron-down fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='currentColor' d='M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z'%3E%3C/path%3E%3C/svg%3E");
     }
@@ -256,6 +263,7 @@ main {
   font-weight: bold;
   font-family: var(--numbers);
   padding: .25rem .5rem;
+  border-radius: 4px;
 
   &.valle {
     background: var(--green-light);
