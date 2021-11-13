@@ -208,8 +208,8 @@ document.getElementById('color-blindness').addEventListener('change', e => {
         : zone === 'llano'
         ? 'rgb(255, 176, 0)'
         : 'rgb(220, 38, 127)';
-    mainElement.style.backgroundColor = getColorActualZone;
-    menuElement.style.backgroundColor = getColorActualZone;
+    mainElement.style.backgroundColor = getColorBlidnessZone;
+    menuElement.style.backgroundColor = getColorBlidnessZone;
   } else {
     root.style.setProperty('--orange-light', '#ffae3ab3');
     root.style.setProperty('--green-light', '#a2fcc1b3');
