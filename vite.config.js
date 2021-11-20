@@ -9,7 +9,8 @@ module.exports = {
         'nueva-clasificacion-colores-horas': resolve(__dirname, 'noticias/nueva-clasificacion-colores-horas/index.html'),
         'nueva-direccion-web': resolve(__dirname, 'noticias/nueva-direccion-web/index.html'),
         datos: resolve(__dirname, 'datos/index.html'),
-        contacto: resolve(__dirname, 'contacto/index.html')
+        contacto: resolve(__dirname, 'contacto/index.html'),
+        preguntas: resolve(__dirname, 'preguntas/index.html')
       }
     }
   }
