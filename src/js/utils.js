@@ -101,7 +101,7 @@ export function tablePriceNextDay(dataHours, element) {
   };
 
   if (!document.querySelector('.container-table-next-day-title')) {
-    title = `<h3 class="container-table-next-day-title">Precios para mañana: ${tomorrow.toLocaleDateString(
+    title = `<h3 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">Precios para mañana</span>: ${tomorrow.toLocaleDateString(
       'es-ES',
       options
     )}</h3>`;
