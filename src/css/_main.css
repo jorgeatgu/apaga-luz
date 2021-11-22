@@ -113,7 +113,7 @@ main {
 
 .container-hour-datetime {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: -2rem;
   padding: 1rem;
   width: max-content;
 }
@@ -239,7 +239,6 @@ main {
   font-size: 1rem;
   font-family: var(--roboto);
   margin: 0;
-  text-transform: uppercase;
   cursor: pointer;
   &:before {
     content: '';
@@ -281,7 +280,7 @@ main {
 .table-next-day {
   background: var(--white);
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 8px;
   margin-top: 1rem;
 }
 
@@ -291,13 +290,23 @@ main {
   text-align: center;
 }
 
+.menu-container {
+  background: var(--white);
+  padding: 1rem;
+  margin: 0 auto;
+  width: max-content;
+  border-radius: 4px;
+}
+
 .menu-element {
   font-family: var(--roboto);
+  text-decoration: none;
   color: var(--black);
   font-weight: bold;
-  padding: 0 .5rem;
+  padding: .5rem;
   &:hover {
     color: #333;
+    text-decoration: underline;
   }
 }
 
@@ -313,7 +322,7 @@ main {
 
   .container-hour-price {
     font-size: 8rem;
-    padding: 2rem;
+    padding: 2rem 2rem 1rem .75rem;
   }
 
   .container-hour-datetime {
