@@ -5,7 +5,7 @@
 body,
 html {
   margin: 0;
-  color: var(--black);
+  color: var(--blue);
   font-family: var(--roboto);
   position: relative;
 }
@@ -63,6 +63,7 @@ main {
 .container-hour {
   padding: 1rem 0;
   border-radius: 4px;
+  color: var(--black);
 }
 
 .container-hour-date {
@@ -303,11 +304,11 @@ main {
 }
 
 .menu-element {
-  font-family: var(--roboto);
+  font-family: var(--numbers);
   text-decoration: none;
-  color: var(--black);
-  font-weight: bold;
+  color: var(--blue);
   padding: .5rem;
+  text-transform: uppercase;
   &:hover {
     color: #333;
     text-decoration: underline;
