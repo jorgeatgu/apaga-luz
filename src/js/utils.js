@@ -95,7 +95,6 @@ export function tablePriceNextDay(dataHours, element) {
 
   const options = {
     weekday: 'long',
-    year: 'numeric',
     month: 'long',
     day: 'numeric'
   };
