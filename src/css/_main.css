@@ -289,6 +289,7 @@ main {
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
+  box-shadow: var(--shadow);
 }
 
 .menu {
