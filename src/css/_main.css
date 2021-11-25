@@ -110,7 +110,6 @@ main {
 
 .container-table-next-day-grid {
   display: none;
-  box-shadow: var(--shadow);
   &.show {
     display: block;
   }
@@ -290,6 +289,7 @@ main {
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
+  box-shadow: var(--shadow);
 }
 
 .menu {
