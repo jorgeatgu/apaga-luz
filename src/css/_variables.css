@@ -5,6 +5,7 @@
   --roboto: 'Roboto Condensed', sans-serif;
   --text: 'Playfair Display', serif;
   --black: #111;
+  --blue: #021e5c;
   --white: #fff;
   --green: #a2fcc1;
   --green-light: #a2fcc1b3;
@@ -17,4 +18,5 @@
   --red-dark: #8c1540;
   --btn-blue: rgb(0, 102, 255);
   --btn-blue-hover: rgb(102, 145, 209);
+  --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
 }
