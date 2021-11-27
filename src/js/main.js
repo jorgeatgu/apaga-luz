@@ -86,7 +86,7 @@ function orderByHour() {
   typeOfOrder = 'hour';
 }
 
-orderByPrice();
+orderByHour();
 
 document.getElementById('order-price').addEventListener('click', e => {
   removeTables();
@@ -104,7 +104,7 @@ at 20:30 I publish the next day's data,
 this table will only be available until 00:00.
 */
 
-let filterDataNextDay = dataNextDay.sort(({ price: a }, { price: b }) => a - b);
+let filterDataNextDay = dataNextDay.sort(({ hour: a }, { hour: b }) => a - b);
 const containerTableNextDay = document.querySelector('.table-next-day');
 filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
   return {
