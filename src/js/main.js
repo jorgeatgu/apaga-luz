@@ -123,8 +123,8 @@ for (let [index, element] of filterDataNextDay.entries()) {
   }
 }
 
-const halfPastEight = 19 * 60 + 40;
-if (userHour * 60 >= halfPastEight && userHour < 24) {
+const halfPastEightMinutes = 1230;
+if (userHour * 60 + userMinutes >= halfPastEightMinutes && userHour < 24) {
   containerTableNextDay.style.display = 'grid';
   orderTableNextDayByHour();
 
