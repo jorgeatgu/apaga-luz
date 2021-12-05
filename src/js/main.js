@@ -207,3 +207,9 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menuElement.style.backgroundColor = getZoneColor(zone);
   }
 });
+
+const textWhatsApp = `whatsapp://send?text=El precio de la luz a las ${userHour}:${userMinutes} es de ${price.toFixed(
+  3
+)} €/kWh https://www.apaga-luz.com/?utm_source=whatsapp`;
+const btnWhatsApp = document.getElementById('btn-whatsapp');
+btnWhatsApp.href = textWhatsApp;
