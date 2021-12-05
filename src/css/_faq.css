@@ -1,5 +1,5 @@
 .faq-title {
-  margin-top: 0;
+  margin-top: 1rem;
   font-size: 2rem;
   font-family: var(--numbers);
   position: relative;
@@ -29,5 +29,6 @@
 }
 
 details {
+  margin-top: 1rem;
   margin-bottom: 2rem;
 }
