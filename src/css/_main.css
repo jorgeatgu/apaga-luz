@@ -280,8 +280,16 @@ main {
   margin-top: 1rem;
   box-shadow: var(--shadow);
   summary {
+    cursor: pointer;
     font-weight: bold;
     list-style-image: url("data:image/svg+xml,%0A%3Csvg width='18px' height='18px' viewBox='0 0 18 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='cheveron-outline-right' fill='%23000000' fill-rule='nonzero'%3E%3Cpath d='M9,0 C13.9705627,0 18,4.02943725 18,9 C18,13.9705627 13.9705627,18 9,18 C4.02943725,18 0,13.9705627 0,9 C0,4.02943725 4.02943725,0 9,0 Z M1.8,9 C1.8,12.9764502 5.0235498,16.2 9,16.2 C12.9764502,16.2 16.2,12.9764502 16.2,9 C16.2,5.0235498 12.9764502,1.8 9,1.8 C5.0235498,1.8 1.8,5.0235498 1.8,9 Z M11.286,9.63 L8.1,12.825 L6.831,11.556 L9.36,9 L6.84,6.453 L8.1,5.184 L11.916,9 L11.286,9.63 L11.286,9.63 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  summary::-webkit-details-marker {
+    background: url("data:image/svg+xml,%0A%3Csvg width='18px' height='18px' viewBox='0 0 18 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='cheveron-outline-right' fill='%23000000' fill-rule='nonzero'%3E%3Cpath d='M9,0 C13.9705627,0 18,4.02943725 18,9 C18,13.9705627 13.9705627,18 9,18 C4.02943725,18 0,13.9705627 0,9 C0,4.02943725 4.02943725,0 9,0 Z M1.8,9 C1.8,12.9764502 5.0235498,16.2 9,16.2 C12.9764502,16.2 16.2,12.9764502 16.2,9 C16.2,5.0235498 12.9764502,1.8 9,1.8 C5.0235498,1.8 1.8,5.0235498 1.8,9 Z M11.286,9.63 L8.1,12.825 L6.831,11.556 L9.36,9 L6.84,6.453 L8.1,5.184 L11.916,9 L11.286,9.63 L11.286,9.63 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: transparent;
   }
 }
 
@@ -292,6 +300,13 @@ main {
   summary {
     font-weight: bold;
     list-style-image: url("data:image/svg+xml,%0A%3Csvg width='18px' height='18px' viewBox='0 0 18 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='cheveron-outline-down' fill='%23000000' fill-rule='nonzero'%3E%3Cpath d='M18,9 C18,13.9705627 13.9705627,18 9,18 C4.02943725,18 0,13.9705627 0,9 C0,4.02943725 4.02943725,2.22044605e-15 9,2.22044605e-15 C13.9705627,2.22044605e-15 18,4.02943725 18,9 Z M9,1.8 C5.0235498,1.8 1.8,5.0235498 1.8,9 C1.8,12.9764502 5.0235498,16.2 9,16.2 C12.9764502,16.2 16.2,12.9764502 16.2,9 C16.2,5.0235498 12.9764502,1.8 9,1.8 Z M8.37,11.286 L5.175,8.1 L6.444,6.831 L9,9.36 L11.547,6.822 L12.816,8.1 L9,11.916 L8.37,11.286 L8.37,11.286 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  summary::-webkit-details-marker {
+    background: url("data:image/svg+xml,%0A%3Csvg width='18px' height='18px' viewBox='0 0 18 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='cheveron-outline-down' fill='%23000000' fill-rule='nonzero'%3E%3Cpath d='M18,9 C18,13.9705627 13.9705627,18 9,18 C4.02943725,18 0,13.9705627 0,9 C0,4.02943725 4.02943725,2.22044605e-15 9,2.22044605e-15 C13.9705627,2.22044605e-15 18,4.02943725 18,9 Z M9,1.8 C5.0235498,1.8 1.8,5.0235498 1.8,9 C1.8,12.9764502 5.0235498,16.2 9,16.2 C12.9764502,16.2 16.2,12.9764502 16.2,9 C16.2,5.0235498 12.9764502,1.8 9,1.8 Z M8.37,11.286 L5.175,8.1 L6.444,6.831 L9,9.36 L11.547,6.822 L12.816,8.1 L9,11.916 L8.37,11.286 L8.37,11.286 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: transparent;
   }
 }
 
