@@ -159,6 +159,11 @@
   border-top: 5px solid var(--blue);
 }
 
+.newsletter-free {
+  background: var(--green);
+  padding: .375rem;
+}
+
 @media only screen and (min-width: 48rem) {
 
   #mc_embed_signup input.email,
