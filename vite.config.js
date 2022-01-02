@@ -8,6 +8,7 @@ module.exports = {
         noticias: resolve(__dirname, 'noticias/index.html'),
         'nueva-clasificacion-colores-horas': resolve(__dirname, 'noticias/nueva-clasificacion-colores-horas/index.html'),
         'nueva-direccion-web': resolve(__dirname, 'noticias/nueva-direccion-web/index.html'),
+        newsletter: resolve(__dirname, 'noticias/newsletter/index.html'),
         contacto: resolve(__dirname, 'contacto/index.html'),
         preguntas: resolve(__dirname, 'preguntas/index.html')
       }
