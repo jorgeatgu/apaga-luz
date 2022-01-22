@@ -42,6 +42,15 @@ main {
   &:not(:last-child) {
     margin-right: .5rem;
   }
+  &.btn-newsletter {
+    background: var(--orange);
+    color: var(--black);
+    display: inline-block;
+    text-decoration: none;
+    &:hover {
+      background-color: var(--orange-light);
+    }
+  }
 }
 
 .btn-blindness {

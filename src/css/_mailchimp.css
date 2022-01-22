@@ -157,6 +157,7 @@
   box-shadow: var(--shadow);
   margin-top: 1rem;
   border-top: 5px solid var(--blue);
+  margin-bottom: 1rem;
 }
 
 .newsletter-free {
