@@ -1,0 +1,61 @@
+.container-chart {
+  max-width: 60rem;
+  padding: 3rem .5rem;
+  margin: 0 auto;
+}
+
+.bg-charts {
+  background-color: var(--bg-charts);
+}
+
+.charts {
+  position: relative;
+  text {
+    font-family: var(--roboto);
+    font-size: 14px;
+  }
+
+  .line-month-price,
+  .line-day-price {
+    fill: none;
+    stroke-width: 3;
+    stroke: #dd435c;
+  }
+
+  .line-day-price {
+    stroke-width: 1;
+  }
+
+  .axis-y {
+    .domain {
+      stroke: none;
+    }
+
+    line {
+      stroke-dasharray: 1px;
+    }
+  }
+}
+
+.overlay {
+  fill: transparent;
+}
+
+.y-hover-line {
+  stroke: var(--blue);
+  stroke-dasharray: 3px;
+}
+
+.tooltip {
+  padding: 1.25rem;
+  background-color: var(--blue);
+  color: var(--white);
+  border-radius: 4px;
+  position: absolute;
+  opacity: 1;
+  box-shadow: var(--shadow);
+
+  p:empty {
+    display: none;
+  }
+}

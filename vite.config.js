@@ -11,6 +11,7 @@ module.exports = {
         'politica-de-privacidad': resolve(__dirname, 'politica-de-privacidad/index.html'),
         newsletter: resolve(__dirname, 'noticias/newsletter/index.html'),
         contacto: resolve(__dirname, 'contacto/index.html'),
+        datos: resolve(__dirname, 'datos/index.html'),
         preguntas: resolve(__dirname, 'preguntas/index.html')
       }
     }
