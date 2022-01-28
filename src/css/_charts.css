@@ -19,11 +19,21 @@
   .line-day-price {
     fill: none;
     stroke-width: 3;
-    stroke: #dd435c;
+    stroke: var(--line-chart);
+  }
+
+  .circle-focus {
+    fill: var(--blue);
   }
 
   .line-day-price {
     stroke-width: 1;
+  }
+
+  .axis {
+    text {
+      font-family: var(--numbers);
+    }
   }
 
   .axis-y {
@@ -37,13 +47,18 @@
   }
 }
 
+.charts-text {
+  font-family: var(--text);
+  color: var(--black);
+}
+
 .overlay {
   fill: transparent;
 }
 
 .y-hover-line {
   stroke: var(--blue);
-  stroke-dasharray: 3px;
+  stroke-width: 1px;
 }
 
 .tooltip {
