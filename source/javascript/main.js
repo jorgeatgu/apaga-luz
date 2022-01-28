@@ -1,7 +1,7 @@
-import './../css/styles.css';
-import data from '../../public/price-postprocessed.json';
-import dataNextDay from '../../public/price-postprocessed-next-day.json';
-import dataCanary from '../../public/price-postprocessed-canary.json';
+import './../styles/styles.css';
+import data from '../../public/data/price-today.json';
+import dataNextDay from '../../public/data/price-tomorrow.json';
+import dataCanary from '../../public/data/price-canary.json';
 import {
   nextCheapHour,
   reloadPage,

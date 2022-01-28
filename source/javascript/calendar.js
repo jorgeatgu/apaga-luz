@@ -1,10 +1,21 @@
-import './../css/styles.css';
+import './../styles/styles.css';
 import datos from '../../public/group-by-month.json';
 import { Datepicker } from 'vanillajs-datepicker';
 import es from 'vanillajs-datepicker/locales/es';
 Object.assign(Datepicker.locales, es);
-const monthNames = ["enero", "febrero", "marzo", "abril", "mayo", "Junio",
-  "julio", "agosto", "septiembre", "octuber", "November", "December"
+const monthNames = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'Junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octuber',
+  'November',
+  'December'
 ];
 
 /*const datePickerMonthPrice = document.getElementById('datepicker-month-price');
@@ -30,7 +41,7 @@ import { json, csv } from 'd3-fetch';
 import { easeLinear } from 'd3-ease';
 import { format } from 'd3-format';
 import { interpolatePath } from 'd3-interpolate-path';
-import { timeFormat, timeParse } from 'd3-time-format'
+import { timeFormat, timeParse } from 'd3-time-format';
 import 'd3-transition';
 
 const d3 = {
@@ -70,7 +81,9 @@ function lineChart(dataChart, element) {
     .style('opacity', 0);
 
   function setupScales() {
-    const countX = d3.scaleTime().domain(d3.extent(lineChartData, d => d.fecha));
+    const countX = d3
+      .scaleTime()
+      .domain(d3.extent(lineChartData, d => d.fecha));
 
     const countY = d3
       .scaleLinear()
@@ -93,29 +106,26 @@ function lineChart(dataChart, element) {
   }
 
   function updateScales(width, height) {
-    const { count: { x, y } } = scales
+    const {
+      count: { x, y }
+    } = scales;
     x.range([0, width]);
     y.range([height, 0]);
   }
 
   function drawAxes(g) {
-    const axisX = d3
-      .axisBottom(scales.count.x)
-      .tickPadding(7)
-      .ticks(9);
+    const axisX = d3.axisBottom(scales.count.x).tickPadding(7).ticks(9);
 
-    g.select('.axis-x')
-      .attr('transform', `translate(0,${height})`)
-      .call(axisX);
+    g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
 
     const axisY = d3
       .axisLeft(scales.count.y)
       .tickPadding(15)
       .tickFormat(d => {
-        if(d < 0.10) {
-          return d3.format(".2n")(d) + ' €/kWh'
+        if (d < 0.1) {
+          return d3.format('.2n')(d) + ' €/kWh';
         } else {
-          return d3.format(".3n")(d) + ' €/kWh'
+          return d3.format('.3n')(d) + ' €/kWh';
         }
       })
       .tickSize(-width)
@@ -132,7 +142,7 @@ function lineChart(dataChart, element) {
     const w = chart.node().offsetWidth;
     const h = 500;
 
-    const { left, right, top, bottom } = margin
+    const { left, right, top, bottom } = margin;
 
     width = w - left - right;
     height = h - top - bottom;
@@ -166,7 +176,7 @@ function lineChart(dataChart, element) {
       .data([data])
       .join('path')
       .attr('class', 'line')
-      .attr('d', d => line(d))
+      .attr('d', d => line(d));
 
     const focus = g.select('.focus');
 
@@ -177,10 +187,10 @@ function lineChart(dataChart, element) {
     overlay
       .attr('width', width)
       .attr('height', height)
-      .on('mouseover', function() {
+      .on('mouseover', function () {
         focus.style('display', null);
       })
-      .on('mouseout', function() {
+      .on('mouseout', function () {
         focus.style('display', 'none');
         tooltipGroupByMonth.style('opacity', 0);
       })
@@ -188,17 +198,18 @@ function lineChart(dataChart, element) {
 
     function mousemove(event) {
       const { layerX } = event;
-      const x0 = scales.count.x.invert(layerX - left)
+      const x0 = scales.count.x.invert(layerX - left);
       const i = bisectDate(data, x0, 1);
       const d0 = data[i - 1];
       const d1 = data[i];
       const d = x0 - d0.fecha > d1.fecha - x0 ? d1 : d0;
 
-
       tooltipGroupByMonth
         .style('opacity', 1)
         .html(
-          `<span class="tooltip-group-by-month-year">El precio medio fue de ${d.averagePrice.toFixed(3)} €/kWh</span>`
+          `<span class="tooltip-group-by-month-year">El precio medio fue de ${d.averagePrice.toFixed(
+            3
+          )} €/kWh</span>`
         )
         .style('top', '5%')
         .style('left', '35%');
@@ -216,14 +227,14 @@ function lineChart(dataChart, element) {
   }
 
   function loadData() {
-    d3.json(dataChart).then((data) => {
-      data.sort((a, b) => parseFloat(a.year) - parseFloat(b.year))
-      data.forEach((d) => {
-        d.averagePrice = (d.averagePrice / 1000)
-        d.fecha = new Date(d.date)
-      })
+    d3.json(dataChart).then(data => {
+      data.sort((a, b) => parseFloat(a.year) - parseFloat(b.year));
+      data.forEach(d => {
+        d.averagePrice = d.averagePrice / 1000;
+        d.fecha = new Date(d.date);
+      });
 
-      lineChartData = data
+      lineChartData = data;
       setupElements();
       setupScales();
       updateChart(lineChartData);
@@ -235,4 +246,4 @@ function lineChart(dataChart, element) {
   loadData();
 }
 
-lineChart('../../public/group-by-month.json', 'month-price')
+lineChart('../../public/group-by-month.json', 'month-price');

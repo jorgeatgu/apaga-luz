@@ -27,5 +27,5 @@ function createZone(hour) {
   }
 }
 
-const newFilename = 'public/price-postprocessed-canary.json';
+const newFilename = 'public/data/price-today.json';
 await writeJSON(newFilename, filteredData)

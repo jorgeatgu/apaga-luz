@@ -4,14 +4,14 @@
   "author": "Jorge Aznar",
   "pre-commit": "lint-staged",
   "lint-staged": {
-    "src/css/*.css": "stylelint",
-    "src/js/*.js": "prettier --write"
+    "source/styles/*.css": "stylelint",
+    "source/javascript/*.js": "prettier --write"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint-css": "stylelint src/css/**",
+    "lint-css": "stylelint soruce/styles/**",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
