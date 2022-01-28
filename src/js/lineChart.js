@@ -132,6 +132,10 @@ export function lineChart(dataChart, elementOptions) {
     const w = chart.node().offsetWidth;
     const h = 500;
 
+    const {
+      count: { x, y }
+    } = scales;
+
     width = w - left - right;
     height = h - top - bottom;
 
@@ -148,19 +152,20 @@ export function lineChart(dataChart, elementOptions) {
       .style('display', 'none')
       .append('line')
       .attr('class', `y-hover-line y-hover-line-${html_element}`)
-      .attr('y1', 0);
+      .attr('y2', 0)
+      .attr('y1', height);
 
     const line = d3
       .line()
-      .x(d => scales.count.x(d[xAxisProp]))
-      .y(d => scales.count.y(d[yAxisProp]));
+      .x(d => x(d[xAxisProp]))
+      .y(d => y(d[yAxisProp]));
 
     updateScales(width, height);
 
     const container = chart.select(`.line-chart-${html_element}-container-bis`);
 
     container
-      .selectAll(`line-${html_element}`)
+      .selectAll(`.line-${html_element}`)
       .data([data])
       .join('path')
       .attr('class', `line-${html_element}`)
@@ -171,6 +176,13 @@ export function lineChart(dataChart, elementOptions) {
     const overlay = g.select(`.overlay-${html_element}`);
 
     focus.select(`.y-hover-line-${html_element}`).attr('y2', height);
+
+    focus
+      .append('circle')
+      .attr('class', `circle-focus-${html_element}`)
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('r', 0);
 
     overlay
       .attr('width', width)
@@ -185,7 +197,7 @@ export function lineChart(dataChart, elementOptions) {
 
     function mousemove(event) {
       const { layerX } = event;
-      const x0 = scales.count.x.invert(layerX - left);
+      const x0 = x.invert(layerX - left);
       const i = bisectDate(data, x0, 1);
       const d0 = data[i - 1];
       const d1 = data[i];
@@ -211,7 +223,14 @@ export function lineChart(dataChart, elementOptions) {
 
       focus
         .select(`.y-hover-line-${html_element}`)
-        .attr('transform', `translate(${scales.count.x(d[xAxisProp])},0)`);
+        .attr('transform', `translate(${x(d[xAxisProp])},0)`)
+        .attr('y1', y(d[yAxisProp]));
+
+      focus
+        .select(`.circle-focus-${html_element}`)
+        .attr('cx', x(d[xAxisProp]))
+        .attr('cy', y(d[yAxisProp]))
+        .attr('r', 3);
     }
 
     drawAxes(g);
@@ -224,8 +243,8 @@ export function lineChart(dataChart, elementOptions) {
   function loadData() {
     d3.json(dataChart).then(data => {
       lineChartData = data.sort((a, b) => {
-        const xDateX = new Date(a.date);
-        const xDateY = new Date(b.date);
+        const xDateX = new Date(a[xAxisProp]);
+        const xDateY = new Date(b[xAxisProp]);
         return xDateX - xDateY;
       });
       lineChartData.forEach(d => {
