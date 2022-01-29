@@ -1,11 +1,12 @@
 import { select, selectAll } from 'd3-selection';
-import { min, max, extent, bisector } from 'd3-array';
+import { min, max, extent, bisector, mean, median } from 'd3-array';
 import { line } from 'd3-shape';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { json } from 'd3-fetch';
 import { easeLinear } from 'd3-ease';
 import { format } from 'd3-format';
+import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
 
 const d3 = {
@@ -22,7 +23,10 @@ const d3 = {
   json,
   easeLinear,
   format,
-  extent
+  extent,
+  mean,
+  median,
+  interpolatePath
 };
 
 const monthNames = [
@@ -50,7 +54,7 @@ const dayNames = [
   'domingo'
 ];
 
-export function lineChart(dataChart, elementOptions) {
+export function lineChart(dataChart, elementOptions, hourSelected = '') {
   const {
     html_element,
     xAxisProp,
@@ -169,7 +173,14 @@ export function lineChart(dataChart, elementOptions) {
       .data([data])
       .join('path')
       .attr('class', `line-${html_element}`)
-      .attr('d', d => line(d));
+      .transition()
+      .duration(600)
+      .ease(d3.easeLinear)
+      .attrTween('d', function (d) {
+        let previous = d3.select(this).attr('d');
+        let current = line(d);
+        return d3.interpolatePath(previous, current);
+      });
 
     const focus = g.select(`.focus-${html_element}`);
 
@@ -215,9 +226,21 @@ export function lineChart(dataChart, elementOptions) {
         d.year
       } el precio medio fue de ${d[yAxisProp].toFixed(3)} €/kWh</span>`;
 
+      const hourContent = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.day
+      } de ${monthNames[d[xAxisProp].getMonth()]} del ${d.year} a las ${
+        d.hora
+      }:00 el precio fue de ${d[yAxisProp].toFixed(3)} €/kWh</span>`;
+
       tooltip
         .style('opacity', 1)
-        .html(html_element === 'month-price' ? monthContent : dayContent)
+        .html(
+          html_element === 'month-price'
+            ? monthContent
+            : html_element === 'day-price'
+            ? dayContent
+            : hourContent
+        )
         .style('top', '5%')
         .style('left', '35%');
 
@@ -236,6 +259,38 @@ export function lineChart(dataChart, elementOptions) {
     drawAxes(g);
   }
 
+  function menuSelectHour() {
+    const selectHoursValues = [
+      ...new Set(lineChartData.map(({ hora }) => hora))
+    ];
+    const selectHours = d3.select('#select-hours');
+
+    selectHours
+      .selectAll('option')
+      .data(selectHoursValues)
+      .enter()
+      .append('option')
+      .attr('value', d => d)
+      .text(d => `${d}:00`);
+
+    let lineChartDataFilter = lineChartData.filter(
+      ({ hora }) => hora === hourSelected
+    );
+    setupElements();
+    setupScales();
+    updateChart(lineChartDataFilter);
+    selectHours.on('change', function () {
+      const hourSelectedValue = d3.select('#select-hours').property('value');
+
+      lineChartDataFilter = lineChartData.filter(
+        ({ hora }) => hora === hourSelectedValue
+      );
+
+      setupScales();
+      updateChart(lineChartDataFilter);
+    });
+  }
+
   function resize() {
     updateChart(lineChartData);
   }
@@ -247,16 +302,38 @@ export function lineChart(dataChart, elementOptions) {
         const xDateY = new Date(b[xAxisProp]);
         return xDateX - xDateY;
       });
-      lineChartData.forEach(d => {
-        d[yAxisProp] = d[yAxisProp] / 1000;
-        d[xAxisProp] = new Date(d[xAxisProp]);
-      });
+      if (!hourSelected) {
+        lineChartData.forEach(d => {
+          d[yAxisProp] = d[yAxisProp] / 1000;
+          d[xAxisProp] = new Date(d[xAxisProp]);
+        });
 
-      let lineChartDataTest = lineChartData.map(d => d[xAxisProp]);
-      console.log('lineChartDataTest', lineChartDataTest);
-      setupElements();
-      setupScales();
-      updateChart(lineChartData);
+        setupElements();
+        setupScales();
+        updateChart(lineChartData);
+      } else {
+        lineChartData.forEach(d => {
+          d[yAxisProp] = d[yAxisProp] / 1000;
+          d.day = d[xAxisProp].split('/')[0];
+          d.month = d[xAxisProp].split('/')[1];
+          d.year = d[xAxisProp].split('/')[2];
+          d.hora = d.hora.split('-')[0];
+          d[xAxisProp] = d.month + '/' + d.day + '/' + d.year;
+        });
+
+        lineChartData.forEach(d => {
+          d[xAxisProp] = new Date(d[xAxisProp]);
+        });
+        lineChartData = lineChartData.sort((a, b) => {
+          const xDateX = new Date(a[xAxisProp]);
+          const xDateY = new Date(b[xAxisProp]);
+          return xDateX - xDateY;
+        });
+        menuSelectHour();
+      }
+
+      let meanPrice = mean(lineChartData.map(d => d[yAxisProp]));
+      let medianPrice = median(lineChartData.map(d => d[yAxisProp]));
     });
   }
 
