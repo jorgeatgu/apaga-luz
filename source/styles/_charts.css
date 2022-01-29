@@ -16,9 +16,10 @@
   }
 
   .line-month-price,
-  .line-day-price {
+  .line-day-price,
+  .line-hour-price {
     fill: none;
-    stroke-width: 3;
+    stroke-width: 1;
     stroke: var(--line-chart);
   }
 
@@ -26,7 +27,7 @@
     fill: var(--blue);
   }
 
-  .line-day-price {
+  .line-month-price {
     stroke-width: 1;
   }
 

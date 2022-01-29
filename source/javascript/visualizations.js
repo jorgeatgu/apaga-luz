@@ -1,6 +1,7 @@
 import './../styles/styles.css';
-
 import { lineChart } from './lineChart.js';
+
+let getHourSelected = '20';
 
 const lineChartByMonthOptions = {
   html_element: 'month-price',
@@ -26,5 +27,22 @@ const lineChartByDayOptions = {
   }
 };
 
-lineChart('../../public/group-by-month.json', lineChartByMonthOptions);
-lineChart('../../public/group-by-day.json', lineChartByDayOptions);
+const lineChartByHourOptions = {
+  html_element: 'hour-price',
+  xAxisProp: 'dia',
+  yAxisProp: 'precio',
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: 96
+  }
+};
+
+lineChart('../../public/data/group-by-month.json', lineChartByMonthOptions);
+lineChart('../../public/data/group_prices_by_day.json', lineChartByDayOptions);
+lineChart(
+  '../../public/data/all_prices.json',
+  lineChartByHourOptions,
+  getHourSelected
+);
