@@ -260,9 +260,9 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
   }
 
   function menuSelectHour() {
-    const selectHoursValues = [
-      ...new Set(lineChartData.map(({ hora }) => hora))
-    ];
+    let selectHoursValues = [...new Set(lineChartData.map(({ hora }) => hora))];
+
+    selectHoursValues = selectHoursValues.filter(hora => hora !== '24');
     const selectHours = d3.select('#select-hours');
 
     selectHours
@@ -271,6 +271,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
       .enter()
       .append('option')
       .attr('value', d => d)
+      .attr('selected', d => (d === hourSelected ? true : false))
       .text(d => `${d}:00`);
 
     let lineChartDataFilter = lineChartData.filter(
