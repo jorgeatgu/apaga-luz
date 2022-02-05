@@ -5,12 +5,18 @@
 }
 
 .footer-texto,
-.footer-links {
+.footer-links,
+.footer-links-block {
   color: var(--black);
   font-family: var(--roboto);
   font-size: 1rem;
 }
 
-.footer-links {
+.footer-links,
+.footer-links-block {
   font-weight: bold;
+}
+
+.footer-links-block {
+  display: block;
 }

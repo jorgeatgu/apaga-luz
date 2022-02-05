@@ -4,8 +4,19 @@
   margin: 0 auto;
 }
 
+.container-chart-title {
+  font-family: var(--title);
+  font-size: 2rem;
+  background-color: var(--white);
+  padding: 1rem 3rem;
+  width: max-content;
+  color: var(--black);
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
 .bg-charts {
-  background-color: #dde2ed;
+  background-color: #C2E9E7;
 }
 
 .charts {
@@ -49,8 +60,12 @@
 }
 
 .charts-text {
-  font-family: var(--adamina);
+  font-family: var(--muli);
+  font-size: 1rem;
   color: var(--black);
+  width: 30rem;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .overlay {
@@ -64,13 +79,13 @@
 
 .tooltip {
   padding: 1.25rem;
-  background-color: var(--blue);
-  color: var(--white);
+  background-color: #FDFDFE;
+  color: var(--blue);
   border-radius: 4px;
   position: absolute;
   opacity: 1;
-  box-shadow: var(--shadow);
   font-family: var(--adamina);
+  border: 1px solid #D0D5D6;
 
   p:empty {
     display: none;

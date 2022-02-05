@@ -3,14 +3,6 @@
   font-size: 2rem;
   font-family: var(--numbers);
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    left: -10px;
-    width: 5px;
-    height: 100%;
-    background: var(--orange);
-  }
 }
 
 .faq-title-element {
