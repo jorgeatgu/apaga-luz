@@ -60,7 +60,7 @@
 }
 
 .charts-text {
-  font-family: var(--muli);
+  font-family: var(--text);
   font-size: 1rem;
   color: var(--black);
   width: 30rem;
@@ -84,7 +84,7 @@
   border-radius: 4px;
   position: absolute;
   opacity: 1;
-  font-family: var(--adamina);
+  font-family: var(--text);
   border: 1px solid #D0D5D6;
 
   p:empty {
