@@ -82,8 +82,6 @@ export function createNewTable(dataTable, selector, type_of_filter) {
     });
   });
 
-  console.log(table);
-
   document.getElementById(selector).appendChild(table);
 
   //Sorting table https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript/49041392#49041392

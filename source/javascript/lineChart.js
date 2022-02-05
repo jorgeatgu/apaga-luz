@@ -241,8 +241,8 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
             ? dayContent
             : hourContent
         )
-        .style('top', '5%')
-        .style('left', '35%');
+        .style('top', '5%');
+      tooltip.style('left', '35%');
 
       focus
         .select(`.y-hover-line-${html_element}`)
