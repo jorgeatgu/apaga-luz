@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%237d6ee7%22></rect><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2290%22>💡</text></svg>" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&family=Adamina&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@400;700&family=Adamina&family=Muli&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437"
        crossorigin="anonymous"></script>
 </head>
@@ -18,14 +18,14 @@
   <nav class="menu">
     <div class="menu-container">
       <a class="menu-element menu-root" href="/">Inicio</a>
+      <a class="menu-element" href="/datos/">Datos</a>
       <a class="menu-element" href="/noticias/">Blog</a>
       <a class="menu-element" href="/preguntas/">Preguntas</a>
-      <a class="menu-element" href="/contacto/">Contacto</a>
     </div>
   </nav>
   <main>
     <section class="container-chart">
-      <p class="charts-text">Todos los datos están extraído de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Los datos anterioes a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A).</p>
+      <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A).</p>
     </section>
     <section class="container-table">
       <article class="subcontainer-table">
@@ -34,6 +34,7 @@
       </article>
     </section>
     <section class="container-chart">
+      <h2 class="container-chart-title">Precio medio por mes</h2>
       <article class="line-chart-month-price charts">
         <svg>
           <g class="line-chart-month-price-container"></g>
@@ -42,6 +43,7 @@
     </section>
 
     <section class="container-chart">
+      <h2 class="container-chart-title">Precio medio por día</h2>
       <article class="line-chart-day-price charts">
         <svg>
           <g class="line-chart-day-price-container"></g>
@@ -61,8 +63,9 @@
   <footer class="footer">
     <div class="container-footer">
       <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> - 2022</p>
-      <a class="footer-links" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub. Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
-      <a class="footer-links" href="/politica-de-privacidad">Politica de privacidad</a>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub.</a>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
+      <a class="footer-links-block" href="/politica-de-privacidad">Politica de privacidad</a>
     </div>
   </footer>
   <script type="module" src="/source/javascript/visualizations.js"></script>
