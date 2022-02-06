@@ -25,33 +25,33 @@
   </nav>
   <main>
     <section class="container-chart">
-      <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A).</p>
-    </section>
-    <section class="container-table">
-      <article class="subcontainer-table">
-        <div id="table-test"></div>
-        <div id="table-test-week"></div>
-      </article>
+      <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
+      <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
+      <p class="charts-warning">
+        Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A) por ser la más similar a la actual.
+      </p>
     </section>
     <section class="container-chart">
-      <h2 class="container-chart-title">Precio medio por mes</h2>
-      <article class="line-chart-month-price charts">
-        <svg>
-          <g class="line-chart-month-price-container"></g>
-        </svg>
-      </article>
-    </section>
-
-    <section class="container-chart">
-      <h2 class="container-chart-title">Precio medio por día</h2>
+      <h2 class="container-chart-title">Precio medio de la luz por día</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por día. El precio medio se calcula sumando el precios de todas las horas del día y diviendo el resultado entre veinticuatro.</p>
       <article class="line-chart-day-price charts">
         <svg>
           <g class="line-chart-day-price-container"></g>
         </svg>
       </article>
     </section>
-
     <section class="container-chart">
+      <h2 class="container-chart-title">Precio medio de la luz por mes</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por mes. El precio medio se calcula sumando el precio medio de cada día del mes y diviendo el resultado entre el número de días que tiene el mes.</p>
+      <article class="line-chart-month-price charts">
+        <svg>
+          <g class="line-chart-month-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section class="container-chart">
+      <h2 class="container-chart-title">Precio de la luz por horas</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por una hora en concreto a lo largo de toda la serie histórica.</p>
       <select id="select-hours"></select>
       <article class="line-chart-hour-price charts">
         <svg>
