@@ -1,5 +1,3 @@
-import './../styles/styles.css';
-
 export function createNewTable(dataTable, selector, type_of_filter) {
   dataTable.forEach(element => {
     element.dia = `${element.dia.split('/')[1]}/${element.dia.split('/')[0]}/${

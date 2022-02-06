@@ -57,8 +57,8 @@ const dayNames = [
 export function lineChart(dataChart, elementOptions, hourSelected = '') {
   const {
     html_element,
-    xAxisProp,
-    yAxisProp,
+    x_axis_prop,
+    y_axis_prop,
     margin: { top, right, bottom, left }
   } = elementOptions;
 
@@ -68,7 +68,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
   const svg = chart.select('svg');
   let scales = {};
   let lineChartData;
-  const bisectDate = d3.bisector(d => d[xAxisProp]).left;
+  const bisectDate = d3.bisector(d => d[x_axis_prop]).left;
   const tooltip = chart
     .append('div')
     .attr('class', `tooltip tooltip-${html_element}`)
@@ -77,13 +77,13 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
   function setupScales() {
     const countX = d3
       .scaleTime()
-      .domain(d3.extent(lineChartData, d => d[xAxisProp]));
+      .domain(d3.extent(lineChartData, d => d[x_axis_prop]));
 
     const countY = d3
       .scaleLinear()
       .domain([
-        d3.min(lineChartData, d => d[yAxisProp] * 1.5 - d[yAxisProp]),
-        d3.max(lineChartData, d => d[yAxisProp]) * 1.25
+        d3.min(lineChartData, d => d[y_axis_prop] * 1.5 - d[y_axis_prop]),
+        d3.max(lineChartData, d => d[y_axis_prop]) * 1.25
       ]);
 
     scales.count = { x: countX, y: countY };
@@ -161,8 +161,8 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
 
     const line = d3
       .line()
-      .x(d => x(d[xAxisProp]))
-      .y(d => y(d[yAxisProp]));
+      .x(d => x(d[x_axis_prop]))
+      .y(d => y(d[y_axis_prop]));
 
     updateScales(width, height);
 
@@ -174,7 +174,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
       .join('path')
       .attr('class', `line-${html_element}`)
       .transition()
-      .duration(600)
+      .duration(300)
       .ease(d3.easeLinear)
       .attrTween('d', function (d) {
         let previous = d3.select(this).attr('d');
@@ -212,25 +212,30 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
       const i = bisectDate(data, x0, 1);
       const d0 = data[i - 1];
       const d1 = data[i];
-      const d = x0 - d0[xAxisProp] > d1[xAxisProp] - x0 ? d1 : d0;
+      const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
+      const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
 
       const monthContent = `<span class="tooltip-group-by-${html_element}-year">En ${
-        monthNames[d[xAxisProp].getMonth()]
-      } del ${d.year} el precio medio fue de ${d[yAxisProp].toFixed(
+        monthNames[d[x_axis_prop].getMonth()]
+      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
-      )} €/kWh</span>`;
+      )} €/kWh</strong></span>`;
 
       const dayContent = `<span class="tooltip-group-by-${html_element}-year">El ${
         d.day
-      } de ${monthNames[d[xAxisProp].getMonth()]} del ${
+      } de ${monthNames[d[x_axis_prop].getMonth()]} del ${
         d.year
-      } el precio medio fue de ${d[yAxisProp].toFixed(3)} €/kWh</span>`;
+      } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
 
       const hourContent = `<span class="tooltip-group-by-${html_element}-year">El ${
         d.day
-      } de ${monthNames[d[xAxisProp].getMonth()]} del ${d.year} a las ${
+      } de ${monthNames[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
         d.hora
-      }:00 el precio fue de ${d[yAxisProp].toFixed(3)} €/kWh</span>`;
+      }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
 
       tooltip
         .style('opacity', 1)
@@ -241,18 +246,18 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
             ? dayContent
             : hourContent
         )
-        .style('top', '5%');
-      tooltip.style('left', '35%');
+        .style('top', '5%')
+        .style('left', `${position_left_tooltip}px`);
 
       focus
         .select(`.y-hover-line-${html_element}`)
-        .attr('transform', `translate(${x(d[xAxisProp])},0)`)
-        .attr('y1', y(d[yAxisProp]));
+        .attr('transform', `translate(${x(d[x_axis_prop])},0)`)
+        .attr('y1', y(d[y_axis_prop]));
 
       focus
         .select(`.circle-focus-${html_element}`)
-        .attr('cx', x(d[xAxisProp]))
-        .attr('cy', y(d[yAxisProp]))
+        .attr('cx', x(d[x_axis_prop]))
+        .attr('cy', y(d[y_axis_prop]))
         .attr('r', 3);
     }
 
@@ -299,14 +304,15 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
   function loadData() {
     d3.json(dataChart).then(data => {
       lineChartData = data.sort((a, b) => {
-        const xDateX = new Date(a[xAxisProp]);
-        const xDateY = new Date(b[xAxisProp]);
+        const xDateX = new Date(a[x_axis_prop]);
+        const xDateY = new Date(b[x_axis_prop]);
         return xDateX - xDateY;
       });
+      console.log('lineChartData', lineChartData, html_element);
       if (!hourSelected) {
         lineChartData.forEach(d => {
-          d[yAxisProp] = d[yAxisProp] / 1000;
-          d[xAxisProp] = new Date(d[xAxisProp]);
+          d[y_axis_prop] = d[y_axis_prop] / 1000;
+          d[x_axis_prop] = new Date(d[x_axis_prop]);
         });
 
         setupElements();
@@ -314,27 +320,27 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
         updateChart(lineChartData);
       } else {
         lineChartData.forEach(d => {
-          d[yAxisProp] = d[yAxisProp] / 1000;
-          d.day = d[xAxisProp].split('/')[0];
-          d.month = d[xAxisProp].split('/')[1];
-          d.year = d[xAxisProp].split('/')[2];
+          d[y_axis_prop] = d[y_axis_prop] / 1000;
           d.hora = d.hora.split('-')[0];
-          d[xAxisProp] = d.month + '/' + d.day + '/' + d.year;
+          d[x_axis_prop] = new Date(
+            d[x_axis_prop].split('/')[1] +
+              '/' +
+              d[x_axis_prop].split('/')[0] +
+              '/' +
+              d[x_axis_prop].split('/')[2]
+          );
         });
 
-        lineChartData.forEach(d => {
-          d[xAxisProp] = new Date(d[xAxisProp]);
-        });
         lineChartData = lineChartData.sort((a, b) => {
-          const xDateX = new Date(a[xAxisProp]);
-          const xDateY = new Date(b[xAxisProp]);
+          const xDateX = new Date(a[x_axis_prop]);
+          const xDateY = new Date(b[x_axis_prop]);
           return xDateX - xDateY;
         });
         menuSelectHour();
       }
 
-      let meanPrice = mean(lineChartData.map(d => d[yAxisProp]));
-      let medianPrice = median(lineChartData.map(d => d[yAxisProp]));
+      let meanPrice = mean(lineChartData.map(d => d[y_axis_prop]));
+      let medianPrice = median(lineChartData.map(d => d[y_axis_prop]));
     });
   }
 

@@ -1,48 +1,37 @@
 import data from '../../public/data/price-today.json';
 
 export function nextCheapHour() {
-  const userHour = new Date().getHours();
-  const userMinutes = new Date().getMinutes();
+  const user_hour = new Date().getHours();
+  const user_minutes = new Date().getMinutes();
 
-  const filteredData = data.filter(({ hour }) => +hour > userHour);
-  const cheapHour = filteredData.reduce((p, c) => (p.price < c.price ? p : c));
-  const { hour } = cheapHour;
-  let timerHour = hour - (userHour + 1);
-  const timerMinutes = Math.abs(60 - userMinutes);
-  let textHour = timerHour > 1 ? 'horas y' : 'hora y';
-  textHour = textHour !== 0 ? textHour : '';
-  timeHour = timeHour !== 0 ? textHour : '';
-  const textMinutes = timerMinutes > 1 ? 'minutos' : 'minuto';
-  const text = `La próxima hora más barata es dentro de ${timerHour} ${textHour} ${timerMinutes} ${textMinutes}`;
+  const filtered_data = data.filter(({ hour }) => +hour > user_hour);
+  const cheap_hour = filtered_data.reduce((p, c) =>
+    p.price < c.price ? p : c
+  );
+  const { hour } = cheap_hour;
+  let timer_hour = hour - (user_hour + 1);
+  const timer_minutes = Math.abs(60 - user_minutes);
+  let text_hour = timer_hour > 1 ? 'horas y' : 'hora y';
+  text_hour = text_hour !== 0 ? text_hour : '';
+  timer_hour = timer_hour !== 0 ? text_hour : '';
+  const text_minutes = timer_minutes > 1 ? 'minutos' : 'minuto';
+  const text = `La próxima hora más barata es dentro de ${timer_hour} ${text_hour} ${timer_minutes} ${text_minutes}`;
 }
 
 export function reloadPage(minutes) {
-  const reloadPage = 60 - minutes;
+  const reload_page_minutes = 60 - minutes;
   const milliseconds = (h, m, s) => (h * 60 * 60 + m * 60 + s) * 1000;
-  const result = milliseconds(0, reloadPage, 0);
+  const result = milliseconds(0, reload_page_minutes, 0);
 
   setTimeout(() => {
     location.reload();
   }, result);
 }
 
-const nationalDays = [
-  new Date(2021, 9, 12).setHours(0, 0, 0, 0),
-  new Date(2021, 10, 1).setHours(0, 0, 0, 0),
-  new Date(2021, 11, 6).setHours(0, 0, 0, 0),
-  new Date(2021, 11, 8).setHours(0, 0, 0, 0),
-  new Date(2021, 11, 25).setHours(0, 0, 0, 0)
-];
-
-const userDate = new Date().setHours(0, 0, 0, 0);
-export const isNationalDay = nationalDays.some(
-  d => d.valueOf() === userDate.valueOf()
-);
-
 export function tablePrice(dataHours, element) {
   const container = document.querySelector(element);
-  const getValueCheckboxHours = document.getElementById('checkbox-hours')
-    .checked;
+  const getValueCheckboxHours =
+    document.getElementById('checkbox-hours').checked;
 
   let userDay = new Date().getDay();
 
@@ -161,4 +150,34 @@ export function removeTablesNextDay() {
   while (containerTableRight.firstChild) {
     containerTableRight.removeChild(containerTableRight.firstChild);
   }
+}
+
+export function colorBlindness() {
+  let root = document.documentElement;
+
+  document.getElementById('color-blindness').addEventListener('change', e => {
+    const {
+      target: { checked }
+    } = e;
+    if (checked) {
+      root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
+      root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
+      root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
+
+      const getColorBlidnessZone =
+        zone === 'valle'
+          ? 'rgb(100, 143, 255)'
+          : zone === 'llano'
+          ? 'rgb(255, 176, 0)'
+          : 'rgb(220, 38, 127)';
+      mainElement.style.backgroundColor = getColorBlidnessZone;
+      menuElement.style.backgroundColor = getColorBlidnessZone;
+    } else {
+      root.style.setProperty('--orange-light', '#ffae3ab3');
+      root.style.setProperty('--green-light', '#a2fcc1b3');
+      root.style.setProperty('--red-light', '#ec1d2fb3');
+      mainElement.style.backgroundColor = getZoneColor(zone);
+      menuElement.style.backgroundColor = getZoneColor(zone);
+    }
+  });
 }
