@@ -1,27 +1,29 @@
 import './../styles/styles.css';
-import data from '../../public/data/price-today.json';
+import data_all_days from '../../public/data/all_prices.json';
+import data_today from '../../public/data/price-today.json';
 import dataNextDay from '../../public/data/price-tomorrow.json';
 import dataCanary from '../../public/data/price-canary.json';
 import {
-  nextCheapHour,
   reloadPage,
   tablePrice,
   tablePriceNextDay,
   getZoneColor,
-  isNationalDay,
   removeTables,
-  removeTablesNextDay
+  removeTablesNextDay,
+  colorBlindness
 } from './utils.js';
+
+import { createNewTable } from './table.js';
 
 const getTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 let userHour = new Date().getHours();
 let userMinutes = new Date().getMinutes();
-let userDay = new Date().getDay();
+let userDay = new Date();
 
 const isUserCanary =
   getTimeZone === 'Atlantic/Canary' && userHour > 22 && userHour < 24;
-let dataPrices = isUserCanary ? dataCanary : data;
+let dataPrices = isUserCanary ? dataCanary : data_today;
 
 const [{ price }] = dataPrices.filter(({ hour }) => +hour == userHour);
 
@@ -31,7 +33,6 @@ userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
 const priceElement = document.getElementById('price');
 const hoursElement = document.getElementById('hours');
 const minutesElement = document.getElementById('minutes');
-const calendar = document.getElementById('calendar');
 
 priceElement.textContent = `${price.toFixed(3)}`;
 hoursElement.textContent = userHour;
@@ -88,12 +89,12 @@ function orderByHour() {
 
 orderByHour();
 
-document.getElementById('order-price').addEventListener('click', e => {
+document.getElementById('order-price').addEventListener('click', () => {
   removeTables();
   orderByPrice();
 });
 
-document.getElementById('order-hour').addEventListener('click', e => {
+document.getElementById('order-hour').addEventListener('click', () => {
   removeTables();
   orderByHour();
 });
@@ -180,36 +181,41 @@ document.getElementById('checkbox-hours').addEventListener('change', () => {
   }
 });
 
-let root = document.documentElement;
-
-document.getElementById('color-blindness').addEventListener('change', e => {
-  const {
-    target: { checked }
-  } = e;
-  if (checked) {
-    root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
-    root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
-    root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
-
-    const getColorBlidnessZone =
-      zone === 'valle'
-        ? 'rgb(100, 143, 255)'
-        : zone === 'llano'
-        ? 'rgb(255, 176, 0)'
-        : 'rgb(220, 38, 127)';
-    mainElement.style.backgroundColor = getColorBlidnessZone;
-    menuElement.style.backgroundColor = getColorBlidnessZone;
-  } else {
-    root.style.setProperty('--orange-light', '#ffae3ab3');
-    root.style.setProperty('--green-light', '#a2fcc1b3');
-    root.style.setProperty('--red-light', '#ec1d2fb3');
-    mainElement.style.backgroundColor = getZoneColor(zone);
-    menuElement.style.backgroundColor = getZoneColor(zone);
-  }
-});
-
 const textWhatsApp = `whatsapp://send?text=El precio de la luz a las ${userHour}:${userMinutes} es de ${price.toFixed(
   3
 )} €/kWh https://www.apaga-luz.com/?utm_source=whatsapp`;
 const btnWhatsApp = document.getElementById('btn-whatsapp');
 btnWhatsApp.href = textWhatsApp;
+
+const get_string_day =
+  userDay.getDate() < 10 ? `0${userDay.getDate()}` : userDay.getDate();
+const get_string_month =
+  userDay.getMonth() < 10
+    ? `0${userDay.getMonth() + 1}`
+    : userDay.getMonth() + 1;
+
+const filtered_data_table_by_day = data_all_days.filter(({ dia }) =>
+  dia.includes(`${get_string_day}/${get_string_month}`)
+);
+
+const last_n_days = nDays =>
+  [...Array(nDays)].map((_, index) => {
+    const dates = new Date();
+    dates.setDate(dates.getDate() + 1 - index);
+    return dates;
+  });
+
+let last_week_strings = last_n_days(7);
+last_week_strings = last_week_strings.map(d => {
+  const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+  const get_string_month =
+    d.getMonth() < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+  return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
+});
+
+const filtered_data_table_by_last_week = data_all_days.filter(day =>
+  last_week_strings.includes(day.dia)
+);
+
+createNewTable(filtered_data_table_by_day, 'table-year', 'year');
+createNewTable(filtered_data_table_by_last_week, 'table-week', 'day');

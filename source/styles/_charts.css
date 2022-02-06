@@ -5,18 +5,23 @@
 }
 
 .container-chart-title {
-  font-family: var(--title);
+  font-family: var(--numbers);
+  font-weight: bold;
   font-size: 2rem;
-  background-color: var(--white);
-  padding: 1rem 3rem;
   width: max-content;
-  color: var(--black);
+  color: var(--blue);
   margin-bottom: 1rem;
-  text-align: right;
+}
+
+.charts-warning {
+  padding: 1rem;
+  font-size: .875rem;
+  background-color: var(--orange-light);
+  width: 25rem;
 }
 
 .bg-charts {
-  background-color: #C2E9E7;
+  background-color: var(--bg-charts-table);
 }
 
 .charts {
@@ -63,9 +68,8 @@
   font-family: var(--text);
   font-size: 1rem;
   color: var(--black);
-  width: 30rem;
-  margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.4;
+  max-width: 25rem;
 }
 
 .overlay {

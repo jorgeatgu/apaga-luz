@@ -7,6 +7,7 @@
   --black: #111;
   --blue: #021e5c;
   --white: #fff;
+  --grey: #f4f4f4;
   --green: #a2fcc1;
   --green-light: #a2fcc1b3;
   --green-dark: #5cba95;
@@ -20,5 +21,5 @@
   --btn-blue-hover: rgb(102, 145, 209);
   --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
   --line-chart: #ff005e;
-  --bg-charts: #ffffe0;
+  --bg-charts-table: #DFE8E1;
 }

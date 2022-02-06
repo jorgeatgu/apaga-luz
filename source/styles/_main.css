@@ -6,7 +6,7 @@ body,
 html {
   margin: 0;
   color: var(--blue);
-  font-family: var(--roboto);
+  font-family: var(--text);
   position: relative;
 }
 
@@ -35,6 +35,7 @@ main {
   cursor: pointer;
   padding: .75rem 1rem;
   border-radius: 4px;
+  font-family: var(--text);
   transition: background 300ms ease-in-out;
   &:hover {
     background: var(--btn-blue-hover);
@@ -175,12 +176,13 @@ main {
 
 .section-title {
   font-size: 1.75rem;
-  font-family: var(--roboto);
+  font-family: var(--numbers);
 }
 
 .post-text {
   font-size: 1rem;
   font-family: var(--text);
+  line-height: 1.4;
 }
 
 .post-text-date {
@@ -200,7 +202,7 @@ main {
 
 .container-calendar-element {
   font-size: 1rem;
-  font-family: var(--roboto);
+  font-family: var(--text);
   padding: 1rem;
   text-align: center;
   border-radius: 4px;
@@ -246,7 +248,7 @@ main {
 
 .taxes {
   font-size: 12px;
-  font-family: var(--roboto);
+  font-family: var(--text);
   margin: 0;
   width: 100%;
   text-align: right;
@@ -254,7 +256,7 @@ main {
 
 .container-table-next-day-title {
   font-size: 1rem;
-  font-family: var(--roboto);
+  font-family: var(--text);
   margin: 0;
   display: inline-block;
   cursor: pointer;
@@ -418,4 +420,22 @@ main {
     margin-bottom: 0;
   }
 
+}
+
+.sponsor-card {
+  font-family: var(--text);
+  background: var(--white);
+  box-shadow: rgba(0, 0, 0, .16) 0 4px 24px 0, rgba(0, 0, 0, .08) 0 2px 12px 0, rgba(64, 64, 76, .3) 0 0 0 .6px;
+  padding: 1.5rem;
+  border-radius: .5rem;
+  a,
+  iframe {
+    display: block;
+    margin-bottom: .5rem;
+  }
+}
+
+.sponsor-card-text {
+  margin-top: 0;
+  font-size: .875rem;
 }

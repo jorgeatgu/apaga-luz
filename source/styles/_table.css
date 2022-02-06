@@ -1,5 +1,15 @@
 .container-table {
-  background-color: #C2E9E7;
+  background-color: var(--bg-charts-table);
+}
+
+.table-element {
+  margin: 3rem 0;
+}
+
+.table-description {
+  width: 30rem;
+  color: var(--black);
+  line-height: 1.4;
 }
 
 .subcontainer-table {

@@ -8,7 +8,7 @@
 .faq-title-element {
   font-size: 1.25rem;
   font-weight: 700;
-  font-family: var(--roboto);
+  font-family: var(--numbers);
   cursor: pointer;
   &::marker {
     color: var(--orange);
@@ -18,6 +18,7 @@
 .faq-text {
   font-family: var(--text);
   padding-left: 1.5rem;
+  line-height: 1.4;
 }
 
 details {
