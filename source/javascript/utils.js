@@ -28,31 +28,31 @@ export function reloadPage(minutes) {
   }, result);
 }
 
-export function tablePrice(dataHours, element) {
+export function tablePrice(data_hours, element) {
   const container = document.querySelector(element);
-  const getValueCheckboxHours =
+  const get_value_checkbox_hours =
     document.getElementById('checkbox-hours').checked;
 
-  let userDay = new Date().getDay();
+  let user_day = new Date().getDay();
 
-  for (let elements of dataHours) {
-    const { price, hour, zone, hourHasPassed } = elements;
-    const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    const userDay = new Date().getDay();
-    /*let zoneClass = userDay > 0 && userDay <= 5 ? zone : 'valle';
-    zoneClass = isNationalDay ? 'valle' : zoneClass;*/
-    const hourHasPassedClass =
-      hourHasPassed && getValueCheckboxHours ? 'element-hour-disabled' : '';
+  for (let elements of data_hours) {
+    const { price, hour, zone, hour_has_passed } = elements;
+    const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const user_day = new Date().getDay();
+    const hour_has_passed_class =
+      hour_has_passed && get_value_checkbox_hours
+        ? 'element-hour-disabled'
+        : '';
 
-    const blockHour = `<div class="${hourHasPassedClass} container-table-price-element">
+    const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
       <span class="container-table-price-element-hour ${zone}">
-        ${transformHour}
+        ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
         ${price} €/kWh
       </span>
     </div>`;
-    container.insertAdjacentHTML('beforeend', blockHour);
+    container.insertAdjacentHTML('beforeend', block_hour);
   }
 }
 
@@ -73,9 +73,9 @@ export function createZone(hour) {
 export const getZoneColor = zone =>
   zone === 'valle' ? '#a2fcc1' : zone === 'llano' ? '#ffae3a' : '#ec1d2f';
 
-export function tablePriceNextDay(dataHours, element) {
+export function tablePriceNextDay(data_hours, element) {
   const container = document.querySelector('.table-next-day');
-  const tableGrid = document.querySelector(element);
+  const table_grid = document.querySelector(element);
   let title;
 
   const today = new Date();
@@ -96,88 +96,58 @@ export function tablePriceNextDay(dataHours, element) {
     container.insertAdjacentHTML('afterbegin', title);
   }
 
-  for (let element of dataHours) {
+  for (let element of data_hours) {
     const { price, hour, zone } = element;
-    const transformHour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
 
-    const blockHour = `<div class="container-table-price-element">
+    const block_hour = `<div class="container-table-price-element">
       <span class="container-table-price-element-hour ${zone}">
-        ${transformHour}
+        ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
         ${price} €/kWh
       </span>
     </div>`;
 
-    tableGrid.insertAdjacentHTML('beforeend', blockHour);
+    table_grid.insertAdjacentHTML('beforeend', block_hour);
   }
 }
 
 export function removeTable(element) {
-  const containerTable = document.querySelector(element);
-  while (containerTable.firstChild) {
-    containerTable.removeChild(containerTable.firstChild);
+  const container_table_ = document.querySelector(element);
+  while (container_table_.firstChild) {
+    container_table_.removeChild(container_table_.firstChild);
   }
 }
 
 export function removeTables() {
-  const containerTableLeft = document.querySelector(
+  const container_table_left = document.querySelector(
     '.container-table-price-left'
   );
-  const containerTableRight = document.querySelector(
+  const container_table_right = document.querySelector(
     '.container-table-price-right'
   );
-  while (containerTableLeft.firstChild) {
-    containerTableLeft.removeChild(containerTableLeft.firstChild);
+  while (container_table_left.firstChild) {
+    container_table_left.removeChild(container_table_left.firstChild);
   }
 
-  while (containerTableRight.firstChild) {
-    containerTableRight.removeChild(containerTableRight.firstChild);
+  while (container_table_right.firstChild) {
+    container_table_right.removeChild(container_table_right.firstChild);
   }
 }
 
 export function removeTablesNextDay() {
-  const containerTableLeft = document.querySelector(
+  const container_table_left = document.querySelector(
     '.table-next-day-grid-left'
   );
-  const containerTableRight = document.querySelector(
+  const container_table_right = document.querySelector(
     '.table-next-day-grid-right'
   );
-  while (containerTableLeft.firstChild) {
-    containerTableLeft.removeChild(containerTableLeft.firstChild);
+  while (container_table_left.firstChild) {
+    container_table_left.removeChild(container_table_left.firstChild);
   }
 
-  while (containerTableRight.firstChild) {
-    containerTableRight.removeChild(containerTableRight.firstChild);
+  while (container_table_right.firstChild) {
+    container_table_right.removeChild(container_table_right.firstChild);
   }
-}
-
-export function colorBlindness() {
-  let root = document.documentElement;
-
-  document.getElementById('color-blindness').addEventListener('change', e => {
-    const {
-      target: { checked }
-    } = e;
-    if (checked) {
-      root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
-      root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
-      root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
-
-      const getColorBlidnessZone =
-        zone === 'valle'
-          ? 'rgb(100, 143, 255)'
-          : zone === 'llano'
-          ? 'rgb(255, 176, 0)'
-          : 'rgb(220, 38, 127)';
-      mainElement.style.backgroundColor = getColorBlidnessZone;
-      menuElement.style.backgroundColor = getColorBlidnessZone;
-    } else {
-      root.style.setProperty('--orange-light', '#ffae3ab3');
-      root.style.setProperty('--green-light', '#a2fcc1b3');
-      root.style.setProperty('--red-light', '#ec1d2fb3');
-      mainElement.style.backgroundColor = getZoneColor(zone);
-      menuElement.style.backgroundColor = getZoneColor(zone);
-    }
-  });
 }

@@ -9,11 +9,24 @@ import {
   tablePriceNextDay,
   getZoneColor,
   removeTables,
-  removeTablesNextDay,
-  colorBlindness
+  removeTablesNextDay
 } from './utils.js';
-
 import { createNewTable } from './table.js';
+
+const month_names = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre'
+];
 
 const getTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -201,7 +214,7 @@ const filtered_data_table_by_day = data_all_days.filter(({ dia }) =>
 const last_n_days = nDays =>
   [...Array(nDays)].map((_, index) => {
     const dates = new Date();
-    dates.setDate(dates.getDate() + 1 - index);
+    dates.setDate(dates.getDate() - 6 + index);
     return dates;
   });
 
@@ -219,3 +232,36 @@ const filtered_data_table_by_last_week = data_all_days.filter(day =>
 
 createNewTable(filtered_data_table_by_day, 'table-year', 'year');
 createNewTable(filtered_data_table_by_last_week, 'table-week', 'day');
+
+let root = document.documentElement;
+
+document.getElementById('color-blindness').addEventListener('change', e => {
+  const {
+    target: { checked }
+  } = e;
+  if (checked) {
+    root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
+    root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
+    root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
+
+    const getColorBlidnessZone =
+      zone === 'valle'
+        ? 'rgb(100, 143, 255)'
+        : zone === 'llano'
+        ? 'rgb(255, 176, 0)'
+        : 'rgb(220, 38, 127)';
+    mainElement.style.backgroundColor = getColorBlidnessZone;
+    menuElement.style.backgroundColor = getColorBlidnessZone;
+  } else {
+    root.style.setProperty('--orange-light', '#ffae3ab3');
+    root.style.setProperty('--green-light', '#a2fcc1b3');
+    root.style.setProperty('--red-light', '#ec1d2fb3');
+    mainElement.style.backgroundColor = getZoneColor(zone);
+    menuElement.style.backgroundColor = getZoneColor(zone);
+  }
+});
+
+const get_table_historic_date = document.getElementById('js-table-date');
+get_table_historic_date.textContent = ` el ${userDay.getDate()} de ${
+  month_names[userDay.getMonth()]
+}`;

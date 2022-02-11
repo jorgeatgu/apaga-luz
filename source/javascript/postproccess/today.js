@@ -6,7 +6,7 @@ const json = await readJSON(filename)
 const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
   const getFirstHour = Hora.split('-')[0];
   return {
-    day: Dia,
+    dia: Dia,
     hour: +getFirstHour,
     price: +PCB.split(',')[0] / 1000,
     zone: createZone(+getFirstHour)

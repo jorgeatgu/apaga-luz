@@ -29,7 +29,7 @@ const d3 = {
   interpolatePath
 };
 
-const monthNames = [
+const month_names = [
   'enero',
   'febrero',
   'marzo',
@@ -44,52 +44,46 @@ const monthNames = [
   'diciembre'
 ];
 
-const dayNames = [
-  'lunes',
-  'martes',
-  'miércoles',
-  'jueves',
-  'viernes',
-  'sábado',
-  'domingo'
-];
+const width_mobile = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
-export function lineChart(dataChart, elementOptions, hourSelected = '') {
+export function lineChart(data_chart, element_options, selected_value = '') {
   const {
     html_element,
     x_axis_prop,
     y_axis_prop,
+    select_html,
     margin: { top, right, bottom, left }
-  } = elementOptions;
+  } = element_options;
 
   let width = 0;
   let height = 0;
   const chart = d3.select(`.line-chart-${html_element}`);
   const svg = chart.select('svg');
   let scales = {};
-  let lineChartData;
-  const bisectDate = d3.bisector(d => d[x_axis_prop]).left;
+  let line_chart_data;
+  let line_chart_data_filter;
+  const bisec_date = d3.bisector(d => d[x_axis_prop]).left;
   const tooltip = chart
     .append('div')
     .attr('class', `tooltip tooltip-${html_element}`)
     .style('opacity', 0);
 
-  function setupScales() {
-    const countX = d3
+  function setup_scales() {
+    const count_x = d3
       .scaleTime()
-      .domain(d3.extent(lineChartData, d => d[x_axis_prop]));
+      .domain(d3.extent(line_chart_data, d => d[x_axis_prop]));
 
-    const countY = d3
+    const count_y = d3
       .scaleLinear()
       .domain([
-        d3.min(lineChartData, d => d[y_axis_prop] * 1.5 - d[y_axis_prop]),
-        d3.max(lineChartData, d => d[y_axis_prop]) * 1.25
+        d3.min(line_chart_data, d => d[y_axis_prop] * 1.5 - d[y_axis_prop]),
+        d3.max(line_chart_data, d => d[y_axis_prop]) * 1.25
       ]);
 
-    scales.count = { x: countX, y: countY };
+    scales.count = { x: count_x, y: count_y };
   }
 
-  function setupElements() {
+  function setup_elements() {
     const g = svg.select(`.line-chart-${html_element}-container`);
 
     g.append('g').attr('class', 'axis axis-x');
@@ -99,7 +93,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
     g.append('g').attr('class', `line-chart-${html_element}-container-bis`);
   }
 
-  function updateScales(width, height) {
+  function update_scales(width, height) {
     const {
       count: { x, y }
     } = scales;
@@ -107,7 +101,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
     y.range([height, 0]);
   }
 
-  function drawAxes(g) {
+  function draw_axes(g) {
     const axisX = d3.axisBottom(scales.count.x).tickPadding(7).ticks(9);
 
     g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
@@ -115,13 +109,11 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
     const axisY = d3
       .axisLeft(scales.count.y)
       .tickPadding(15)
-      .tickFormat(d => {
-        if (d < 0.1) {
-          return d3.format('.2n')(d) + ' €/kWh';
-        } else {
-          return d3.format('.3n')(d) + ' €/kWh';
-        }
-      })
+      .tickFormat(d =>
+        d < 0.1
+          ? `${d3.format('.2n')(d)} €/kWh`
+          : `${d3.format('.3n')(d)} €/kWh`
+      )
       .tickSize(-width)
       .ticks(8);
 
@@ -132,7 +124,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
       .call(axisY);
   }
 
-  function updateChart(data) {
+  function update_chart(data) {
     const w = chart.node().offsetWidth;
     const h = 500;
 
@@ -164,7 +156,7 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
       .x(d => x(d[x_axis_prop]))
       .y(d => y(d[y_axis_prop]));
 
-    updateScales(width, height);
+    update_scales(width, height);
 
     const container = chart.select(`.line-chart-${html_element}-container-bis`);
 
@@ -209,31 +201,39 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
     function mousemove(event) {
       const { layerX } = event;
       const x0 = x.invert(layerX - left);
-      const i = bisectDate(data, x0, 1);
+      const i = bisec_date(data, x0, 1);
       const d0 = data[i - 1];
       const d1 = data[i];
       const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
       const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
 
-      const monthContent = `<span class="tooltip-group-by-${html_element}-year">En ${
-        monthNames[d[x_axis_prop].getMonth()]
+      const month_content = `<span class="tooltip-group-by-${html_element}-year">En ${
+        month_names[d[x_axis_prop].getMonth()]
       } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-      const dayContent = `<span class="tooltip-group-by-${html_element}-year">El ${
+      const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
         d.day
-      } de ${monthNames[d[x_axis_prop].getMonth()]} del ${
+      } de ${month_names[d[x_axis_prop].getMonth()]} del ${
         d.year
       } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-      const hourContent = `<span class="tooltip-group-by-${html_element}-year">El ${
+      const hour_content = `<span class="tooltip-group-by-${html_element}-year">El ${
         d.day
-      } de ${monthNames[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
+      } de ${month_names[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
         d.hora
       }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
+
+      const day_week_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.day_of_week
+      }
+       ${d.day} de ${month_names[d[x_axis_prop].getMonth()]} de ${d.year}
+      el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
@@ -241,13 +241,19 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
         .style('opacity', 1)
         .html(
           html_element === 'month-price'
-            ? monthContent
+            ? month_content
             : html_element === 'day-price'
-            ? dayContent
-            : hourContent
+            ? day_content
+            : html_element === 'hour-price'
+            ? hour_content
+            : html_element === 'day-week-price'
+            ? day_week_content
+            : ''
         )
-        .style('top', '5%')
-        .style('left', `${position_left_tooltip}px`);
+        .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
+        .style('left', () =>
+          width_mobile > 764 ? `${position_left_tooltip}px` : '49%'
+        );
 
       focus
         .select(`.y-hover-line-${html_element}`)
@@ -261,90 +267,139 @@ export function lineChart(dataChart, elementOptions, hourSelected = '') {
         .attr('r', 3);
     }
 
-    drawAxes(g);
+    draw_axes(g);
   }
 
-  function menuSelectHour() {
-    let selectHoursValues = [...new Set(lineChartData.map(({ hora }) => hora))];
+  function handle_select() {
+    let select_values =
+      html_element === 'day-week-price'
+        ? [
+            ...new Set(
+              line_chart_data
+                .map(({ day_of_week }) => day_of_week)
+                .filter(day => day)
+            )
+          ]
+        : [...new Set(line_chart_data.map(({ hora }) => hora))];
 
-    selectHoursValues = selectHoursValues.filter(hora => hora !== '24');
-    const selectHours = d3.select('#select-hours');
+    select_values =
+      html_element === 'day-week-price'
+        ? select_values
+        : select_values.filter(hora => hora !== '24');
 
-    selectHours
+    const select_element = d3.select(`#select-${html_element}`);
+
+    select_element
       .selectAll('option')
-      .data(selectHoursValues)
+      .data(select_values)
       .enter()
       .append('option')
+      .attr('class', `select-${html_element}-options`)
       .attr('value', d => d)
-      .attr('selected', d => (d === hourSelected ? true : false))
-      .text(d => `${d}:00`);
+      .text(d => (html_element === 'day-week-price' ? d : `${d}:00`));
 
-    let lineChartDataFilter = lineChartData.filter(
-      ({ hora }) => hora === hourSelected
-    );
-    setupElements();
-    setupScales();
-    updateChart(lineChartDataFilter);
-    selectHours.on('change', function () {
-      const hourSelectedValue = d3.select('#select-hours').property('value');
+    document
+      .querySelectorAll(`.select-${html_element}-options`)
+      .forEach(option => {
+        if (option.value === selected_value) {
+          option.selected = true;
+        }
+      });
 
-      lineChartDataFilter = lineChartData.filter(
-        ({ hora }) => hora === hourSelectedValue
-      );
+    line_chart_data_filter =
+      html_element === 'day-week-price'
+        ? line_chart_data.filter(
+            ({ day_of_week }) => day_of_week === selected_value
+          )
+        : line_chart_data.filter(({ hora }) => hora === selected_value);
 
-      setupScales();
-      updateChart(lineChartDataFilter);
+    setup_elements();
+    setup_scales();
+    update_chart(line_chart_data_filter);
+
+    select_element.on('change', function () {
+      const selected_value = d3
+        .select(`#select-${html_element}`)
+        .property('value');
+
+      line_chart_data_filter =
+        html_element === 'day-week-price'
+          ? line_chart_data.filter(
+              ({ day_of_week }) => day_of_week === selected_value
+            )
+          : line_chart_data.filter(({ hora }) => hora === selected_value);
+
+      setup_scales();
+      update_chart(line_chart_data_filter);
     });
   }
 
   function resize() {
-    updateChart(lineChartData);
+    const update_data = select_html ? line_chart_data_filter : line_chart_data;
+    update_chart(update_data);
   }
 
-  function loadData() {
-    d3.json(dataChart).then(data => {
-      lineChartData = data.sort((a, b) => {
-        const xDateX = new Date(a[x_axis_prop]);
-        const xDateY = new Date(b[x_axis_prop]);
-        return xDateX - xDateY;
-      });
-      console.log('lineChartData', lineChartData, html_element);
-      if (!hourSelected) {
-        lineChartData.forEach(d => {
+  function load_data() {
+    d3.json(data_chart).then(data => {
+      line_chart_data = data.sort(
+        (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+      );
+      if (!select_html) {
+        line_chart_data.forEach(d => {
           d[y_axis_prop] = d[y_axis_prop] / 1000;
           d[x_axis_prop] = new Date(d[x_axis_prop]);
         });
 
-        setupElements();
-        setupScales();
-        updateChart(lineChartData);
+        setup_elements();
+        setup_scales();
+        update_chart(line_chart_data);
       } else {
-        lineChartData.forEach(d => {
-          d[y_axis_prop] = d[y_axis_prop] / 1000;
-          d.hora = d.hora.split('-')[0];
-          d[x_axis_prop] = new Date(
-            d[x_axis_prop].split('/')[1] +
-              '/' +
-              d[x_axis_prop].split('/')[0] +
-              '/' +
-              d[x_axis_prop].split('/')[2]
-          );
-        });
-
-        lineChartData = lineChartData.sort((a, b) => {
-          const xDateX = new Date(a[x_axis_prop]);
-          const xDateY = new Date(b[x_axis_prop]);
-          return xDateX - xDateY;
-        });
-        menuSelectHour();
+        line_chart_data = transform_data_day(line_chart_data);
+        handle_select();
       }
 
-      let meanPrice = mean(lineChartData.map(d => d[y_axis_prop]));
-      let medianPrice = median(lineChartData.map(d => d[y_axis_prop]));
+      let meanPrice = mean(line_chart_data.map(d => d[y_axis_prop]));
+      let medianPrice = median(line_chart_data.map(d => d[y_axis_prop]));
     });
+  }
+
+  function transform_data_day(data) {
+    let data_return = data;
+    if (html_element === 'day-week-price') {
+      data_return.forEach(d => {
+        d[y_axis_prop] = d[y_axis_prop] / 1000;
+        d[x_axis_prop] = new Date(d[x_axis_prop]);
+      });
+
+      data_return = data_return.map(({ date, ...rest }) => {
+        return {
+          date: date,
+          day_of_week: new Date(date).toLocaleString('es-es', {
+            weekday: 'long'
+          }),
+          ...rest
+        };
+      });
+    } else {
+      data_return.forEach(d => {
+        d[y_axis_prop] = d[y_axis_prop] / 1000;
+        d.hora = d.hora.split('-')[0];
+        d.day = d[x_axis_prop].split('/')[1];
+        d.year = d[x_axis_prop].split('/')[2];
+        d[x_axis_prop] = new Date(
+          `${d[x_axis_prop].split('/')[1]}/${d[x_axis_prop].split('/')[0]}/${
+            d[x_axis_prop].split('/')[2]
+          }`
+        );
+      });
+    }
+
+    return data_return.sort(
+      (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+    );
   }
 
   window.addEventListener('resize', resize);
 
-  loadData();
+  load_data();
 }

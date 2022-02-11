@@ -33,7 +33,8 @@
 
   .line-month-price,
   .line-day-price,
-  .line-hour-price {
+  .line-hour-price,
+  .line-day-week-price {
     fill: none;
     stroke-width: 1;
     stroke: var(--line-chart);
@@ -93,5 +94,16 @@
 
   p:empty {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+
+  .charts text {
+    font-size: 12px;
+  }
+
+  .charts .line-month-price {
+    stroke-width: 1px;
   }
 }
