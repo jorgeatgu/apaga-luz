@@ -44,6 +44,16 @@ const month_names = [
   'diciembre'
 ];
 
+const day_names = [
+  'lunes',
+  'martes',
+  'miércoles',
+  'jueves',
+  'viernes',
+  'sábado',
+  'domingo'
+];
+
 const width_mobile = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
 export function lineChart(data_chart, element_options, selected_value = '') {
@@ -273,13 +283,7 @@ export function lineChart(data_chart, element_options, selected_value = '') {
   function handle_select() {
     let select_values =
       html_element === 'day-week-price'
-        ? [
-            ...new Set(
-              line_chart_data
-                .map(({ day_of_week }) => day_of_week)
-                .filter(day => day)
-            )
-          ]
+        ? day_names
         : [...new Set(line_chart_data.map(({ hora }) => hora))];
 
     select_values =

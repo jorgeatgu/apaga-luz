@@ -1,8 +1,8 @@
 import './../styles/styles.css';
 import data_all_days from '../../public/data/all_prices.json';
-import data_today from '../../public/data/price-today.json';
-import dataNextDay from '../../public/data/price-tomorrow.json';
-import dataCanary from '../../public/data/price-canary.json';
+import data_today from '../../public/data/today_price.json';
+import data_tomorrow from '../../public/data/tomorrow_price.json';
+import data_canary from '../../public/data/canary_price.json';
 import {
   reloadPage,
   tablePrice,
@@ -36,7 +36,7 @@ let userDay = new Date();
 
 const isUserCanary =
   getTimeZone === 'Atlantic/Canary' && userHour > 22 && userHour < 24;
-let dataPrices = isUserCanary ? dataCanary : data_today;
+let dataPrices = isUserCanary ? data_canary : data_today;
 
 const [{ price }] = dataPrices.filter(({ hour }) => +hour == userHour);
 
@@ -118,16 +118,18 @@ at 20:30 I publish the next day's data,
 this table will only be available until 00:00.
 */
 
-let filterDataNextDay = dataNextDay.sort(({ price: a }, { price: b }) => a - b);
+let filter_data_tomorrow = data_tomorrow.sort(
+  ({ price: a }, { price: b }) => a - b
+);
 const containerTableNextDay = document.querySelector('.table-next-day');
-filterDataNextDay = filterDataNextDay.map(({ price, ...rest }) => {
+filter_data_tomorrow = filter_data_tomorrow.map(({ price, ...rest }) => {
   return {
     price: price.toFixed(3),
     ...rest
   };
 });
 
-for (let [index, element] of filterDataNextDay.entries()) {
+for (let [index, element] of filter_data_tomorrow.entries()) {
   if (index < 8) {
     element.zone = 'valle';
   } else if (index >= 8 && index < 16) {
@@ -146,30 +148,30 @@ if (userHour * 60 + +userMinutes >= halfPastEightMinutes && userHour < 24) {
 }
 
 function orderTableNextDayByPrice() {
-  filterDataNextDay = filterDataNextDay.sort(
+  filter_data_tomorrow = filter_data_tomorrow.sort(
     ({ price: a }, { price: b }) => a - b
   );
 
   tablePriceNextDay(
-    filterDataNextDay.slice(0, 12),
+    filter_data_tomorrow.slice(0, 12),
     '.table-next-day-grid-left'
   );
   tablePriceNextDay(
-    filterDataNextDay.slice(12, 24),
+    filter_data_tomorrow.slice(12, 24),
     '.table-next-day-grid-right'
   );
 }
 
 function orderTableNextDayByHour() {
-  filterDataNextDay = filterDataNextDay.sort(
+  filter_data_tomorrow = filter_data_tomorrow.sort(
     ({ hour: a }, { hour: b }) => a - b
   );
   tablePriceNextDay(
-    filterDataNextDay.slice(0, 12),
+    filter_data_tomorrow.slice(0, 12),
     '.table-next-day-grid-left'
   );
   tablePriceNextDay(
-    filterDataNextDay.slice(12, 24),
+    filter_data_tomorrow.slice(12, 24),
     '.table-next-day-grid-right'
   );
 }
@@ -194,11 +196,11 @@ document.getElementById('checkbox-hours').addEventListener('change', () => {
   }
 });
 
-const textWhatsApp = `whatsapp://send?text=El precio de la luz a las ${userHour}:${userMinutes} es de ${price.toFixed(
+const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${userHour}:${userMinutes} es de ${price.toFixed(
   3
 )} €/kWh https://www.apaga-luz.com/?utm_source=whatsapp`;
-const btnWhatsApp = document.getElementById('btn-whatsapp');
-btnWhatsApp.href = textWhatsApp;
+const button_whatsApp = document.getElementById('btn-whatsapp');
+button_whatsApp.href = text_whatsApp;
 
 const get_string_day =
   userDay.getDate() < 10 ? `0${userDay.getDate()}` : userDay.getDate();
@@ -244,14 +246,14 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
     root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
 
-    const getColorBlidnessZone =
+    const get_color_blidness_zone =
       zone === 'valle'
         ? 'rgb(100, 143, 255)'
         : zone === 'llano'
         ? 'rgb(255, 176, 0)'
         : 'rgb(220, 38, 127)';
-    mainElement.style.backgroundColor = getColorBlidnessZone;
-    menuElement.style.backgroundColor = getColorBlidnessZone;
+    mainElement.style.backgroundColor = get_color_blidness_zone;
+    menuElement.style.backgroundColor = get_color_blidness_zone;
   } else {
     root.style.setProperty('--orange-light', '#ffae3ab3');
     root.style.setProperty('--green-light', '#a2fcc1b3');

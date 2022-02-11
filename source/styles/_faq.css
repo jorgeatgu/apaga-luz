@@ -24,4 +24,7 @@
 details {
   margin-top: 1rem;
   margin-bottom: 2rem;
+  summary.faq-title-element {
+    background-color: transparent;
+  }
 }

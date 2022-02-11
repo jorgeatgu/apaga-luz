@@ -1,6 +1,6 @@
 import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
 
-const filename = 'price.json';
+const filename = 'public/data/price.json';
 const json = await readJSON(filename)
 
 const filteredData = json.PVPC.map(({ Dia, Hora, PCB }) => {
@@ -27,5 +27,5 @@ function createZone(hour) {
   }
 }
 
-const newFilename = 'public/data/price-canary.json';
+const newFilename = 'public/data/canary_price.json';
 await writeJSON(newFilename, filteredData)

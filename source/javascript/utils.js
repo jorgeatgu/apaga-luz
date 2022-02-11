@@ -1,4 +1,4 @@
-import data from '../../public/data/price-today.json';
+import data from '../../public/data/today_price.json';
 
 export function nextCheapHour() {
   const user_hour = new Date().getHours();
