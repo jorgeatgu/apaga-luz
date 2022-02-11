@@ -36,13 +36,11 @@ export function tablePrice(data_hours, element) {
   let user_day = new Date().getDay();
 
   for (let elements of data_hours) {
-    const { price, hour, zone, hour_has_passed } = elements;
+    const { price, hour, zone, hourHasPassed } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const user_day = new Date().getDay();
     const hour_has_passed_class =
-      hour_has_passed && get_value_checkbox_hours
-        ? 'element-hour-disabled'
-        : '';
+      hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
     const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
       <span class="container-table-price-element-hour ${zone}">
