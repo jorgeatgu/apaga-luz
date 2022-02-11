@@ -9,7 +9,7 @@ module.exports = {
   plugins: [
     stylelint(),
     atImport({
-      path: 'src/css',
+      path: 'source/javascript',
     }),
     selector(),
     customProperties(),

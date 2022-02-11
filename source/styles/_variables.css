@@ -1,0 +1,25 @@
+:root {
+  --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  --monospace: 'SFMono-Regular', Consolas, Menlo, Courier, monospace;
+  --numbers: 'Fjalla One', sans-serif;
+  --roboto: 'Roboto Condensed', sans-serif;
+  --text: 'Rubik', sans-serif;
+  --black: #111;
+  --blue: #021e5c;
+  --white: #fff;
+  --grey: #f4f4f4;
+  --green: #a2fcc1;
+  --green-light: #a2fcc1b3;
+  --green-dark: #5cba95;
+  --orange: #ffae3a;
+  --orange-light: #ffae3ab3;
+  --orange-dark: #e86d5f;
+  --red: #ec1d2f;
+  --red-light: #ec1d2fb3;
+  --red-dark: #8c1540;
+  --btn-blue: rgb(0, 102, 255);
+  --btn-blue-hover: rgb(102, 145, 209);
+  --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
+  --line-chart: #ff005e;
+  --bg-charts-table: #DFE8E1;
+}

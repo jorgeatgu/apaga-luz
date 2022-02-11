@@ -1,0 +1,22 @@
+.footer {
+  background-color: var(--grey);
+  width: 100%;
+  padding: 10vh 0;
+}
+
+.footer-texto,
+.footer-links,
+.footer-links-block {
+  color: var(--black);
+  font-family: var(--text);
+  font-size: 1rem;
+}
+
+.footer-links,
+.footer-links-block {
+  margin-bottom: .25rem;
+}
+
+.footer-links-block {
+  display: block;
+}

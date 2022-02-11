@@ -1,0 +1,130 @@
+.container-chart {
+  max-width: 60rem;
+  padding: 3rem .5rem;
+  margin: 0 auto;
+}
+
+.container-chart-title {
+  font-family: var(--numbers);
+  font-weight: bold;
+  font-size: 2rem;
+  width: max-content;
+  color: var(--blue);
+  margin-bottom: 1rem;
+}
+
+.charts-warning {
+  padding: 1rem;
+  font-size: .875rem;
+  background-color: var(--orange-light);
+  width: 25rem;
+}
+
+.bg-charts {
+  background-color: var(--bg-charts-table);
+}
+
+.charts {
+  position: relative;
+  text {
+    font-family: var(--roboto);
+    font-size: 14px;
+  }
+
+  .line-month-price,
+  .line-day-price,
+  .line-hour-price,
+  .line-day-week-price {
+    fill: none;
+    stroke-width: 1;
+    stroke: var(--line-chart);
+  }
+
+  .circle-focus {
+    fill: var(--blue);
+  }
+
+  .line-month-price {
+    stroke-width: 3;
+  }
+
+  .axis {
+    text {
+      font-family: var(--numbers);
+    }
+  }
+
+  .axis-y {
+    .domain {
+      stroke: none;
+    }
+
+    line {
+      stroke-dasharray: 1px;
+    }
+  }
+}
+
+.charts-text {
+  font-family: var(--text);
+  font-size: 1rem;
+  color: var(--black);
+  line-height: 1.4;
+  max-width: 25rem;
+}
+
+.overlay {
+  fill: transparent;
+}
+
+.y-hover-line {
+  stroke: var(--blue);
+  stroke-width: 1px;
+}
+
+.tooltip {
+  padding: 1.25rem;
+  background-color: #FDFDFE;
+  color: var(--blue);
+  border-radius: 4px;
+  position: absolute;
+  opacity: 1;
+  font-family: var(--text);
+  border: 1px solid #D0D5D6;
+
+  p:empty {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+
+  .charts text {
+    font-size: 12px;
+  }
+
+  .charts .line-month-price {
+    stroke-width: 1px;
+  }
+}
+
+select {
+  background-color: var(--white);
+  border: thin solid var(--blue);
+  border-radius: 4px;
+  display: inline-block;
+  font: inherit;
+  line-height: 1.5em;
+  padding: .5em 3.5em .5em 1em;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select.classic {
+  background-image: linear-gradient(45deg, transparent 50%, blue 50%), linear-gradient(135deg, blue 50%, transparent 50%), linear-gradient(to right, skyblue, skyblue);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+}
