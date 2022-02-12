@@ -4,8 +4,8 @@
 //también a las tablas de precios del index
 import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
 
-const json_today_prices = await readJSON('public/data/price.json');
-const json_all_prices_yesterday = await readJSON('public/data/all_prices.json');
+const json_today_prices = await readJSON('data/price.json');
+const json_all_prices_yesterday = await readJSON('data/all_prices.json');
 
 //Primero transformamos los datos que viene de la API
 //son los datos del día en el que vivimos
@@ -23,7 +23,7 @@ let json_all_prices = [...json_all_prices_yesterday, ...transform_today_data]
 json_all_prices.forEach(d => {
   d.precio = parseFloat(d.precio)
 })
-await writeJSON('public/data/all_prices.json', json_all_prices)
+await writeJSON('data/all_prices.json', json_all_prices)
 
 //Primer reduce para que sume el precio
 //de todas las horas del día
@@ -81,7 +81,7 @@ const group_prices_by_month = Object.keys(reduced_by_month).map((item_by_month) 
 
 //Generamos de nuevo los JSON con las
 //diferentes agrupaciones.
-const new_file_by_day = 'public/data/group_prices_by_day.json';
-const new_file_by_month = 'public/data/group_prices_by_month.json';
+const new_file_by_day = 'data/group_prices_by_day.json';
+const new_file_by_month = 'data/group_prices_by_month.json';
 await writeJSON(new_file_by_day, group_data_by_day)
 await writeJSON(new_file_by_month, group_prices_by_month)
