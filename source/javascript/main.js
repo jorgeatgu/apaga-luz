@@ -3,73 +3,59 @@ import data_all_days from '../../public/data/all_prices.json';
 import data_today from '../../public/data/today_price.json';
 import data_tomorrow from '../../public/data/tomorrow_price.json';
 import data_canary from '../../public/data/canary_price.json';
+
+import { reload_page, get_zone_color, month_names } from './utils.js';
+
 import {
-  reloadPage,
-  tablePrice,
-  tablePriceNextDay,
-  getZoneColor,
-  removeTables,
-  removeTablesNextDay
-} from './utils.js';
-import { createNewTable } from './table.js';
+  create_new_table,
+  table_price,
+  table_price_tomorrow,
+  remove_tables,
+  remove_tables_tomorrow
+} from './table.js';
 
-const month_names = [
-  'enero',
-  'febrero',
-  'marzo',
-  'abril',
-  'mayo',
-  'junio',
-  'julio',
-  'agosto',
-  'septiembre',
-  'octubre',
-  'noviembre',
-  'diciembre'
-];
+const get_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-const getTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-let userHour = new Date().getHours();
-let userMinutes = new Date().getMinutes();
-let userDay = new Date();
+let user_hour = new Date().getHours();
+let user_minutes = new Date().getMinutes();
+let user_day = new Date();
 
 const isUserCanary =
-  getTimeZone === 'Atlantic/Canary' && userHour > 22 && userHour < 24;
-let dataPrices = isUserCanary ? data_canary : data_today;
+  get_time_zone === 'Atlantic/Canary' && user_hour > 22 && user_hour < 24;
+let data_prices = isUserCanary ? data_canary : data_today;
 
-const [{ price }] = dataPrices.filter(({ hour }) => +hour == userHour);
+const [{ price }] = data_prices.filter(({ hour }) => +hour == user_hour);
 
-userHour = userHour < 10 ? `0${userHour}` : userHour;
-userMinutes = userMinutes < 10 ? `0${userMinutes}` : userMinutes;
+user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
+user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
 
-const priceElement = document.getElementById('price');
-const hoursElement = document.getElementById('hours');
-const minutesElement = document.getElementById('minutes');
+const price_element = document.getElementById('price');
+const hours_element = document.getElementById('hours');
+const minutes_element = document.getElementById('minutes');
 
-priceElement.textContent = `${price.toFixed(3)}`;
-hoursElement.textContent = userHour;
-minutesElement.textContent = userMinutes;
+price_element.textContent = `${price.toFixed(3)}`;
+hours_element.textContent = user_hour;
+minutes_element.textContent = user_minutes;
 
-const mainElement = document.getElementsByTagName('main')[0];
-const menuElement = document.getElementsByTagName('nav')[0];
+const main_element = document.getElementsByTagName('main')[0];
+const menu_element = document.getElementsByTagName('nav')[0];
 
-reloadPage(userMinutes);
+reload_page(user_minutes);
 
-const filterDataByUserHour = dataPrices.map(({ hour, price, ...rest }) => {
+const filter_data_by_user_hour = data_prices.map(({ hour, price, ...rest }) => {
   return {
-    hourHasPassed: +hour < userHour ? true : false,
+    hourHasPassed: +hour < user_hour ? true : false,
     price: price.toFixed(3),
     hour,
     ...rest
   };
 });
 
-let filterDataToday = filterDataByUserHour.sort(
+let filter_data_today = filter_data_by_user_hour.sort(
   ({ price: a }, { price: b }) => a - b
 );
 /*This code is temporary. Hours are reordered based on prices, not Government nomenclature.*/
-for (let [index, element] of filterDataToday.entries()) {
+for (let [index, element] of filter_data_today.entries()) {
   if (index < 8) {
     element.zone = 'valle';
   } else if (index >= 8 && index < 16) {
@@ -79,36 +65,40 @@ for (let [index, element] of filterDataToday.entries()) {
   }
 }
 
-const [{ zone }] = filterDataToday.filter(({ hour }) => hour == userHour);
-mainElement.style.backgroundColor = getZoneColor(zone);
-menuElement.style.backgroundColor = getZoneColor(zone);
+const [{ zone }] = filter_data_today.filter(({ hour }) => hour == user_hour);
+main_element.style.backgroundColor = get_zone_color(zone);
+menu_element.style.backgroundColor = get_zone_color(zone);
 
-let typeOfOrder;
+let type_of_order;
 
-function orderByPrice() {
-  filterDataToday = filterDataToday.sort(({ price: a }, { price: b }) => a - b);
-  tablePrice(filterDataToday.slice(0, 12), '.container-table-price-left');
-  tablePrice(filterDataToday.slice(12, 24), '.container-table-price-right');
+function order_by_price() {
+  filter_data_today = filter_data_today.sort(
+    ({ price: a }, { price: b }) => a - b
+  );
+  table_price(filter_data_today.slice(0, 12), '.container-table-price-left');
+  table_price(filter_data_today.slice(12, 24), '.container-table-price-right');
 
-  typeOfOrder = 'price';
+  type_of_order = 'price';
 }
 
 function orderByHour() {
-  filterDataToday = filterDataToday.sort(({ hour: a }, { hour: b }) => a - b);
-  tablePrice(filterDataToday.slice(0, 12), '.container-table-price-left');
-  tablePrice(filterDataToday.slice(12, 24), '.container-table-price-right');
-  typeOfOrder = 'hour';
+  filter_data_today = filter_data_today.sort(
+    ({ hour: a }, { hour: b }) => a - b
+  );
+  table_price(filter_data_today.slice(0, 12), '.container-table-price-left');
+  table_price(filter_data_today.slice(12, 24), '.container-table-price-right');
+  type_of_order = 'hour';
 }
 
 orderByHour();
 
 document.getElementById('order-price').addEventListener('click', () => {
-  removeTables();
-  orderByPrice();
+  remove_tables();
+  order_by_price();
 });
 
 document.getElementById('order-hour').addEventListener('click', () => {
-  removeTables();
+  remove_tables();
   orderByHour();
 });
 
@@ -121,7 +111,7 @@ this table will only be available until 00:00.
 let filter_data_tomorrow = data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
 );
-const containerTableNextDay = document.querySelector('.table-next-day');
+const container_table_tomorrow = document.querySelector('.table-next-day');
 filter_data_tomorrow = filter_data_tomorrow.map(({ price, ...rest }) => {
   return {
     price: price.toFixed(3),
@@ -139,82 +129,85 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   }
 }
 
-const halfPastEightMinutes = 1230;
-if (userHour * 60 + +userMinutes >= halfPastEightMinutes && userHour < 24) {
-  containerTableNextDay.style.display = 'grid';
-  orderTableNextDayByHour();
+const half_past_eight_minutes = 1230;
+if (
+  user_hour * 60 + +user_minutes >= half_past_eight_minutes &&
+  user_hour < 24
+) {
+  container_table_tomorrow.style.display = 'grid';
+  order_table_tomorrow_by_price();
 } else {
-  containerTableNextDay.style.display = 'none';
+  container_table_tomorrow.style.display = 'none';
 }
 
-function orderTableNextDayByPrice() {
+function order_table_tomorrow_by_price() {
   filter_data_tomorrow = filter_data_tomorrow.sort(
     ({ price: a }, { price: b }) => a - b
   );
 
-  tablePriceNextDay(
+  table_price_tomorrow(
     filter_data_tomorrow.slice(0, 12),
     '.table-next-day-grid-left'
   );
-  tablePriceNextDay(
+  table_price_tomorrow(
     filter_data_tomorrow.slice(12, 24),
     '.table-next-day-grid-right'
   );
 }
 
-function orderTableNextDayByHour() {
+function order_table_tomorrow_by_hour() {
   filter_data_tomorrow = filter_data_tomorrow.sort(
     ({ hour: a }, { hour: b }) => a - b
   );
-  tablePriceNextDay(
+  table_price_tomorrow(
     filter_data_tomorrow.slice(0, 12),
     '.table-next-day-grid-left'
   );
-  tablePriceNextDay(
+  table_price_tomorrow(
     filter_data_tomorrow.slice(12, 24),
     '.table-next-day-grid-right'
   );
 }
 
 document.getElementById('order-price-next').addEventListener('click', () => {
-  removeTablesNextDay();
-  orderTableNextDayByPrice();
+  remove_tables_tomorrow();
+  order_table_tomorrow_by_price();
 });
 
 document.getElementById('order-hour-next').addEventListener('click', () => {
-  removeTablesNextDay();
-  orderTableNextDayByHour();
+  remove_tables_tomorrow();
+  order_table_tomorrow_by_hour();
 });
 
 document.getElementById('checkbox-hours').addEventListener('change', () => {
-  if (typeOfOrder === 'price') {
-    removeTables();
-    orderByPrice();
+  if (type_of_order === 'price') {
+    remove_tables();
+    order_by_price();
   } else {
-    removeTables();
+    remove_tables();
     orderByHour();
   }
 });
 
-const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${userHour}:${userMinutes} es de ${price.toFixed(
+const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${user_hour}:${user_minutes} es de ${price.toFixed(
   3
 )} €/kWh https://www.apaga-luz.com/?utm_source=whatsapp`;
 const button_whatsApp = document.getElementById('btn-whatsapp');
 button_whatsApp.href = text_whatsApp;
 
 const get_string_day =
-  userDay.getDate() < 10 ? `0${userDay.getDate()}` : userDay.getDate();
+  user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
 const get_string_month =
-  userDay.getMonth() < 10
-    ? `0${userDay.getMonth() + 1}`
-    : userDay.getMonth() + 1;
+  user_day.getMonth() < 10
+    ? `0${user_day.getMonth() + 1}`
+    : user_day.getMonth() + 1;
 
 const filtered_data_table_by_day = data_all_days.filter(({ dia }) =>
   dia.includes(`${get_string_day}/${get_string_month}`)
 );
 
-const last_n_days = nDays =>
-  [...Array(nDays)].map((_, index) => {
+const last_n_days = n_days =>
+  [...Array(n_days)].map((_, index) => {
     const dates = new Date();
     dates.setDate(dates.getDate() - 6 + index);
     return dates;
@@ -232,8 +225,8 @@ const filtered_data_table_by_last_week = data_all_days.filter(day =>
   last_week_strings.includes(day.dia)
 );
 
-createNewTable(filtered_data_table_by_day, 'table-year', 'year');
-createNewTable(filtered_data_table_by_last_week, 'table-week', 'day');
+create_new_table(filtered_data_table_by_day, 'table-year', 'year');
+create_new_table(filtered_data_table_by_last_week, 'table-week', 'day');
 
 let root = document.documentElement;
 
@@ -247,23 +240,23 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
 
     const get_color_blidness_zone =
-      zone === 'valle'
+      zone === 'VALLE'
         ? 'rgb(100, 143, 255)'
         : zone === 'llano'
         ? 'rgb(255, 176, 0)'
         : 'rgb(220, 38, 127)';
-    mainElement.style.backgroundColor = get_color_blidness_zone;
-    menuElement.style.backgroundColor = get_color_blidness_zone;
+    main_element.style.backgroundColor = get_color_blidness_zone;
+    menu_element.style.backgroundColor = get_color_blidness_zone;
   } else {
     root.style.setProperty('--orange-light', '#ffae3ab3');
     root.style.setProperty('--green-light', '#a2fcc1b3');
     root.style.setProperty('--red-light', '#ec1d2fb3');
-    mainElement.style.backgroundColor = getZoneColor(zone);
-    menuElement.style.backgroundColor = getZoneColor(zone);
+    main_element.style.backgroundColor = get_zone_color(zone);
+    menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
 
 const get_table_historic_date = document.getElementById('js-table-date');
-get_table_historic_date.textContent = ` el ${userDay.getDate()} de ${
-  month_names[userDay.getMonth()]
+get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
+  month_names[user_day.getMonth()]
 }`;

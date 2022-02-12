@@ -1,21 +1,11 @@
 import './../styles/styles.css';
-import { lineChart } from './lineChart.js';
-
-const day_names = [
-  'lunes',
-  'martes',
-  'miércoles',
-  'jueves',
-  'viernes',
-  'sábado',
-  'domingo'
-];
+import { line_chart } from './line_chart.js';
+import { day_names, width_mobile } from './utils.js';
 
 const user_hour = new Date().getHours();
 const user_day = new Date();
 const day_name = day_names[user_day.getDay() - 1];
 const get_string_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
-const width_mobile = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
 const line_chart_by_month_options = {
   html_element: 'month-price',
@@ -69,14 +59,14 @@ const line_chart_by_day_of_week_options = {
   }
 };
 
-lineChart('/data/group_prices_by_month.json', line_chart_by_month_options);
-lineChart('/data/group_prices_by_day.json', line_chart_by_day_options);
-lineChart(
+line_chart('/data/group_prices_by_month.json', line_chart_by_month_options);
+line_chart('/data/group_prices_by_day.json', line_chart_by_day_options);
+line_chart(
   '/data/all_prices.json',
   line_chart_by_hour_options,
   get_string_hour.toString()
 );
-lineChart(
+line_chart(
   '/data/group_prices_by_day.json',
   line_chart_by_day_of_week_options,
   day_name

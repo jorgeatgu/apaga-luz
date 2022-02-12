@@ -1,7 +1,7 @@
-export function createNewTable(dataTable, selector, type_of_filter) {
-  const width_mobile = window.innerWidth > 0 ? window.innerWidth : screen.width;
+import { width_mobile } from './utils.js';
 
-  const data = dataTable.sort((a, b) => new Date(a.dia) - new Date(b.dia));
+export function create_new_table(data_table, selector, type_of_filter) {
+  const data = data_table.sort((a, b) => new Date(a.dia) - new Date(b.dia));
 
   const table = document.createElement('table');
   table.classList.add('table-same-day');
@@ -134,5 +134,110 @@ export function createNewTable(dataTable, selector, type_of_filter) {
       .forEach(th => th.classList.remove('sorted-down', 'sorted-up'));
     const sorted_class = asc ? 'sorted-up' : 'sorted-down';
     target.classList.add(sorted_class);
+  }
+}
+
+export function table_price_tomorrow(data_hours, element) {
+  const container = document.querySelector('.table-next-day');
+  const table_grid = document.querySelector(element);
+  let title;
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const options = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  };
+
+  if (!document.querySelector('.container-table-next-day-title')) {
+    title = `<summary><h3 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">Precios para mañana</span>: ${tomorrow.toLocaleDateString(
+      'es-ES',
+      options
+    )}</h3></summary>`;
+    container.insertAdjacentHTML('afterbegin', title);
+  }
+
+  for (let element of data_hours) {
+    const { price, hour, zone } = element;
+    const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+
+    const block_hour = `<div class="container-table-price-element">
+      <span class="container-table-price-element-hour ${zone}">
+        ${transform_hour}
+      </span>
+      <span class="container-table-price-element-price">
+        ${price} €/kWh
+      </span>
+    </div>`;
+
+    table_grid.insertAdjacentHTML('beforeend', block_hour);
+  }
+}
+
+export function remove_table(element) {
+  const container_table_ = document.querySelector(element);
+  while (container_table_.firstChild) {
+    container_table_.removeChild(container_table_.firstChild);
+  }
+}
+
+export function remove_tables() {
+  const container_table_left = document.querySelector(
+    '.container-table-price-left'
+  );
+  const container_table_right = document.querySelector(
+    '.container-table-price-right'
+  );
+  while (container_table_left.firstChild) {
+    container_table_left.removeChild(container_table_left.firstChild);
+  }
+
+  while (container_table_right.firstChild) {
+    container_table_right.removeChild(container_table_right.firstChild);
+  }
+}
+
+export function remove_tables_tomorrow() {
+  const container_table_left = document.querySelector(
+    '.table-next-day-grid-left'
+  );
+  const container_table_right = document.querySelector(
+    '.table-next-day-grid-right'
+  );
+  while (container_table_left.firstChild) {
+    container_table_left.removeChild(container_table_left.firstChild);
+  }
+
+  while (container_table_right.firstChild) {
+    container_table_right.removeChild(container_table_right.firstChild);
+  }
+}
+
+export function table_price(data_hours, element) {
+  const container = document.querySelector(element);
+  const get_value_checkbox_hours =
+    document.getElementById('checkbox-hours').checked;
+
+  let user_day = new Date().getDay();
+
+  for (let elements of data_hours) {
+    const { price, hour, zone, hourHasPassed } = elements;
+    const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const user_day = new Date().getDay();
+    const hour_has_passed_class =
+      hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
+
+    const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
+      <span class="container-table-price-element-hour ${zone}">
+        ${transform_hour}
+      </span>
+      <span class="container-table-price-element-price">
+        ${price} €/kWh
+      </span>
+    </div>`;
+    container.insertAdjacentHTML('beforeend', block_hour);
   }
 }

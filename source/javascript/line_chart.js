@@ -8,6 +8,7 @@ import { easeLinear } from 'd3-ease';
 import { format } from 'd3-format';
 import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
+import { day_names, month_names, width_mobile } from './utils.js';
 
 const d3 = {
   select,
@@ -29,34 +30,7 @@ const d3 = {
   interpolatePath
 };
 
-const month_names = [
-  'enero',
-  'febrero',
-  'marzo',
-  'abril',
-  'mayo',
-  'junio',
-  'julio',
-  'agosto',
-  'septiembre',
-  'octubre',
-  'noviembre',
-  'diciembre'
-];
-
-const day_names = [
-  'lunes',
-  'martes',
-  'miércoles',
-  'jueves',
-  'viernes',
-  'sábado',
-  'domingo'
-];
-
-const width_mobile = window.innerWidth > 0 ? window.innerWidth : screen.width;
-
-export function lineChart(data_chart, element_options, selected_value = '') {
+export function line_chart(data_chart, element_options, selected_value = '') {
   const {
     html_element,
     x_axis_prop,
