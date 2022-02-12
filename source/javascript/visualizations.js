@@ -69,21 +69,15 @@ const line_chart_by_day_of_week_options = {
   }
 };
 
+lineChart('/data/group_prices_by_month.json', line_chart_by_month_options);
+lineChart('/data/group_prices_by_day.json', line_chart_by_day_options);
 lineChart(
-  '../../public/data/group_prices_by_month.json',
-  line_chart_by_month_options
-);
-lineChart(
-  '../../public/data/group_prices_by_day.json',
-  line_chart_by_day_options
-);
-lineChart(
-  '../../public/data/all_prices.json',
+  '/data/all_prices.json',
   line_chart_by_hour_options,
   get_string_hour.toString()
 );
 lineChart(
-  '../../public/data/group_prices_by_day.json',
+  '/data/group_prices_by_day.json',
   line_chart_by_day_of_week_options,
   day_name
 );
