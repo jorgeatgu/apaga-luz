@@ -464,6 +464,7 @@ details[open] {
   box-shadow: rgba(0, 0, 0, .16) 0 4px 24px 0, rgba(0, 0, 0, .08) 0 2px 12px 0, rgba(64, 64, 76, .3) 0 0 0 .6px;
   padding: 1.5rem;
   border-radius: .5rem;
+  margin-bottom: 1rem;
   a,
   iframe {
     display: block;

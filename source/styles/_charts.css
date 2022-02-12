@@ -128,3 +128,14 @@ select.classic {
   background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
   background-repeat: no-repeat;
 }
+
+@media only screen and (max-width: 560px) {
+  .container-chart-title,
+  .charts-warning {
+    width: 100%;
+  }
+
+  .container-chart {
+    padding: 0 .5rem 1.5rem;
+  }
+}
