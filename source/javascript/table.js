@@ -32,8 +32,7 @@ export function create_new_table(data_table, selector, type_of_filter) {
       header.insertCell(index).innerText = day_month_year;
     }
     if (day !== 'Hora' && type_of_filter === 'year') {
-      let parse_date = new Date(day);
-      header.insertCell(index).innerText = parse_date.getFullYear();
+      header.insertCell(index).innerText = day.split('/')[2];
     }
   });
 
@@ -73,11 +72,7 @@ export function create_new_table(data_table, selector, type_of_filter) {
         new_cell.setAttribute('data-before', `${parse_date_content}`);
       }
       if (dia !== 'Hora' && type_of_filter === 'year') {
-        let parse_date_content = new Date(data_filter_hours[index].dia);
-        new_cell.setAttribute(
-          'data-before',
-          `${parse_date_content.getFullYear()}`
-        );
+        new_cell.setAttribute('data-before', `${dia.split('/')[2]}`);
       }
 
       if (precio === max_value) {

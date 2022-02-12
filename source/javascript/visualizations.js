@@ -1,10 +1,20 @@
 import './../styles/styles.css';
 import { line_chart } from './line_chart.js';
-import { day_names, width_mobile } from './utils.js';
+import { width_mobile } from './utils.js';
+
+const day_names = [
+  'domingo',
+  'lunes',
+  'martes',
+  'miércoles',
+  'jueves',
+  'viernes',
+  'sábado'
+];
 
 const user_hour = new Date().getHours();
 const user_day = new Date();
-const day_name = day_names[user_day.getDay() - 1];
+const day_name = day_names[user_day.getDay()];
 const get_string_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 
 const line_chart_by_month_options = {
