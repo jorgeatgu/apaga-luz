@@ -79,9 +79,35 @@ const group_prices_by_month = Object.keys(reduced_by_month).map((item_by_month) 
   }
 })
 
+const filteredData = json_today_prices.PVPC.map(({ Dia, Hora, PCB }) => {
+  const getFirstHour = Hora.split('-')[0];
+  return {
+    day: Dia,
+    hour: +getFirstHour,
+    price: +PCB.split(',')[0] / 1000,
+    zone: createZone(+getFirstHour)
+  };
+});
+
+function createZone(hour) {
+  if (hour >= 0 && hour < 8) {
+    return 'valle';
+  } else if (
+    (hour >= 8 && hour < 10) ||
+    (hour >= 14 && hour < 18) ||
+    (hour >= 22 && hour < 24)
+  ) {
+    return 'llano';
+  } else {
+    return 'punta';
+  }
+}
+
 //Generamos de nuevo los JSON con las
 //diferentes agrupaciones.
+const new_file_today = 'public/data/today_price.json';
 const new_file_by_day = 'public/data/group_prices_by_day.json';
 const new_file_by_month = 'public/data/group_prices_by_month.json';
 await writeJSON(new_file_by_day, group_data_by_day)
 await writeJSON(new_file_by_month, group_prices_by_month)
+await writeJSON(new_file_today, filteredData)
