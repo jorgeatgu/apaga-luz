@@ -103,7 +103,7 @@ function createZone(hour) {
   }
 }
 
-const user_day = new Date();
+const user_day = new Date() + 1;
 
 const get_string_day =
   user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
