@@ -11,7 +11,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint-css": "stylelint soruce/styles/**",
+    "lint-css": "stylelint source/styles/**",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
