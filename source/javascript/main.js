@@ -1,8 +1,9 @@
 import './../styles/styles.css';
-import data_all_days from '../../public/data/all_prices.json';
-import data_today from '../../public/data/today_price.json';
-import data_tomorrow from '../../public/data/tomorrow_price.json';
-import data_canary from '../../public/data/canary_price.json';
+import data_today from '/public/data/today_price.json';
+import data_tomorrow from '/public/data/tomorrow_price.json';
+import data_canary from '/public/data/canary_price.json';
+import data_historic_today from '/public/data/historic_today_price.json';
+import data_last_week from '/public/data/last_week_price.json';
 
 import { reload_page, get_zone_color, month_names } from './utils.js';
 
@@ -195,38 +196,8 @@ const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${user_hou
 const button_whatsApp = document.getElementById('btn-whatsapp');
 button_whatsApp.href = text_whatsApp;
 
-const get_string_day =
-  user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
-const get_string_month =
-  user_day.getMonth() < 10
-    ? `0${user_day.getMonth() + 1}`
-    : user_day.getMonth() + 1;
-
-const filtered_data_table_by_day = data_all_days.filter(({ dia }) =>
-  dia.includes(`${get_string_day}/${get_string_month}`)
-);
-
-const last_n_days = n_days =>
-  [...Array(n_days)].map((_, index) => {
-    const dates = new Date();
-    dates.setDate(dates.getDate() - 6 + index);
-    return dates;
-  });
-
-let last_week_strings = last_n_days(7);
-last_week_strings = last_week_strings.map(d => {
-  const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
-  const get_string_month =
-    d.getMonth() < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
-  return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
-});
-
-const filtered_data_table_by_last_week = data_all_days.filter(day =>
-  last_week_strings.includes(day.dia)
-);
-
-create_new_table(filtered_data_table_by_day, 'table-year', 'year');
-create_new_table(filtered_data_table_by_last_week, 'table-week', 'day');
+create_new_table(data_historic_today, 'table-year', 'year');
+create_new_table(data_last_week, 'table-week', 'day');
 
 let root = document.documentElement;
 

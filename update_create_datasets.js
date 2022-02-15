@@ -79,13 +79,13 @@ const group_prices_by_month = Object.keys(reduced_by_month).map((item_by_month) 
   }
 })
 
-const filteredData = json_today_prices.PVPC.map(({ Dia, Hora, PCB }) => {
-  const getFirstHour = Hora.split('-')[0];
+const transform_today_prices = json_today_prices.PVPC.map(({ Dia, Hora, PCB }) => {
+  const get_first_hour = Hora.split('-')[0];
   return {
     day: Dia,
-    hour: +getFirstHour,
+    hour: +get_first_hour,
     price: +PCB.split(',')[0] / 1000,
-    zone: createZone(+getFirstHour)
+    zone: createZone(+get_first_hour)
   };
 });
 
@@ -103,11 +103,48 @@ function createZone(hour) {
   }
 }
 
+const user_day = new Date();
+
+const get_string_day =
+  user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
+const get_string_month =
+  user_day.getMonth() < 10
+    ? `0${user_day.getMonth() + 1}`
+    : user_day.getMonth() + 1;
+
+const filtered_data_table_by_day = json_all_prices.filter(({ dia }) =>
+  dia.includes(`${get_string_day}/${get_string_month}`)
+);
+
+const last_n_days = n_days =>
+  [...Array(n_days)].map((_, index) => {
+    const dates = new Date();
+    dates.setDate(dates.getDate() - 6 + index);
+    return dates;
+  });
+
+let last_week_strings = last_n_days(7);
+last_week_strings = last_week_strings.map(d => {
+  const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+  const get_string_month =
+    d.getMonth() < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+  return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
+});
+
+const filtered_data_table_by_last_week = json_all_prices.filter(day =>
+  last_week_strings.includes(day.dia)
+);
+
 //Generamos de nuevo los JSON con las
 //diferentes agrupaciones.
 const new_file_today = 'public/data/today_price.json';
+const new_file_historic_today = 'public/data/historic_today_price.json';
+const new_file_last_week = 'public/data/last_week_price.json';
 const new_file_by_day = 'public/data/group_prices_by_day.json';
 const new_file_by_month = 'public/data/group_prices_by_month.json';
+
 await writeJSON(new_file_by_day, group_data_by_day)
+await writeJSON(new_file_historic_today, filtered_data_table_by_day)
+await writeJSON(new_file_last_week, filtered_data_table_by_last_week)
 await writeJSON(new_file_by_month, group_prices_by_month)
-await writeJSON(new_file_today, filteredData)
+await writeJSON(new_file_today, transform_today_prices)

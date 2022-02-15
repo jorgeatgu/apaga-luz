@@ -1,18 +1,19 @@
-const { resolve } = require('path')
+import { defineConfig } from 'vite';
 
-module.exports = {
+export default defineConfig({
   build: {
+    outDir: 'build',
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        noticias: resolve(__dirname, 'noticias/index.html'),
-        'nueva-clasificacion-colores-horas': resolve(__dirname, 'noticias/nueva-clasificacion-colores-horas/index.html'),
-        'nueva-direccion-web': resolve(__dirname, 'noticias/nueva-direccion-web/index.html'),
-        'politica-de-privacidad': resolve(__dirname, 'politica-de-privacidad/index.html'),
-        newsletter: resolve(__dirname, 'noticias/newsletter/index.html'),
-        datos: resolve(__dirname, 'datos/index.html'),
-        preguntas: resolve(__dirname, 'preguntas/index.html')
+        main: 'index.html',
+        noticias: 'noticias/index.html',
+        'nueva-clasificacion-colores-horas': 'noticias/nueva-clasificacion-colores-horas/index.html',
+        'nueva-direccion-web': 'noticias/nueva-direccion-web/index.html',
+        'politica-de-privacidad': 'politica-de-privacidad/index.html',
+        newsletter: 'noticias/newsletter/index.html',
+        datos: 'datos/index.html',
+        preguntas: 'preguntas/index.html'
       }
     }
   }
-}
+});
