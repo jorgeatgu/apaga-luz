@@ -239,10 +239,10 @@ get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
   month_names[user_day.getMonth()]
 }`;
 
-/*const line_chart_by_day_of_week_options = {
-  html_element: 'day-week-price',
-  x_axis_prop: 'date',
-  y_axis_prop: 'price',
+const line_chart_by_day_of_month_options = {
+  html_element: 'day-month-price',
+  x_axis_prop: 'dia',
+  y_axis_prop: 'precio',
   select_html: false,
   main_chart: true,
   margin: {
@@ -254,7 +254,6 @@ get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
 };
 
 line_chart(
-  '/public/data/line_chart_last_week_price.json',
-  line_chart_by_day_of_week_options
-)
-*/
+  '/public/data/last_month_price.json',
+  line_chart_by_day_of_month_options
+);

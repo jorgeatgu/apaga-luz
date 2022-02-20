@@ -87,7 +87,20 @@ export function line_chart(data_chart, element_options, selected_value = '') {
   }
 
   function draw_axes(g) {
-    const axisX = d3.axisBottom(scales.count.x).tickPadding(7).ticks(9);
+    const axisX = d3
+      .axisBottom(scales.count.x)
+      .tickPadding(4)
+      .tickFormat(d => {
+        if (main_chart) {
+          return new Intl.DateTimeFormat('es-ES', {
+            day: 'numeric',
+            month: 'long'
+          }).format(d);
+        } else {
+          return d.getFullYear();
+        }
+      })
+      .ticks(8);
 
     g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
 
@@ -222,10 +235,10 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         3
       )} €/kWh</strong></span>`;
 
-      const main_week_linechart = `<span class="tooltip-group-by-${html_element}-year">El ${
-        d.date
+      const main_week_linechart = `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+        month_names[d[x_axis_prop].getMonth()]
       }
-       ${d.day} de ${month_names[d[x_axis_prop].getMonth()]}
+       a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
@@ -331,16 +344,22 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       line_chart_data = data.sort(
         (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
       );
-      console.log('line_chart_data', line_chart_data);
       if (!select_html) {
         if (main_chart) {
           line_chart_data.forEach(d => {
             d[y_axis_prop] = d[y_axis_prop] / 1000;
-            d[x_axis_prop] = new Date(d[x_axis_prop]);
+            d[x_axis_prop] = new Date(
+              `${d[x_axis_prop].split('/')[1]}/${
+                d[x_axis_prop].split('/')[0]
+              }/${d[x_axis_prop].split('/')[2]}`
+            );
             d[x_axis_prop].setHours(
-              d[x_axis_prop].getHours() + d.hour.split('-')[0]
+              d[x_axis_prop].getHours() + d.hora.split('-')[0]
             );
           });
+          line_chart_data = data.sort(
+            (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+          );
         } else {
           line_chart_data.forEach(d => {
             d[y_axis_prop] = d[y_axis_prop] / 1000;

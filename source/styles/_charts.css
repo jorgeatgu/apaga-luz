@@ -34,7 +34,8 @@
   .line-month-price,
   .line-day-price,
   .line-hour-price,
-  .line-day-week-price {
+  .line-day-week-price,
+  .line-day-month-price {
     fill: none;
     stroke-width: 1;
     stroke: var(--line-chart);
@@ -45,7 +46,11 @@
   }
 
   .line-month-price {
-    stroke-width: 3;
+    stroke-width: 1;
+  }
+
+  .line-day-month-price {
+    stroke-width: 2;
   }
 
   .axis {
