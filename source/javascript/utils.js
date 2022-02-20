@@ -70,5 +70,15 @@ export const day_names = [
   'domingo'
 ];
 
+export const day_names_us = [
+  'domingo',
+  'lunes',
+  'martes',
+  'miércoles',
+  'jueves',
+  'viernes',
+  'sábado'
+];
+
 export const width_mobile =
   window.innerWidth > 0 ? window.innerWidth : screen.width;

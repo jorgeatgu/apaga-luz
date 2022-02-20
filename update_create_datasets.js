@@ -120,20 +120,24 @@ const filtered_data_table_by_day = json_all_prices.filter(({ dia }) =>
 const last_n_days = n_days =>
   [...Array(n_days)].map((_, index) => {
     const dates = new Date();
-    dates.setDate(dates.getDate() - 6 + index);
+    dates.setDate(dates.getDate() - index - 1);
     return dates;
-  });
-
-let last_week_strings = last_n_days(7);
-last_week_strings = last_week_strings.map(d => {
+  }).map(d => {
   const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
   const get_string_month =
     d.getMonth() < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
   return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
 });
 
+let last_week_strings = last_n_days(7);
+let last_month_strings = last_n_days(30);
+
 const filtered_data_table_by_last_week = json_all_prices.filter(day =>
   last_week_strings.includes(day.dia)
+);
+
+const filtered_data_table_by_last_month = json_all_prices.filter(day =>
+  last_month_strings.includes(day.dia)
 );
 
 //Generamos de nuevo los JSON con las
@@ -141,11 +145,13 @@ const filtered_data_table_by_last_week = json_all_prices.filter(day =>
 const new_file_today = 'public/data/today_price.json';
 const new_file_historic_today = 'public/data/historic_today_price.json';
 const new_file_last_week = 'public/data/last_week_price.json';
+const new_file_last_month = 'public/data/last_month_price.json';
 const new_file_by_day = 'public/data/group_prices_by_day.json';
 const new_file_by_month = 'public/data/group_prices_by_month.json';
 
 await writeJSON(new_file_by_day, group_data_by_day)
 await writeJSON(new_file_historic_today, filtered_data_table_by_day)
 await writeJSON(new_file_last_week, filtered_data_table_by_last_week)
+await writeJSON(new_file_last_month, filtered_data_table_by_last_month)
 await writeJSON(new_file_by_month, group_prices_by_month)
 await writeJSON(new_file_today, transform_today_prices)

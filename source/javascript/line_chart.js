@@ -36,6 +36,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     x_axis_prop,
     y_axis_prop,
     select_html,
+    main_chart,
     margin: { top, right, bottom, left }
   } = element_options;
 
@@ -221,6 +222,14 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         3
       )} €/kWh</strong></span>`;
 
+      const main_week_linechart = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.date
+      }
+       ${d.day} de ${month_names[d[x_axis_prop].getMonth()]}
+      el precio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
+
       tooltip
         .style('opacity', 1)
         .html(
@@ -232,7 +241,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             ? hour_content
             : html_element === 'day-week-price'
             ? day_week_content
-            : ''
+            : main_week_linechart
         )
         .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
         .style('left', () =>
@@ -322,11 +331,22 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       line_chart_data = data.sort(
         (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
       );
+      console.log('line_chart_data', line_chart_data);
       if (!select_html) {
-        line_chart_data.forEach(d => {
-          d[y_axis_prop] = d[y_axis_prop] / 1000;
-          d[x_axis_prop] = new Date(d[x_axis_prop]);
-        });
+        if (main_chart) {
+          line_chart_data.forEach(d => {
+            d[y_axis_prop] = d[y_axis_prop] / 1000;
+            d[x_axis_prop] = new Date(d[x_axis_prop]);
+            d[x_axis_prop].setHours(
+              d[x_axis_prop].getHours() + d.hour.split('-')[0]
+            );
+          });
+        } else {
+          line_chart_data.forEach(d => {
+            d[y_axis_prop] = d[y_axis_prop] / 1000;
+            d[x_axis_prop] = new Date(d[x_axis_prop]);
+          });
+        }
 
         setup_elements();
         setup_scales();

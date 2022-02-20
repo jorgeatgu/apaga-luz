@@ -4,8 +4,14 @@ import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_canary from '/public/data/canary_price.json';
 import data_historic_today from '/public/data/historic_today_price.json';
 import data_last_week from '/public/data/last_week_price.json';
-
-import { reload_page, get_zone_color, month_names } from './utils.js';
+import { line_chart } from './line_chart.js';
+import {
+  reload_page,
+  get_zone_color,
+  month_names,
+  width_mobile,
+  day_names_us
+} from './utils.js';
 
 import {
   create_new_table,
@@ -20,6 +26,7 @@ const get_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let user_hour = new Date().getHours();
 let user_minutes = new Date().getMinutes();
 let user_day = new Date();
+const day_name = day_names_us[user_day.getDay()];
 
 const isUserCanary =
   get_time_zone === 'Atlantic/Canary' && user_hour > 22 && user_hour < 24;
@@ -231,3 +238,23 @@ const get_table_historic_date = document.getElementById('js-table-date');
 get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
   month_names[user_day.getMonth()]
 }`;
+
+/*const line_chart_by_day_of_week_options = {
+  html_element: 'day-week-price',
+  x_axis_prop: 'date',
+  y_axis_prop: 'price',
+  select_html: false,
+  main_chart: true,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+line_chart(
+  '/public/data/line_chart_last_week_price.json',
+  line_chart_by_day_of_week_options
+)
+*/
