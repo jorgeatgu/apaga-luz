@@ -197,6 +197,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .on('mousemove', mousemove);
 
     function mousemove(event) {
+      console.log(html_element);
       const { layerX } = event;
       const x0 = x.invert(layerX - left);
       const i = bisec_date(data, x0, 1);
@@ -235,13 +236,15 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         3
       )} €/kWh</strong></span>`;
 
-      const main_week_linechart = `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
-        month_names[d[x_axis_prop].getMonth()]
-      }
+      const main_week_linechart = d.dia
+        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+            month_names[d[x_axis_prop].getMonth()]
+          }
        a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
-      )} €/kWh</strong></span>`;
+      )} €/kWh</strong></span>`
+        : '';
 
       tooltip
         .style('opacity', 1)
@@ -254,7 +257,9 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             ? hour_content
             : html_element === 'day-week-price'
             ? day_week_content
-            : main_week_linechart
+            : html_element === 'main-line-price'
+            ? main_week_linechart
+            : ''
         )
         .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
         .style('left', () =>

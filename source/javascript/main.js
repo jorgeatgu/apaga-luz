@@ -240,7 +240,7 @@ get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
 }`;
 
 const line_chart_by_day_of_month_options = {
-  html_element: 'day-month-price',
+  html_element: 'main-line-price',
   x_axis_prop: 'dia',
   y_axis_prop: 'precio',
   select_html: false,
@@ -253,7 +253,4 @@ const line_chart_by_day_of_month_options = {
   }
 };
 
-line_chart(
-  '/public/data/last_month_price.json',
-  line_chart_by_day_of_month_options
-);
+line_chart('/data/last_month_price.json', line_chart_by_day_of_month_options);
