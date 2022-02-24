@@ -197,7 +197,6 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .on('mousemove', mousemove);
 
     function mousemove(event) {
-      console.log(html_element);
       const { layerX } = event;
       const x0 = x.invert(layerX - left);
       const i = bisec_date(data, x0, 1);
