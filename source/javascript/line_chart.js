@@ -82,7 +82,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     const {
       count: { x, y }
     } = scales;
-    x.range([0, width]);
+    x.range([0, width - right / 2]);
     y.range([height, 0]);
   }
 
