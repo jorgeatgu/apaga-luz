@@ -104,7 +104,7 @@ function createZone(hour) {
 }
 
 let user_day = new Date();
-user_day.setHours(user_day.getHours() + 2);
+user_day.setDate(user_day.getDate() + 1);
 
 const get_string_day =
   user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
@@ -120,7 +120,7 @@ const filtered_data_table_by_day = json_all_prices.filter(({ dia }) =>
 const last_n_days = n_days =>
   [...Array(n_days)].map((_, index) => {
     const dates = new Date();
-    dates.setDate(dates.getDate() - index - 1);
+    dates.setDate(dates.getDate() - index);
     return dates;
   }).map(d => {
   const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
