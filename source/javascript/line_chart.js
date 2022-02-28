@@ -405,7 +405,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       data_return.forEach(d => {
         d[y_axis_prop] = d[y_axis_prop] / 1000;
         d.hora = d.hora.split('-')[0];
-        d.day = d[x_axis_prop].split('/')[1];
+        d.day = d[x_axis_prop].split('/')[0];
         d.year = d[x_axis_prop].split('/')[2];
         d[x_axis_prop] = new Date(
           `${d[x_axis_prop].split('/')[1]}/${d[x_axis_prop].split('/')[0]}/${
@@ -413,6 +413,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
           }`
         );
       });
+      console.log(data_return);
     }
 
     return data_return.sort(
