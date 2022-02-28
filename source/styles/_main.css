@@ -456,6 +456,10 @@ details[open] {
     margin-bottom: 0;
   }
 
+  .container-table-next-day-title {
+    font-size: 1rem;
+  }
+
 }
 
 .sponsor-card {
