@@ -158,6 +158,10 @@ main {
   max-width: 40rem;
   margin: .5rem auto;
   padding: 1rem 0;
+  img {
+    width: 100%;
+    margin: 1.5rem 0;
+  }
 }
 
 .post-title {
