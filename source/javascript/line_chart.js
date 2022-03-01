@@ -413,7 +413,6 @@ export function line_chart(data_chart, element_options, selected_value = '') {
           }`
         );
       });
-      console.log(data_return);
     }
 
     return data_return.sort(
