@@ -12,6 +12,7 @@ export default defineConfig({
         'politica-de-privacidad': 'politica-de-privacidad/index.html',
         'newsletter-precio-luz-manana': 'noticias/newsletter-precio-luz-manana/index.html',
         'novedades-precio-luz-manana': 'noticias/novedades-precio-luz-manana/index.html',
+        'precio-luz-manana': 'precio-luz-manana/index.html',
         datos: 'datos/index.html',
         preguntas: 'preguntas/index.html'
       }

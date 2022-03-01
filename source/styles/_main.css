@@ -126,6 +126,9 @@ main {
   .container-btns-order {
     margin-top: .75rem;
   }
+  &.container-table-next-day-grid-tomorrow {
+    display: block;
+  }
 }
 
 .container-hour-datetime {

@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Novedades precio luz mañana</title>
-  <meta name="description" content="Novedades y cambios para mostrar el precio histórico de la luz, el precio de la luz de hoy y el precio de la luz mañana">
+  <title>Precio de la luz mañana</title>
+  <meta name="description" content="Aquí puedes consultar el precio de la luz de mañana, consultar los horarios luz y saber las horas más baratas de luz, así como el horario de luz más barato.">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%237d6ee7%22></rect><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2290%22>💡</text></svg>" />
@@ -14,7 +14,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="container-table">
   <nav class="menu">
     <div class="menu-container">
       <a class="menu-element menu-root" href="/">Inicio</a>
@@ -24,24 +24,29 @@
     </div>
   </nav>
   <main>
-    <section id="aviso" class="container-calendar">
+    <section class="container-table">
       <article class="post-container">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
-        <!-- header display -->
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="1827851366" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
               </script>
-        <h1 class="post-title">Novedades: precio de la luz hoy y precio de la luz mañana</h1>
-        <p class="post-text-date">24 de febrero de 2022</p>
-        <p class="post-text">Llevo desde diciembre trabajando en algunas pequeñas novedades. Me he hecho con todos los datos públicos del precio de la luz por horas desde abril de 2014. Después de quedarme con lo interesante, limpiarlos y revisarlos he empezado a construir gráficas y tablas. La idea es dar un poco de contexto de la situación actual, y ver una comparativa.</p>
-        <p class="post-text">Los datos me sirven para publicar en la <a href="https://www.apaga-luz.com/noticias/newsletter-precio-luz-manana/">newsletter</a> una tabla comparativa. En ella se muestra el precio luz mañana y los precios que tuvo la luz en los años pasados, así que los que estáis suscritos(es gratuita, aquí el enlace) podéis comparar el precio con los años anteriores. Y como siempre en la web puedes consultar los horarios luz para saber el precio de la luz hoy.</p>
-        <p class="post-text">Por no atiborrarla de colores he decidido que solo voy a usar el verde para mostrar en que año fue más barata, y en rojo para ver cuando fue más cara, que por desgracia va a ser muchas veces este año. La tabla también esta incluida en la home de la web.</p>
-        <p class="post-text">Como tengo todos los datos, me he puesto a calcular el precio de la luz por mes y por día. He creado una nueva sección llamada gráficas donde hay cuatro gráficas, una que muestra el precio medio de la luz por mes, otra muestra el precio medio de la luz por día, otra muestra el precio de la luz por hora del día y una última que muestra el precio de la luz por día de la semana. En la home también se muestra otra gráfica que muestra el precio que ha tenido la luz por hora en el último mes.</p>
-        <img src="../../public/images/linechart-day.png" alt="Gráfica que muestra el precio de la luz por día de la semana"/>
-        <img src="../../public/images/linechart-hour.png" alt="Gráfica que muestra el precio de la luz por hora"/>
-        <img src="../../public/images/linechart-month.png" alt="Gráfica que muestra el precio de la luz mañana por mes"/>
-        <img src="../../public/images/table-price.png" alt="tabla que muestra el precio luz hoy, precio luz mañana"/>
+        <h1 class="post-title">Precio de luz mañana</h1>
+        <p class="post-text">El precio de la luz para mañana esta disponible a partir de las 20:00, a esa hora se subastan todos los días el precio de la luz por horas. Aquí se hacen públicos a partir de las 20:30. Así puedes consultar el precio de la luz de mañana, consultar los horarios luz y saber las horas más baratas de luz, así como el horario de luz más barato. </p>
+        <article class="table-next-day">
+          <div class="container-table-next-day-grid container-table-next-day-grid-tomorrow">
+            <div class="container-btns-order">
+              <button class="btn-order" id="order-price-next">Ordenar por precio</Button>
+              <button class="btn-order" id="order-hour-next">Ordenar por hora</button>
+            </div>
+            <article class="table-next-day-grid">
+              <div class="table-next-day-grid-left">
+              </div>
+              <div class="table-next-day-grid-right">
+              </div>
+            </article>
+          </div>
+        </article>
         <div id="mc_embed_signup">
           <form action="https://apaga-luz.us20.list-manage.com/subscribe/post?u=4181628e767877513a25c8130&amp;id=15c0761e20" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
@@ -68,7 +73,7 @@
       <a class="footer-links-block" href="/politica-de-privacidad">Politica de privacidad</a>
     </div>
   </footer>
-  <script type="module" src="/source/javascript/styles.js"></script>
+  <script type="module" src="/source/javascript/tomorrow.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
   <script>
   window.dataLayer = window.dataLayer || [];
