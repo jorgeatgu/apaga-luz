@@ -82,3 +82,17 @@ export const day_names_us = [
 
 export const width_mobile =
   window.innerWidth > 0 ? window.innerWidth : screen.width;
+
+export const last_n_days = n_days =>
+  [...Array(n_days)]
+    .map((_, index) => {
+      const dates = new Date();
+      dates.setDate(dates.getDate() - index);
+      return dates;
+    })
+    .map(d => {
+      const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+      const get_string_month =
+        d.getMonth() < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+      return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
+    });
