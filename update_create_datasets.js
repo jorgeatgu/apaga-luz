@@ -131,6 +131,7 @@ const last_n_days = n_days =>
 
 let last_week_strings = last_n_days(7);
 let last_month_strings = last_n_days(30);
+let last_year_strings = last_n_days(365);
 
 const filtered_data_table_by_last_week = json_all_prices.filter(day =>
   last_week_strings.includes(day.dia)
@@ -140,23 +141,9 @@ const filtered_data_table_by_last_month = json_all_prices.filter(day =>
   last_month_strings.includes(day.dia)
 );
 
-let group_prices_by_last_month = group_data_by_day.map(({ date, ...rest }) => {
-  return {
-    date: `${date.split('/')[0]}/${date.split('/')[1]}/${date.split('/')[2]}`,
-    ...rest
-  };
-})
-
-group_prices_by_last_month = group_prices_by_last_month.filter(day =>
-  last_month_strings.includes(day.date)
+const group_prices_by_last_year = group_data_by_day.filter(day =>
+  last_year_strings.includes(day.date)
 );
-
-group_prices_by_last_month = group_prices_by_last_month.map(({ date, ...rest }) => {
-  return {
-    date: `${date.split('/')[1]}/${date.split('/')[0]}/${date.split('/')[2]}`,
-    ...rest
-  };
-})
 
 //Generamos de nuevo los JSON con las
 //diferentes agrupaciones.
@@ -166,7 +153,7 @@ const new_file_last_week = 'public/data/last_week_price.json';
 const new_file_last_month = 'public/data/last_month_price.json';
 const new_file_by_day = 'public/data/group_prices_by_day.json';
 const new_file_by_month = 'public/data/group_prices_by_month.json';
-const new_file_last_month_group = 'public/data/last_month_group_price.json';
+const new_file_last_year_group = 'public/data/last_year_group_price.json';
 
 await writeJSON(new_file_by_day, group_data_by_day)
 await writeJSON(new_file_historic_today, filtered_data_table_by_day)
@@ -174,4 +161,4 @@ await writeJSON(new_file_last_week, filtered_data_table_by_last_week)
 await writeJSON(new_file_last_month, filtered_data_table_by_last_month)
 await writeJSON(new_file_by_month, group_prices_by_month)
 await writeJSON(new_file_today, transform_today_prices)
-await writeJSON(new_file_last_month_group, group_prices_by_last_month)
+await writeJSON(new_file_last_year_group, group_prices_by_last_year)

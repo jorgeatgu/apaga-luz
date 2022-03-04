@@ -10,7 +10,8 @@ import {
   get_zone_color,
   month_names,
   width_mobile,
-  day_names_us
+  day_names_us,
+  last_n_days
 } from './utils.js';
 
 import {
@@ -252,5 +253,20 @@ const line_chart_by_day_of_month_options = {
     left: width_mobile < 763 ? 76 : 96
   }
 };
+
+const line_chart_group_by_day_options = {
+  html_element: 'day-price',
+  x_axis_prop: 'date',
+  y_axis_prop: 'price',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+line_chart('/data/last_year_group_price.json', line_chart_group_by_day_options);
 
 line_chart('/data/last_month_price.json', line_chart_by_day_of_month_options);
