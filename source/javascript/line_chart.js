@@ -370,9 +370,6 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             d[y_axis_prop] = d[y_axis_prop] / 1000;
             d[x_axis_prop] = new Date(d[x_axis_prop]);
           });
-          if (html_element === 'day-price-line') {
-            console.log(line_chart_data);
-          }
         }
 
         setup_elements();
