@@ -141,6 +141,8 @@ const filtered_data_table_by_last_month = json_all_prices.filter(day =>
   last_month_strings.includes(day.dia)
 );
 
+last_year_strings = last_year_strings.map(element => `${element.split('/')[1]}/${element.split('/')[0]}/${element.split('/')[2]}`)
+
 const group_prices_by_last_year = group_data_by_day.filter(day =>
   last_year_strings.includes(day.date)
 );
