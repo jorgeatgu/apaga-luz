@@ -93,6 +93,6 @@ export const last_n_days = n_days =>
     .map(d => {
       const get_string_day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
       const get_string_month =
-        d.getMonth() < 09 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+        d.getMonth() < 9 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
       return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
     });
