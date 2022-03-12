@@ -1,5 +1,6 @@
 import './../styles/styles.css';
 import data_tomorrow from '/public/data/tomorrow_price.json';
+import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 
 /*
@@ -13,10 +14,17 @@ let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
+const HALF_PAST_EIGHT_MINUTES = 1230;
 
-let filter_data_tomorrow = data_tomorrow.sort(
+let filter_data_tomorrow =
+  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
+    ? data_tomorrow
+    : data_tomorrow_omie;
+
+filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
 );
+
 const container_table_tomorrow = document.querySelector('.table-next-day');
 filter_data_tomorrow = filter_data_tomorrow.map(({ price, ...rest }) => {
   return {
@@ -35,13 +43,9 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   }
 }
 
-const half_past_eight_minutes = 1230;
-if (
-  user_hour * 60 + +user_minutes >= half_past_eight_minutes &&
-  user_hour < 24
-) {
+order_table_tomorrow_by_price();
+if (user_hour >= 13 && user_hour < 24) {
   container_table_tomorrow.style.display = 'grid';
-  order_table_tomorrow_by_price();
 } else {
   container_table_tomorrow.style.display = 'none';
 }
