@@ -305,6 +305,7 @@ main {
   border-radius: 8px;
   margin-top: 1rem;
   box-shadow: var(--shadow);
+  margin-bottom: 1rem;
 }
 
 details[open].table-next-day summary,
