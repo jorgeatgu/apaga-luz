@@ -192,6 +192,14 @@ main {
   line-height: 1.4;
 }
 
+.post-warning {
+  background-color: var(--red-light);
+  padding: 1rem;
+  color: var(--black);
+  border-radius: .5rem;
+  box-shadow: var(--shadow);
+}
+
 .post-text-date {
   font-size: .75rem;
   margint-top: .25rem;

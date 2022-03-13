@@ -1,7 +1,7 @@
 import { writeJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
 import { readTXT } from 'https://deno.land/x/flat@0.0.10/src/txt.ts'
 
-const json_all_prices_yesterday = await readTXT('omie_prices.json');
+const json_all_prices_yesterday = await readTXT('public/data/omie_prices.json');
 
 let json_all_prices_replace = json_all_prices_yesterday.replaceAll(';', ',')
 json_all_prices_replace = json_all_prices_replace.replace('MARGINALPDBC,', 'year;month;day;hour;pricemax;pricemin;')
@@ -33,4 +33,4 @@ let omie_data = prices_csv_to_json.map(({ year, month, day, hour, pricemax, pric
 
 omie_data = omie_data.filter(({ year }) => year);
 
-await writeJSON('omie_data.json', omie_data)
+await writeJSON('public/data/omie_data.json', omie_data)

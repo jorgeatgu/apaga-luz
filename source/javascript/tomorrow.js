@@ -51,7 +51,7 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 order_table_tomorrow_by_price();
-if (user_minutes >= 810 && user_hour < 24) {
+if (user_hour * 60 + user_minutes >= 810 && user_hour < 24) {
   container_table_tomorrow.style.display = 'grid';
 } else {
   container_table_tomorrow.style.display = 'none';
