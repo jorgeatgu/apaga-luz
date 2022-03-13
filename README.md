@@ -1,6 +1,6 @@
 # Apaga luz
 
-Es un pequeño proyecto para mostrar el precio de la luz justo en el momento que entras a la web y una tabla con los precios del día.
+Es un pequeño proyecto para mostrar el [precio de la luz de hoy](https://www.apaga-luz.com), y el [precio de la luz mañana](https://www.apaga-luz.com/precio-luz-manana/) justo en el momento que entras a la web y una tabla con los precios del día.
 
 ## Datos
 
