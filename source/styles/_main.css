@@ -496,3 +496,8 @@ details[open] {
   margin-top: 0;
   font-size: .875rem;
 }
+
+.ad-rectangle {
+  display: block;
+  height: 300px;
+}
