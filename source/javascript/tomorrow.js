@@ -21,6 +21,13 @@ let filter_data_tomorrow =
     ? data_tomorrow
     : data_tomorrow_omie;
 
+const data_source_element = document.getElementById('table-next-day-data');
+const data_source =
+  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
+    ? 'ESIOS'
+    : 'OMIE';
+data_source_element.textContent = `Datos de la subasta de: ${data_source}`;
+
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
 );
@@ -44,7 +51,7 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 order_table_tomorrow_by_price();
-if (user_hour >= 13 && user_hour < 24) {
+if (user_minutes >= 810 && user_hour < 24) {
   container_table_tomorrow.style.display = 'grid';
 } else {
   container_table_tomorrow.style.display = 'none';
