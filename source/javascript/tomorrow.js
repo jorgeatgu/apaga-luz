@@ -26,7 +26,7 @@ const data_source =
   user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
     ? 'ESIOS'
     : 'OMIE';
-data_source_element.textContent = `Datos de la subasta de: ${data_source}`;
+data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
 
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
@@ -95,3 +95,19 @@ document.getElementById('order-hour-next').addEventListener('click', () => {
   remove_tables_tomorrow();
   order_table_tomorrow_by_hour();
 });
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const options = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+};
+
+const text_whatsApp = `whatsapp://send?text=Aquí puedes consultar el precio de la luz de mañana ${tomorrow.toLocaleDateString(
+  'es-ES',
+  options
+)} https://www.apaga-luz.com/precio-luz-manana/?utm_source=whatsapp_mnn`;
+const button_whatsApp = document.getElementById('btn-whatsapp-manana');
+button_whatsApp.href = text_whatsApp;
