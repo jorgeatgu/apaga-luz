@@ -200,6 +200,13 @@ main {
   box-shadow: var(--shadow);
 }
 
+.post-warning-orange {
+  background-color: var(--orange);
+  &:empty {
+    display: none;
+  }
+}
+
 .post-text-date {
   font-size: .75rem;
   margint-top: .25rem;

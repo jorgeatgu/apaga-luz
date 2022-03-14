@@ -15,6 +15,14 @@ let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
 const HALF_PAST_EIGHT_MINUTES = 1230;
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const options = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+};
 
 let filter_data_tomorrow =
   user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
@@ -26,7 +34,6 @@ const data_source =
   user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
     ? 'ESIOS'
     : 'OMIE';
-data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
 
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
@@ -51,9 +58,16 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 order_table_tomorrow_by_price();
-if (user_hour * 60 + user_minutes >= 810 && user_hour < 24) {
+if (user_hour * 60 + +user_minutes >= 810 && user_hour < 24) {
   container_table_tomorrow.style.display = 'grid';
+  data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
 } else {
+  const get_warning_id = document.getElementById('warning-tomorrow-data');
+  get_warning_id.textContent = `Todavía no hay datos disponibles para mañana: ${tomorrow.toLocaleDateString(
+    'es-ES',
+    options
+  )}`;
+
   container_table_tomorrow.style.display = 'none';
 }
 
@@ -95,15 +109,6 @@ document.getElementById('order-hour-next').addEventListener('click', () => {
   remove_tables_tomorrow();
   order_table_tomorrow_by_hour();
 });
-
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-
-const options = {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric'
-};
 
 const text_whatsApp = `whatsapp://send?text=Aquí puedes consultar el precio de la luz de mañana ${tomorrow.toLocaleDateString(
   'es-ES',
