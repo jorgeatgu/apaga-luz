@@ -24,16 +24,22 @@ const options = {
   day: 'numeric'
 };
 
-let filter_data_tomorrow =
-  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
-    ? data_tomorrow
-    : data_tomorrow_omie;
+const get_day_from_data_omie = +data_tomorrow_omie[0].day + 1;
+const get_month_from_data_omie = +data_tomorrow_omie[0].month;
+const its_time_to_show_the_data_from_esios =
+  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24;
+const its_time_to_show_the_content =
+  user_hour * 60 + +user_minutes >= 810 && user_hour < 24;
+const its_the_right_day =
+  get_day_from_data_omie === tomorrow.getDate() &&
+  get_month_from_data_omie === tomorrow.getMonth() + 1;
+
+let filter_data_tomorrow = its_time_to_show_the_data_from_esios
+  ? data_tomorrow
+  : data_tomorrow_omie;
 
 const data_source_element = document.getElementById('table-next-day-data');
-const data_source =
-  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24
-    ? 'ESIOS'
-    : 'OMIE';
+const data_source = its_time_to_show_the_data_from_esios ? 'ESIOS' : 'OMIE';
 
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
@@ -58,7 +64,7 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 order_table_tomorrow_by_price();
-if (user_hour * 60 + +user_minutes >= 810 && user_hour < 24) {
+if (its_time_to_show_the_content && its_the_right_day) {
   container_table_tomorrow.style.display = 'grid';
   data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
 } else {
