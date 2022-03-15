@@ -24,7 +24,7 @@ const options = {
   day: 'numeric'
 };
 
-const get_day_from_data_omie = +data_tomorrow_omie[0].day + 1;
+const get_day_from_data_omie = +data_tomorrow_omie[0].day;
 const get_month_from_data_omie = +data_tomorrow_omie[0].month;
 const its_time_to_show_the_data_from_esios =
   user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24;
@@ -34,9 +34,13 @@ const its_the_right_day =
   get_day_from_data_omie === tomorrow.getDate() &&
   get_month_from_data_omie === tomorrow.getMonth() + 1;
 
+const filter_data_tomorrow_omie = data_tomorrow_omie.filter(
+  ({ price }) => price
+);
+
 let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   ? data_tomorrow
-  : data_tomorrow_omie;
+  : filter_data_tomorrow_omie;
 
 const data_source_element = document.getElementById('table-next-day-data');
 const data_source = its_time_to_show_the_data_from_esios ? 'ESIOS' : 'OMIE';
