@@ -29,9 +29,9 @@ let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 const day_name = day_names_us[user_day.getDay()];
 
-const isUserCanary =
+const is_user_from_canary =
   get_time_zone === 'Atlantic/Canary' && user_hour > 22 && user_hour < 24;
-let data_prices = isUserCanary ? data_canary : data_today;
+let data_prices = is_user_from_canary ? data_canary : data_today;
 
 const [{ price }] = data_prices.filter(({ hour }) => +hour == user_hour);
 
@@ -90,7 +90,7 @@ function order_by_price() {
   type_of_order = 'price';
 }
 
-function orderByHour() {
+function order_by_hour() {
   filter_data_today = filter_data_today.sort(
     ({ hour: a }, { hour: b }) => a - b
   );
@@ -99,7 +99,7 @@ function orderByHour() {
   type_of_order = 'hour';
 }
 
-orderByHour();
+order_by_hour();
 
 document.getElementById('order-price').addEventListener('click', () => {
   remove_tables();
@@ -108,7 +108,7 @@ document.getElementById('order-price').addEventListener('click', () => {
 
 document.getElementById('order-hour').addEventListener('click', () => {
   remove_tables();
-  orderByHour();
+  order_by_hour();
 });
 
 /*
@@ -138,11 +138,18 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   }
 }
 
-const half_past_eight_minutes = 1230;
-if (
-  user_hour * 60 + +user_minutes >= half_past_eight_minutes &&
-  user_hour < 24
-) {
+const HALF_PAST_EIGHT_MINUTES = 1230;
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+const get_day_from_data_esios = +data_tomorrow[0].day.split('/')[0];
+const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
+const its_time_to_show_the_data_from_esios =
+  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24;
+const its_the_right_day =
+  get_day_from_data_esios === tomorrow.getDate() &&
+  get_month_from_data_esios === tomorrow.getMonth() + 1;
+
+if (its_time_to_show_the_data_from_esios && its_the_right_day) {
   container_table_tomorrow.style.display = 'grid';
   order_table_tomorrow_by_price();
 } else {
@@ -194,7 +201,7 @@ document.getElementById('checkbox-hours').addEventListener('change', () => {
     order_by_price();
   } else {
     remove_tables();
-    orderByHour();
+    order_by_hour();
   }
 });
 
