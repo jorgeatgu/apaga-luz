@@ -138,13 +138,13 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   }
 }
 
-const HALF_PAST_EIGHT_MINUTES = 1220;
+const TWENTY_PAST_EIGHT_MINUTES = 1220;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 const get_day_from_data_esios = +data_tomorrow[0].day.split('/')[0];
 const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
 const its_time_to_show_the_data_from_esios =
-  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24;
+  user_hour * 60 + +user_minutes >= TWENTY_PAST_EIGHT_MINUTES && user_hour < 24;
 const its_the_right_day =
   get_day_from_data_esios === tomorrow.getDate() &&
   get_month_from_data_esios === tomorrow.getMonth() + 1;

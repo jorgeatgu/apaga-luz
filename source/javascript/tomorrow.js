@@ -14,7 +14,7 @@ let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
-const HALF_PAST_EIGHT_MINUTES = 1220;
+const TWENTY_PAST_EIGHT_MINUTES = 1220;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -27,7 +27,7 @@ const options = {
 const get_day_from_data_omie = +data_tomorrow_omie[0].day;
 const get_month_from_data_omie = +data_tomorrow_omie[0].month;
 const its_time_to_show_the_data_from_esios =
-  user_hour * 60 + +user_minutes >= HALF_PAST_EIGHT_MINUTES && user_hour < 24;
+  user_hour * 60 + +user_minutes >= TWENTY_PAST_EIGHT_MINUTES && user_hour < 24;
 const its_time_to_show_the_content =
   user_hour * 60 + +user_minutes >= 810 && user_hour < 24;
 const its_the_right_day =
