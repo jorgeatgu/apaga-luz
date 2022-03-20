@@ -14,7 +14,7 @@ let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
-const HALF_PAST_EIGHT_MINUTES = 1230;
+const HALF_PAST_EIGHT_MINUTES = 1220;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 

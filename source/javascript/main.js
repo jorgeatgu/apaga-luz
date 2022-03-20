@@ -138,7 +138,7 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   }
 }
 
-const HALF_PAST_EIGHT_MINUTES = 1230;
+const HALF_PAST_EIGHT_MINUTES = 1220;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 const get_day_from_data_esios = +data_tomorrow[0].day.split('/')[0];
