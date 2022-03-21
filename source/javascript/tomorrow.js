@@ -29,7 +29,7 @@ const get_month_from_data_omie = +data_tomorrow_omie[0].month;
 const its_time_to_show_the_data_from_esios =
   user_hour * 60 + +user_minutes >= TWENTY_PAST_EIGHT_MINUTES && user_hour < 24;
 const its_time_to_show_the_content =
-  user_hour * 60 + +user_minutes >= 810 && user_hour < 24;
+  user_hour * 60 + +user_minutes >= 790 && user_hour < 24;
 const its_the_right_day =
   get_day_from_data_omie === tomorrow.getDate() &&
   get_month_from_data_omie === tomorrow.getMonth() + 1;
