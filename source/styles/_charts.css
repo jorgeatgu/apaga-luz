@@ -27,7 +27,7 @@
 .charts {
   position: relative;
   text {
-    font-family: var(--roboto);
+    font-family: var(--numbers);
     font-size: 14px;
   }
 
