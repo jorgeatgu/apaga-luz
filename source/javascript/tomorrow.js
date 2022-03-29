@@ -14,7 +14,8 @@ let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
-const TWENTY_PAST_EIGHT_MINUTES = 1220;
+const EIGHT_TWENTY = 1220;
+const QUARTER_PAST_ONE = 790;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -26,13 +27,24 @@ const options = {
 
 const get_day_from_data_omie = +data_tomorrow_omie[0].day;
 const get_month_from_data_omie = +data_tomorrow_omie[0].month;
+const get_day_from_data_esios = +data_tomorrow[0].day.split('/')[0];
+const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
+
 const its_time_to_show_the_data_from_esios =
-  user_hour * 60 + +user_minutes >= TWENTY_PAST_EIGHT_MINUTES && user_hour < 24;
+  user_hour * 60 + +user_minutes >= EIGHT_TWENTY && user_hour < 24;
 const its_time_to_show_the_content =
-  user_hour * 60 + +user_minutes >= 790 && user_hour < 24;
-const its_the_right_day =
-  get_day_from_data_omie === tomorrow.getDate() &&
-  get_month_from_data_omie === tomorrow.getMonth() + 1;
+  user_hour * 60 + +user_minutes >= QUARTER_PAST_ONE && user_hour < 24;
+
+const get_day_from_data = its_time_to_show_the_data_from_esios
+  ? get_day_from_data_esios
+  : get_day_from_data_omie;
+const get_month_from_data = its_time_to_show_the_data_from_esios
+  ? get_month_from_data_esios
+  : get_month_from_data_omie;
+
+const check_the_day_in_data =
+  get_day_from_data === tomorrow.getDate() &&
+  get_month_from_data === tomorrow.getMonth() + 1;
 
 const filter_data_tomorrow_omie = data_tomorrow_omie.filter(
   ({ price }) => price
@@ -68,7 +80,7 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 order_table_tomorrow_by_price();
-if (its_time_to_show_the_content && its_the_right_day) {
+if (its_time_to_show_the_content && check_the_day_in_data) {
   container_table_tomorrow.style.display = 'grid';
   data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
 } else {
