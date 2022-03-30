@@ -100,7 +100,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
           return d.getFullYear();
         }
       })
-      .ticks(8);
+      .ticks(5);
 
     g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
 

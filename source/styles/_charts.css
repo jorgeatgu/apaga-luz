@@ -49,10 +49,6 @@
     stroke-width: 1;
   }
 
-  .line-main-line-price {
-    stroke-width: 2;
-  }
-
   .axis {
     text {
       font-family: var(--numbers);
