@@ -69,10 +69,6 @@ export function create_new_table(data_table, selector, type_of_filter) {
         let parse_date_content = `${dia.split('/')[1]}/${dia.split('/')[0]}/${
           dia.split('/')[2]
         }`;
-        new_cell.setAttribute('data-before', `${parse_date_content}`);
-      }
-      if (dia !== 'Hora' && type_of_filter === 'year') {
-        new_cell.setAttribute('data-before', `${dia.split('/')[2]}`);
       }
 
       if (precio === max_value) {
