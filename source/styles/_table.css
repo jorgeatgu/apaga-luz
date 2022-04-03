@@ -198,4 +198,8 @@ details[open].details-table {
     border-bottom: 1px solid #A0ABAF;
   }
 
+  .table-description {
+    width: 100%;
+  }
+
 }
