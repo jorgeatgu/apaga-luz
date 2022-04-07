@@ -27,3 +27,23 @@
     url('../fonts/fjalla-one-v12-latin-regular.woff') format('woff');
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('../fonts/rubik-v19-latin-regular.woff2') format('woff2'),
+    url('../fonts/rubik-v19-latin-regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+    url('../fonts/rubik-v19-latin-700.woff2') format('woff2'),
+    url('../fonts/rubik-v19-latin-700.woff') format('woff');
+  font-display: swap;
+}
