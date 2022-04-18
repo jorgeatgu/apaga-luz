@@ -1,8 +1,15 @@
 import { width_mobile } from './utils.js';
 
 export function create_new_table(data_table, selector, type_of_filter) {
-  const data = data_table.sort((a, b) => new Date(a.dia) - new Date(b.dia));
-
+  let data;
+  if (type_of_filter === 'year') {
+    data_table.forEach(element => {
+      element.year = +element.dia.split('/')[2];
+    });
+    data = data_table.sort((a, b) => a.year - b.year);
+  } else {
+    data = data_table.sort((a, b) => new Date(a.dia) - new Date(b.dia));
+  }
   const table = document.createElement('table');
   table.classList.add('table-same-day');
   const header = table.createTHead().insertRow();

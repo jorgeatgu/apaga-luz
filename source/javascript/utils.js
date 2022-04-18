@@ -1,23 +1,5 @@
 import data from '../../public/data/today_price.json';
 
-export function nextCheapHour() {
-  const user_hour = new Date().getHours();
-  const user_minutes = new Date().getMinutes();
-
-  const filtered_data = data.filter(({ hour }) => +hour > user_hour);
-  const cheap_hour = filtered_data.reduce((p, c) =>
-    p.price < c.price ? p : c
-  );
-  const { hour } = cheap_hour;
-  let timer_hour = hour - (user_hour + 1);
-  const timer_minutes = Math.abs(60 - user_minutes);
-  let text_hour = timer_hour > 1 ? 'horas y' : 'hora y';
-  text_hour = text_hour !== 0 ? text_hour : '';
-  timer_hour = timer_hour !== 0 ? text_hour : '';
-  const text_minutes = timer_minutes > 1 ? 'minutos' : 'minuto';
-  const text = `La próxima hora más barata es dentro de ${timer_hour} ${text_hour} ${timer_minutes} ${text_minutes}`;
-}
-
 export function reload_page(minutes) {
   const reload_page_minutes = 60 - minutes;
   const milliseconds = (h, m, s) => (h * 60 * 60 + m * 60 + s) * 1000;
