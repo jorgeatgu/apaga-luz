@@ -68,7 +68,7 @@ const area_stacked_consumption_options = {
     top: 16,
     right: 16,
     bottom: 24,
-    left: width_mobile < 763 ? 76 : 96
+    left: width_mobile < 763 ? 48 : 96
   }
 };
 
