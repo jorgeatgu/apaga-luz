@@ -130,6 +130,53 @@ select.classic {
   background-repeat: no-repeat;
 }
 
+.tooltip-area-stack {
+  pointer-events: none;
+}
+
+.tooltip-area-stack-grid-key,
+.tooltip-area-stack-grid-value {
+  font-size: 14px;
+  display: inline-block;
+  padding: .25rem;
+}
+
+.tooltip-area-stack-grid-key {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: var(--white);
+}
+
+.tooltip-area-stack-grid-value {
+  text-align: right;
+  font-weight: bold;
+}
+
+.tooltip-area-stack-year {
+  font-size: 1.25rem;
+  margin-bottom: .5rem;
+  display: block;
+  font-weight: bold;
+}
+
+.x-hover-line {
+  stroke: var(--black);
+  stroke-width: 2px;
+}
+
+.area-stacked-energy-consumption {
+  .tooltip-area-stack {
+    padding: .5rem;
+    width: 250px;
+  }
+}
+
+.tooltip-area-stack-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-bottom: .5rem;
+}
+
 @media only screen and (max-width: 560px) {
   .container-chart-title,
   .charts-warning {

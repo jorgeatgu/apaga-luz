@@ -1,5 +1,6 @@
 import './../styles/styles.css';
 import { line_chart } from './line_chart.js';
+import { area_stacked } from './area_stacked.js';
 import { width_mobile, day_names_us } from './utils.js';
 
 const user_hour = new Date().getHours();
@@ -59,6 +60,18 @@ const line_chart_by_day_of_week_options = {
   }
 };
 
+const area_stacked_consumption_options = {
+  html_element: 'energy-consumption',
+  x_axis_prop: 'year',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
 line_chart('/data/group_prices_by_month.json', line_chart_by_month_options);
 line_chart('/data/group_prices_by_day.json', line_chart_by_day_options);
 line_chart(
@@ -70,4 +83,9 @@ line_chart(
   '/data/group_prices_by_day.json',
   line_chart_by_day_of_week_options,
   day_name
+);
+
+area_stacked(
+  '/data/owid-energy-spain-consumption.csv',
+  area_stacked_consumption_options
 );
