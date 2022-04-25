@@ -33,6 +33,7 @@
 
   .line-month-price,
   .line-day-price,
+  .line-day-price-last-year,
   .line-hour-price,
   .line-day-week-price,
   .line-main-line-price {
@@ -120,7 +121,6 @@ select {
   margin: 0;
   box-sizing: border-box;
   -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 select.classic {

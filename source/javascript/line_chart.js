@@ -250,7 +250,8 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         .html(
           html_element === 'month-price'
             ? month_content
-            : html_element === 'day-price'
+            : html_element === 'day-price' ||
+              html_element === 'day-price-last-year'
             ? day_content
             : html_element === 'hour-price'
             ? hour_content

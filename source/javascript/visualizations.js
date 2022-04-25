@@ -1,7 +1,12 @@
 import './../styles/styles.css';
 import { line_chart } from './line_chart.js';
 import { area_stacked } from './area_stacked.js';
-import { width_mobile, day_names_us } from './utils.js';
+import {
+  width_mobile,
+  month_names,
+  last_n_days,
+  day_names_us
+} from './utils.js';
 import data_historic_today from '/public/data/historic_today_price.json';
 import data_last_week from '/public/data/last_week_price.json';
 import { create_new_table } from './table.js';
@@ -95,7 +100,7 @@ const line_chart_by_day_of_month_options = {
 };
 
 const line_chart_group_by_day_options = {
-  html_element: 'day-price',
+  html_element: 'day-price-last-year',
   x_axis_prop: 'date',
   y_axis_prop: 'price',
   select_html: false,

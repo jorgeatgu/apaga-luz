@@ -5,10 +5,8 @@ import data_canary from '/public/data/canary_price.json';
 import {
   reload_page,
   get_zone_color,
-  month_names,
   width_mobile,
-  day_names_us,
-  last_n_days
+  day_names_us
 } from './utils.js';
 
 import {

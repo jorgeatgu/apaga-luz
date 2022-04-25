@@ -81,7 +81,46 @@
       <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-8990231994528437" data-ad-slot="9639379817"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </section>
-
+    <section class="container-table">
+      <article class="subcontainer-table">
+        <h2 class="container-chart-title">Precio de la luz durante el último año</h2>
+        <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por dia a lo largo del último año.</p>
+        <article class="line-chart-day-price-last-year charts">
+          <svg>
+            <g class="line-chart-day-price-last-year-container"></g>
+          </svg>
+        </article>
+        <h2 class="container-chart-title">Precio de la luz durante el último mes</h2>
+        <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por hora a lo largo de los últimos 30 días.</p>
+        <article class="line-chart-main-line-price charts">
+          <svg>
+            <g class="line-chart-main-line-price-container"></g>
+          </svg>
+        </article>
+        <h2>Histórico de precios de la luz para <span id="js-table-date"></span></h2>
+        <p class="table-description">
+          En esta tabla puedes ver el precio de la luz de hoy entre los años 2014 y 2022. Las celdas en color verde muestran cuando fue el precio más barato de la luz entre los años 2014 y 2022. Las celdas en color rojo muestran cuando fue el precio más caro de la luz entre los años 2014 y 2022.
+        </p>
+        <details class="details-table" open="">
+          <summary>
+            <strong class="summary-text-open">Desplegar la tabla</strong>
+            <strong class="summary-text-close">Ocultar la tabla</strong>
+          </summary>
+          <div class="table-element" id="table-year"></div>
+        </details>
+        <h2>Precios durante la última semana</h2>
+        <p class="table-description">
+          En esta tabla puedes comparar el precio de la luz por hora a lo largo de la semana. Al igual que en la anterior las celdas en color verde muestran cuando fue el precio más barato. Las celdas en color rojo muestran cuando fue el precio más caro de la luz.
+        </p>
+        <details class="details-table" open="">
+          <summary>
+            <strong class="summary-text-open">Desplegar la tabla</strong>
+            <strong class="summary-text-close">Ocultar la tabla</strong>
+          </summary>
+          <div class="table-element" id="table-week"></div>
+        </details>
+      </article>
+    </section>
   </main>
   <footer class="footer">
     <div class="container-footer">
