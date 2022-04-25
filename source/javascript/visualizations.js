@@ -2,6 +2,9 @@ import './../styles/styles.css';
 import { line_chart } from './line_chart.js';
 import { area_stacked } from './area_stacked.js';
 import { width_mobile, day_names_us } from './utils.js';
+import data_historic_today from '/public/data/historic_today_price.json';
+import data_last_week from '/public/data/last_week_price.json';
+import { create_new_table } from './table.js';
 
 const user_hour = new Date().getHours();
 const user_day = new Date();
@@ -72,6 +75,40 @@ const area_stacked_consumption_options = {
   }
 };
 
+const get_table_historic_date = document.getElementById('js-table-date');
+get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
+  month_names[user_day.getMonth()]
+}`;
+
+const line_chart_by_day_of_month_options = {
+  html_element: 'main-line-price',
+  x_axis_prop: 'dia',
+  y_axis_prop: 'precio',
+  select_html: false,
+  main_chart: true,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+const line_chart_group_by_day_options = {
+  html_element: 'day-price',
+  x_axis_prop: 'date',
+  y_axis_prop: 'price',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+line_chart('/data/last_year_group_price.json', line_chart_group_by_day_options);
+line_chart('/data/last_month_price.json', line_chart_by_day_of_month_options);
 line_chart('/data/group_prices_by_month.json', line_chart_by_month_options);
 line_chart('/data/group_prices_by_day.json', line_chart_by_day_options);
 line_chart(
@@ -89,3 +126,5 @@ area_stacked(
   '/data/owid-energy-spain-consumption.csv',
   area_stacked_consumption_options
 );
+create_new_table(data_historic_today, 'table-year', 'year');
+create_new_table(data_last_week, 'table-week', 'day');

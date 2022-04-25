@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Apaga luz: consulta el precio de la luz de hoy y los horarios de luz</title>
+  <title>Apaga luz: Consulta el precio de la luz de hoy</title>
   <meta name="description" content="Es una aplicación para saber a que hora es más barata la luz. Obtén información del precio de la luz hoy, el precio de la luz mañana y los horarios luz.">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
   <nav class="menu">
     <div class="menu-container">
       <a class="menu-element menu-root" href="/">Inicio</a>
-      <a class="menu-element" href="/datos/">Gráficas</a>
+      <a class="menu-element" href="/graficas/">Gráficas</a>
       <a class="menu-element" href="/precio-luz-manana/">Precio luz mañana</a>
     </div>
   </nav>
@@ -59,14 +59,8 @@
             <a href="https://github.com/sponsors/jorgeatgu" class="sponsor-card-button" aria-label="Sponsor @jorgeatgu on GitHub">GitHub Sponsor</a>
           </div>
         </article>
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-format="autorelaxed"
-             data-ad-client="ca-pub-8990231994528437"
-             data-ad-slot="9639379817"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-8990231994528437" data-ad-slot="9639379817"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({});</script>
         <details class="table-next-day">
           <div class="container-table-next-day-grid">
             <div class="container-btns-order">
@@ -99,53 +93,17 @@
             </div>
           </article>
         </article>
-      </article>
-    </section>
-    <section class="container-table">
-      <article class="subcontainer-table">
-        <h2 class="container-chart-title">Precio de la luz durante el último año</h2>
-        <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por dia a lo largo del último año.</p>
-        <article class="line-chart-day-price charts">
-          <svg>
-            <g class="line-chart-day-price-container"></g>
-          </svg>
+        <article class="container-cheap">
+          <p>En la sección de gráficas encontrarás datos históricos y actuales sobre el precio de la luz.</p>
+          <a class="btn-order btn-newsletter" href="/datos/">GRÁFICAS</a>
         </article>
-        <h2 class="container-chart-title">Precio de la luz durante el último mes</h2>
-        <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por hora a lo largo de los últimos 30 días.</p>
-        <article class="line-chart-main-line-price charts">
-          <svg>
-            <g class="line-chart-main-line-price-container"></g>
-          </svg>
-        </article>
-        <h2>Histórico de precios de la luz para <span id="js-table-date"></span></h2>
-        <p class="table-description">
-          En esta tabla puedes ver el precio de la luz de hoy entre los años 2014 y 2022. Las celdas en color verde muestran cuando fue el precio más barato de la luz entre los años 2014 y 2022. Las celdas en color rojo muestran cuando fue el precio más caro de la luz entre los años 2014 y 2022.
-        </p>
-        <details class="details-table" open="">
-          <summary>
-            <strong class="summary-text-open">Desplegar la tabla</strong>
-            <strong class="summary-text-close">Ocultar la tabla</strong>
-          </summary>
-          <div class="table-element" id="table-year"></div>
-        </details>
-        <h2>Precios durante la última semana</h2>
-        <p class="table-description">
-          En esta tabla puedes comparar el precio de la luz por hora a lo largo de la semana. Al igual que en la anterior las celdas en color verde muestran cuando fue el precio más barato. Las celdas en color rojo muestran cuando fue el precio más caro de la luz.
-        </p>
-        <details class="details-table" open="">
-          <summary>
-            <strong class="summary-text-open">Desplegar la tabla</strong>
-            <strong class="summary-text-close">Ocultar la tabla</strong>
-          </summary>
-          <div class="table-element" id="table-week"></div>
-        </details>
       </article>
     </section>
     <section class="container-calendar">
       <article class="container">
-        <h1 class="section-title">APAGA-LUZ: precio de la luz hoy, precio de la luz mañana y horarios luz</h1>
+        <h1 class="section-title">APAGA-LUZ: Precio de la luz hoy y el <a href="/precio-luz-manana/">precio luz mañana</a></h1>
         <p class="post-text">
-          Es un proyecto para mostrar de una forma sencilla el precio de la luz de hoy justo en el momento que entras a la web. Además se muestra una tabla con los precios de la luz por franjas horarias a lo largo del día, dividida entre las horas más baratas de luz y más caras.
+          Es un proyecto para mostrar de una forma sencilla el precio de la luz de hoy justo en el momento que entras a la web. Además se muestra una tabla con los precios de la tarifa de la luz por franjas horarias a lo largo del día, dividida entre las horas más baratas de luz y más caras.
         </p>
         <p class="post-text">La motivación para este proyecto fue la reforma de las tarifas de la luz que aplico el Gobierno de España el 1 de junio de 2021. Aunque había otros proyectos que informaban del precio de la luz hoy, ninguno de ellos me servía para lo que quería, que era saber el precio kWh hoy sin tener que perderme buscando el precio exacto de la luz entre gráficas y datos. También saber el horario de luz mas barata hoy.</p>
         <p class="post-text">La inspiración fue por este <a href="https://twitter.com/editora/status/1399812168955174914">tweet de Nuria</a> donde contaba que se había hecho un excel con los precios, y además comentaba la existencia de la API de Red Electrica de España, que es el lugar de donde obtengo los datos.</p>

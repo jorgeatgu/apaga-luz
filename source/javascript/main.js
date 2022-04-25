@@ -2,9 +2,6 @@ import './../styles/styles.css';
 import data_today from '/public/data/today_price.json';
 import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_canary from '/public/data/canary_price.json';
-import data_historic_today from '/public/data/historic_today_price.json';
-import data_last_week from '/public/data/last_week_price.json';
-import { line_chart } from './line_chart.js';
 import {
   reload_page,
   get_zone_color,
@@ -15,7 +12,6 @@ import {
 } from './utils.js';
 
 import {
-  create_new_table,
   table_price,
   table_price_tomorrow,
   remove_tables,
@@ -211,9 +207,6 @@ const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${user_hou
 const button_whatsApp = document.getElementById('btn-whatsapp');
 button_whatsApp.href = text_whatsApp;
 
-create_new_table(data_historic_today, 'table-year', 'year');
-create_new_table(data_last_week, 'table-week', 'day');
-
 let root = document.documentElement;
 
 document.getElementById('color-blindness').addEventListener('change', e => {
@@ -241,39 +234,3 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
-
-const get_table_historic_date = document.getElementById('js-table-date');
-get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
-  month_names[user_day.getMonth()]
-}`;
-
-const line_chart_by_day_of_month_options = {
-  html_element: 'main-line-price',
-  x_axis_prop: 'dia',
-  y_axis_prop: 'precio',
-  select_html: false,
-  main_chart: true,
-  margin: {
-    top: 16,
-    right: 16,
-    bottom: 24,
-    left: width_mobile < 763 ? 76 : 96
-  }
-};
-
-const line_chart_group_by_day_options = {
-  html_element: 'day-price',
-  x_axis_prop: 'date',
-  y_axis_prop: 'price',
-  select_html: false,
-  margin: {
-    top: 16,
-    right: 16,
-    bottom: 24,
-    left: width_mobile < 763 ? 76 : 96
-  }
-};
-
-line_chart('/data/last_year_group_price.json', line_chart_group_by_day_options);
-
-line_chart('/data/last_month_price.json', line_chart_by_day_of_month_options);
