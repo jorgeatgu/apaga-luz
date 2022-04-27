@@ -162,8 +162,10 @@
 
 .newsletter-free {
   background: var(--green);
+  color: var(--black);
   font-weight: bold;
   padding: .375rem;
+  text-decoration: none;
 }
 
 @media only screen and (min-width: 48rem) {
