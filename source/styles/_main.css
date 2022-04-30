@@ -189,6 +189,12 @@ main {
   font-family: var(--numbers);
 }
 
+.section-subtitle {
+  font-family: var(--numbers);
+  margin-top: 0;
+  margin-bottom: .5rem;
+}
+
 .post-text {
   font-size: 1rem;
   font-family: var(--text);
