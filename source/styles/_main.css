@@ -191,8 +191,7 @@ main {
 
 .section-subtitle {
   font-family: var(--numbers);
-  margin-top: 0;
-  margin-bottom: .5rem;
+  margin: .5rem 0;
 }
 
 .post-text {
