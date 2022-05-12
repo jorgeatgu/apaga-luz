@@ -151,10 +151,10 @@ export function table_price_tomorrow(data_hours, element) {
   };
 
   if (!document.querySelector('.container-table-next-day-title')) {
-    title = `<summary><h3 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">Precios para mañana</span>: ${tomorrow.toLocaleDateString(
+    title = `<summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la luz mañana</span> ${tomorrow.toLocaleDateString(
       'es-ES',
       options
-    )}</h3></summary>`;
+    )}</h2></summary>`;
     container.insertAdjacentHTML('afterbegin', title);
   }
 
@@ -219,12 +219,20 @@ export function table_price(data_hours, element) {
   const get_value_checkbox_hours =
     document.getElementById('checkbox-hours').checked;
 
-  let user_day = new Date().getDay();
+  const today = new Date();
+
+  const options = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  };
+
+  const getElementDate = document.getElementById('section-subtitle-date');
+  getElementDate.textContent = `${today.toLocaleDateString('es-ES', options)}`;
 
   for (let elements of data_hours) {
     const { price, hour, zone, hourHasPassed } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    const user_day = new Date().getDay();
     const hour_has_passed_class =
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
