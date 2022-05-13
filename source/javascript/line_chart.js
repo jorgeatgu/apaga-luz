@@ -209,7 +209,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         month_names[d[x_axis_prop].getMonth()]
       } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
-      )} €/kWh</strong></span>`;
+      )} € kWh</strong></span>`;
 
       const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
         d.day

@@ -167,7 +167,7 @@ export function table_price_tomorrow(data_hours, element) {
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
-        ${price} €/kWh
+        ${price} € kWh
       </span>
     </div>`;
 
@@ -241,7 +241,7 @@ export function table_price(data_hours, element) {
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
-        ${price} €/kWh
+        ${price} € kWh
       </span>
     </div>`;
     container.insertAdjacentHTML('beforeend', block_hour);
