@@ -1,4 +1,3 @@
-import LogRocket from 'logrocket';
 import './../styles/styles.css';
 import data_today from '/public/data/today_price.json';
 import data_tomorrow from '/public/data/tomorrow_price.json';
@@ -17,7 +16,6 @@ import {
   remove_tables_tomorrow
 } from './table.js';
 
-LogRocket.init('7ccmbn/apaga-luz');
 const get_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 let user_hour = new Date().getHours();
