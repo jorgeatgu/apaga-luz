@@ -1,7 +1,7 @@
 name: flat-omie-gas
 on:
   schedule:
-    - cron: 25 11 * * *
+    - cron: 05 12 * * *
   workflow_dispatch:
 jobs:
   scheduled:

@@ -38,6 +38,7 @@ let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   };
 });
 omie_compensacion = omie_compensacion.filter(({ price }) => price);
+console.log("omie_compensacion", omie_compensacion);
 
 await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)
 
