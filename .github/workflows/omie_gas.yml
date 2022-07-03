@@ -1,4 +1,4 @@
-name: flat-omie
+name: flat-omie-gas
 on:
   schedule:
     - cron: 25 11 * * *
@@ -25,6 +25,6 @@ jobs:
       - name: Fetch data
         uses: githubocto/flat@v3
         with:
-          http_url: https://www.omie.es/sites/default/files/dados/AGNO_${{dateYear}}/MES_${{dateMonth}}/TXT/INT_MAJ_EV_H_${{dateDay}}_${{dateMonth}}_${{dateYear}}_${{dateDay}}_${{dateMonth}}_${{dateYear}}.TXT
+          http_url: https://www.omie.es/sites/default/files/dados/AGNO_${{ steps.date.outputs.dateYear }}/MES_${{ steps.date.outputs.dateMonth }}/TXT/INT_MAJ_EV_H_${{ steps.date.outputs.dateDay }}_${{ steps.date.outputs.dateMonth }}_${{ steps.date.outputs.dateYear }}_${{ steps.date.outputs.dateDay }}_${{ steps.date.outputs.dateMonth }}_${{ steps.date.outputs.dateYear }}.TXT
           downloaded_filename: public/data/omie_prices_gas.json
           postprocess: omie_dataset_gas.js
