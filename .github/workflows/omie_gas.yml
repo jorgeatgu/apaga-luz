@@ -1,0 +1,30 @@
+name: flat-omie
+on:
+  schedule:
+    - cron: 25 11 * * *
+  workflow_dispatch:
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "
+          ::set-output name=dateYear::$(date -d 'tomorrow' +%Y)
+          ::set-output name=dateMonth::$(date -d 'tomorrow' +%m)
+          ::set-output name=dateDay::$(date -d 'tomorrow' +%d)
+          "
+      - name: Setup deno
+        uses: denoland/setup-deno@main
+        with:
+          deno-version: v1.x
+      - name: Check out repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch data
+        uses: githubocto/flat@v3
+        with:
+          http_url: https://www.omie.es/sites/default/files/dados/AGNO_${{dateYear}}/MES_${{dateMonth}}/TXT/INT_MAJ_EV_H_${{dateDay}}_${{dateMonth}}_${{dateYear}}_${{dateDay}}_${{dateMonth}}_${{dateYear}}.TXT
+          downloaded_filename: public/data/omie_prices_gas.json
+          postprocess: omie_dataset_gas.js
