@@ -1,6 +1,7 @@
 import './../styles/styles.css';
 import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
+import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 
 /*
@@ -16,6 +17,7 @@ user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
 const EIGHT_TWENTY = 1220;
 const QUARTER_PAST_ONE = 790;
+const TIME_OMIE_GAS = 845;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -32,6 +34,8 @@ const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
 
 const its_time_to_show_the_data_from_esios =
   user_hour * 60 + +user_minutes >= EIGHT_TWENTY && user_hour < 24;
+const its_time_to_show_the_sum_compensation_gas =
+  user_hour * 60 + +user_minutes >= TIME_OMIE_GAS && user_hour < 24;
 const its_time_to_show_the_content =
   user_hour * 60 + +user_minutes >= QUARTER_PAST_ONE && user_hour < 24;
 
@@ -46,9 +50,19 @@ const check_the_day_in_data =
   get_day_from_data === tomorrow.getDate() &&
   get_month_from_data === tomorrow.getMonth() + 1;
 
-const filter_data_tomorrow_omie = data_tomorrow_omie.filter(
-  ({ price }) => price
-);
+let filter_data_tomorrow_omie = data_tomorrow_omie.filter(({ price }) => price);
+
+if (its_time_to_show_the_sum_compensation_gas) {
+  filter_data_tomorrow_omie = Object.values(
+    [...filter_data_tomorrow_omie, ...data_gas_omie].reduce(
+      (acc, { hour, price }) => {
+        acc[hour] = { hour, price: (acc[hour] ? acc[hour].price : 0) + price };
+        return acc;
+      },
+      {}
+    )
+  );
+}
 
 let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   ? data_tomorrow

@@ -33,7 +33,7 @@ remove_lines_compensacion_gas_replace = remove_lines_compensacion_gas_replace.re
 const compensacion_csv_to_json = parseCsv(remove_lines_compensacion_gas_replace)
 let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   return {
-    price: element.compensacion,
+    price: +((element.compensacion / 1000).toFixed(3)),
     hour: index
   };
 });
