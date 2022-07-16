@@ -17,6 +17,12 @@ import {
   remove_tables_tomorrow
 } from './table.js';
 
+const options = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+};
+
 const get_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 let user_hour = new Date().getHours();
