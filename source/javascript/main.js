@@ -1,5 +1,6 @@
 import './../styles/styles.css';
 import data_today from '/public/data/today_price.json';
+import data_tomorrow_omie from '/public/data/omie_data.json';
 import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_canary from '/public/data/canary_price.json';
 import {
@@ -133,15 +134,37 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
 }
 
 const TWENTY_PAST_EIGHT_MINUTES = 1220;
+const QUARTER_PAST_ONE = 790;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
+const get_day_from_data_omie = +data_tomorrow_omie[0].day;
+const get_month_from_data_omie = +data_tomorrow_omie[0].month;
 const get_day_from_data_esios = +data_tomorrow[0].day.split('/')[0];
 const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
+
 const its_time_to_show_the_data_from_esios =
   user_hour * 60 + +user_minutes >= TWENTY_PAST_EIGHT_MINUTES && user_hour < 24;
+
+const its_time_to_show_the_data_from_omie =
+  user_hour * 60 + +user_minutes >= QUARTER_PAST_ONE &&
+  user_hour < TWENTY_PAST_EIGHT_MINUTES;
+
+const check_the_day_in_data_omie =
+  get_day_from_data_omie === tomorrow.getDate() &&
+  get_month_from_data_omie === tomorrow.getMonth() + 1;
+
 const its_the_right_day =
   get_day_from_data_esios === tomorrow.getDate() &&
   get_month_from_data_esios === tomorrow.getMonth() + 1;
+
+if (its_time_to_show_the_data_from_omie && check_the_day_in_data_omie) {
+  const get_button_next_day = document.getElementById('button-prices-next-day');
+  get_button_next_day.style.display = 'inline-block';
+  get_button_next_day.textContent = `Ya están disponibles los precios de la luz para mañana, ${tomorrow.toLocaleDateString(
+    'es-ES',
+    options
+  )}`;
+}
 
 if (its_time_to_show_the_data_from_esios && its_the_right_day) {
   container_table_tomorrow.style.display = 'grid';

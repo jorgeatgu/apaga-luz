@@ -492,6 +492,21 @@ details[open] {
   }
 }
 
+#button-prices-next-day {
+  margin-top: 1rem;
+  box-shadow: var(--shadow);
+  background-color: var(--btn-blue);
+  color: var(--white);
+  display: none;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--btn-blue-hover);
+  }
+}
+
 @media only screen and (min-width: 48rem) {
 
   .container {
