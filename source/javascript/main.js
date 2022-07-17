@@ -153,7 +153,7 @@ const its_time_to_show_the_data_from_esios =
 
 const its_time_to_show_the_data_from_omie =
   user_hour * 60 + +user_minutes >= QUARTER_PAST_ONE &&
-  user_hour < TWENTY_PAST_EIGHT_MINUTES;
+  user_hour * 60 < TWENTY_PAST_EIGHT_MINUTES;
 
 const check_the_day_in_data_omie =
   get_day_from_data_omie === tomorrow.getDate() &&
