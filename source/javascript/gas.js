@@ -1,5 +1,6 @@
 import './../styles/styles.css';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
+import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 
 /*
@@ -7,6 +8,27 @@ Prices are published at 20:15,
 at 20:30 I publish the next day's data,
 this table will only be available until 00:00.
 */
+
+let user_hour = new Date().getHours();
+let user_minutes = new Date().getMinutes();
+let user_day = new Date();
+user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
+user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
+
+const TIME_OMIE_GAS = 845;
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const options = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+};
+
+const get_day_from_data_omie = +data_tomorrow_omie[0].day;
+const get_month_from_data_omie = +data_tomorrow_omie[0].month;
+const its_time_to_show_the_sum_compensation_gas =
+  user_hour * 60 + +user_minutes >= TIME_OMIE_GAS && user_hour < 24;
 
 let filter_data_tomorrow_omie = data_gas_omie.filter(({ price }) => price);
 const data_source_element = document.getElementById('table-next-day-data');

@@ -401,6 +401,8 @@ details[open] {
   width: max-content;
   border-radius: 4px;
   box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .bg-green-light {
@@ -548,5 +550,9 @@ details[open] {
 
   .sponsor-card-buttons-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .menu-container {
+    display: block;
   }
 }
