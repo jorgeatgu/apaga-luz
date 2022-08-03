@@ -30,11 +30,21 @@ const remove_lines_compensacion_gas = removeLines(compensacion_gas, [0,1,2,4,5,6
 let remove_lines_compensacion_gas_replace = remove_lines_compensacion_gas.replaceAll(',', '.').replaceAll(';',',')
 remove_lines_compensacion_gas_replace = remove_lines_compensacion_gas_replace.replace('Precio de ajuste en el sistema espa�ol (EUR/MWh),   ', 'compensacion;\n').replaceAll(',   ',',\n')
 
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+let get_date = tomorrow.getDate();
+let get_month = tomorrow.getMonth() + 1;
+const get_year = tomorrow.getFullYear();
+
+get_month = get_month < 10 ? `0${get_month}` : get_month;
+get_date = get_date < 10 ? `0${get_date}` : get_date;
+
 const compensacion_csv_to_json = parseCsv(remove_lines_compensacion_gas_replace)
 let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   return {
     price: +((element.compensacion / 1000).toFixed(3)),
-    hour: index
+    hour: index,
+    date: `${get_date}/${get_month}/${get_year};`
   };
 });
 omie_compensacion = omie_compensacion.filter(({ price }) => price);
