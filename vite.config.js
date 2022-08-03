@@ -13,6 +13,7 @@ export default defineConfig({
         'newsletter-precio-luz-manana': 'noticias/newsletter-precio-luz-manana/index.html',
         'novedades-precio-luz-manana': 'noticias/novedades-precio-luz-manana/index.html',
         'precio-luz-manana': 'precio-luz-manana/index.html',
+        'compensacion-del-gas': 'compensacion-del-gas/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       }

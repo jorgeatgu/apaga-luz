@@ -135,7 +135,11 @@ export function create_new_table(data_table, selector, type_of_filter) {
   }
 }
 
-export function table_price_tomorrow(data_hours, element) {
+export function table_price_tomorrow(
+  data_hours,
+  element,
+  compensacion = false
+) {
   const container = document.querySelector('.table-next-day');
   const table_grid = document.querySelector(element);
   let title;
@@ -150,8 +154,10 @@ export function table_price_tomorrow(data_hours, element) {
     day: 'numeric'
   };
 
+  const string_table_tomorrow = compensacion ? 'compensación del gas' : 'luz';
+
   if (!document.querySelector('.container-table-next-day-title')) {
-    title = `<summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la luz mañana</span> ${tomorrow.toLocaleDateString(
+    title = `<summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la ${string_table_tomorrow} mañana</span> ${tomorrow.toLocaleDateString(
       'es-ES',
       options
     )}</h2></summary>`;
