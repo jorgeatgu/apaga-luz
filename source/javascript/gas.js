@@ -37,7 +37,6 @@ filter_data_tomorrow_omie = filter_data_tomorrow_omie.sort(
   ({ price: a }, { price: b }) => a - b
 );
 
-const container_table_tomorrow = document.querySelector('.table-next-day');
 filter_data_tomorrow_omie = filter_data_tomorrow_omie.map(
   ({ price, ...rest }) => {
     return {
@@ -55,6 +54,22 @@ for (let [index, element] of filter_data_tomorrow_omie.entries()) {
   } else {
     element.zone = 'punta';
   }
+}
+
+const check_the_day_in_data =
+  get_day_from_data_omie === tomorrow.getDate() &&
+  get_month_from_data_omie === tomorrow.getMonth() + 1;
+
+if (its_time_to_show_the_sum_compensation_gas && check_the_day_in_data) {
+  container_table_tomorrow.style.display = 'grid';
+} else {
+  const get_warning_id = document.getElementById('warning-tomorrow-data');
+  get_warning_id.textContent = `Todavía no hay datos disponibles para mañana: ${tomorrow.toLocaleDateString(
+    'es-ES',
+    options
+  )}`;
+
+  container_table_tomorrow.style.display = 'none';
 }
 
 order_table_tomorrow_by_price();
