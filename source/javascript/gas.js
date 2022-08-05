@@ -56,6 +56,7 @@ for (let [index, element] of filter_data_tomorrow_omie.entries()) {
   }
 }
 
+const container_table_tomorrow = document.querySelector('.table-next-day');
 const check_the_day_in_data =
   get_day_from_data_omie === tomorrow.getDate() &&
   get_month_from_data_omie === tomorrow.getMonth() + 1;
