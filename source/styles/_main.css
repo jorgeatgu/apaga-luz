@@ -54,6 +54,14 @@ main {
   }
 }
 
+.btn-charts {
+  margin-bottom: 1rem;
+}
+
+.btn-gas {
+  text-decoration: none;
+}
+
 .btn-blindness {
   background: var(--black);
   color: var(--white);
