@@ -392,12 +392,10 @@ export function line_chart(data_chart, element_options, selected_value = '') {
           line_chart_data = data.sort(
             (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
           );
-          console.log('line_chart_data', line_chart_data);
           setup_elements();
           setup_scales();
           update_chart(line_chart_data);
         } else {
-          console.log('else');
           line_chart_data.forEach(d => {
             d[y_axis_prop] = d[y_axis_prop] / 1000;
             d[x_axis_prop] = new Date(d[x_axis_prop]);
