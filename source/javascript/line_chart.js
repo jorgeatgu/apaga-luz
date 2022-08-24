@@ -91,7 +91,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .axisBottom(scales.count.x)
       .tickPadding(4)
       .tickFormat(d => {
-        if (main_chart) {
+        if (main_chart || html_element === 'hour-price-gas') {
           return new Intl.DateTimeFormat('es-ES', {
             day: 'numeric',
             month: 'long'
@@ -245,6 +245,16 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       )} €/kWh</strong></span>`
         : '';
 
+      const gas_hour_linechart = d.dia
+        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+            month_names[d[x_axis_prop].getMonth()]
+          }
+       a las ${d.dia.getHours()}:00
+      el precio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`
+        : '';
+
       tooltip
         .style('opacity', 1)
         .html(
@@ -259,6 +269,8 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             ? day_week_content
             : html_element === 'main-line-price'
             ? main_week_linechart
+            : html_element === 'hour-price-gas'
+            ? gas_hour_linechart
             : ''
         )
         .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
@@ -366,7 +378,26 @@ export function line_chart(data_chart, element_options, selected_value = '') {
           line_chart_data = data.sort(
             (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
           );
+        } else if (html_element === 'hour-price-gas') {
+          line_chart_data.forEach(d => {
+            d.day = d[x_axis_prop].split('/')[0];
+            d.year = d[x_axis_prop].split('/')[2];
+            d[x_axis_prop] = new Date(
+              `${d[x_axis_prop].split('/')[1]}/${
+                d[x_axis_prop].split('/')[0]
+              }/${d[x_axis_prop].split('/')[2]}`
+            );
+            d[x_axis_prop].setHours(d[x_axis_prop].getHours() + d.hora);
+          });
+          line_chart_data = data.sort(
+            (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+          );
+          console.log('line_chart_data', line_chart_data);
+          setup_elements();
+          setup_scales();
+          update_chart(line_chart_data);
         } else {
+          console.log('else');
           line_chart_data.forEach(d => {
             d[y_axis_prop] = d[y_axis_prop] / 1000;
             d[x_axis_prop] = new Date(d[x_axis_prop]);

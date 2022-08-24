@@ -2,6 +2,13 @@ import './../styles/styles.css';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
+import { line_chart } from './line_chart.js';
+import {
+  width_mobile,
+  month_names,
+  last_n_days,
+  day_names_us
+} from './utils.js';
 
 /*
 Prices are published at 20:15,
@@ -117,3 +124,32 @@ document.getElementById('order-hour-next').addEventListener('click', () => {
   remove_tables_tomorrow();
   order_table_tomorrow_by_hour();
 });
+
+const line_chart_by_day_options = {
+  html_element: 'day-price',
+  x_axis_prop: 'date',
+  y_axis_prop: 'price',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+const line_chart_by_hour_options = {
+  html_element: 'hour-price-gas',
+  x_axis_prop: 'dia',
+  y_axis_prop: 'precio',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
+/*line_chart('/data/group_prices_by_day.json', line_chart_by_day_options);*/
+line_chart('/data/historic_compensacion_gas.json', line_chart_by_hour_options);
