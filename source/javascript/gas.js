@@ -151,8 +151,25 @@ const line_chart_by_hour_options = {
   }
 };
 
+const line_chart_by_month_options = {
+  html_element: 'month-price-gas',
+  x_axis_prop: 'date',
+  y_axis_prop: 'averagePrice',
+  select_html: false,
+  margin: {
+    top: 16,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 76 : 96
+  }
+};
+
 line_chart(
   '/data/omie_compensacion_data_by_day.json',
   line_chart_by_day_options
+);
+line_chart(
+  '/data/omie_compensacion_data_by_month.json',
+  line_chart_by_month_options
 );
 line_chart('/data/historic_compensacion_gas.json', line_chart_by_hour_options);

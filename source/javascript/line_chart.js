@@ -91,11 +91,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .axisBottom(scales.count.x)
       .tickPadding(4)
       .tickFormat(d => {
-        if (
-          main_chart ||
-          html_element === 'hour-price-gas' ||
-          html_element === 'day-price-gas'
-        ) {
+        if (main_chart || html_element.includes('gas')) {
           return new Intl.DateTimeFormat('es-ES', {
             day: 'numeric',
             month: 'long'
@@ -265,6 +261,12 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         3
       )} €/kWh</strong></span>`;
 
+      const gas_month_linechart = `<span class="tooltip-group-by-${html_element}-year">En ${
+        month_names[d[x_axis_prop].getMonth()]
+      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} € kWh</strong></span>`;
+
       tooltip
         .style('opacity', 1)
         .html(
@@ -283,6 +285,8 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             ? gas_hour_linechart
             : html_element === 'day-price-gas'
             ? gas_day_linechart
+            : html_element === 'month-price-gas'
+            ? gas_month_linechart
             : ''
         )
         .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
@@ -410,7 +414,8 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         } else {
           line_chart_data.forEach(d => {
             d[y_axis_prop] =
-              html_element === 'day-price-gas'
+              html_element === 'day-price-gas' ||
+              html_element === 'month-price-gas'
                 ? d[y_axis_prop]
                 : d[y_axis_prop] / 1000;
             d[x_axis_prop] = new Date(d[x_axis_prop]);
