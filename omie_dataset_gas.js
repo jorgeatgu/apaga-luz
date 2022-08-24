@@ -42,11 +42,11 @@ get_date = get_date < 10 ? `0${get_date}` : get_date;
 const compensacion_csv_to_json = parseCsv(remove_lines_compensacion_gas_replace)
 let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   return {
-    price: +((element.compensacion / 1000).toFixed(3)),
-    hour: index,
-    date: `${get_date}/${get_month}/${get_year};`
+    precio: +((element.compensacion / 1000).toFixed(3)),
+    hora: index,
+    dia: `${get_date}/${get_month}/${get_year};`
   };
 });
-omie_compensacion = omie_compensacion.filter(({ price }) => price);
+omie_compensacion = omie_compensacion.filter(({ precio }) => precio);
 
 await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)
