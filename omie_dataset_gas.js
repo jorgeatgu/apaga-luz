@@ -1,4 +1,4 @@
-import { writeJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
+import { writeJSON, readJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
 import { readTXT } from 'https://deno.land/x/flat@0.0.10/src/txt.ts'
 
 //Vamos a creer que los del OMIE respetan la estructura, a ñapear
@@ -52,5 +52,28 @@ omie_compensacion = omie_compensacion.filter(({ precio }) => precio);
 const omie_compensacion_historic = await readJSON('public/data/historic_compensacion_gas.json');
 const omie_compensacion_historic_update = [...omie_compensacion, ...omie_compensacion_historic]
 
+const reduced = omie_compensacion_historic_update.reduce((m, d) => {
+  if (!m[d.dia]) {
+    m[d.dia] = { ...d, count: 1 };
+    return m;
+  }
+  m[d.dia].precio += d.precio;
+  m[d.dia].count += 1;
+  return m;
+}, {});
+
+const group_data_by_day = Object.keys(reduced).map((item_by_day) => {
+  const item = reduced[item_by_day];
+  return {
+    price: +(item.precio / item.count).toFixed(2),
+    day: item.dia.split('/')[0],
+    month: item.dia.split('/')[1],
+    year: item.dia.split('/')[2],
+    date: `${item.dia.split('/')[1]}/${item.dia.split('/')[0]}/${item.dia.split('/')[2]}`,
+    monthYear: `${item.dia.split('/')[1]}/${item.dia.split('/')[2]}`
+  }
+})
+
+await writeJSON('public/data/omie_compensacion_data_by_day.json', group_data_by_day)
 await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)
 await writeJSON('public/data/historic_compensacion_gas.json', omie_compensacion_historic_update)

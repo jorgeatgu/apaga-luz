@@ -126,7 +126,7 @@ document.getElementById('order-hour-next').addEventListener('click', () => {
 });
 
 const line_chart_by_day_options = {
-  html_element: 'day-price',
+  html_element: 'day-price-gas',
   x_axis_prop: 'date',
   y_axis_prop: 'price',
   select_html: false,
@@ -151,5 +151,8 @@ const line_chart_by_hour_options = {
   }
 };
 
-/*line_chart('/data/group_prices_by_day.json', line_chart_by_day_options);*/
+line_chart(
+  '/data/omie_compensacion_data_by_day.json',
+  line_chart_by_day_options
+);
 line_chart('/data/historic_compensacion_gas.json', line_chart_by_hour_options);
