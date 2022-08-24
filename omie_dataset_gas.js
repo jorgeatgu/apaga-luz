@@ -44,7 +44,7 @@ let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   return {
     precio: +((element.compensacion / 1000).toFixed(3)),
     hora: index,
-    dia: `${get_date}/${get_month}/${get_year};`
+    dia: `${get_date}/${get_month}/${get_year}`
   };
 });
 omie_compensacion = omie_compensacion.filter(({ precio }) => precio);
@@ -74,6 +74,33 @@ const group_data_by_day = Object.keys(reduced).map((item_by_day) => {
   }
 })
 
+//Similar al primer reduce, pero ahora
+//vamos a sumar los precios agrupando por mes
+const reduced_by_month = group_data_by_day.reduce((m, d) => {
+  if (!m[d.monthYear]) {
+    m[d.monthYear] = { ...d, count: 1 };
+    return m;
+  }
+  m[d.monthYear].price += d.price;
+  m[d.monthYear].count += 1;
+  return m;
+}, {});
+
+//Lo mismo, usamos el reduce para
+//sacar el precio medio por mes, y
+//aprovechamos las transformaciones anteriores
+const group_prices_by_month = Object.keys(reduced_by_month).map((item_by_month) => {
+  const item = reduced_by_month[item_by_month];
+  return {
+    averagePrice: +(item.price / item.count).toFixed(2),
+    monthYear: item.monthYear,
+    month: item.month,
+    date: item.date,
+    year: item.year
+  }
+})
+
+await writeJSON('public/data/omie_compensacion_data_by_month.json', group_prices_by_month)
 await writeJSON('public/data/omie_compensacion_data_by_day.json', group_data_by_day)
 await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)
 await writeJSON('public/data/historic_compensacion_gas.json', omie_compensacion_historic_update)
