@@ -37,7 +37,17 @@ const get_month_from_data_omie = +data_tomorrow_omie[0].month;
 const its_time_to_show_the_sum_compensation_gas =
   user_hour * 60 + +user_minutes >= TIME_OMIE_GAS && user_hour < 24;
 
-let filter_data_tomorrow_omie = data_gas_omie.filter(({ price }) => price);
+let filter_data_tomorrow_omie = data_gas_omie.map(({ precio, hora, dia }) => {
+  return {
+    day: dia,
+    hour: hora,
+    price: precio
+  };
+});
+
+filter_data_tomorrow_omie = filter_data_tomorrow_omie.filter(
+  ({ price }) => price
+);
 const data_source_element = document.getElementById('table-next-day-data');
 
 filter_data_tomorrow_omie = filter_data_tomorrow_omie.sort(

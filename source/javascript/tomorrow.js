@@ -51,10 +51,17 @@ const check_the_day_in_data =
   get_month_from_data === tomorrow.getMonth() + 1;
 
 let filter_data_tomorrow_omie = data_tomorrow_omie.filter(({ price }) => price);
+let filter_data_gas_omie = data_gas_omie.map(({ precio, hora, dia }) => {
+  return {
+    day: dia,
+    hour: hora,
+    price: precio
+  };
+});
 
 if (its_time_to_show_the_sum_compensation_gas) {
   filter_data_tomorrow_omie = Object.values(
-    [...filter_data_tomorrow_omie, ...data_gas_omie].reduce(
+    [...filter_data_tomorrow_omie, ...filter_data_gas_omie].reduce(
       (acc, { hour, price }) => {
         acc[hour] = { hour, price: (acc[hour] ? acc[hour].price : 0) + price };
         return acc;
