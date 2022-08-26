@@ -76,7 +76,11 @@ let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   : filter_data_tomorrow_omie;
 
 const data_source_element = document.getElementById('table-next-day-data');
-const data_source = its_time_to_show_the_data_from_esios ? 'ESIOS' : 'OMIE';
+const data_source = its_time_to_show_the_data_from_esios
+  ? 'ESIOS'
+  : its_time_to_show_the_sum_compensation_gas
+  ? 'OMIE + COMPENSACIÓN GAS'
+  : 'OMIE';
 
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
@@ -104,6 +108,7 @@ order_table_tomorrow_by_price();
 if (its_time_to_show_the_content && check_the_day_in_data) {
   container_table_tomorrow.style.display = 'grid';
   data_source_element.textContent = `Los datos de los precios son de la subasta de: ${data_source}`;
+  data_source_element.style.display = 'block';
 } else {
   const get_warning_id = document.getElementById('warning-tomorrow-data');
   get_warning_id.textContent = `Todavía no hay datos disponibles para mañana: ${tomorrow.toLocaleDateString(
