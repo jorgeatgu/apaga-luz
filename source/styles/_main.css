@@ -60,6 +60,8 @@ main {
 
 .btn-gas {
   text-decoration: none;
+  margin-bottom: 1rem;
+  display: inline-block;
 }
 
 .btn-blindness {
