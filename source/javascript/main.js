@@ -166,7 +166,7 @@ const its_the_right_day =
 const get_button_next_day = document.getElementById('button-prices-next-day');
 if (its_time_to_show_the_data_from_omie && check_the_day_in_data_omie) {
   get_button_next_day.style.display = 'inline-block';
-  get_button_next_day.textContent = `Ya están disponibles los precios de la luz para mañana, ${tomorrow.toLocaleDateString(
+  get_button_next_day.textContent = `Ya están disponibles los precios para, ${tomorrow.toLocaleDateString(
     'es-ES',
     options
   )}`;
