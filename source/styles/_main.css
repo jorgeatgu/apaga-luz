@@ -509,6 +509,8 @@ details[open] {
   box-shadow: var(--shadow);
   background-color: var(--btn-blue);
   color: var(--white);
+  font-weight: bold;
+  text-transform: uppercase;
   display: none;
   text-decoration: none;
   padding: 1rem;
