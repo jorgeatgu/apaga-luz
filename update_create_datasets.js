@@ -109,7 +109,7 @@ user_day.setDate(user_day.getDate() + 1);
 const get_string_day =
   user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
 const get_string_month =
-  user_day.getMonth() < 10
+  user_day.getMonth() < 9
     ? `0${user_day.getMonth() + 1}`
     : user_day.getMonth() + 1;
 
