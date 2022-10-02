@@ -157,11 +157,10 @@ const new_file_by_day = 'public/data/group_prices_by_day.json';
 const new_file_by_month = 'public/data/group_prices_by_month.json';
 const new_file_last_year_group = 'public/data/last_year_group_price.json';
 
-/*await writeJSON(new_file_by_day, group_data_by_day)*/
-console.log("filtered_data_table_by_day", filtered_data_table_by_day);
+await writeJSON(new_file_by_day, group_data_by_day)
 await writeJSON(new_file_historic_today, filtered_data_table_by_day)
-/*await writeJSON(new_file_last_week, filtered_data_table_by_last_week)
+await writeJSON(new_file_last_week, filtered_data_table_by_last_week)
 await writeJSON(new_file_last_month, filtered_data_table_by_last_month)
 await writeJSON(new_file_by_month, group_prices_by_month)
 await writeJSON(new_file_today, transform_today_prices)
-await writeJSON(new_file_last_year_group, group_prices_by_last_year)*/
+await writeJSON(new_file_last_year_group, group_prices_by_last_year)
