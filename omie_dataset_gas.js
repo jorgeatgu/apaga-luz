@@ -25,7 +25,7 @@ const parseCsv = csv => {
   })
 };
 
-const compensacion_gas = await readTXT('public/data/omie_prices_gas.json');
+/*const compensacion_gas = await readTXT('public/data/omie_prices_gas.json');
 const remove_lines_compensacion_gas = removeLines(compensacion_gas, [0,1,2,4,5,6,7,8,9,10,11,12,13])
 let remove_lines_compensacion_gas_replace = remove_lines_compensacion_gas.replaceAll(',', '.').replaceAll(';',',')
 remove_lines_compensacion_gas_replace = remove_lines_compensacion_gas_replace.replace('Precio de ajuste en el sistema espa�ol (EUR/MWh),   ', 'compensacion;\n').replaceAll(',   ',',\n')
@@ -47,10 +47,10 @@ let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
     dia: `${get_date}/${get_month}/${get_year}`
   };
 });
-omie_compensacion = omie_compensacion.filter(({ precio }) => precio);
+omie_compensacion = omie_compensacion.filter(({ precio }) => precio);*/
 
-const omie_compensacion_historic = await readJSON('public/data/historic_compensacion_gas.json');
-const omie_compensacion_historic_update = [...omie_compensacion, ...omie_compensacion_historic]
+/*const omie_compensacion_historic = await readJSON('public/data/historic_compensacion_gas.json');*/
+const omie_compensacion_historic_update = await readJSON('public/data/historic_compensacion_gas.json')
 
 const reduced = omie_compensacion_historic_update.reduce((m, d) => {
   if (!m[d.dia]) {
@@ -102,5 +102,5 @@ const group_prices_by_month = Object.keys(reduced_by_month).map((item_by_month) 
 
 await writeJSON('public/data/omie_compensacion_data_by_month.json', group_prices_by_month)
 await writeJSON('public/data/omie_compensacion_data_by_day.json', group_data_by_day)
-await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)
+/*await writeJSON('public/data/omie_compensacion_data.json', omie_compensacion)*/
 await writeJSON('public/data/historic_compensacion_gas.json', omie_compensacion_historic_update)

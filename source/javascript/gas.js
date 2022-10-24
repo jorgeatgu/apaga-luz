@@ -45,9 +45,6 @@ let filter_data_tomorrow_omie = data_gas_omie.map(({ precio, hora, dia }) => {
   };
 });
 
-filter_data_tomorrow_omie = filter_data_tomorrow_omie.filter(
-  ({ price }) => price
-);
 const data_source_element = document.getElementById('table-next-day-data');
 
 filter_data_tomorrow_omie = filter_data_tomorrow_omie.sort(
