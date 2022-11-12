@@ -522,11 +522,6 @@ details[open] {
   }
 }
 
-.grid-amzn {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
 @media only screen and (min-width: 48rem) {
 
   .container {
