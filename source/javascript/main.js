@@ -230,11 +230,63 @@ document.getElementById('checkbox-hours').addEventListener('change', () => {
   }
 });
 
+let filter_data_today_sort = filter_data_today.map(({ price, ...rest }) => {
+  return {
+    price: Number(price),
+    ...rest
+  };
+});
+filter_data_today_sort = filter_data_today_sort.sort(
+  ({ price: a }, { price: b }) => b - a
+);
+const max_price = filter_data_today_sort[0];
+const min_price = filter_data_today_sort[filter_data_today_sort.length - 1];
+let avg_price = filter_data_today_sort.map(({ price }) => price);
+avg_price = avg_price.reduce((a, b) => a + b, 0) / avg_price.length;
+
+const template_max_price = `<span>La hora más cara</span> <span class="container-max-min-avg-number"> ${
+  max_price.hour
+}:00 - ${max_price.price.toFixed(3)} €/kWh </span>`;
+const template_min_price = `<span>La hora más barata</span> <span class="container-max-min-avg-number">${
+  min_price.hour
+}:00 - ${min_price.price.toFixed(3)} €/kWh</span>`;
+
+const template_avg_price = `<span>El precio medio del día</span> <span class="container-max-min-avg-number">${avg_price.toFixed(
+  3
+)} €/kWh</span>`;
+
+document
+  .getElementById('contanier-avg-price')
+  .insertAdjacentHTML('beforeend', template_avg_price);
+document
+  .getElementById('contanier-min-price')
+  .insertAdjacentHTML('beforeend', template_min_price);
+document
+  .getElementById('contanier-max-price')
+  .insertAdjacentHTML('beforeend', template_max_price);
+
 const text_whatsApp = `whatsapp://send?text=El precio de la luz a las ${user_hour}:${user_minutes} es de ${price.toFixed(
   3
 )} €/kWh https://www.apaga-luz.com/?utm_source=whatsapp`;
 const button_whatsApp = document.getElementById('btn-whatsapp');
 button_whatsApp.href = text_whatsApp;
+
+const text_whatsApp_avg = `whatsapp://send?text=
+👉🏻 Para el ${user_day.toLocaleDateString(
+  'es-ES',
+  options
+)}:%0a💡 El precio medio de la luz es de ${avg_price.toFixed(
+  3
+)} €/kWh %0a✅ La hora más barata es a las ${
+  min_price.hour
+}:00 - ${min_price.price.toFixed(3)} €/kWh %0a🚨 La hora más cara es a las ${
+  max_price.hour
+}:00 - ${max_price.price.toFixed(
+  3
+)} €/kWh %0ahttps://www.apaga-luz.com/?utm_source=whatsapp_avg`;
+
+const button_whatsApp_avg = document.getElementById('btn-whatsapp-avg');
+button_whatsApp_avg.href = text_whatsApp_avg;
 
 let root = document.documentElement;
 
