@@ -507,13 +507,20 @@ details[open] {
 
 #container-max-min-avg {
   margin: 1rem 0;
-  display: grid;
-  grid-template-columns: 1fr;
   background: var(--white);
-  gap: 1rem;
   box-shadow: var(--shadow);
   padding: 1rem;
   border-radius: 1rem;
+}
+
+#container-max-min-avg .btn-whatsapp {
+  width: max-content;
+}
+
+.container-max-min-avg-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .container-max-min-avg-number {
@@ -604,7 +611,7 @@ details[open] {
     display: block;
   }
 
-  #container-max-min-avg {
+  .container-max-min-avg-grid {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
