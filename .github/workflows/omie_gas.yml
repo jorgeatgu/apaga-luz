@@ -18,11 +18,11 @@ jobs:
         with:
           deno-version: v1.x
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Fetch data
-        uses: githubocto/flat@v3
+      - name: Flat Data
+        uses: githubocto/flat@v3.3.1
         with:
           http_url: https://www.omie.es/sites/default/files/dados/AGNO_${{ steps.date.outputs.dateYear }}/MES_${{ steps.date.outputs.dateMonth }}/TXT/INT_MAJ_EV_H_${{ steps.date.outputs.dateDay }}_${{ steps.date.outputs.dateMonth }}_${{ steps.date.outputs.dateYear }}_${{ steps.date.outputs.dateDay }}_${{ steps.date.outputs.dateMonth }}_${{ steps.date.outputs.dateYear }}.TXT
           downloaded_filename: public/data/omie_prices_gas.json

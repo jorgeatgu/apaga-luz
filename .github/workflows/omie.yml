@@ -15,11 +15,11 @@ jobs:
         with:
           deno-version: v1.x
       - name: Check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Fetch data
-        uses: githubocto/flat@v3
+      - name: Flat Data
+        uses: githubocto/flat@v3.3.1
         with:
           http_url: https://www.omie.es/es/file-download?parents%5B0%5D=marginalpdbc&filename=marginalpdbc_${{ steps.date.outputs.date }}.1
           downloaded_filename: public/data/omie_prices.json

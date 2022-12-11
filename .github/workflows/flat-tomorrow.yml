@@ -12,9 +12,9 @@ jobs:
         with:
           deno-version: v1.x
       - name: Check out repo
-        uses: actions/checkout@v2
-      - name: Fetch data
-        uses: githubocto/flat@v3
+        uses: actions/checkout@v3
+      - name: Flat Data
+        uses: githubocto/flat@v3.3.1
         with:
           http_url: https://api.esios.ree.es/archives/70/download_json
           downloaded_filename: public/data/price.json
