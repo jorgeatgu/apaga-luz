@@ -1,1 +1,145 @@
-[{"day":"17/01/2023","hour":0,"price":0.026,"zone":"valle"},{"day":"17/01/2023","hour":1,"price":0.026,"zone":"valle"},{"day":"17/01/2023","hour":2,"price":0.029,"zone":"valle"},{"day":"17/01/2023","hour":3,"price":0.031,"zone":"valle"},{"day":"17/01/2023","hour":4,"price":0.03,"zone":"valle"},{"day":"17/01/2023","hour":5,"price":0.029,"zone":"valle"},{"day":"17/01/2023","hour":6,"price":0.03,"zone":"valle"},{"day":"17/01/2023","hour":7,"price":0.035,"zone":"valle"},{"day":"17/01/2023","hour":8,"price":0.072,"zone":"llano"},{"day":"17/01/2023","hour":9,"price":0.072,"zone":"llano"},{"day":"17/01/2023","hour":10,"price":0.114,"zone":"punta"},{"day":"17/01/2023","hour":11,"price":0.107,"zone":"punta"},{"day":"17/01/2023","hour":12,"price":0.107,"zone":"punta"},{"day":"17/01/2023","hour":13,"price":0.108,"zone":"punta"},{"day":"17/01/2023","hour":14,"price":0.056,"zone":"llano"},{"day":"17/01/2023","hour":15,"price":0.056,"zone":"llano"},{"day":"17/01/2023","hour":16,"price":0.056,"zone":"llano"},{"day":"17/01/2023","hour":17,"price":0.061,"zone":"llano"},{"day":"17/01/2023","hour":18,"price":0.117,"zone":"punta"},{"day":"17/01/2023","hour":19,"price":0.129,"zone":"punta"},{"day":"17/01/2023","hour":20,"price":0.132,"zone":"punta"},{"day":"17/01/2023","hour":21,"price":0.119,"zone":"punta"},{"day":"17/01/2023","hour":22,"price":0.056,"zone":"llano"},{"day":"17/01/2023","hour":23,"price":0.051,"zone":"llano"}]
+[
+{
+  "day": "17/01/2023",
+  "hour": 0,
+  "price": 0.0267,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 1,
+  "price": 0.0264,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 2,
+  "price": 0.0292,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 3,
+  "price": 0.0312,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 4,
+  "price": 0.0307,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 5,
+  "price": 0.0298,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 6,
+  "price": 0.0309,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 7,
+  "price": 0.0350,
+  "zone": "valle"
+},
+{
+  "day": "17/01/2023",
+  "hour": 8,
+  "price": 0.0722,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 9,
+  "price": 0.0727,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 10,
+  "price": 0.1149,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 11,
+  "price": 0.1071,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 12,
+  "price": 0.1071,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 13,
+  "price": 0.1085,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 14,
+  "price": 0.0562,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 15,
+  "price": 0.0568,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 16,
+  "price": 0.0566,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 17,
+  "price": 0.0615,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 18,
+  "price": 0.1172,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 19,
+  "price": 0.1295,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 20,
+  "price": 0.1324,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 21,
+  "price": 0.1195,
+  "zone": "punta"
+},
+{
+  "day": "17/01/2023",
+  "hour": 22,
+  "price": 0.0563,
+  "zone": "llano"
+},
+{
+  "day": "17/01/2023",
+  "hour": 23,
+  "price": 0.0513,
+  "zone": "llano"
+}]
