@@ -19,6 +19,8 @@ jobs:
           deno-version: v1.x
       - name: Check out repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Flat Data
         uses: githubocto/flat@v3.3.1
         with:
