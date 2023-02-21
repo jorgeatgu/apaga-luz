@@ -7,6 +7,10 @@ jobs:
   scheduled:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: |
+          echo "date_tomorrow=$(date -d "tomorrow" +'%d-%m-%Y')" >> $GITHUB_OUTPUT
       - name: Setup deno
         uses: denoland/setup-deno@main
         with:
@@ -16,7 +20,7 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@v3.3.1
         with:
-          http_url: https://api.esios.ree.es/archives/70/download_json
+          http_url: https://api.esios.ree.es/archives/70/download_json?date=${{ steps.date.outputs.date_tomorrow }}
           downloaded_filename: public/data/price.json
           authorization: ${{ secrets.API_KEY }}
           postprocess: canary.js
