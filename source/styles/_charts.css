@@ -32,6 +32,10 @@
     font-size: 14px;
   }
 
+  .axis-x text {
+    font-size: 12px;
+  }
+
   .line-month-price,
   .line-day-price,
   .line-day-price-last-year,

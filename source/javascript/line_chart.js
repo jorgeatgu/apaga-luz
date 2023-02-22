@@ -94,7 +94,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         if (main_chart || html_element.includes('gas')) {
           return new Intl.DateTimeFormat('es-ES', {
             day: 'numeric',
-            month: 'long'
+            month: 'numeric'
           }).format(d);
         } else {
           return d.getFullYear();
