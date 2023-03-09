@@ -48,8 +48,6 @@ let omie_compensacion = compensacion_csv_to_json.map((element, index) => {
   };
 });
 
-omie_compensacion = omie_compensacion.filter(({ precio }) => precio);
-
 const omie_compensacion_historic = await readJSON('public/data/historic_compensacion_gas.json');
 const omie_compensacion_historic_update = [...omie_compensacion, ...omie_compensacion_historic]
 
