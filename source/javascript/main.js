@@ -7,7 +7,8 @@ import {
   reload_page,
   get_zone_color,
   width_mobile,
-  day_names_us
+  day_names_us,
+  isWeekEnd
 } from './utils.js';
 
 import {
@@ -73,6 +74,22 @@ for (let [index, element] of filter_data_today.entries()) {
   } else {
     element.zone = 'punta';
   }
+
+  if (element.hour >= 0 && element.hour < 8 && !isWeekEnd) {
+    element.tramo = 'valle';
+  } else if (
+    (element.hour >= 8 && element.hour < 10 && !isWeekEnd) ||
+    (element.hour >= 14 && element.hour < 18 && !isWeekEnd) ||
+    (element.hour >= 22 && element.hour < 24 && !isWeekEnd)
+  ) {
+    element.tramo = 'llano';
+  } else {
+    element.tramo = 'punta';
+  }
+
+  if (isWeekEnd) {
+    element.tramo = 'valle';
+  }
 }
 
 const [{ zone }] = filter_data_today.filter(({ hour }) => hour == user_hour);
@@ -136,6 +153,22 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
     element.zone = 'llano';
   } else {
     element.zone = 'punta';
+  }
+
+  if (element.hour >= 0 && element.hour < 8 && !isWeekEnd) {
+    element.tramo = 'valle';
+  } else if (
+    (element.hour >= 8 && element.hour < 10 && !isWeekEnd) ||
+    (element.hour >= 14 && element.hour < 18 && !isWeekEnd) ||
+    (element.hour >= 22 && element.hour < 24 && !isWeekEnd)
+  ) {
+    element.tramo = 'llano';
+  } else {
+    element.tramo = 'punta';
+  }
+
+  if (isWeekEnd) {
+    element.tramo = 'valle';
   }
 }
 

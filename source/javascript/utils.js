@@ -78,3 +78,9 @@ export const last_n_days = n_days =>
         d.getMonth() < 9 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
       return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
     });
+
+export function isWeekEnd(date) {
+  const pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
+  const newDate = new Date(date.replace(pattern, '$3-$2-$1'));
+  return newDate === 0 || 7 ? true : false;
+}

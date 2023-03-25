@@ -102,6 +102,22 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
   } else {
     element.zone = 'punta';
   }
+
+  if (element.hour >= 0 && element.hour < 8 && !isWeekEnd) {
+    element.tramo = 'valle';
+  } else if (
+    (element.hour >= 8 && element.hour < 10 && !isWeekEnd) ||
+    (element.hour >= 14 && element.hour < 18 && !isWeekEnd) ||
+    (element.hour >= 22 && element.hour < 24 && !isWeekEnd)
+  ) {
+    element.tramo = 'llano';
+  } else {
+    element.tramo = 'punta';
+  }
+
+  if (isWeekEnd) {
+    element.tramo = 'valle';
+  }
 }
 
 order_table_tomorrow_by_price();

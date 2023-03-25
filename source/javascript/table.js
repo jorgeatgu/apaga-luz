@@ -165,11 +165,12 @@ export function table_price_tomorrow(
   }
 
   for (let element of data_hours) {
-    const { price, hour, zone } = element;
+    const { price, hour, zone, tramo } = element;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+    const tramoCssClass = compensacion ? null : `tramo-${tramo}`;
 
     const block_hour = `<div class="container-table-price-element">
-      <span class="container-table-price-element-hour ${zone}">
+      <span class="container-table-price-element-hour ${zone} ${tramoCssClass}">
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
@@ -237,13 +238,13 @@ export function table_price(data_hours, element) {
   getElementDate.textContent = `${today.toLocaleDateString('es-ES', options)}`;
 
   for (let elements of data_hours) {
-    const { price, hour, zone, hourHasPassed } = elements;
+    const { price, hour, zone, hourHasPassed, tramo } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const hour_has_passed_class =
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
     const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
-      <span class="container-table-price-element-hour ${zone}">
+      <span class="container-table-price-element-hour ${zone} tramo-${tramo}">
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">

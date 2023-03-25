@@ -325,6 +325,21 @@ main {
   }
 }
 
+.container-table-price-element-hour {
+  position: relative;
+  &.tramo-valle:after {
+    content: 'valle';
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    border-radius: .25rem;
+    font-size: 12px;
+    background: var(--white);
+    padding: .125rem .5rem;
+    font-family: var(--roboto);
+  }
+}
+
 .table-next-day {
   background: var(--white);
   padding: 1rem;
