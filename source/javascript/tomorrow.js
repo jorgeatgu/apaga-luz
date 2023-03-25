@@ -3,6 +3,7 @@ import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
+import { isWeekEnd } from './utils.js';
 
 /*
 Prices are published at 20:15,
