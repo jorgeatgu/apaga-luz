@@ -3,7 +3,7 @@ import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
-import { isWeekEnd } from './utils.js';
+import { is_week_end } from './utils.js';
 
 /*
 Prices are published at 20:15,
@@ -104,19 +104,19 @@ for (let [index, element] of filter_data_tomorrow.entries()) {
     element.zone = 'punta';
   }
 
-  if (element.hour >= 0 && element.hour < 8 && !isWeekEnd) {
+  if (element.hour >= 0 && element.hour < 8 && !is_week_end(tomorrow)) {
     element.tramo = 'valle';
   } else if (
-    (element.hour >= 8 && element.hour < 10 && !isWeekEnd) ||
-    (element.hour >= 14 && element.hour < 18 && !isWeekEnd) ||
-    (element.hour >= 22 && element.hour < 24 && !isWeekEnd)
+    (element.hour >= 8 && element.hour < 10 && !is_week_end(tomorrow)) ||
+    (element.hour >= 14 && element.hour < 18 && !is_week_end(tomorrow)) ||
+    (element.hour >= 22 && element.hour < 24 && !is_week_end(tomorrow))
   ) {
     element.tramo = 'llano';
   } else {
     element.tramo = 'punta';
   }
 
-  if (isWeekEnd) {
+  if (is_week_end(tomorrow)) {
     element.tramo = 'valle';
   }
 }
