@@ -209,6 +209,12 @@ main {
   font-size: 1rem;
   font-family: var(--text);
   line-height: 1.4;
+  display: inline-block;
+}
+
+h2.post-text,
+h3.post-text {
+  margin: 0;
 }
 
 .post-warning {
