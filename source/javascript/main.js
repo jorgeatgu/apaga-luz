@@ -323,6 +323,23 @@ button_whatsApp_avg.href = text_whatsApp_avg;
 
 let root = document.documentElement;
 
+document.getElementById('tramos').addEventListener('change', e => {
+  const {
+    target: { checked }
+  } = e;
+  const get_price_element = document.querySelectorAll(
+    '.container-table-price-element-hour'
+  );
+
+  get_price_element.forEach(element => {
+    if (checked) {
+      element.classList.remove('tramo-hidden');
+    } else {
+      element.classList.add('tramo-hidden');
+    }
+  });
+});
+
 document.getElementById('color-blindness').addEventListener('change', e => {
   const {
     target: { checked }

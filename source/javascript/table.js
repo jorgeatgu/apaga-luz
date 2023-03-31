@@ -170,7 +170,7 @@ export function table_price_tomorrow(
     const tramoCssClass = compensacion ? null : `tramo-${tramo}`;
 
     const block_hour = `<div class="container-table-price-element">
-      <span class="container-table-price-element-hour ${zone} ${tramoCssClass}">
+      <span class="container-table-price-element-hour tramo-hidden ${zone} ${tramoCssClass}">
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">
@@ -244,7 +244,7 @@ export function table_price(data_hours, element) {
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
     const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
-      <span class="container-table-price-element-hour ${zone} tramo-${tramo}">
+      <span class="container-table-price-element-hour tramo-hidden ${zone} tramo-${tramo}">
         ${transform_hour}
       </span>
       <span class="container-table-price-element-price">

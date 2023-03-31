@@ -1,6 +1,7 @@
 import './../styles/styles.css';
 import { line_chart } from './line_chart.js';
 import { area_stacked } from './area_stacked.js';
+import { area_stacked_json } from './area_stacked_json.js';
 import {
   width_mobile,
   month_names,
@@ -80,6 +81,18 @@ const area_stacked_consumption_options = {
   }
 };
 
+const area_stacked_generation = {
+  html_element: 'energy-generation',
+  x_axis_prop: 'date',
+  select_html: false,
+  margin: {
+    top: 48,
+    right: 16,
+    bottom: 24,
+    left: width_mobile < 763 ? 48 : 96
+  }
+};
+
 const get_table_historic_date = document.getElementById('js-table-date');
 get_table_historic_date.textContent = ` el ${user_day.getDate()} de ${
   month_names[user_day.getMonth()]
@@ -131,5 +144,7 @@ area_stacked(
   '/data/owid-energy-spain-consumption.csv',
   area_stacked_consumption_options
 );
+
+area_stacked_json(area_stacked_generation);
 create_new_table(data_historic_today, 'table-year', 'year');
 create_new_table(data_last_week, 'table-week', 'day');
