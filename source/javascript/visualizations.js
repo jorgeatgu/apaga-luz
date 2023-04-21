@@ -145,6 +145,6 @@ area_stacked(
   area_stacked_consumption_options
 );
 
-area_stacked_json(area_stacked_generation);
+/*area_stacked_json(area_stacked_generation);*/
 create_new_table(data_historic_today, 'table-year', 'year');
 create_new_table(data_last_week, 'table-week', 'day');
