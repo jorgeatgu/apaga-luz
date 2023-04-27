@@ -22,7 +22,7 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@v3.3.1
         with:
-          http_url: https://api.esios.ree.es/archives/70/download_json?date=${{ steps.date.outputs.date_tomorrow }}
+          http_url: https://api.esios.ree.es/archives/70/download_json
           downloaded_filename: public/data/price.json
           authorization: ${{ secrets.API_KEY }}
           postprocess: tomorrow.js
