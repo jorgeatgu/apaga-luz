@@ -29,7 +29,7 @@
     "postcss-sorting": "^5.0.1",
     "pre-commit": "^1.2.2",
     "prettier": "^2.5.1",
-    "stylelint": "^14.3.0",
+    "stylelint": "^15.10.1",
     "vite": "3.0.9"
   },
   "dependencies": {
