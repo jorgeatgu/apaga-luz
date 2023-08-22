@@ -365,3 +365,66 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
+
+// Función para crear el modal
+function crearModal() {
+  const currentURL = window.location.href; // Obtiene la URL actual
+  const modalHtml = `
+  <div class="modal-container">
+  <div class="modal-background"></div>
+    <div id="modal" class="modal-adsense">
+      <center>
+        <h1>Datos del precio de la luz</h1>
+        <p><a href="https://www.apaga-luz.com/graficas/" class="button">VER</a></p>
+        <p><a href="?=" class="reload-button">CERRAR</a></p>
+      </center>
+    </div>
+  `;
+
+  const modalContainer = document.createElement('div');
+  modalContainer.innerHTML = modalHtml;
+
+  document.body.appendChild(modalContainer);
+
+  // Agregar evento al enlace "Cerrar"
+  const cerrarEnlaces = document.querySelectorAll('.reload-button,.button');
+  cerrarEnlaces.forEach(enlace => {
+    enlace.addEventListener('click', () => {
+      // Al hacer clic en "Cerrar", almacenar la fecha actual junto con el estado en localStorage
+      const now = new Date();
+      const expirationDate = new Date(now.getTime() + 3600000); // Una hora en milisegundos
+      const modalState = {
+        closed: true,
+        expiration: expirationDate.getTime()
+      };
+      localStorage.setItem('modalState', JSON.stringify(modalState));
+
+      // Ocultar el modal
+      ocultarModal();
+    });
+  });
+}
+
+// Función para ocultar el modal
+function ocultarModal() {
+  const modal = document.getElementById('modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// Función para mostrar el modal después de 5 segundos, a menos que esté cerrado en localStorage
+function mostrarModalDespuesDe5Segundos() {
+  setTimeout(() => {
+    const modalState = JSON.parse(localStorage.getItem('modalState'));
+    if (
+      !modalState ||
+      (modalState.closed && Date.now() > modalState.expiration)
+    ) {
+      crearModal();
+    }
+  }, 5000); // 5000 milisegundos (5 segundos)
+}
+
+// Llama a la función para mostrar el modal después de 5 segundos
+mostrarModalDespuesDe5Segundos();
