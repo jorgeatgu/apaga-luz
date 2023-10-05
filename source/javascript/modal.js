@@ -64,5 +64,5 @@ export function show_modal() {
         });
       });
     }
-  }, 5000);
+  }, 4250);
 }
