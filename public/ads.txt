@@ -1,4 +1,5 @@
 google.com, pub-8990231994528437, DIRECT, f08c47fec0942fa0
+google.com, pub-2497164702229123, DIRECT, f08c47fec0942fa0
 OWNERDOMAIN=apaga-luz.com
 MANAGERDOMAIN=themoneytizer.com
 themoneytizer.com,94300,DIRECT
