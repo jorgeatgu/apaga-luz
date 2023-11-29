@@ -13,10 +13,23 @@
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
   <script>
     window.googletag = window.googletag || {cmd: []};
+    var anchorSlot;
     googletag.cmd.push(function() {
       googletag.defineSlot('/23019616485/Primer_anuncio_nivel_superior_codigo', [[336, 280], [300, 250], [320, 480]], 'div-gpt-ad-1701297488389-0').addService(googletag.pubads());
       googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', 'div-gpt-ad-1701298418454-0').addService(googletag.pubads());
-      googletag.defineSlot('/23019616485/apagaluz_ancla', [[320, 50], [980, 90], [320, 100], [728, 90]], 'div-gpt-ad-1701298818792-0').addService(googletag.pubads());
+      if (document.body.clientWidth <= 500) {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
+      } else {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
+      }
+
+      if (anchorSlot) {
+        anchorSlot
+          .setTargeting('test', 'anchor')
+          .addService(googletag.pubads());
+      }
       googletag.pubads().enableSingleRequest();
       googletag.enableServices();
     });
@@ -44,11 +57,11 @@
          googletag.cmd.push(function() { googletag.display('div-gpt-ad-1701298418454-0'); });
        </script>
      </div>
-     <div id='div-gpt-ad-1701298818792-0' style='min-width: 320px; min-height: 50px;'>
-       <script>
-         googletag.cmd.push(function() { googletag.display('div-gpt-ad-1701298818792-0'); });
-       </script>
-     </div>
+     <script>
+       googletag.cmd.push(function() {
+         googletag.display(anchorSlot);
+       });
+     </script>
       <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
       <p class="charts-warning">
