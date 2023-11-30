@@ -13,9 +13,21 @@
   <script>
     window.googletag = window.googletag || {cmd: []};
     var anchorSlot;
+    var interstitialSlot;
+
     googletag.cmd.push(function() {
-      googletag.defineSlot('/23019616485/Primer_anuncio_nivel_superior_codigo', ['fluid'], 'div-gpt-ad-1701297488389-0').addService(googletag.pubads());
-      googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', 'div-gpt-ad-1701298418454-0').addService(googletag.pubads());
+      var responsiveAdSlot =
+        googletag.defineSlot('/23019616485/Segundo_anucio_fluido_codigo', [[640, 480], [300, 250], [320, 50], [728, 90], [750, 200]], 'div-gpt-ad-1701304270280-0').addService(googletag.pubads());
+
+      var mapping =
+        googletag.sizeMapping()
+          .addSize([1024, 768], [728, 90])
+          .addSize([640, 480], [300, 250])
+          .addSize([0, 0], [320, 50], [300, 250])
+          .build();
+
+
+      interstitialSlot = googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', googletag.enums.OutOfPageFormat.INTERSTITIAL);
       if (document.body.clientWidth <= 500) {
         anchorSlot = googletag.defineOutOfPageSlot(
           '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
@@ -24,11 +36,26 @@
           '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
       }
 
+      if (interstitialSlot) {
+        interstitialSlot
+          .addService(googletag.pubads())
+          .setConfig({
+            interstitial: {
+              triggers: {
+                unhideWindow: true
+              }
+            }
+          });
+      }
+
       if (anchorSlot) {
         anchorSlot
           .setTargeting('test', 'anchor')
           .addService(googletag.pubads());
       }
+
+      responsiveAdSlot.defineSizeMapping(mapping);
+
       googletag.pubads().enableSingleRequest();
       googletag.enableServices();
     });
@@ -47,16 +74,16 @@
   <main>
     <section class="container-calendar">
       <article class="container">
-        <div id='div-gpt-ad-1701297488389-0' style='min-width: 300px; min-height: 250px;'>
+        <div id='div-gpt-ad-1701304270280-0' style='min-width: 300px; min-height: 50px;'>
           <script>
-            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1701297488389-0'); });
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1701304270280-0'); });
           </script>
         </div>
-        <div id='div-gpt-ad-1701298418454-0'>
-          <script>
-            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1701298418454-0'); });
-          </script>
-        </div>
+        <script>
+          googletag.cmd.push(function () {
+            googletag.display(interstitialSlot);
+          });
+        </script>
         <script>
           googletag.cmd.push(function() {
             // Ensure the first call to display comes after static ad slot
