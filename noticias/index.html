@@ -12,8 +12,38 @@
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
   <script>
     window.googletag = window.googletag || {cmd: []};
-    var anchorSlot;
-    var interstitialSlot;
+    // Interstitial
+    googletag.cmd.push(function() {
+      var interstitialSlot = googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', googletag.enums.OutOfPageFormat.INTERSTITIAL);
+      if (interstitialSlot) {
+        interstitialSlot
+          .addService(googletag.pubads())
+          .setConfig({
+            interstitial: {
+              triggers: {
+                unhideWindow: true
+              }
+            }
+          });
+      }
+
+      var anchorSlot;
+      if (document.body.clientWidth <= 500) {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
+      } else {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
+      }
+      if (anchorSlot) {
+        anchorSlot
+          .setTargeting('test', 'anchor')
+          .addService(googletag.pubads());
+      }
+      googletag.enableServices();
+      googletag.display(interstitialSlot);
+      googletag.display(anchorSlot);
+    })
 
     googletag.cmd.push(function() {
       var responsiveAdSlot =
@@ -27,45 +57,13 @@
           .addSize([0, 0], [[250, 250],[300, 250],[336, 280]])
           .build();
 
-
-      interstitialSlot = googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', googletag.enums.OutOfPageFormat.INTERSTITIAL);;
-      if (document.body.clientWidth <= 500) {
-        anchorSlot = googletag.defineOutOfPageSlot(
-          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
-      } else {
-        anchorSlot = googletag.defineOutOfPageSlot(
-          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
-      }
-
-      if (interstitialSlot) {
-        interstitialSlot
-          .addService(googletag.pubads())
-          .setConfig({
-            interstitial: {
-              triggers: {
-                unhideWindow: true
-              }
-            }
-          });
-      }
-
-      if (anchorSlot) {
-        anchorSlot
-          .setTargeting('test', 'anchor')
-          .addService(googletag.pubads());
-      }
-
-      googletag.display(interstitialSlot);
-      googletag.display(anchorSlot);
-
       responsiveAdSlot.defineSizeMapping(mapping);
 
-
       googletag.pubads().enableLazyLoad({
-    fetchMarginPercent: 500,  // Fetch slots within 5 viewports.
-    renderMarginPercent: 200,  // Render slots within 2 viewports.
-    mobileScaling: 2.0  // Double the above values on mobile.
-  });
+        fetchMarginPercent: 500,  // Fetch slots within 5 viewports.
+        renderMarginPercent: 200,  // Render slots within 2 viewports.
+        mobileScaling: 2.0  // Double the above values on mobile.
+      });
       googletag.enableServices();
     });
   </script>
