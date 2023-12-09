@@ -12,7 +12,45 @@
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
   <script>
     window.googletag = window.googletag || {cmd: []};
-    // Interstitial
+    googletag.cmd.push(function() {
+      var responsiveAdSlot =
+        googletag.defineSlot('/23019616485/Segundo_anucio_fluido_codigo', [[640, 480], [300, 250], [320, 50], [728, 90], [750, 200]], 'div-gpt-ad-1701304270280-0').addService(googletag.pubads());
+      var mapping =
+        googletag.sizeMapping()
+          .addSize([1024, 768], [728, 90])
+          .addSize([640, 480], [300, 250])
+          .addSize([0, 0], [[250, 250],[300, 250],[336, 280]])
+          .build();
+      var anchorSlot;
+      if (document.body.clientWidth <= 500) {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
+      } else {
+        anchorSlot = googletag.defineOutOfPageSlot(
+          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
+      }
+      if (anchorSlot) {
+        anchorSlot
+          .setTargeting('test', 'anchor')
+          .addService(googletag.pubads());
+      }
+
+      responsiveAdSlot.defineSizeMapping(mapping);
+      googletag.enableServices();
+      googletag.display(anchorSlot);
+    });
+
+    googletag.cmd.push(function() {
+      googletag.defineSlot("/23019616485/apaga-luz/apaga-luz_Content3",[[250, 250],[300, 250],[336, 280]], "Content3").addService(googletag.pubads());
+
+      googletag.pubads().enableLazyLoad({
+        fetchMarginPercent: 500,  // Fetch slots within 5 viewports.
+        renderMarginPercent: 200,  // Render slots within 2 viewports.
+        mobileScaling: 2.0  // Double the above values on mobile.
+      });
+      googletag.enableServices();
+    });
+
     googletag.cmd.push(function() {
       var interstitialSlot = googletag.defineOutOfPageSlot('/23019616485/apagaluz//vinyeta', googletag.enums.OutOfPageFormat.INTERSTITIAL);
       if (interstitialSlot) {
@@ -27,45 +65,9 @@
           });
       }
 
-      var anchorSlot;
-      if (document.body.clientWidth <= 500) {
-        anchorSlot = googletag.defineOutOfPageSlot(
-          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.TOP_ANCHOR);
-      } else {
-        anchorSlot = googletag.defineOutOfPageSlot(
-          '/23019616485/apagaluz_ancla', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
-      }
-      if (anchorSlot) {
-        anchorSlot
-          .setTargeting('test', 'anchor')
-          .addService(googletag.pubads());
-      }
       googletag.enableServices();
       googletag.display(interstitialSlot);
-      googletag.display(anchorSlot);
     })
-
-    googletag.cmd.push(function() {
-      var responsiveAdSlot =
-        googletag.defineSlot('/23019616485/Segundo_anucio_fluido_codigo', [[640, 480], [300, 250], [320, 50], [728, 90], [750, 200]], 'div-gpt-ad-1701304270280-0').addService(googletag.pubads());
-      googletag.defineSlot("/23019616485/apaga-luz/apaga-luz_Content3",[[250, 250],[300, 250],[336, 280]], "Content3").addService(googletag.pubads());
-
-      var mapping =
-        googletag.sizeMapping()
-          .addSize([1024, 768], [728, 90])
-          .addSize([640, 480], [300, 250])
-          .addSize([0, 0], [[250, 250],[300, 250],[336, 280]])
-          .build();
-
-      responsiveAdSlot.defineSizeMapping(mapping);
-
-      googletag.pubads().enableLazyLoad({
-        fetchMarginPercent: 500,  // Fetch slots within 5 viewports.
-        renderMarginPercent: 200,  // Render slots within 2 viewports.
-        mobileScaling: 2.0  // Double the above values on mobile.
-      });
-      googletag.enableServices();
-    });
   </script>
  </head>
 
