@@ -1050,3 +1050,5 @@ freewheel.tv,1602335,RESELLER
 lijit.com,467506,DIRECT,fafdf38b16bf6b2b
 contextweb.com,558511,RESELLER
 Contextweb.com,562994,RESELLER,89ff185a4c4e857c
+
+google.com, pub-2497164702229123, DIRECT, f08c47fec0942fa0
