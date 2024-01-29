@@ -36,8 +36,6 @@ const get_month_from_data_esios = +data_tomorrow[0].day.split('/')[1];
 
 const its_time_to_show_the_data_from_esios =
   user_hour * 60 + +user_minutes >= EIGHT_TWENTY && user_hour < 24;
-const its_time_to_show_the_sum_compensation_gas =
-  user_hour * 60 + +user_minutes >= TIME_OMIE_GAS && user_hour < 24;
 const its_time_to_show_the_content =
   user_hour * 60 + +user_minutes >= QUARTER_PAST_ONE && user_hour < 24;
 
@@ -61,28 +59,12 @@ let filter_data_gas_omie = data_gas_omie.map(({ precio, hora, dia }) => {
   };
 });
 
-if (its_time_to_show_the_sum_compensation_gas) {
-  filter_data_tomorrow_omie = Object.values(
-    [...filter_data_tomorrow_omie, ...filter_data_gas_omie].reduce(
-      (acc, { hour, price }) => {
-        acc[hour] = { hour, price: (acc[hour] ? acc[hour].price : 0) + price };
-        return acc;
-      },
-      {}
-    )
-  );
-}
-
 let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   ? data_tomorrow
   : filter_data_tomorrow_omie;
 
 const data_source_element = document.getElementById('table-next-day-data');
-const data_source = its_time_to_show_the_data_from_esios
-  ? 'ESIOS'
-  : its_time_to_show_the_sum_compensation_gas
-  ? 'OMIE + COMPENSACIÓN GAS'
-  : 'OMIE';
+const data_source = its_time_to_show_the_data_from_esios ? 'ESIOS' : 'OMIE';
 
 filter_data_tomorrow = filter_data_tomorrow.sort(
   ({ price: a }, { price: b }) => a - b
