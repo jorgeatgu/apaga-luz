@@ -20,6 +20,7 @@
   color: var(--black);
   padding: 1rem;
   display: inline-block;
+  background: var(--white);
   box-shadow: var(--shadow);
   border-bottom-left-radius: .5rem;
   border-bottom-right-radius: .5rem;
@@ -48,11 +49,13 @@
 @media only screen and (min-width: 48rem) {
 
   .blog-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(250px, 400px));
   }
 
   .container-blog {
     max-width: 80%;
+    display: flex;
+    justify-content: center;
   }
 
 }
