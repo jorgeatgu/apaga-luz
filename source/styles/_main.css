@@ -181,10 +181,21 @@ main {
 }
 
 .post-title {
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-family: var(--text);
   margin-bottom: .25rem;
   margin-top: .5rem;
+}
+
+.post-sutitle {
+  font-size: 1.5rem;
+  font-family: var(--text);
+  margin-bottom: .25rem;
+  margin-top: .5rem;
+}
+
+.post-list li {
+  margin-bottom: .75rem;
 }
 
 .post-excerpt {
