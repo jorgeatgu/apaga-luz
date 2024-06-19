@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Apaga Luz - Gráficas y datos sobre el precio de la luz hoy y mañana.</title>
+  <meta name="description" content="Unas cuántas gráficas para ver la evolución del precio de la luz por día, mes y hora. Los datos se actualizan cada noche.">
+  <meta name="author" content="Jorge Aznar">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/assets/icon.1ed48fb2.svg"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+   <script type="module" crossorigin src="/assets/graficas.49f101f1.js"></script>
+   <link rel="modulepreload" crossorigin href="/assets/styles.a4c63ff9.js">
+   <link rel="modulepreload" crossorigin href="/assets/table.8b47a673.js">
+   <link rel="modulepreload" crossorigin href="/assets/line_chart.b3eae416.js">
+   <link rel="stylesheet" href="/assets/styles.11451887.css">
+ </head>
+
+<body class="bg-secondary">
+  <nav class="menu">
+    <div class="menu-container">
+      <a class="menu-element menu-root" href="/">Inicio</a>
+      <a class="menu-element" href="/precio-luz-manana/">Precio de la luz mañana</a>
+      <a class="menu-element" href="/graficas/">Gráficas</a>
+      <a class="menu-element" href="/noticias/">Blog</a>
+    </div>
+  </nav>
+  <main>
+    <section class="container-chart">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
+      <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8990231994528437" data-ad-slot="9391659963"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <p class="charts-warning">
+        Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A) por ser la más similar a la actual.
+      </p>
+      <p class="charts-text">Los datos de la compensación del gas puedes encontrarlos haciendo click en el siguiente botón</p>
+      <a class="btn-order btn-gas" href="/compensacion-del-gas/">DATOS COMPENSACIÓN GAS</a>
+    </section>
+    <!-- <section id="generacion-por-comunidad" class="container-chart">
+      <select class="classic" id="select-communities"></select>
+      <article class="area-stacked-energy-generation charts">
+        <svg>
+          <g class="area-stacked-energy-generation-container"></g>
+        </svg>
+      </article>
+    </section> -->
+    <section id="precio-medio-luz-dia" class="container-chart">
+      <h2 class="container-chart-title">Precio medio de la luz por día</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por día. El precio medio se calcula sumando el precios de todas las horas del día y diviendo el resultado entre veinticuatro.</p>
+      <article class="line-chart-day-price charts">
+        <svg>
+          <g class="line-chart-day-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <div id="101893-1"><script src="//ads.themoneytizer.com/s/gen.js?type=1"></script><script src="//ads.themoneytizer.com/s/requestform.js?siteId=101893&formatId=1"></script></div>
+    <section id="precio-medio-luz-mes" class="container-chart">
+      <h2 class="container-chart-title">Precio medio de la luz por mes</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por mes. El precio medio se calcula sumando el precio medio de cada día del mes y diviendo el resultado entre el número de días que tiene el mes.</p>
+      <article class="line-chart-month-price charts">
+        <svg>
+          <g class="line-chart-month-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="precio-medio-luz-ultimo-year" class="container-chart">
+      <h2 class="container-chart-title">Precio de la luz durante el último año</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por dia a lo largo del último año.</p>
+      <article class="line-chart-day-price-last-year charts">
+        <svg>
+          <g class="line-chart-day-price-last-year-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="precio-medio-luz-ultimo-mes" class="container-chart">
+      <h2 class="container-chart-title">Precio de la luz durante el último mes</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por hora a lo largo de los últimos 30 días.</p>
+      <article class="line-chart-main-line-price charts">
+        <svg>
+          <g class="line-chart-main-line-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="consumo-energia-espana" class="container-chart">
+      <h2 class="container-chart-title">Consumo de energía en España</h2>
+      <p class="charts-text">En esta gráfica puedes ver el consumo de energía de España por tipo de energía entre 1965 y 2020.</p>
+      <p class="charts-text">Los datos utilizados para esta gráfica pertenecen a Our World in Data. Hannah Ritchie, Max Roser and Pablo Rosado (2020) - "Energy". <a href="https://ourworldindata.org/energy">Published online at OurWorldInData.org</a></p>
+      <p class="charts-text">Un teravatio-hora (TWh) es una unidad de potencia equivalente a un billón de vatios-hora (1012 Wh). <a href="https://es.wikipedia.org/wiki/Vatio-hora">Wikipedia</a></p>
+      <article class="area-stacked-energy-consumption charts">
+        <svg>
+          <g class="area-stacked-energy-consumption-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="precio-medio-luz-horas" class="container-chart">
+      <h2 class="container-chart-title">Precio de la luz por horas</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por una hora en concreto a lo largo de toda la serie histórica.</p>
+      <select class="classic" id="select-hour-price"></select>
+      <article class="line-chart-hour-price charts">
+        <svg>
+          <g class="line-chart-hour-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="precio-medio-luz-semana" class="container-chart">
+      <h2 class="container-chart-title">Precio de la luz por día de la semana</h2>
+      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por uno de los días de la semana a lo largo de toda la serie histórica.</p>
+      <select class="classic" id="select-day-week-price"></select>
+      <article class="line-chart-day-week-price charts">
+        <svg>
+          <g class="line-chart-day-week-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="precio-medio-luz-year" class="container-table">
+      <article class="subcontainer-table">
+        <h2>Histórico de precios de la luz para <span id="js-table-date"></span></h2>
+        <p class="table-description">
+          En esta tabla puedes ver el precio de la luz de hoy entre los años 2014 y 2022. Las celdas en color verde muestran cuando fue el precio más barato de la luz entre los años 2014 y 2022. Las celdas en color rojo muestran cuando fue el precio más caro de la luz entre los años 2014 y 2022.
+        </p>
+        <details class="details-table" open="">
+          <summary>
+            <strong class="summary-text-open">Desplegar la tabla</strong>
+            <strong class="summary-text-close">Ocultar la tabla</strong>
+          </summary>
+          <div class="table-element" id="table-year"></div>
+        </details>
+        <h2>Precios durante la última semana</h2>
+        <p class="table-description">
+          En esta tabla puedes comparar el precio de la luz por hora a lo largo de la semana. Al igual que en la anterior las celdas en color verde muestran cuando fue el precio más barato. Las celdas en color rojo muestran cuando fue el precio más caro de la luz.
+        </p>
+        <details class="details-table" open="">
+          <summary>
+            <strong class="summary-text-open">Desplegar la tabla</strong>
+            <strong class="summary-text-close">Ocultar la tabla</strong>
+          </summary>
+          <div class="table-element" id="table-week"></div>
+        </details>
+      </article>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container-footer">
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2024</p></p>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub.</a>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
+      <a class="footer-links-block" href="/noticias/">Blog</a>
+      <a class="footer-links-block" href="/preguntas/">Preguntas</a>
+      <a class="footer-links-block" href="/politica-de-privacidad/">Politica de privacidad</a>
+    </div>
+  </footer>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script data-cfasync="false" type="text/javascript" id="clever-core">
+      (function (document, window) {
+          var a, c = document.createElement("script"), f = window.frameElement;
+
+          c.id = "CleverCoreLoader82114";
+          c.src = "https://scripts.cleverwebserver.com/96a341ac0f0ad8ec2c2cd0e0d950203a.js";
+
+          c.async = !0;
+          c.type = "text/javascript";
+          c.setAttribute("data-target", window.name || (f && f.getAttribute("id")));
+
+          try {
+              a = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+          } catch (e) {
+              a = !1;
+          }
+
+          a || (a = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+          a.parentNode.insertBefore(c, a);
+      })(document, window);
+  </script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
+  </script>
+</body>
+
+</html>

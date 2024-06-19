@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Subastas precio de la luz mañana - Apaga Luz</title>
+  <meta name="description" content="Seguro que en algún momento os habéis cruzado con un mapa de Europa que muestra unos precios bastante bajos en comparación con el resto.">
+  <meta name="author" content="Jorge Aznar">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/assets/icon.1ed48fb2.svg" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+  <script type="module" crossorigin src="/assets/styles.a4c63ff9.js"></script>
+  <link rel="stylesheet" href="/assets/styles.11451887.css">
+</head>
+
+<body class="bg-secondary">
+  <nav class="menu">
+    <div class="menu-container">
+      <a class="menu-element menu-root" href="/">Inicio</a>
+      <a class="menu-element" href="/precio-luz-manana/">Precio de la luz mañana</a>
+      <a class="menu-element" href="/graficas/">Gráficas</a>
+      <a class="menu-element" href="/noticias/">noticias</a>
+    </div>
+  </nav>
+  <main>
+    <section id="aviso" class="container-calendar">
+      <article class="post-container">
+        <article class="sponsor-card">
+          <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>
+          <div class="sponsor-card-buttons-grid">
+            <a href="https://ko-fi.com/jorgeatgu" class="sponsor-card-button">Buymeacoffe</a>
+            <a href="https://www.patreon.com/bePatron?u=5688554" class="sponsor-card-button">Patreon</a>
+            <a href="https://github.com/sponsors/jorgeatgu" class="sponsor-card-button" aria-label="Sponsor @jorgeatgu on GitHub">GitHub Sponsor</a>
+          </div>
+        </article>
+        <h1 class="post-title">Subastas: precio de la luz mañana</h1>
+        <p class="post-text-date">22 de julio de 2022</p>
+        <p class="post-text">Seguro que en algún momento os habéis cruzado con un mapa de Europa que muestra unos precios bastante bajos en comparación con el resto.</p>
+        <img src="/assets/mapa-europa-precio-luz.cd0fbdbf.png" alt="Mapa de Europa que muestra los precios de luz de mañana de cada país"/>
+        <p class="post-text">Esto es gracias a la excepción ibérica pero la información esta incompleta. Lo primero es que estos datos son para el mercado mayorista, y a esos datos hay que sumarle un cambio que introdujo la excepción ibérica, la compensación del gas. Esta compensación se suma al precio de la subasta de OMIE, la subasta del mercado mayorista. Desde la aprobación los precios de esta subasta comparado con los de ESIOS son muy diferentes, muchas veces se multiplicaban por tres. Mucha gente me ha escrito por email para obtener una explicación. La clave en la diferencia del precio esta en la compensación del gas, que es algo que hay que sumar al precio de OMIE. La compensación del gas se publica a las 14:00, así que desde hace un par de semanas he automatizado la obtención de la compensación y la estoy sumando al precio de la subasta del OMIE, así la diferencia con ESIOS es bastante menor. Y la diferencia entre OMIE+GAS y ESIOS es que en esta última se añaden otra serie de costes producidos por los servicios de ajuste, se incluyen los pagos por peajes de acceso y conexión que se añaden a la tarifa de energía y consumo. No incluyo aquí ni el IVA y demás añadidos que incluya vuestra operadora/comercializadora de turno.</p>
+        <p class="post-text">La cosa queda así:</p>
+        <ul>
+          <li>13:30 publico los datos de la subasta de OMIE.</li>
+          <li>14:00 obtengo los datos de la compensación y se lo sumo a los de OMIE.</li>
+          <li>20:30 publico los datos de ESIOS, el <a href="/precio-luz-manana/">precio de la luz mañana</a> en la web y vía <a href="/noticias/newsletter-precio-luz-manana/">newsletter</a>.</li>
+          <li>*Hay veces que la publicación de las precios se retrasa, son pocas pero pasa.</li>
+        </ul>
+        <p class="post-text">He hecho una tabla con los datos extraídos del 22 de julio para que se vean las diferencias.</p>
+        <img src="/assets/comparativa-subastas-de-la-luz.4d53b4dc.png" alt="Tabla comparativa con los precios de las subastas de la luz de mañana de omie, esios y la compensación del gas"/>
+      </article>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container-footer">
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2024</p></p>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub.</a>
+      <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
+      <a class="footer-links-block" href="/noticias/">Blog</a>
+      <a class="footer-links-block" href="/preguntas/">Preguntas</a>
+      <a class="footer-links-block" href="/politica-de-privacidad/">Politica de privacidad</a>
+    </div>
+  </footer>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
+  </script>
+</body>
+
+</html>
