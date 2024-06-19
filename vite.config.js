@@ -15,6 +15,7 @@ export default defineConfig({
         'subastas-precio-luz-manana': 'noticias/subastas-precio-luz-manana/index.html',
         'precio-luz-manana': 'precio-luz-manana/index.html',
         'compensacion-del-gas': 'compensacion-del-gas/index.html',
+        'descubre-companias-mejores-precios-luz-2024': 'descubre-companias-mejores-precios-luz-2024/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       }
