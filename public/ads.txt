@@ -1,5 +1,7 @@
 google.com, pub-8990231994528437, DIRECT, f08c47fec0942fa0
 google.com, pub-2497164702229123, DIRECT, f08c47fec0942fa0
+digitalgreen.es,8407dd89231e8dbd3cd3b31c062cc2e1,DIRECT
+google.com,pub-5909951240305249,RESELLER,f08c47fec0942fa0
 OWNERDOMAIN=apaga-luz.com
 MANAGERDOMAIN=themoneytizer.com
 themoneytizer.com,94300,DIRECT
