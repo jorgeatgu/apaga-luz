@@ -11,7 +11,7 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date -d 'tomorrow' +%Y%m%d)"
       - name: Setup deno
-      - uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@main
         with:
           deno-version: "1.8.2"
       - name: Check out repo
