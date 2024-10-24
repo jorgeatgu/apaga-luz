@@ -17,6 +17,7 @@ import {
   remove_tables,
   remove_tables_tomorrow
 } from './table.js';
+import { show_modal } from './modal.js';
 
 const options = {
   weekday: 'long',

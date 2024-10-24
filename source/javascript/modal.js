@@ -50,7 +50,7 @@ export function show_modal() {
       cerrarEnlaces.forEach(enlace => {
         enlace.addEventListener('click', () => {
           const now = new Date();
-          const expirationDate = new Date(now.getTime() + 1800000);
+          const expirationDate = new Date(now.getTime() + 3600000);
           const modalState = {
             closed: true,
             expiration: expirationDate.getTime()

@@ -4,6 +4,7 @@ import data_tomorrow_omie from '/public/data/omie_data.json';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 import { is_week_end } from './utils.js';
+import { show_modal } from './modal.js';
 
 /*
 Prices are published at 20:15,
