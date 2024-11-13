@@ -231,7 +231,8 @@ export function table_price(data_hours, element) {
   const options = {
     weekday: 'long',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    year: 'numeric'
   };
 
   const getElementDate = document.getElementById('section-subtitle-date');

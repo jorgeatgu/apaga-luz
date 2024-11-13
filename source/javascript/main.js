@@ -25,12 +25,23 @@ const options = {
   day: 'numeric'
 };
 
+const options_title = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+};
+
 const get_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 let user_hour = new Date().getHours();
 let user_minutes = new Date().getMinutes();
 let user_day = new Date();
 const day_name = day_names_us[user_day.getDay()];
+document.title = `Precios de la luz por hora hoy | ${user_day.toLocaleDateString(
+  'es-ES',
+  options_title
+)}`;
 
 const is_user_from_canary =
   get_time_zone === 'Atlantic/Canary' && user_hour > 22 && user_hour < 24;
