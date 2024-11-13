@@ -111,11 +111,10 @@ if (its_time_to_show_the_content && check_the_day_in_data) {
   data_source_element.style.display = 'block';
 } else {
   const get_warning_id = document.getElementById('warning-tomorrow-data');
-  get_warning_id.textContent = `Todavía no hay datos disponibles para mañana: ${tomorrow.toLocaleDateString(
+  get_warning_id.textContent = `Todavía no hay datos disponibles para el precio de la luz mañana: ${tomorrow.toLocaleDateString(
     'es-ES',
     options
   )}`;
-
   container_table_tomorrow.style.display = 'none';
 }
 

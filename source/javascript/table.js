@@ -157,7 +157,7 @@ export function table_price_tomorrow(
   const string_table_tomorrow = compensacion ? 'Compensación gas' : 'luz';
 
   if (!document.querySelector('.container-table-next-day-title')) {
-    title = `<summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la ${string_table_tomorrow} </span> ${tomorrow.toLocaleDateString(
+    title = `<summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la ${string_table_tomorrow} mañana </span> ${tomorrow.toLocaleDateString(
       'es-ES',
       options
     )}</h2></summary>`;
