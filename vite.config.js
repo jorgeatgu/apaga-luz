@@ -11,7 +11,6 @@ export default defineConfig({
         'nueva-direccion-web': 'noticias/nueva-direccion-web/index.html',
         'politica-de-privacidad': 'politica-de-privacidad/index.html',
         'newsletter-precio-luz-manana': 'noticias/newsletter-precio-luz-manana/index.html',
-        'novedades-precio-luz-manana': 'noticias/novedades-precio-luz-manana/index.html',
         'subastas-precio-luz-manana': 'noticias/subastas-precio-luz-manana/index.html',
         'precio-luz-manana': 'precio-luz-manana/index.html',
         'compensacion-del-gas': 'compensacion-del-gas/index.html',
