@@ -21,7 +21,7 @@ export function show_modal() {
       <div class="modal-background"></div>
         <div id="modal" class="modal-adsense">
           <center>
-            <h1>Precio de la luz mañana</h1>
+            <h3>Precio de la luz mañana</h3>
             <p><a href="https://www.apaga-luz.com/precio-luz-manana/" class="button">VER</a></p>
             <p><a href="?=" class="reload-button">CERRAR</a></p>
           </center>
