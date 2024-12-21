@@ -21,6 +21,6 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@3.4.0
         with:
-          http_url: https://www.omie.es/es/file-download?parents%5B0%5D=marginalpdbc&filename=marginalpdbc_${{ steps.date.outputs.date }}.1
+          http_url: https://www.omie.es/es/file-download?parents=marginalpdbc&filename=marginalpdbc_${{ steps.date.outputs.date }}.1
           downloaded_filename: public/data/omie_prices.json
           postprocess: omie_dataset.js
