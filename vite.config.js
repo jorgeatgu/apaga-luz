@@ -15,6 +15,7 @@ export default defineConfig({
         'precio-luz-manana': 'precio-luz-manana/index.html',
         'compensacion-del-gas': 'compensacion-del-gas/index.html',
         'descubre-companias-mejores-precios-luz-2024': 'noticias/descubre-companias-mejores-precios-luz-2024/index.html',
+        'descubre-mejores-tarifas-luz-2025': 'noticias/descubre-mejores-tarifas-luz-2025/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       }
