@@ -32,7 +32,7 @@ export function show_modal() {
       <div class="modal-background"></div>
         <div id="modal" class="modal-adsense">
           <center>
-            <h1>Datos del precio de la luz</h1>
+            <h3>Datos del precio de la luz</h3>
             <p><a href="https://www.apaga-luz.com/graficas/" class="button">VER</a></p>
             <p><a href="?=" class="reload-button">CERRAR</a></p>
           </center>
