@@ -21,6 +21,6 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@3.4.0
         with:
-          http_url: https://www.omie.es/es/file-download?parents=marginalpdbc&filename=marginalpdbc_${{ steps.date.outputs.date }}.1
+          http_url: https://www.omie.es/es/file-access-list?parents=/Mercado%20Diario/1.%20Precios&dir=Precios%20horarios%20del%20mercado%20diario%20en%20Espa%C3%B1a&realdir=marginalpdbc
           downloaded_filename: public/data/omie_prices.json
           postprocess: omie_dataset.js
