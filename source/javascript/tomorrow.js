@@ -1,10 +1,8 @@
 import './../styles/styles.css';
 import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
-import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 import { is_week_end } from './utils.js';
-/*import { show_modal } from './modal.js';*/
 
 /*
 Prices are published at 20:15,
@@ -14,12 +12,10 @@ this table will only be available until 00:00.
 
 let user_hour = new Date().getHours();
 let user_minutes = new Date().getMinutes();
-let user_day = new Date();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
 const EIGHT_TWENTY = 1220;
 const QUARTER_PAST_ONE = 790;
-const TIME_OMIE_GAS = 845;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -51,13 +47,6 @@ const check_the_day_in_data =
   get_month_from_data === tomorrow.getMonth() + 1;
 
 let filter_data_tomorrow_omie = data_tomorrow_omie.filter(({ price }) => price);
-let filter_data_gas_omie = data_gas_omie.map(({ precio, hora, dia }) => {
-  return {
-    day: dia,
-    hour: hora,
-    price: precio
-  };
-});
 
 let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   ? data_tomorrow
