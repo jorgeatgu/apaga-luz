@@ -152,5 +152,3 @@ const text_whatsApp = `whatsapp://send?text=Aquí puedes consultar el precio de 
 )} https://www.apaga-luz.com/precio-luz-manana/?utm_source=whatsapp_mnn`;
 const button_whatsApp = document.getElementById('btn-whatsapp-manana');
 button_whatsApp.href = text_whatsApp;
-
-show_modal();

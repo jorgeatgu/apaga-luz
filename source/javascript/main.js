@@ -377,5 +377,3 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
-
-show_modal();
