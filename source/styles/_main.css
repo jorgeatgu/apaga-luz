@@ -178,6 +178,9 @@ main {
     width: 100%;
     margin: 1.5rem 0;
   }
+  ul li {
+    padding: .25rem;
+  }
 }
 
 .post-title {
@@ -187,8 +190,15 @@ main {
   margin-top: .5rem;
 }
 
-.post-sutitle {
+.post-subtitle {
   font-size: 1.5rem;
+  font-family: var(--text);
+  margin-bottom: .25rem;
+  margin-top: .5rem;
+}
+
+.post-minititle {
+  font-size: 1.25rem;
   font-family: var(--text);
   margin-bottom: .25rem;
   margin-top: .5rem;
@@ -219,6 +229,7 @@ main {
   font-size: 1rem;
   font-family: var(--text);
   line-height: 1.4;
+  margin-top: .5rem;
   display: inline-block;
 }
 

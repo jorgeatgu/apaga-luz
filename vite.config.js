@@ -16,6 +16,7 @@ export default defineConfig({
         'compensacion-del-gas': 'compensacion-del-gas/index.html',
         'descubre-companias-mejores-precios-luz-2024': 'noticias/descubre-companias-mejores-precios-luz-2024/index.html',
         'descubre-mejores-tarifas-luz-2025': 'noticias/descubre-mejores-tarifas-luz-2025/index.html',
+        'tarifas-de-totalenergies-luz-y-gas': 'noticias/tarifas-de-totalenergies-luz-y-gas/index.html',
         'diez-inluencers-ecologicos-para-seguir-redes-sociales': 'noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
