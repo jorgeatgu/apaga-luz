@@ -1,1 +1,199 @@
-[{"year":"2025","month":"03","day":"03","hour":0,"price":0.0788,"pricemin":0.0788},{"year":"2025","month":"03","day":"03","hour":1,"price":0.073,"pricemin":0.073},{"year":"2025","month":"03","day":"03","hour":2,"price":0.0685,"pricemin":0.0685},{"year":"2025","month":"03","day":"03","hour":3,"price":0.069,"pricemin":0.069},{"year":"2025","month":"03","day":"03","hour":4,"price":0.06856999999999999,"pricemin":0.06856999999999999},{"year":"2025","month":"03","day":"03","hour":5,"price":0.07861,"pricemin":0.07861},{"year":"2025","month":"03","day":"03","hour":6,"price":0.093,"pricemin":0.093},{"year":"2025","month":"03","day":"03","hour":7,"price":0.10457999999999999,"pricemin":0.10457999999999999},{"year":"2025","month":"03","day":"03","hour":8,"price":0.115,"pricemin":0.115},{"year":"2025","month":"03","day":"03","hour":9,"price":0.10457999999999999,"pricemin":0.10457999999999999},{"year":"2025","month":"03","day":"03","hour":10,"price":0.10563,"pricemin":0.10563},{"year":"2025","month":"03","day":"03","hour":11,"price":0.10396,"pricemin":0.10396},{"year":"2025","month":"03","day":"03","hour":12,"price":0.09048,"pricemin":0.09048},{"year":"2025","month":"03","day":"03","hour":13,"price":0.09024,"pricemin":0.09024},{"year":"2025","month":"03","day":"03","hour":14,"price":0.06691,"pricemin":0.06691},{"year":"2025","month":"03","day":"03","hour":15,"price":0.08644,"pricemin":0.08644},{"year":"2025","month":"03","day":"03","hour":16,"price":0.0985,"pricemin":0.0985},{"year":"2025","month":"03","day":"03","hour":17,"price":0.10013,"pricemin":0.10013},{"year":"2025","month":"03","day":"03","hour":18,"price":0.1115,"pricemin":0.1115},{"year":"2025","month":"03","day":"03","hour":19,"price":0.135,"pricemin":0.135},{"year":"2025","month":"03","day":"03","hour":20,"price":0.149,"pricemin":0.149},{"year":"2025","month":"03","day":"03","hour":21,"price":0.12290999999999999,"pricemin":0.12290999999999999},{"year":"2025","month":"03","day":"03","hour":22,"price":0.115,"pricemin":0.115},{"year":"2025","month":"03","day":"03","hour":23,"price":0.09841,"pricemin":0.09841},{"year":"*\r","hour":null,"price":null,"pricemin":null}]
+[
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 0,
+  "price": 0.10013,
+  "pricemin": 0.10013
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 1,
+  "price": 0.10400,
+  "pricemin": 0.10400
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 2,
+  "price": 0.10105,
+  "pricemin": 0.10105
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 3,
+  "price": 0.10013,
+  "pricemin": 0.10013
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 4,
+  "price": 0.09900,
+  "pricemin": 0.09900
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 5,
+  "price": 0.10261,
+  "pricemin": 0.10261
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 6,
+  "price": 0.09678,
+  "pricemin": 0.09678
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 7,
+  "price": 0.10660,
+  "pricemin": 0.10660
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 8,
+  "price": 0.10924,
+  "pricemin": 0.10924
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 9,
+  "price": 0.10270,
+  "pricemin": 0.10270
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 10,
+  "price": 0.0 9550,
+  "pricemin": 0.0 9550
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 11,
+  "price": 0.0 7785,
+  "pricemin": 0.0 7785
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 12,
+  "price": 0.0 6384,
+  "pricemin": 0.0 6384
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 13,
+  "price": 0.0 5024,
+  "pricemin": 0.0 5024
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 14,
+  "price": 0.0 5510,
+  "pricemin": 0.0 5510
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 15,
+  "price": 0.0 6675,
+  "pricemin": 0.0 6675
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 16,
+  "price": 0.0 8000,
+  "pricemin": 0.0 8000
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 17,
+  "price": 0.10100,
+  "pricemin": 0.10100
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 18,
+  "price": 0.10258,
+  "pricemin": 0.10258
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 19,
+  "price": 0.14428,
+  "pricemin": 0.14428
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 20,
+  "price": 0.13200,
+  "pricemin": 0.13200
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 21,
+  "price": 0.11762,
+  "pricemin": 0.11762
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 22,
+  "price": 0.10297,
+  "pricemin": 0.10297
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "04",
+  "hour": 23,
+  "price": 0.10270,
+  "pricemin": 0.10270
+},
+{
+  "year": "*\r",
+  "hour": null,
+  "price": null,
+  "pricemin": null
+}]
