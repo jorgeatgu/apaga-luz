@@ -7,6 +7,7 @@ export default defineConfig({
       input: {
         main: 'index.html',
         noticias: 'noticias/index.html',
+        'tarifas-placas-solares': 'noticias/tarifas-placas-solares/index.html',
         'nueva-clasificacion-colores-horas': 'noticias/nueva-clasificacion-colores-horas/index.html',
         'nueva-direccion-web': 'noticias/nueva-direccion-web/index.html',
         'politica-de-privacidad': 'politica-de-privacidad/index.html',
