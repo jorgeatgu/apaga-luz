@@ -5,24 +5,47 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Precios de la luz por hora hoy | Consultar ahora | Apaga Luz</title>
-  <meta name="description" content="¿Necesitas consultar el precio de la luz por hora hoy? Tenemos toda la información para hoy y mañana aquí. ¡Entra y descubre la hora más barata!">
+  <meta name="description"
+    content="¿Necesitas consultar el precio de la luz por hora hoy? Tenemos toda la información para hoy y mañana aquí. ¡Entra y descubre la hora más barata!">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
-  <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/styles/styles.css" as="style">
-  <link rel="preload" href="/source/javascript/main.js" as="script">
+
+  <!-- CSS crítico para el primer renderizado -->
   <style>
+    /* Estilos críticos para el renderizado inicial */
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+      --numbers: 'Fjalla One', sans-serif;
+      --roboto: 'Roboto Condensed', sans-serif;
+      --text: 'Rubik', sans-serif;
+      --black: #111;
       --blue: #021e5c;
       --white: #fff;
+      --grey: #f4f4f4;
+      --green: #a2fcc1;
+      --green-light: #a2fcc1b3;
+      --orange: #ffae3a;
+      --orange-light: #ffae3ab3;
+      --red: #ec1d2f;
+      --red-light: #ec1d2fb3;
+      --btn-blue: rgb(0, 102, 255);
       --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
     }
-    body, html { margin: 0; font-family: var(--fontSystem); }
-    .menu { padding: 1rem; text-align: center; }
+
+    body, html {
+      margin: 0;
+      color: var(--blue);
+      font-family: var(--fontSystem);
+      position: relative;
+    }
+
+    .menu {
+      background: none;
+      padding: 1rem;
+      text-align: center;
+    }
+
     .menu-container {
       background: var(--white);
       padding: 1rem;
@@ -33,33 +56,131 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
-    .container-hour-datetime, .container-hour-price {
-      min-height: 6rem; /* Reserva espacio para este contenido */
-      background: var(--white);
-      border-radius: 1rem;
-      box-shadow: var(--shadow);
-      width: max-content;
+
+    .menu-element {
+      text-decoration: none;
+      color: var(--blue);
+      padding: .5rem;
+      text-transform: uppercase;
     }
+
+    .container {
+      max-width: 90vw;
+      margin: 0 auto;
+    }
+
+    /* Espacios reservados para contenido dinámico */
+    .container-hour-datetime,
+    .container-hour-price {
+      font-family: var(--fontSystem);
+      display: block;
+      line-height: 1;
+      background: var(--white);
+      padding: 1rem;
+      border-radius: 1rem;
+      width: max-content;
+      box-shadow: var(--shadow);
+      min-height: 6rem;
+    }
+
+    /* Anuncios */
     ins.adsbygoogle {
       display: block !important;
-      min-height: 280px !important; /* Reservar espacio para anuncios */
+      min-height: 280px !important;
       background-color: #f9f9f9;
     }
-    .container-wrapper, .table-next-day-grid {
-      min-height: 600px; /* Reservar espacio para tablas */
+
+    /* Contenedores para tablas */
+    .container-wrapper,
+    .table-next-day-grid {
+      min-height: 600px;
+    }
+
+    .container-table-price-left,
+    .container-table-price-right,
+    .table-next-day-grid-left,
+    .table-next-day-grid-right {
+      min-height: 300px;
+    }
+
+    /* Media queries mínimas críticas */
+    @media only screen and (min-width: 48rem) {
+      .container {
+        max-width: 65vw;
+      }
+
+      .container-wrapper,
+      .table-next-day-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      ins.adsbygoogle {
+        min-height: 250px !important;
+      }
     }
   </style>
+
+  <!-- Precarga de recursos críticos -->
+  <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/javascript/main.js" as="script">
+
   <link rel="icon" type="image/svg+xml" href="public/images/icon.svg" />
-  <link rel="stylesheet" href="/source/styles/styles.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+
+  <!-- Cargar el CSS principal de forma no bloqueante -->
+  <link rel="stylesheet" href="/source/styles/styles.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/source/styles/styles.css"></noscript>
+
+  <!-- Script optimizado para cargar recursos no críticos -->
+  <script>
+    // Función para cargar scripts no críticos de forma diferida
+    function loadScriptDeferred(src) {
+      const script = document.createElement('script');
+      script.src = src;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+
+    // Cargar scripts después de que la página esté completamente cargada
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        // Cargar AdSense después de que todo lo demás esté listo
+        loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
+
+        // Inicializar anuncios solo después de que AdSense esté cargado
+        setTimeout(function() {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        }, 2000);
+
+        // Cargar analíticas después de 3 segundos
+        setTimeout(function() {
+          loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-E9V8ZPM3P0');
+        }, 3000);
+      }, 2000);
+    });
+
+    // Reservar espacio para elementos dinámicos
+    document.addEventListener('DOMContentLoaded', function() {
+      const tableContainers = document.querySelectorAll('.container-table-price-left, .container-table-price-right');
+      tableContainers.forEach(container => {
+        container.style.minHeight = '300px';
+      });
+    });
+  </script>
+
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Apaga-luz",
-    "url": "https://www.apaga-luz.com",
-    "description": "Apaga-luz muestra el precio de la luz por horas, actualizado en tiempo real. Incluye el precio de la luz para el día siguiente.",
-    "inLanguage": "es"
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Apaga-luz",
+      "url": "https://www.apaga-luz.com",
+      "description": "Apaga-luz muestra el precio de la luz por horas, actualizado en tiempo real. Incluye el precio de la luz para el día siguiente.",
+      "inLanguage": "es"
   }
   </script>
 </head>
