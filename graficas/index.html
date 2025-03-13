@@ -8,10 +8,7 @@
   <meta name="description" content="¿Quieres echar un vistazo a los precios de la electricidad en España en los últimos años. Descubre eso y mucho más, aquí. ¡Entra ya!">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- CSS crítico para el primer renderizado -->
   <style>
-    /* Estilos críticos para el renderizado inicial */
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
       --numbers: 'Fjalla One', sans-serif;
@@ -60,7 +57,6 @@
       text-transform: uppercase;
     }
 
-    /* Contenedor principal para gráficos */
     .container-chart {
       max-width: 60rem;
       padding: 3rem .5rem;
@@ -91,7 +87,6 @@
       width: 25rem;
     }
 
-    /* Reservar espacio para anuncios */
     ins.adsbygoogle {
       display: block !important;
       min-height: 280px !important;
@@ -99,7 +94,6 @@
       margin-bottom: 1rem;
     }
 
-    /* Reservar espacio para gráficos */
     .charts {
       position: relative;
       min-height: 500px;
@@ -115,7 +109,6 @@
       min-height: 500px;
     }
 
-    /* Espacio para las tablas */
     .table-element {
       min-height: 400px;
     }
@@ -131,22 +124,11 @@
       }
     }
   </style>
-
-  <!-- Precarga de recursos críticos -->
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/javascript/visualizations.js" as="script">
-
-  <link rel="icon" type="image/svg+xml" href="../public/images/icon.svg"/>
-
-  <!-- Cargar el CSS principal de forma no bloqueante -->
-  <link rel="stylesheet" href="/source/styles/styles.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/source/styles/styles.css"></noscript>
-
-  <!-- Script optimizado para cargar recursos no críticos -->
   <script>
-    // Función para cargar scripts no críticos de forma diferida
     function loadScriptDeferred(src) {
       const script = document.createElement('script');
       script.src = src;
@@ -154,18 +136,14 @@
       document.body.appendChild(script);
     }
 
-    // Cargar scripts después de que la página esté completamente cargada
     window.addEventListener('load', function() {
       setTimeout(function() {
-        // Cargar AdSense después de que todo lo demás esté listo
         loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
 
-        // Inicializar anuncios solo después de que AdSense esté cargado
         setTimeout(function() {
           (adsbygoogle = window.adsbygoogle || []).push({});
         }, 2000);
 
-        // Cargar analíticas después de 3 segundos
         setTimeout(function() {
           loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
           window.dataLayer = window.dataLayer || [];
@@ -176,15 +154,12 @@
       }, 2000);
     });
 
-    // Reservar espacio para elementos dinámicos
     document.addEventListener('DOMContentLoaded', function() {
-      // Reservar espacio para los gráficos
       const chartElements = document.querySelectorAll('.charts');
       chartElements.forEach(chart => {
         chart.style.minHeight = '500px';
       });
 
-      // Reservar espacio para las tablas
       const tableElements = document.querySelectorAll('.table-element');
       tableElements.forEach(table => {
         table.style.minHeight = '400px';
@@ -206,15 +181,11 @@
   </header>
   <main>
     <section class="container-chart">
-      <div class="ad-container">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      </div>
       <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
       <p class="charts-warning">
         Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A) por ser la más similar a la actual.
       </p>
-      <p class="charts-text">Los datos de la compensación del gas puedes encontrarlos haciendo click en el siguiente botón</p>
     </section>
     <section id="precio-medio-luz-dia" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por día</h2>
@@ -225,6 +196,9 @@
         </svg>
       </article>
     </section>
+    <div class="ad-container">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
     <section id="precio-medio-luz-mes" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por mes</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por mes. El precio medio se calcula sumando el precio medio de cada día del mes y diviendo el resultado entre el número de días que tiene el mes.</p>

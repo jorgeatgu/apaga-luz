@@ -169,7 +169,7 @@ price_element.textContent = `${price.toFixed(3)}`;
 hours_element.textContent = user_hour;
 minutes_element.textContent = user_minutes;
 
-const main_element = document.getElementsByTagName('main')[0];
+const main_element = document.getElementsByTagName('body')[0];
 const menu_element = document.getElementsByTagName('nav')[0];
 
 reload_page(user_minutes);
