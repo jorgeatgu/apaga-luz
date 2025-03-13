@@ -759,18 +759,6 @@ details[open] {
   z-index: 1000;
 }
 
-ins.adsbygoogle {
-  display: block;
-  min-height: 280px;
-  background-color: #f9f9f9;
-}
-
-@media only screen and (min-width: 48rem) {
-  ins.adsbygoogle {
-    min-height: 250px;
-  }
-}
-
 .line-chart-main-line-price,
 .line-chart-day-price,
 .line-chart-hour-price,
