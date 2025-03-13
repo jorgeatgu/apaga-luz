@@ -8,6 +8,7 @@ html {
   color: var(--blue);
   font-family: var(--text);
   position: relative;
+  font-display: swap;
 }
 
 body {
@@ -103,6 +104,7 @@ main {
   border-radius: 1rem;
   width: max-content;
   box-shadow: var(--shadow);
+  min-height: 8rem;
 }
 
 .container-hour-price {
@@ -130,6 +132,10 @@ main {
   &.show {
     display: grid;
   }
+}
+
+.container-wrapper {
+  min-height: 600px;
 }
 
 .container-table-next-day-grid {
@@ -751,4 +757,46 @@ details[open] {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+}
+
+ins.adsbygoogle {
+  display: block;
+  min-height: 280px;
+  background-color: #f9f9f9;
+}
+
+@media only screen and (min-width: 48rem) {
+  ins.adsbygoogle {
+    min-height: 250px;
+  }
+}
+
+.line-chart-main-line-price,
+.line-chart-day-price,
+.line-chart-hour-price,
+.line-chart-month-price,
+.line-chart-day-price-last-year,
+.line-chart-day-week-price {
+  min-height: 500px;
+}
+
+.table-next-day,
+.container-table-next-day-grid {
+  min-height: 650px;
+}
+
+.btn-whatsapp,
+#container-max-min-avg {
+  min-height: 2.5rem;
+}
+
+.table-next-day-grid {
+  min-height: 600px;
+}
+
+.container-table-price-left,
+.container-table-price-right,
+.table-next-day-grid-left,
+.table-next-day-grid-right {
+  min-height: 300px;
 }

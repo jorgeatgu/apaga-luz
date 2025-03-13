@@ -5,25 +5,65 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Precios de la luz por hora hoy | Consultar ahora | Apaga Luz</title>
-  <meta name="description"
-    content="¿Necesitas consultar el precio de la luz por hora hoy? Tenemos toda la información para hoy y mañana aquí. ¡Entra y descubre la hora más barata!">
+  <meta name="description" content="¿Necesitas consultar el precio de la luz por hora hoy? Tenemos toda la información para hoy y mañana aquí. ¡Entra y descubre la hora más barata!">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
+  <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/styles/styles.css" as="style">
+  <link rel="preload" href="/source/javascript/main.js" as="script">
+  <style>
+    :root {
+      --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+      --blue: #021e5c;
+      --white: #fff;
+      --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
+    }
+    body, html { margin: 0; font-family: var(--fontSystem); }
+    .menu { padding: 1rem; text-align: center; }
+    .menu-container {
+      background: var(--white);
+      padding: 1rem;
+      margin: 0 auto;
+      width: max-content;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .container-hour-datetime, .container-hour-price {
+      min-height: 6rem; /* Reserva espacio para este contenido */
+      background: var(--white);
+      border-radius: 1rem;
+      box-shadow: var(--shadow);
+      width: max-content;
+    }
+    ins.adsbygoogle {
+      display: block !important;
+      min-height: 280px !important; /* Reservar espacio para anuncios */
+      background-color: #f9f9f9;
+    }
+    .container-wrapper, .table-next-day-grid {
+      min-height: 600px; /* Reservar espacio para tablas */
+    }
+  </style>
   <link rel="icon" type="image/svg+xml" href="public/images/icon.svg" />
+  <link rel="stylesheet" href="/source/styles/styles.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Apaga-luz",
-      "url": "https://www.apaga-luz.com",
-      "description": "Apaga-luz muestra el precio de la luz por horas, actualizado en tiempo real. Incluye el precio de la luz para el día siguiente.",
-      "inLanguage": "es"
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Apaga-luz",
+    "url": "https://www.apaga-luz.com",
+    "description": "Apaga-luz muestra el precio de la luz por horas, actualizado en tiempo real. Incluye el precio de la luz para el día siguiente.",
+    "inLanguage": "es"
   }
   </script>
-
 </head>
+
 <body>
   <header>
     <nav class="menu">
@@ -37,8 +77,14 @@
   </header>
   <main>
     <section class="container">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+      <script>
+        window.addEventListener('load', function() {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+      </script>
     </section>
     <section class="container">
       <article class="container-blog-index">
@@ -54,8 +100,7 @@
         <div class="container-hour-price">
           <span id="price"></span><span id="price" class="container-euro-kwm"> €/kWh</span>
           <p class="taxes">precio sin IVA</p>
-          <a class="btn-whatsapp" id="btn-whatsapp" href=""><i class="icon-whatsapp"></i><span
-              class="btn-whatsapp-text">Comparte el precio por WhatsApp</span></a>
+          <a class="btn-whatsapp" id="btn-whatsapp" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte el precio por WhatsApp</span></a>
         </div>
         <section id="container-max-min-avg">
           <div class="container-max-min-avg-grid">
@@ -112,15 +157,14 @@
             </div>
           </article>
           <p>Con toda la fluctuación que tenemos en el mercado de la electricidad en España, es esencial y hasta necesario echar un vistazo siempre al precio de la luz por hora hoy, sobre todo, si quieres gestionar eficientemente tus recursos y, por ejemplo, poner tu lavadora en la hora de menor consumo.
-          Por eso, aquí siempre tendréis una plataforma dónde podréis ver el precio de la luz para cada hora del día. Este servicio te permite visualizar de manera precisa y sencilla las variaciones horarias, ayudándote a identificar los mejores momentos para consumir electricidad.</p>
+            Por eso, aquí siempre tendréis una plataforma dónde podréis ver el precio de la luz para cada hora del día. Este servicio te permite visualizar de manera precisa y sencilla las variaciones horarias, ayudándote a identificar los mejores momentos para consumir electricidad.</p>
         </article>
         <article class="sponsor-card">
           <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>
           <div class="sponsor-card-buttons-grid">
             <a href="https://ko-fi.com/jorgeatgu" class="sponsor-card-button">ko-fi</a>
             <a href="https://www.patreon.com/bePatron?u=5688554" class="sponsor-card-button">Patreon</a>
-            <a href="https://github.com/sponsors/jorgeatgu" class="sponsor-card-button"
-              aria-label="Sponsor @jorgeatgu on GitHub">GitHub Sponsor</a>
+            <a href="https://github.com/sponsors/jorgeatgu" class="sponsor-card-button" aria-label="Sponsor @jorgeatgu on GitHub">GitHub Sponsor</a>
           </div>
         </article>
       </article>
@@ -132,8 +176,7 @@
           Las horas donde cuesta menos la luz suelen ser la madrugada y algunas horas del mediodía. Sin embargo, esto cambia diariamente; por ello, nuestro servicio te permite consultar las tarifas en tiempo real y ajustar el consumo según la información actualizada.
           También depende si estás buscando una compañía del mercado libre de la luz, ya que estos van a ir ajustando sus ofertas para dar un precio de la luz más barato.
         </p>
-        <p class="post-text">Puedes ponerte en contacto conmigo a través de este email: <a
-            href="mailto:contacto@apaga-luz.com">contacto@apaga-luz.com</a>. Los emails siempre son bien recibidos, y
+        <p class="post-text">Puedes ponerte en contacto conmigo a través de este email: <a href="mailto:contacto@apaga-luz.com">contacto@apaga-luz.com</a>. Los emails siempre son bien recibidos, y
           suelo contestar a todos, creo que ya van más de 300 sobre la luz, aunque te adelanto que no soy un experto en
           tarifas.</p>
       </article>
@@ -141,8 +184,8 @@
   </main>
   <footer class="footer">
     <div class="container-footer">
-      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links"
-          href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p></p>
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p>
+      </p>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible
         en GitHub.</a>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a
@@ -153,14 +196,21 @@
     </div>
   </footer>
   <script type="module" src="/source/javascript/main.js"></script>
+  <script>
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    }, 1000);
+  });
+  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || [];
 
-    function gtag() {dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-E9V8ZPM3P0');
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
   </script>
 </body>
+
 </html>

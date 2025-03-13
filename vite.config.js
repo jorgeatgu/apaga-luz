@@ -21,7 +21,36 @@ export default defineConfig({
         'diez-inluencers-ecologicos-para-seguir-redes-sociales': 'noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
+      },
+      output: {
+        assetFileNames: (assetInfo) => {
+          const cssExtensionRegExp = /\.css$/;
+          if (cssExtensionRegExp.test(assetInfo.name)) {
+            return 'assets/css/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        manualChunks: {
+          d3: ['d3-array', 'd3-axis', 'd3-fetch', 'd3-format', 'd3-scale', 'd3-selection', 'd3-shape', 'd3-time-format', 'd3-transition'],
+          vendor: ['vanillajs-datepicker']
+        }
       }
-    }
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        dead_code: true,
+      }
+    },
+    cssCodeSplit: true
+  },
+  optimizeDeps: {
+    include: ['d3-array', 'd3-axis', 'd3-fetch', 'd3-format', 'd3-scale', 'd3-selection', 'd3-shape', 'd3-time-format', 'd3-transition']
+  },
+  server: {
+    open: true
   }
 });

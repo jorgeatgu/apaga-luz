@@ -17,7 +17,116 @@ import {
   remove_tables,
   remove_tables_tomorrow
 } from './table.js';
-/*import { show_modal } from './modal.js';*/
+
+// Modificaciones al archivo main.js para reducir CLS
+
+// 1. Función para reservar espacio para elementos que cambian dinámicamente
+function reserveSpaceForDynamicElements() {
+  // Reservar espacio para la tabla de precios antes de cargar datos
+  const containerTable = document.querySelector('.container-wrapper');
+  if (containerTable) {
+    containerTable.style.minHeight = '600px';
+  }
+
+  // Reservar espacio para gráficos que se cargarán después
+  const charts = document.querySelectorAll('.charts');
+  charts.forEach(chart => {
+    chart.style.minHeight = '500px';
+  });
+}
+
+// 2. Cargar anuncios de forma más eficiente
+function loadAdsWithLessImpact() {
+  // Esperar a que la página esté completamente cargada antes de inicializar anuncios
+  if (window.adsbygoogle && window.adsbygoogle.length === 0) {
+    window.addEventListener('load', function () {
+      // Inicializar anuncios solo después de cargar el contenido principal
+      setTimeout(() => {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 1000);
+    });
+  }
+}
+
+// 3. Cargar tablas de forma progresiva para evitar saltos
+function loadTableDataProgressively(data, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  // Procesar datos en batches para evitar reflow masivo
+  const batchSize = 4;
+  const totalItems = data.length;
+
+  function processBatch(startIndex) {
+    const endIndex = Math.min(startIndex + batchSize, totalItems);
+    const batch = data.slice(startIndex, endIndex);
+
+    // Crear y añadir elementos para este batch
+    batch.forEach(element => {
+      const { price, hour, zone, hourHasPassed, tramo } = element;
+      const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+
+      const blockHour = document.createElement('div');
+      blockHour.className = 'container-table-price-element';
+
+      // Añadir contenido interior
+      blockHour.innerHTML = `
+        <span class="container-table-price-element-hour tramo-hidden ${zone} tramo-${tramo}">
+          ${transform_hour}
+        </span>
+        <span class="container-table-price-element-price">
+          ${price} € kWh
+        </span>
+      `;
+
+      container.appendChild(blockHour);
+    });
+
+    // Si hay más elementos, programar el siguiente batch
+    if (endIndex < totalItems) {
+      requestAnimationFrame(() => processBatch(endIndex));
+    }
+  }
+
+  // Iniciar el procesamiento por batches
+  processBatch(0);
+}
+
+// 4. Manipulación del DOM más eficiente para reducir reflow
+function optimizeDOMManipulation() {
+  // Usar fragment para agrupar cambios al DOM
+  function updateTables(data, selector) {
+    const container = document.querySelector(selector);
+    if (!container) return;
+
+    // Crear un fragment para agrupar cambios
+    const fragment = document.createDocumentFragment();
+
+    // Procesar todos los elementos
+    data.forEach(element => {
+      // Crear los elementos como antes
+      const div = document.createElement('div');
+      // Configurar el div...
+
+      // Añadir al fragment, no al DOM directamente
+      fragment.appendChild(div);
+    });
+
+    // Hacer un solo cambio al DOM
+    container.appendChild(fragment);
+  }
+
+  // Reemplazar uso directo de innerHTML en tablas
+  // Ejemplo: en lugar de repetir insertAdjacentHTML, agrupar cambios
+}
+
+// Llamar a estas funciones para mejorar el rendimiento
+document.addEventListener('DOMContentLoaded', function () {
+  reserveSpaceForDynamicElements();
+  loadAdsWithLessImpact();
+
+  // Las demás funciones se llamarán cuando sea necesario
+});
 
 const options = {
   weekday: 'long',

@@ -8,9 +8,163 @@
   <meta name="description" content="¿Quieres echar un vistazo a los precios de la electricidad en España en los últimos años. Descubre eso y mucho más, aquí. ¡Entra ya!">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/svg+xml" href="../public/images/icon.svg"/>
+  <style>
+    :root {
+      --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
+      --numbers: 'Fjalla One', sans-serif;
+      --roboto: 'Roboto Condensed', sans-serif;
+      --text: 'Rubik', sans-serif;
+      --black: #111;
+      --blue: #021e5c;
+      --white: #fff;
+      --grey: #f4f4f4;
+      --bg-charts-table: #FDF1E6;
+      --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
+    }
+
+    body, html {
+      margin: 0;
+      color: var(--blue);
+      font-family: var(--fontSystem);
+      position: relative;
+    }
+
+    .bg-secondary {
+      background-color: var(--bg-charts-table);
+    }
+
+    .menu {
+      background: none;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .menu-container {
+      background: var(--white);
+      padding: 1rem;
+      margin: 0 auto;
+      width: max-content;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .menu-element {
+      text-decoration: none;
+      color: var(--blue);
+      padding: .5rem;
+      text-transform: uppercase;
+    }
+
+    .container-chart {
+      max-width: 60rem;
+      padding: 3rem .5rem;
+      margin: 0 auto;
+    }
+
+    .container-chart-title {
+      font-family: var(--roboto);
+      font-weight: bold;
+      font-size: 2rem;
+      width: max-content;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .charts-text {
+      font-family: var(--text);
+      font-size: 1rem;
+      color: var(--black);
+      line-height: 1.4;
+      max-width: 25rem;
+    }
+
+    .charts-warning {
+      padding: 1rem;
+      font-size: .875rem;
+      background-color: #ffae3ab3;
+      width: 25rem;
+    }
+
+    ins.adsbygoogle {
+      display: block !important;
+      min-height: 280px !important;
+      background-color: #f9f9f9;
+      margin-bottom: 1rem;
+    }
+
+    .charts {
+      position: relative;
+      min-height: 500px;
+    }
+
+    .line-chart-day-price,
+    .line-chart-month-price,
+    .line-chart-day-price-last-year,
+    .line-chart-main-line-price,
+    .area-stacked-energy-consumption,
+    .line-chart-hour-price,
+    .line-chart-day-week-price {
+      min-height: 500px;
+    }
+
+    .table-element {
+      min-height: 400px;
+    }
+
+    select.classic {
+      background-color: var(--white);
+      border: thin solid var(--blue);
+      border-radius: 4px;
+      display: inline-block;
+      font: inherit;
+      line-height: 1.5em;
+      padding: .5em 3.5em .5em 1em;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, blue 50%),
+                        linear-gradient(135deg, blue 50%, transparent 50%),
+                        linear-gradient(to right, skyblue, skyblue);
+      background-position: calc(100% - 20px) calc(1em + 2px),
+                           calc(100% - 15px) calc(1em + 2px),
+                           100% 0;
+      background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+      background-repeat: no-repeat;
+    }
+
+    details.details-table {
+      margin: .5rem 0 3.5rem;
+    }
+
+    .footer {
+      background-color: var(--grey);
+      width: 100%;
+      padding: 10vh 0;
+    }
+
+    @media only screen and (max-width: 560px) {
+      .container-chart-title,
+      .charts-warning {
+        width: 100%;
+      }
+
+      .container-chart {
+        padding: 0 .5rem 1.5rem;
+      }
+    }
+  </style>
+  <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/source/javascript/visualizations.js" as="script">
+  <link rel="icon" type="image/svg+xml" href="../public/images/icon.svg" />
+  <link rel="stylesheet" href="/source/styles/styles.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/source/styles/styles.css"></noscript>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
- </head>
+</head>
 
 <body class="bg-secondary">
   <header>
@@ -25,8 +179,9 @@
   </header>
   <main>
     <section class="container-chart">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
       <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
       <p class="charts-warning">
@@ -34,14 +189,6 @@
       </p>
       <p class="charts-text">Los datos de la compensación del gas puedes encontrarlos haciendo click en el siguiente botón</p>
     </section>
-    <!-- <section id="generacion-por-comunidad" class="container-chart">
-      <select class="classic" id="select-communities"></select>
-      <article class="area-stacked-energy-generation charts">
-        <svg>
-          <g class="area-stacked-energy-generation-container"></g>
-        </svg>
-      </article>
-    </section> -->
     <section id="precio-medio-luz-dia" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por día</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por día. El precio medio se calcula sumando el precios de todas las horas del día y diviendo el resultado entre veinticuatro.</p>
@@ -138,7 +285,8 @@
   </main>
   <footer class="footer">
     <div class="container-footer">
-      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p></p>
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p>
+      </p>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub.</a>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
       <a class="footer-links-block" href="/noticias/">Blog</a>
@@ -146,6 +294,26 @@
       <a class="footer-links-block" href="/politica-de-privacidad/">Politica de privacidad</a>
     </div>
   </footer>
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 1000);
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chartElements = document.querySelectorAll('.charts');
+      chartElements.forEach(chart => {
+        chart.style.minHeight = '500px';
+      });
+
+      const tableElements = document.querySelectorAll('.table-element');
+      tableElements.forEach(table => {
+        table.style.minHeight = '400px';
+      });
+    });
+  </script>
   <script type="module" src="/source/javascript/visualizations.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
   <script>
