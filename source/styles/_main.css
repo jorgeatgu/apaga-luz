@@ -140,6 +140,7 @@ main {
 
 .container-table-next-day-grid {
   display: none;
+  min-height: 650px;
   &.show {
     display: block;
   }
@@ -777,11 +778,6 @@ ins.adsbygoogle {
 .line-chart-day-price-last-year,
 .line-chart-day-week-price {
   min-height: 500px;
-}
-
-.table-next-day,
-.container-table-next-day-grid {
-  min-height: 650px;
 }
 
 .btn-whatsapp,
