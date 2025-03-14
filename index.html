@@ -29,7 +29,8 @@
       --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
     }
 
-    body, html {
+    body,
+    html {
       margin: 0;
       color: var(--blue);
       font-family: var(--fontSystem);
@@ -89,6 +90,18 @@
       min-height: 300px;
     }
 
+    #ad-container {
+      display: block !important;
+      min-height: 333px !important;
+      max-height: 333px !important;
+      background-color: #f9f9f9;
+    }
+
+    #ad-container ins.adsbygoogle {
+      display: block !important;
+      min-height: 280px !important;
+    }
+
     @media only screen and (min-width: 48rem) {
       .container {
         max-width: 65vw;
@@ -99,16 +112,10 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      ins.adsbygoogle {
-        min-height: 250px !important;
-      }
     }
   </style>
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/javascript/main.js" as="script">
-  <link rel="icon" type="image/svg+xml" href="public/images/icon.svg" />
   <script>
   function loadScriptDeferred(src) {
     const script = document.createElement('script');
@@ -123,7 +130,7 @@
 
       setTimeout(function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 2000);
+      }, 1000);
 
       setTimeout(function() {
         loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
@@ -167,6 +174,14 @@
     </nav>
   </header>
   <main>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+    <script>
+      window.addEventListener('load', function() {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    </script>
     <section class="container">
       <article class="container-blog-index">
         <div class="blog-grid-element">
@@ -194,7 +209,6 @@
           </div>
           <a class="btn-whatsapp" id="btn-whatsapp-avg" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Compartir por WhatsApp</span></a>
         </section>
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <script>
           window.addEventListener('load', function() {
@@ -284,21 +298,6 @@
     </div>
   </footer>
   <script type="module" src="/source/javascript/main.js"></script>
-  <script>
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    }, 1000);
-  });
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
-  </script>
 </body>
 
 </html>

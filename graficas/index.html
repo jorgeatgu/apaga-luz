@@ -22,7 +22,8 @@
       --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
     }
 
-    body, html {
+    body,
+    html {
       margin: 0;
       color: var(--blue);
       font-family: var(--fontSystem);
@@ -106,6 +107,18 @@
       min-height: 400px;
     }
 
+    #ad-container {
+      display: block !important;
+      min-height: 333px !important;
+      max-height: 333px !important;
+      background-color: #f9f9f9;
+    }
+
+    #ad-container ins.adsbygoogle {
+      display: block !important;
+      min-height: 280px !important;
+    }
+
     @media only screen and (max-width: 560px) {
       .container-chart-title,
       .charts-warning {
@@ -135,7 +148,7 @@
 
         setTimeout(function() {
           (adsbygoogle = window.adsbygoogle || []).push({});
-        }, 2000);
+        }, 1000);
 
         setTimeout(function() {
           loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
@@ -173,6 +186,14 @@
     </nav>
   </header>
   <main>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+    <script>
+      window.addEventListener('load', function() {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    </script>
     <section class="container-chart">
       <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
@@ -189,9 +210,6 @@
         </svg>
       </article>
     </section>
-    <div class="ad-container">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </div>
     <section id="precio-medio-luz-mes" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por mes</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por mes. El precio medio se calcula sumando el precio medio de cada día del mes y diviendo el resultado entre el número de días que tiene el mes.</p>
@@ -289,13 +307,6 @@
     </div>
   </footer>
   <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 1000);
-    });
-  </script>
-  <script>
     document.addEventListener('DOMContentLoaded', function() {
       const chartElements = document.querySelectorAll('.charts');
       chartElements.forEach(chart => {
@@ -309,14 +320,5 @@
     });
   </script>
   <script type="module" src="/source/javascript/visualizations.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
-  </script>
 </body>
-
 </html>

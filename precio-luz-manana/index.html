@@ -8,9 +8,7 @@
   <meta name="description" content="¿Necesitas consultar el precio de la luz mañana por horas? ¡ENTRA aquí y descubre las horas más baratas de la tarifa de luz para mañana!">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <style>
-    /* Estilos críticos para el renderizado inicial */
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
       --numbers: 'Fjalla One', sans-serif;
@@ -28,18 +26,14 @@
       --red-light: #ec1d2fb3;
       --btn-blue: rgb(0, 102, 255);
       --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
-      --bg-charts-table: #FDF1E6;
     }
 
-    body, html {
+    body,
+    html {
       margin: 0;
       color: var(--blue);
       font-family: var(--fontSystem);
       position: relative;
-    }
-
-    .container-table {
-      background-color: var(--bg-charts-table);
     }
 
     .menu {
@@ -66,114 +60,93 @@
       text-transform: uppercase;
     }
 
-    .subcontainer-table {
-      max-width: 60rem;
-      padding: 3rem .5rem;
+    .container {
+      max-width: 90vw;
       margin: 0 auto;
     }
 
-    .post-container {
-      max-width: 40rem;
-      margin: .5rem auto;
-      padding: 1rem 0;
-    }
-
-    .post-title {
-      font-size: 2rem;
-      font-family: var(--text);
-      margin-bottom: .25rem;
-      margin-top: .5rem;
-    }
-
-    .post-text {
-      font-size: 1rem;
-      font-family: var(--text);
-      line-height: 1.4;
-      margin-top: .5rem;
-      display: inline-block;
-    }
-
-    .table-next-day {
+    .container-hour-datetime,
+    .container-hour-price {
+      font-family: var(--fontSystem);
+      display: block;
+      line-height: 1;
       background: var(--white);
       padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
+      border-radius: 1rem;
+      width: max-content;
       box-shadow: var(--shadow);
-      margin-bottom: 1rem;
-      min-height: 650px;
+      min-height: 6rem;
     }
 
-    .container-table-next-day-grid {
+    .container-wrapper {
       min-height: 600px;
     }
 
-    .table-next-day-grid {
-      min-height: 550px;
-    }
-
+    .container-table-price-left,
+    .container-table-price-right,
     .table-next-day-grid-left,
     .table-next-day-grid-right {
-      min-height: 500px;
+      min-height: 300px;
+    }
+
+    #ad-container {
+      display: block !important;
+      min-height: 333px !important;
+      max-height: 333px !important;
+      background-color: #f9f9f9;
+    }
+
+    #ad-container ins.adsbygoogle {
+      display: block !important;
+      min-height: 280px !important;
     }
 
     @media only screen and (min-width: 48rem) {
+      .container {
+        max-width: 65vw;
+      }
+
+      .container-wrapper,
       .table-next-day-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
   </style>
-
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/javascript/tomorrow.js" as="script">
-
-  <link rel="icon" type="image/svg+xml" href="../public/images/icon.svg"/>
-
   <script>
-    // Función para cargar scripts no críticos de forma diferida
-    function loadScriptDeferred(src) {
-      const script = document.createElement('script');
-      script.src = src;
-      script.defer = true;
-      document.body.appendChild(script);
-    }
+  function loadScriptDeferred(src) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
 
-    // Cargar scripts después de que la página esté completamente cargada
-    window.addEventListener('load', function() {
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
+
       setTimeout(function() {
-        // Cargar AdSense después de que todo lo demás esté listo
-        loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 1000);
 
-        // Inicializar anuncios solo después de que AdSense esté cargado
-        setTimeout(function() {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        }, 2000);
+      setTimeout(function() {
+        loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
+        window.dataLayer = window.dataLayer || [];
 
-        // Cargar analíticas después de 3 segundos
-        setTimeout(function() {
-          loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-E9V8ZPM3P0');
-        }, 3000);
-      }, 2000);
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-E9V8ZPM3P0');
+      }, 3000);
+    }, 2000);
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const tableContainers = document.querySelectorAll('.container-table-price-left, .container-table-price-right');
+    tableContainers.forEach(container => {
+      container.style.minHeight = '300px';
     });
-
-    // Reservar espacio para elementos dinámicos
-    document.addEventListener('DOMContentLoaded', function() {
-      // Reservar espacio para tablas
-      const tableNextDay = document.querySelector('.table-next-day');
-      if (tableNextDay) {
-        tableNextDay.style.minHeight = '650px';
-      }
-
-      const tableGridLeft = document.querySelector('.table-next-day-grid-left');
-      const tableGridRight = document.querySelector('.table-next-day-grid-right');
-      if (tableGridLeft) tableGridLeft.style.minHeight = '500px';
-      if (tableGridRight) tableGridRight.style.minHeight = '500px';
-    });
+  });
   </script>
 
   <script type="application/ld+json">
@@ -198,6 +171,14 @@
     </div>
   </nav>
   <main>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+    <script>
+      window.addEventListener('load', function() {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    </script>
     <section class="container-table">
       <article class="subcontainer-table">
         <article class="post-container">
@@ -208,9 +189,6 @@
           <p class="post-text post-warning">IMPORTANTE: Si visitas estás página entre la 13:30 y las 20:15 verás el precio de la luz de mañana con los datos de la subasta del Operador del Mercado Ibérico de la Electricidad OMIE. Si la visitas entre las 20:15 y las 00:00 vas a ver el precio definitivo de la subasta de ESIOS de Red Electrica de España para tu tarifa de energía. Así que desde la 13:30 podrás ver el precio de la luz mañana.</p>
           <h2 class="post-warning post-warning-orange" id="warning-tomorrow-data"></h2>
           <h4 id="table-next-day-data" class="sponsor-card" style="display: none"></h4>
-          <div class="ad-container">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          </div>
           <article class="table-next-day">
             <a class="btn-whatsapp" id="btn-whatsapp-manana" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte los precios por WhatsApp</span></a>
             <div class="container-table-next-day-grid container-table-next-day-grid-tomorrow">
@@ -286,13 +264,6 @@
       <a class="footer-links-block" href="/politica-de-privacidad/">Politica de privacidad</a>
     </div>
   </footer>
-  <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 1000);
-    });
-  </script>
   <script type="module" src="/source/javascript/tomorrow.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -306,14 +277,6 @@
     if (tableGridLeft) tableGridLeft.style.minHeight = '500px';
     if (tableGridRight) tableGridRight.style.minHeight = '500px';
   });
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
   </script>
 </body>
 
