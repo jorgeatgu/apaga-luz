@@ -9,6 +9,7 @@
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
   <style>
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
@@ -90,16 +91,25 @@
       min-height: 300px;
     }
 
+    .adsbygoogle.adsbygoogle-noablate{
+      display: block !important;
+      min-height: 105px !important;
+    }
+
     #ad-container {
       display: block !important;
       min-height: 333px !important;
-      max-height: 333px !important;
       background-color: #f9f9f9;
     }
 
     #ad-container ins.adsbygoogle {
       display: block !important;
       min-height: 280px !important;
+    }
+
+    .ipr-container {
+      display: block !important;
+      min-height: 50px !important;
     }
 
     @media only screen and (min-width: 48rem) {
@@ -117,32 +127,6 @@
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <script>
-  function loadScriptDeferred(src) {
-    const script = document.createElement('script');
-    script.src = src;
-    script.defer = true;
-    document.body.appendChild(script);
-  }
-
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
-
-      setTimeout(function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 1000);
-
-      setTimeout(function() {
-        loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-E9V8ZPM3P0');
-      }, 3000);
-    }, 2000);
-  });
-
   document.addEventListener('DOMContentLoaded', function() {
     const tableContainers = document.querySelectorAll('.container-table-price-left, .container-table-price-right');
     tableContainers.forEach(container => {
@@ -173,10 +157,10 @@
       </div>
     </nav>
   </header>
+  <div id="ad-container">
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
   <main>
-    <div id="ad-container">
-      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </div>
     <script>
       window.addEventListener('load', function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
@@ -298,6 +282,14 @@
     </div>
   </footer>
   <script type="module" src="/source/javascript/main.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-E9V8ZPM3P0');
+    </script>
 </body>
 
 </html>

@@ -15,10 +15,6 @@ body {
   min-height: 100vh;
 }
 
-main {
-  min-height: 70vh;
-}
-
 .hidden {
   display: none;
 }
