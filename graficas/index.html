@@ -116,13 +116,12 @@
 
     .adsbygoogle.adsbygoogle-noablate{
       display: block !important;
-      min-height: 105px !important;
+      min-height: 72px !important;
     }
 
     #ad-container {
-      display: block !important;
-      min-height: 337px !important;
-      height: 350px !important;
+      display: !important;
+      min-height: 400px !important;
       background-color: #f9f9f9;
     }
 
@@ -140,45 +139,8 @@
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/source/javascript/visualizations.js" as="script">
-  <script>
-    function loadScriptDeferred(src) {
-      const script = document.createElement('script');
-      script.src = src;
-      script.defer = true;
-      document.body.appendChild(script);
-    }
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
 
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
-
-        setTimeout(function() {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        }, 1000);
-
-        setTimeout(function() {
-          loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-E9V8ZPM3P0');
-        }, 3000);
-      }, 2000);
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const chartElements = document.querySelectorAll('.charts');
-      chartElements.forEach(chart => {
-        chart.style.minHeight = '500px';
-      });
-
-      const tableElements = document.querySelectorAll('.table-element');
-      tableElements.forEach(table => {
-        table.style.minHeight = '400px';
-      });
-    });
-  </script>
 </head>
 
 <body class="bg-secondary">
@@ -192,15 +154,7 @@
       </div>
     </nav>
   </header>
-  <div id="ad-container">
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
   <main>
-    <script>
-      window.addEventListener('load', function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      });
-    </script>
     <section class="container-chart">
       <h1 class="container-chart-title">DATOS Y GRÁFICAS</h1>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
@@ -208,6 +162,12 @@
         Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A) por ser la más similar a la actual.
       </p>
     </section>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
     <section id="precio-medio-luz-dia" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por día</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por día. El precio medio se calcula sumando el precios de todas las horas del día y diviendo el resultado entre veinticuatro.</p>
@@ -327,5 +287,13 @@
     });
   </script>
   <script type="module" src="/source/javascript/visualizations.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
+  </script>
 </body>
 </html>

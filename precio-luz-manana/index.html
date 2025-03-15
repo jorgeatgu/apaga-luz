@@ -91,13 +91,12 @@
 
     .adsbygoogle.adsbygoogle-noablate{
       display: block !important;
-      min-height: 105px !important;
+      min-height: 72px !important;
     }
 
     #ad-container {
-      display: block !important;
-      min-height: 337px !important;
-      height: 350px !important;
+      display: !important;
+      min-height: 400px !important;
       background-color: #f9f9f9;
     }
 
@@ -114,40 +113,7 @@
   </style>
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <script>
-  function loadScriptDeferred(src) {
-    const script = document.createElement('script');
-    script.src = src;
-    script.defer = true;
-    document.body.appendChild(script);
-  }
-
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      loadScriptDeferred('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437');
-
-      setTimeout(function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 1000);
-
-      setTimeout(function() {
-        loadScriptDeferred('https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0');
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-E9V8ZPM3P0');
-      }, 3000);
-    }, 2000);
-  });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const tableContainers = document.querySelectorAll('.container-table-price-left, .container-table-price-right');
-    tableContainers.forEach(container => {
-      container.style.minHeight = '300px';
-    });
-  });
-  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
 
   <script type="application/ld+json">
   {
@@ -170,15 +136,7 @@
       <a class="menu-element" href="/noticias/">noticias</a>
     </div>
   </nav>
-  <div id="ad-container">
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  </div>
   <main>
-    <script>
-      window.addEventListener('load', function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      });
-    </script>
     <section class="container-table">
       <article class="subcontainer-table">
         <article class="post-container">
@@ -189,6 +147,12 @@
           <p class="post-text post-warning">IMPORTANTE: Si visitas estás página entre la 13:30 y las 20:15 verás el precio de la luz de mañana con los datos de la subasta del Operador del Mercado Ibérico de la Electricidad OMIE. Si la visitas entre las 20:15 y las 00:00 vas a ver el precio definitivo de la subasta de ESIOS de Red Electrica de España para tu tarifa de energía. Así que desde la 13:30 podrás ver el precio de la luz mañana.</p>
           <h2 class="post-warning post-warning-orange" id="warning-tomorrow-data"></h2>
           <h4 id="table-next-day-data" class="sponsor-card" style="display: none"></h4>
+          <div id="ad-container">
+            <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          </div>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
           <article class="table-next-day">
             <a class="btn-whatsapp" id="btn-whatsapp-manana" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte los precios por WhatsApp</span></a>
             <div class="container-table-next-day-grid container-table-next-day-grid-tomorrow">
@@ -265,6 +229,14 @@
     </div>
   </footer>
   <script type="module" src="/source/javascript/tomorrow.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
+  </script>
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     const tableNextDay = document.querySelector('.table-next-day');
