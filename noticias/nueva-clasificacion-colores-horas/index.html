@@ -12,6 +12,18 @@
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
   <script type="module" src="/source/javascript/main.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const observer = new MutationObserver(() => {
+      body.style.padding = '';
+    });
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  });
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -52,6 +64,9 @@
     </nav>
   </header>
   <main>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
     <article class="post-container">
       <article class="sponsor-card">
         <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>

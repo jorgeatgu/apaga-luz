@@ -6,10 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Consulta las horas más baratas de luz - blog - Apaga luz</title>
   <meta name="description" content="Es una aplicación para saber a que hora es más barata la luz. Obtén información del precio de la luz por horas y el precio del kwh.">
-  <meta name="robots" content="follow, noindex"/>
+  <meta name="robots" content="follow, noindex" />
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../public/images/icon.svg" />
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const observer = new MutationObserver(() => {
+      body.style.padding = '';
+    });
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  });
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
 </head>
 
@@ -25,6 +37,9 @@
     </nav>
   </header>
   <main>
+    <div id="ad-container">
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
     <section class="container-calendar">
       <h1 class="blog-title faq-title">Noticias</h1>
       <article class="container-blog">
@@ -67,12 +82,12 @@
           <a class="blog-grid-element" href="/noticias/nueva-direccion-web/">
             <p class="blog-grid-element-title">Nueva dirección web</p>
             <p class="blog-grid-element-date">18 de octubre de 2021<p>
-            <p class="blog-grid-element-text">Ahora también se puede acceder a la web desde la dirección: https://apaga-luz.com, a pesar del cambio la antigua dirección también seguira en funcionamiento: https://apaga-luz.vercel.app, aunque si accedeis a través de ella os redireccionará a la nueva dirección para saber el precio de la luz hoy y también el precio luz mañana.</p>
+                <p class="blog-grid-element-text">Ahora también se puede acceder a la web desde la dirección: https://apaga-luz.com, a pesar del cambio la antigua dirección también seguira en funcionamiento: https://apaga-luz.vercel.app, aunque si accedeis a través de ella os redireccionará a la nueva dirección para saber el precio de la luz hoy y también el precio luz mañana.</p>
           </a>
           <a class="blog-grid-element" href="/noticias/nueva-clasificacion-colores-horas/">
             <p class="blog-grid-element-title">Nueva clasificación de colores/horas</p>
             <p class="blog-grid-element-date">17 de octubre de 2021<p>
-            <p class="blog-grid-element-text">Desde hace unas semanas asistimos a una escala de precios de la luz. Esto ha hecho que algunos días las supuestas horas valle fueran más caras que las horas intermedia e incluso que las horas punta. Esto es un tanto engañoso, ya que todos creemos que de 00:00 a 08:00 las horas serán las más baratas.</p>
+                <p class="blog-grid-element-text">Desde hace unas semanas asistimos a una escala de precios de la luz. Esto ha hecho que algunos días las supuestas horas valle fueran más caras que las horas intermedia e incluso que las horas punta. Esto es un tanto engañoso, ya que todos creemos que de 00:00 a 08:00 las horas serán las más baratas.</p>
           </a>
         </div>
       </article>
@@ -80,7 +95,8 @@
   </main>
   <footer class="footer">
     <div class="container-footer">
-      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p></p>
+      <p class="footer-texto">Hecho en Zaragoza con mucha maña por un <a class="footer-links" href="https://jorgeatgu.com">maño</a> </a> 2021 - 2025</p>
+      </p>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz">Todo el código y datos está disponible en GitHub.</a>
       <a class="footer-links-block" href="https://github.com/jorgeatgu/apaga-luz/blob/main/LICENSE">Su uso esta sujeto a la licencia Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License.</a>
       <a class="footer-links-block" href="/noticias/">Blog</a>

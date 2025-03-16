@@ -136,11 +136,22 @@
       }
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const observer = new MutationObserver(() => {
+      body.style.padding = '';
+    });
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  });
+  </script>
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/roboto-condensed-v24-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/source/fonts/rubik-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
-
 </head>
 
 <body class="bg-secondary">
@@ -166,7 +177,7 @@
       <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </div>
     <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
+      (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     <section id="precio-medio-luz-dia" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por día</h2>
@@ -296,4 +307,5 @@
   gtag('config', 'G-E9V8ZPM3P0');
   </script>
 </body>
+
 </html>

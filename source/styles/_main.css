@@ -772,3 +772,31 @@ details[open] {
 .table-next-day-grid-right {
   min-height: 300px;
 }
+
+.adsbygoogle.adsbygoogle-noablate {
+  display: block !important;
+  min-height: 72px !important;
+}
+
+#ad-container {
+  display: !important;
+  min-height: 400px !important;
+  background-color: #f9f9f9;
+}
+
+.ipr-container {
+  display: block !important;
+  min-height: 100px !important;
+}
+
+@media only screen and (min-width: 48rem) {
+  .container {
+    max-width: 65vw;
+  }
+
+  .container-wrapper,
+  .table-next-day-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}

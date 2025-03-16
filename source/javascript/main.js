@@ -18,7 +18,16 @@ import {
   remove_tables_tomorrow
 } from './table.js';
 
-// Modificaciones al archivo main.js para reducir CLS
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.body;
+  const observer = new MutationObserver(() => {
+    body.style.padding = '';
+  });
+  observer.observe(body, {
+    attributes: true,
+    attributeFilter: ['style']
+  });
+});
 
 // 1. Función para reservar espacio para elementos que cambian dinámicamente
 function reserveSpaceForDynamicElements() {
