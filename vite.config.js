@@ -19,6 +19,8 @@ export default defineConfig({
         'descubre-mejores-tarifas-luz-2025': 'noticias/descubre-mejores-tarifas-luz-2025/index.html',
         'tarifas-de-totalenergies-luz-y-gas': 'noticias/tarifas-de-totalenergies-luz-y-gas/index.html',
         'diez-inluencers-ecologicos-para-seguir-redes-sociales': 'noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/index.html',
+        'mejor-comercializadora-pvpc': 'noticias/mejor-comercializadora-pvpc/index.html',
+        'comparador-tarifas-luz-y-gas': 'noticias/comparador-tarifas-luz-y-gas/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       },
