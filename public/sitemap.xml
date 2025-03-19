@@ -25,21 +25,6 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.apaga-luz.com/noticias/newsletter-precio-luz-manana/</loc>
-  <lastmod>2023-03-20T20:56:34+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.apaga-luz.com/noticias/nueva-direccion-web/</loc>
-  <lastmod>2022-02-24T20:56:34+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.apaga-luz.com/noticias/nueva-clasificacion-colores-horas/</loc>
-  <lastmod>2022-02-24T20:56:34+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
   <loc>https://www.apaga-luz.com/noticias/subastas-precio-luz-manana/</loc>
   <lastmod>2022-07-22T21:32:20+00:00</lastmod>
   <priority>0.64</priority>
@@ -84,11 +69,4 @@
   <lastmod>2025-03-17T11:31:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
-<url>
-  <loc>https://www.apaga-luz.com/compensacion-del-gas/</loc>
-  <lastmod>2022-08-01T14:36:25+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-
 </urlset>
