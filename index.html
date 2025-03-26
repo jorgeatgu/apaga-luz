@@ -166,7 +166,54 @@
           </div>
           <a class="btn-whatsapp" id="btn-whatsapp-avg" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Compartir por WhatsApp</span></a>
         </section>
-        </div>
+        <section class="container">
+          <article class="container-cheap">
+            <h2 class="section-subtitle">¿Buscas ahorrar en tu factura de la luz?</h2>
+            <div class="container-form">
+              <h2 class="form-title">¿Pagas demasiado por tus facturas?<br />¡CONTACTA y te bajamos el precio!</h2>
+              <div class="form-subtitle">
+                <span class="form-subtitle-text">🔥 Reduce tu factura 🔥</span>
+              </div>
+              <form id="formulario-ahorro" class="form-ahorro">
+                <div class="form-group">
+                  <label for="nombre" class="form-label">Nombre y apellidos <span class="required">*</span></label>
+                  <input type="text" id="nombre" name="nombre" required class="form-input" placeholder="Nombre y apellidos">
+                </div>
+                <div class="form-group">
+                  <label for="email" class="form-label">Email <span class="required">*</span></label>
+                  <input type="email" id="email" name="email" required class="form-input" placeholder="Dirección de correo electrónico">
+                </div>
+                <div class="form-group">
+                  <label for="telefono" class="form-label">Teléfono</label>
+                  <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="Teléfono">
+                </div>
+                <div class="form-group">
+                  <label for="factura" class="form-label">Suba su factura si la tiene a mano</label>
+                  <input type="file" id="factura" name="factura" class="form-file">
+                  <div class="file-info" id="file-info">No se ha seleccionado ningún archivo.</div>
+                </div>
+                <div class="form-group">
+                  <label for="mensaje" class="form-label">Mensaje</label>
+                  <textarea id="mensaje" name="mensaje" rows="3" class="form-textarea" placeholder="Comentario o mensaje"></textarea>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" id="privacidad" name="privacidad" required class="form-checkbox">
+                  <label for="privacidad" class="form-check-label">
+                    Sí, acepto la <a href="/politica-de-privacidad/" class="form-link">política de privacidad</a>.
+                  </label>
+                </div>
+                <div class="recaptcha-container">
+                </div>
+                <button type="submit" class="form-button">
+                  ¡QUIERO AHORRAR AHORA!
+                </button>
+              </form>
+              <div class="form-logo">
+                <img src="/ruta-al-logo-pa.png" alt="Logo PA" class="logo-image">
+              </div>
+            </div>
+          </article>
+        </section>
         <a href="/precio-luz-manana/" id="button-prices-next-day"></a>
         <details class="table-next-day">
           <div class="container-table-next-day-grid">
@@ -235,7 +282,6 @@
                   </div>
                 </div>
               </a>
-
               <a href="/noticias/mejor-comercializadora-pvpc/" class="blog-card">
                 <div class="blog-card-indicator blog-card-indicator-blue"></div>
                 <div class="blog-card-content">
@@ -244,7 +290,6 @@
                   <p class="blog-card-excerpt">El Precio Voluntario para el Pequeño Consumidor (PVPC) es la tarifa regulada por el gobierno español para suministros eléctricos con una potencia contratada igual o inferior a 10 kW.</p>
                 </div>
               </a>
-
               <a href="/noticias/tarifas-placas-solares/" class="blog-card">
                 <div class="blog-card-indicator blog-card-indicator-green"></div>
                 <div class="blog-card-content">
@@ -253,7 +298,6 @@
                   <p class="blog-card-excerpt">Como todos los años, es importante ver qué empresas te ofrecen la mejor tarifa de luz con placas solares, ya que no queremos gastar de más en cosas innecesarias.</p>
                 </div>
               </a>
-
               <a href="/noticias/tarifas-de-totalenergies-luz-y-gas/" class="blog-card">
                 <div class="blog-card-indicator blog-card-indicator-yellow"></div>
                 <div class="blog-card-content">
@@ -262,7 +306,6 @@
                   <p class="blog-card-excerpt">Si estás buscando una tarifa de luz o gas que se ajuste a lo que realmente necesitas, entiendo que estés un poco preocupado.</p>
                 </div>
               </a>
-
               <a href="/noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/" class="blog-card">
                 <div class="blog-card-indicator blog-card-indicator-teal"></div>
                 <div class="blog-card-content">
@@ -271,7 +314,6 @@
                   <p class="blog-card-excerpt">La preocupación por el medio ambiente no solo ha sido demostrada por las actividades que los «ecoinfluencers» han llevado a cabo en físico.</p>
                 </div>
               </a>
-
               <a href="/noticias/descubre-mejores-tarifas-luz-2025/" class="blog-card">
                 <div class="blog-card-indicator blog-card-indicator-purple"></div>
                 <div class="blog-card-content">
@@ -312,6 +354,7 @@
     </div>
   </footer>
   <script type="module" src="/source/javascript/main.js"></script>
+  <script src="/source/javascript/form.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
   <script>
   window.dataLayer = window.dataLayer || [];
