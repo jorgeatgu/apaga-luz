@@ -46,9 +46,6 @@
     "d3-shape": "^3.1.0",
     "d3-time-format": "^4.1.0",
     "d3-transition": "^3.0.1",
-    "formidable-serverless": "^1.1.1",
-    "logrocket": "^2.2.1",
-    "nodemailer": "^6.10.0",
     "vanillajs-datepicker": "^1.2.0"
   }
 }
