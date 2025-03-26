@@ -1,0 +1,161 @@
+
+.container-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #e9e5d2;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
+  font-family: var(--text);
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+  font-family: var(--numbers);
+  color: var(--black);
+}
+
+.form-subtitle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.form-subtitle-text {
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.form-ahorro {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--black);
+}
+
+.required {
+  color: #ec1d2f;
+}
+
+.form-input,
+.form-textarea {
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-family: var(--text);
+  font-size: .9rem;
+  background-color: #f5f5f5;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-file {
+  font-size: .9rem;
+  padding: 8px 0;
+}
+
+.file-info {
+  font-size: .8rem;
+  font-style: italic;
+  margin-top: 5px;
+  color: #666;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+}
+
+.form-checkbox {
+  width: 16px;
+  height: 16px;
+}
+
+.form-check-label {
+  font-size: .9rem;
+}
+
+.form-link {
+  color: #ec7f00;
+  text-decoration: underline;
+}
+
+.form-button {
+  background-color: #ec7f00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color .3s;
+  margin-top: 10px;
+  font-family: var(--numbers);
+}
+
+.form-button:hover {
+  background-color: #d97100;
+}
+
+.recaptcha-container {
+  margin: 10px 0;
+}
+
+.form-logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.logo-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: white;
+  padding: 10px;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #ec7f00;
+  box-shadow: 0 0 0 2px rgba(236, 127, 0, 0.2);
+}
+
+@media only screen and (max-width: 600px) {
+  .container-form {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .form-button {
+    padding: 12px;
+  }
+}
