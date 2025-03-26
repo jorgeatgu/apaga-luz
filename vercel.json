@@ -22,13 +22,10 @@
     {
       "src": "/(.*)",
       "dest": "/$1"
-    }
-  ],
-  "redirects": [
+    },
     {
-      "source": "/noticias/novedades-precio-luz-manana/",
-      "destination": "/precio-luz-manana/",
-      "permanent": true
+      "src": "/noticias/novedades-precio-luz-manana/",
+      "dest": "/precio-luz-manana/"
     }
   ]
 }
