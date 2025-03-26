@@ -495,3 +495,99 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
+
+function enhanceFormHandling() {
+  const form = document.getElementById('formulario-ahorro');
+  if (!form) return;
+
+  const requiredInputs = form.querySelectorAll('[required]');
+  requiredInputs.forEach(input => {
+    const errorSpan = document.createElement('span');
+    errorSpan.className = 'error-message';
+    errorSpan.style.color = '#d9534f';
+    errorSpan.style.fontSize = '12px';
+    errorSpan.style.display = 'none';
+
+    input.parentNode.insertBefore(errorSpan, input.nextSibling);
+
+    input.addEventListener('blur', () => {
+      let errorMessage = '';
+
+      if (!input.value.trim()) {
+        errorMessage = 'Este campo es obligatorio';
+      } else if (
+        input.type === 'email' &&
+        !/^\S+@\S+\.\S+$/.test(input.value)
+      ) {
+        errorMessage = 'Por favor, introduce un email válido';
+      }
+
+      if (errorMessage) {
+        errorSpan.textContent = errorMessage;
+        errorSpan.style.display = 'block';
+        input.classList.add('input-error');
+      } else {
+        errorSpan.style.display = 'none';
+        input.classList.remove('input-error');
+      }
+    });
+
+    input.addEventListener('input', () => {
+      errorSpan.style.display = 'none';
+      input.classList.remove('input-error');
+    });
+  });
+
+  const fileInput = document.getElementById('factura');
+  if (fileInput) {
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!validTypes.includes(file.type)) {
+          alert('Por favor, sube un archivo PDF, JPG o PNG.');
+          fileInput.value = '';
+          return;
+        }
+
+        if (file.size > maxSize) {
+          alert(
+            'El archivo es demasiado grande. Por favor, sube un archivo menor a 5MB.'
+          );
+          fileInput.value = '';
+          return;
+        }
+
+        if (file.type.startsWith('image/')) {
+          const preview = document.createElement('div');
+          preview.className = 'file-preview';
+          preview.style.marginTop = '10px';
+
+          const img = document.createElement('img');
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = '150px';
+
+          const reader = new FileReader();
+          reader.onload = e => {
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+
+          preview.appendChild(img);
+
+          const existingPreview =
+            fileInput.parentNode.querySelector('.file-preview');
+          if (existingPreview) {
+            fileInput.parentNode.replaceChild(preview, existingPreview);
+          } else {
+            fileInput.parentNode.appendChild(preview);
+          }
+        }
+      }
+    });
+  }
+}
+
+enhanceFormHandling();
