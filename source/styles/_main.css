@@ -732,7 +732,6 @@ details[open] {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .9);
-  /* Fondo negro transparente */
   z-index: -1;
 }
 
@@ -798,5 +797,4 @@ details[open] {
   .table-next-day-grid {
     grid-template-columns: 1fr 1fr;
   }
-
 }
