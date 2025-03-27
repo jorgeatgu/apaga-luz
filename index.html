@@ -14,6 +14,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <style>
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
@@ -173,47 +174,59 @@
                 <span class="form-subtitle-text">¿Pagas demasiado por tus facturas?</span>
                 <span class="form-subtitle-text">¡Contacta y te bajamos el precio!</span>
               </div>
-              <form id="formulario-ahorro" class="form-ahorro" action="https://formspree.io/f/mblgkewv" method="POST">
+              <form
+                id="formulario-ahorro"
+                enctype="multipart/form-data"
+                class="form-ahorro formcarryForm"
+                action="https://formcarry.com/s/X0IhNkEysKd"
+                method="post"
+              >
+                <input type="hidden" name="_subject" value="Apaga Luz Lead">
                 <div class="form-grid">
-                  <div class="form-group">
-                    <label for="nombre" class="form-label">Nombre y apellidos <span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" required class="form-input" placeholder="Nombre y apellidos">
+                  <div class="form-group formcarry-block">
+                    <label for="fc-generated-1-name" class="form-label">Nombre y apellidos <span class="required">*</span></label>
+                    <input type="text" id="fc-generated-1-name" name="nombre" required class="form-input" placeholder="Nombre y apellidos">
                   </div>
-                  <div class="form-group">
-                    <label for="email" class="form-label">Email <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" required class="form-input" placeholder="Dirección de correo electrónico">
+                  <div class="form-group formcarry-block">
+                    <label for="fc-generated-1-email" class="form-label">Email <span class="required">*</span></label>
+                    <input type="email" id="fc-generated-1-email" name="email" required class="form-input" placeholder="Dirección de correo electrónico">
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="telefono" class="form-label">Teléfono</label>
-                  <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="Teléfono">
+                <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-telephone" class="form-label">Teléfono</label>
+                  <input type="tel" id="fc-generated-1-telephone" name="telefono" class="form-input" placeholder="Teléfono">
                 </div>
 
-                <div class="form-group">
-                  <label for="factura" class="form-label">Suba su factura si la tiene a mano</label>
-                  <input type="file" id="factura" name="factura" class="form-file">
+                <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-single-file" class="form-label">Suba su factura si la tiene a mano</label>
+                  <input type="file" id="fc-generated-1-single-file" name="single file" class="form-file">
                   <div class="file-info" id="file-info">No se ha seleccionado ningún archivo.</div>
                 </div>
 
-                <div class="form-group">
-                  <label for="mensaje" class="form-label">Mensaje</label>
-                  <textarea id="mensaje" name="mensaje" rows="3" class="form-textarea" placeholder="Comentario o mensaje"></textarea>
+                 <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-message" class="form-label">Mensaje</label>
+                  <textarea id="fc-generated-1-message" name="mensaje" rows="3" class="form-textarea" placeholder="Deja tu comentario o mensaje"></textarea>
                 </div>
 
-                <div class="form-check">
+                <div class="g-recaptcha" data-sitekey="6LeAfgErAAAAAFWLL8fkYBJMD3WIFapreCXveguJ"></div>
+
+                <div class="form-check formcarry-block">
                   <input type="checkbox" id="privacidad" name="privacidad" required class="form-checkbox">
                   <label for="privacidad" class="form-check-label">
-                    Sí, acepto la <a href="/politica-de-privacidad/" class="form-link">política de privacidad</a>.
+                    Sí, acepto la <a href="https://plenoahorro.com/politicas-de-privacidad/" class="form-link">política de privacidad</a>.
                   </label>
                 </div>
 
-                <div class="recaptcha-container">
-                </div>
+                <input class="form-button" type="submit" value="¡QUIERO AHORRAR AHORA!">
 
-                <button type="submit" class="form-button">
-                  ¡QUIERO AHORRAR AHORA!
-                </button>
+                <div class="formcarry-block">
+                  <div class="formcarry-message-block">
+                    <div class="fc-message-icon"></div>
+                    <div class="fc-message-content"></div>
+                    <div class="fc-message-close"></div>
+                  </div>
+                </div>
               </form>
             </div>
           </article>

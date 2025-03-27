@@ -142,12 +142,7 @@
 
 @media only screen and (max-width: 600px) {
   .container-form {
-    padding: 15px;
     max-width: 100%;
-  }
-
-  .form-title {
-    font-size: 1.3rem;
   }
 
   .form-button {
@@ -155,6 +150,7 @@
   }
 
   .form-subtitle-text {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
   }
 }

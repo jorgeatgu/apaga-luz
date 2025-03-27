@@ -496,98 +496,108 @@ document.getElementById('color-blindness').addEventListener('change', e => {
   }
 });
 
-function enhanceFormHandling() {
-  const form = document.getElementById('formulario-ahorro');
-  if (!form) return;
+function registerNotificationBar(notifElement) {
+  var block = notifElement;
+  var content = block[0].querySelector('.fc-message-content');
+  var icon = block[0].querySelector('.fc-message-icon');
 
-  const requiredInputs = form.querySelectorAll('[required]');
-  requiredInputs.forEach(input => {
-    const errorSpan = document.createElement('span');
-    errorSpan.className = 'error-message';
-    errorSpan.style.color = '#d9534f';
-    errorSpan.style.fontSize = '12px';
-    errorSpan.style.display = 'none';
-
-    input.parentNode.insertBefore(errorSpan, input.nextSibling);
-
-    input.addEventListener('blur', () => {
-      let errorMessage = '';
-
-      if (!input.value.trim()) {
-        errorMessage = 'Este campo es obligatorio';
-      } else if (
-        input.type === 'email' &&
-        !/^\S+@\S+\.\S+$/.test(input.value)
-      ) {
-        errorMessage = 'Por favor, introduce un email válido';
-      }
-
-      if (errorMessage) {
-        errorSpan.textContent = errorMessage;
-        errorSpan.style.display = 'block';
-        input.classList.add('input-error');
-      } else {
-        errorSpan.style.display = 'none';
-        input.classList.remove('input-error');
-      }
-    });
-
-    input.addEventListener('input', () => {
-      errorSpan.style.display = 'none';
-      input.classList.remove('input-error');
-    });
-  });
-
-  const fileInput = document.getElementById('factura');
-  if (fileInput) {
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (file) {
-        const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-
-        if (!validTypes.includes(file.type)) {
-          alert('Por favor, sube un archivo PDF, JPG o PNG.');
-          fileInput.value = '';
-          return;
-        }
-
-        if (file.size > maxSize) {
-          alert(
-            'El archivo es demasiado grande. Por favor, sube un archivo menor a 5MB.'
-          );
-          fileInput.value = '';
-          return;
-        }
-
-        if (file.type.startsWith('image/')) {
-          const preview = document.createElement('div');
-          preview.className = 'file-preview';
-          preview.style.marginTop = '10px';
-
-          const img = document.createElement('img');
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '150px';
-
-          const reader = new FileReader();
-          reader.onload = e => {
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-
-          preview.appendChild(img);
-
-          const existingPreview =
-            fileInput.parentNode.querySelector('.file-preview');
-          if (existingPreview) {
-            fileInput.parentNode.replaceChild(preview, existingPreview);
-          } else {
-            fileInput.parentNode.appendChild(preview);
-          }
-        }
-      }
-    });
+  function resetNotification() {
+    block[0].className = 'formcarry-message-block';
   }
+
+  function notify(status, message) {
+    var determinateStatus = status === 'error' ? 'error' : 'success';
+
+    var notifClasses = [
+      'formcarry-message-block',
+      'fc-' + determinateStatus,
+      'active'
+    ];
+
+    block[0].className = notifClasses.join(' ');
+    content.innerHTML = message;
+  }
+
+  // Register close event
+  var messageClose = block[0].querySelector('.fc-message-close');
+  messageClose.addEventListener('click', resetNotification);
+
+  return {
+    resetNotification,
+    notify
+  };
 }
 
-enhanceFormHandling();
+function resetValidationErrors() {
+  // Remove all elements with .fc-field-error-message
+  var errorMessages = document.querySelectorAll('.fc-field-error-message');
+  errorMessages.forEach(function (errorMessage) {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
+
+  // Remove .fc-field-error class from all elements
+  var errorFields = document.querySelectorAll('.fc-field-error');
+  errorFields.forEach(function (errorField) {
+    errorField.classList.remove('fc-field-error');
+  });
+}
+
+document
+  .querySelector('.formcarryForm')
+  .addEventListener('submit', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var href = this.getAttribute('action');
+    var formData = new FormData(this);
+    var form = this;
+
+    var { notify, resetNotification } = registerNotificationBar(
+      form.getElementsByClassName('formcarry-message-block')
+    );
+
+    // Reset notification before new request
+    resetNotification();
+
+    // Reset validations
+    resetValidationErrors();
+
+    fetch(href, {
+      method: 'POST',
+      headers: {
+        // THIS IS REQUIRED
+        // Set your accept header to json so you can get a JSON response back from formcarry.
+        Accept: 'application/json'
+      },
+      body: formData
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response.status == 'success') {
+          notify('success', 'Muchas gracias!');
+
+          // Uncomment this if you want to reset the form fields after successful submission.
+          // this.reset();
+        } else if (response.code === 422) {
+          // Error code for validation fail.
+          // Example response: https://formcarry.com/docs/features/field-validations#a2e90c075eee4e37b0a37f2eda363b92
+          Object.keys(response.errors).forEach(function (key) {
+            var field = form.querySelector('[name="' + key + '"]');
+
+            field.classList.add('fc-field-error');
+            var errorSpan = document.createElement('span');
+            errorSpan.className = 'fc-field-error-message';
+            errorSpan.textContent = response.errors[key].message;
+            field.parentNode.insertBefore(errorSpan, field.nextSibling);
+          });
+
+          // This is a simple notification banner that shows form errors under the submit button
+          notify('error', 'Por favor soluciona los errores.');
+        } else {
+          notify('error', response.message);
+        }
+      })
+      .catch(error => {
+        notify('error', error.message);
+      });
+  });

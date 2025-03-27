@@ -1,31 +1,9 @@
 {
-  "version": 2,
-  "builds": [
+  "redirects": [
     {
-      "src": "api/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "source/**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/noticias/novedades-precio-luz-manana/",
-      "dest": "/precio-luz-manana/"
+      "source": "/noticias/novedades-precio-luz-manana/",
+      "destination": "/precio-luz-manana/",
+      "permanent": true
     }
   ]
 }
