@@ -1,156 +1,313 @@
-.container-form {
-  margin: 0 auto;
-  font-family: var(--text);
+/* Estilos mejorados para el formulario CTA */
+.formulario-ahorro-wrapper {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  background: linear-gradient(to bottom right, #fff, #f9f9f9);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 3px 6px rgba(0, 0, 0, .05);
+  border-top: 5px solid #ec7f00;
+  margin: 2rem 0;
+  overflow: hidden;
+  transition: all .3s ease;
+}
+
+.formulario-ahorro-wrapper:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .15), 0 6px 12px rgba(0, 0, 0, .1);
+  transform: translateY(-2px);
+}
+
+/* Mejoras al encabezado del formulario */
+.form-header {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
 }
 
 .form-subtitle {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .form-subtitle-text {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: bold;
   color: var(--blue);
   display: block;
+  line-height: 1.2;
 }
 
-.form-ahorro {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.form-highlight {
+  color: #ec7f00;
+  position: relative;
+  display: inline-block;
+  padding-bottom: .25rem;
+  font-size: 2rem;
 }
 
-@media only screen and (min-width: 768px) {
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
+.form-highlight:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #ec7f00;
+  border-radius: 2px;
 }
 
+.form-description {
+  font-size: 1rem;
+  margin: 1rem 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Mejoras en los campos del formulario */
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: .5rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-label {
-  font-weight: 500;
-  font-size: .9rem;
+  font-weight: 600;
+  font-size: .95rem;
   color: var(--blue);
+  margin-bottom: .5rem;
+  display: block;
 }
 
-.required {
-  color: #ec1d2f;
+.form-label-hint {
+  font-weight: normal;
+  font-size: .8rem;
+  color: #666;
+  margin-left: .5rem;
+}
+
+.form-label-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.form-icon {
+  margin-right: .5rem;
+  color: #ec7f00;
 }
 
 .form-input,
 .form-textarea {
-  padding: 12px;
+  padding: .875rem;
   border: 1px solid rgba(0, 0, 0, .15);
-  border-radius: 5px;
+  border-radius: 8px;
   font-family: var(--text);
-  font-size: .9rem;
-  background-color: #f5f5f5;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.form-file {
-  font-size: .9rem;
-  padding: 8px 0;
-}
-
-.file-info {
-  font-size: .8rem;
-  font-style: italic;
-  margin-top: 5px;
-  color: #666;
-}
-
-.form-check {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 5px 0;
-}
-
-.form-checkbox {
-  width: 16px;
-  height: 16px;
-  margin-top: 3px;
-}
-
-.form-check-label {
-  font-size: .9rem;
-}
-
-.form-link {
-  color: #ec7f00;
-  text-decoration: underline;
-}
-
-.form-button {
-  background-color: #ec7f00;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 15px;
-  font-weight: 700;
   font-size: 1rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color .3s;
-  margin-top: 10px;
-  font-family: var(--numbers);
+  background-color: #f9f9f9;
   width: 100%;
-}
-
-.form-button:hover {
-  background-color: #d97100;
-}
-
-.recaptcha-container {
-  margin: 10px 0;
-}
-
-.form-logo {
-  display: flex;
-  justify-content: center;
-  margin-top: 25px;
-}
-
-.logo-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: contain;
-  background-color: white;
-  padding: 10px;
+  transition: all .3s ease;
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
   border-color: #ec7f00;
-  box-shadow: 0 0 0 2px rgba(236, 127, 0, .2);
+  box-shadow: 0 0 0 3px rgba(236, 127, 0, .2);
+  background-color: #fff;
 }
 
-@media only screen and (max-width: 600px) {
-  .container-form {
-    max-width: 100%;
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #aaa;
+}
+
+.form-file-container {
+  position: relative;
+  padding: 1rem;
+  border: 2px dashed rgba(236, 127, 0, .3);
+  border-radius: 8px;
+  background-color: rgba(236, 127, 0, .05);
+  transition: all .3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-file-container:hover {
+  border-color: #ec7f00;
+  background-color: rgba(236, 127, 0, .1);
+}
+
+.form-file {
+  opacity: .8;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.file-info {
+  font-size: .85rem;
+  margin-top: .5rem;
+  color: #666;
+}
+
+/* Sección de beneficios */
+.form-benefits {
+  background-color: rgba(162, 252, 193, .2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--green-dark);
+}
+
+.form-benefits-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--blue);
+  margin: 0 0 .75rem;
+}
+
+.form-benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.form-benefits-item {
+  padding: .25rem 0;
+  font-size: .95rem;
+  color: #333;
+}
+
+/* Mejora del botón de envío */
+.form-button {
+  background-color: #ec7f00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .3s ease;
+  margin-top: 1.5rem;
+  width: 100%;
+  font-family: var(--numbers);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-button:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, .1);
+  transition: width .5s ease;
+}
+
+.form-button:hover {
+  background-color: #d97000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(236, 127, 0, .3);
+}
+
+.form-button:hover:after {
+  width: 100%;
+}
+
+.form-button:active {
+  transform: translateY(0);
+}
+
+.form-button-text {
+  position: relative;
+  z-index: 2;
+}
+
+.form-button-icon {
+  margin-left: .75rem;
+  position: relative;
+  z-index: 2;
+  transition: transform .3s ease;
+}
+
+.form-button:hover .form-button-icon {
+  transform: translateX(4px);
+}
+
+/* Checkbox y garantía */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 1rem 0;
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: .125rem;
+}
+
+.form-check-label {
+  font-size: .85rem;
+  line-height: 1.4;
+}
+
+.form-link {
+  color: #ec7f00;
+  text-decoration: underline;
+  transition: color .2s ease;
+}
+
+.form-link:hover {
+  color: #d97000;
+}
+
+.form-guarantee {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1rem;
+  font-size: .8rem;
+  color: #666;
+  padding: .5rem;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .02);
+}
+
+.form-guarantee-icon {
+  color: var(--blue);
+}
+
+/* Media queries para responsive */
+@media only screen and (max-width: 767px) {
+  .form-subtitle-text {
+    font-size: 1.5rem;
+  }
+
+  .form-highlight {
+    font-size: 1.75rem;
+  }
+
+  .form-description {
+    font-size: .9rem;
+  }
+
+  .form-benefits {
+    padding: .75rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .form-subtitle-text {
+    font-size: 1.25rem;
+  }
+
+  .form-highlight {
+    font-size: 1.5rem;
   }
 
   .form-button {
-    padding: 12px;
-  }
-
-  .form-subtitle-text {
-    font-size: 1.25rem;
-    line-height: 1.4;
+    padding: .875rem 1rem;
   }
 }

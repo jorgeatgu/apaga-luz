@@ -495,3 +495,127 @@ document.getElementById('color-blindness').addEventListener('change', e => {
     menu_element.style.backgroundColor = get_zone_color(zone);
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const fileInput = document.getElementById('fc-generated-1-single-file');
+  const fileInfo = document.getElementById('file-info');
+  const fileContainer = document.querySelector('.form-file-container');
+
+  if (fileInput && fileInfo) {
+    fileInput.addEventListener('change', function () {
+      if (this.files && this.files[0]) {
+        const fileName = this.files[0].name;
+        fileInfo.innerHTML = `<span style="color: #ec7f00; font-weight: 600;">✓ Archivo seleccionado:</span> ${fileName}`;
+        fileContainer.style.borderColor = '#a2fcc1';
+        fileContainer.style.backgroundColor = 'rgba(162, 252, 193, 0.1)';
+      } else {
+        fileInfo.textContent = 'No se ha seleccionado ningún archivo.';
+        fileContainer.style.borderColor = 'rgba(236, 127, 0, 0.3)';
+        fileContainer.style.backgroundColor = 'rgba(236, 127, 0, 0.05)';
+      }
+    });
+
+    if (fileContainer) {
+      fileContainer.addEventListener('click', function (e) {
+        if (e.target !== fileInput) {
+          fileInput.click();
+        }
+      });
+    }
+  }
+
+  const form = document.getElementById('formulario-ahorro');
+
+  if (form) {
+    const inputs = form.querySelectorAll('input[required], textarea[required]');
+
+    inputs.forEach(input => {
+      input.addEventListener('blur', function () {
+        if (this.value.trim() === '') {
+          this.classList.add('form-input-error');
+
+          let errorMsg = this.parentNode.querySelector('.form-error-message');
+          if (!errorMsg) {
+            errorMsg = document.createElement('div');
+            errorMsg.className = 'form-error-message';
+            errorMsg.textContent = 'Este campo es obligatorio';
+            this.parentNode.appendChild(errorMsg);
+          }
+        } else {
+          this.classList.remove('form-input-error');
+
+          const errorMsg = this.parentNode.querySelector('.form-error-message');
+          if (errorMsg) {
+            errorMsg.remove();
+          }
+        }
+      });
+
+      input.addEventListener('input', function () {
+        if (this.value.trim() !== '') {
+          this.classList.remove('form-input-error');
+
+          const errorMsg = this.parentNode.querySelector('.form-error-message');
+          if (errorMsg) {
+            errorMsg.remove();
+          }
+        }
+      });
+    });
+
+    const emailInput = form.querySelector('input[type="email"]');
+    if (emailInput) {
+      emailInput.addEventListener('blur', function () {
+        if (this.value.trim() !== '' && !isValidEmail(this.value)) {
+          this.classList.add('form-input-error');
+
+          let errorMsg = this.parentNode.querySelector('.form-error-message');
+          if (!errorMsg) {
+            errorMsg = document.createElement('div');
+            errorMsg.className = 'form-error-message';
+            errorMsg.textContent = 'Por favor, introduce un email válido';
+            this.parentNode.appendChild(errorMsg);
+          } else {
+            errorMsg.textContent = 'Por favor, introduce un email válido';
+          }
+        }
+      });
+    }
+
+    function isValidEmail(email) {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+
+    form.addEventListener('submit', function (e) {
+      const submitButton = this.querySelector('.form-button');
+      if (submitButton) {
+        submitButton.innerHTML =
+          '<span class="form-button-text">Enviando...</span>';
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0.8';
+      }
+    });
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .form-input-error {
+      border-color: #ec1d2f !important;
+      background-color: rgba(236, 29, 47, 0.05) !important;
+    }
+
+    .form-error-message {
+      color: #ec1d2f;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  `;
+  document.head.appendChild(style);
+});

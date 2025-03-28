@@ -141,12 +141,6 @@
           <p class="blog-grid-element-text">Apaga Luz es un proyecto para mostraros, de la forma más sencilla posible, el precio de la luz por horas, tanto para el día de hoy, como para mañana. Además, os mostramos una tabla con toda la tarifa de la luz de hoy por franjas horarios, separando las horas más baratas de las más caras.</p>
         </div>
       </article>
-      <div id="ad-container">
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      </div>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
       <article class="container-hour">
         <div class="container-hour-datetime">
           <span id="hours"></span><span>:</span><span id="minutes"></span>
@@ -156,24 +150,17 @@
           <p class="taxes">precio sin IVA</p>
           <a class="btn-whatsapp" id="btn-whatsapp" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte el precio por WhatsApp</span></a>
         </div>
-        <section id="container-max-min-avg">
-          <div class="container-max-min-avg-grid">
-            <article id="contanier-avg-price">
-            </article>
-            <article id="contanier-min-price">
-            </article>
-            <article id="contanier-max-price">
-            </article>
-          </div>
-          <a class="btn-whatsapp" id="btn-whatsapp-avg" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Compartir por WhatsApp</span></a>
-        </section>
         <section class="container">
-          <article class="container-cheap">
+          <article class="container-cheap formulario-ahorro-wrapper">
             <div class="container-form">
-              <div class="form-subtitle">
-                <span class="form-subtitle-text">¿Pagas demasiado por tus facturas?</span>
-                <span class="form-subtitle-text">¡Contacta y te bajamos el precio!</span>
+              <div class="form-header">
+                <div class="form-subtitle">
+                  <span class="form-subtitle-text">¿Pagas demasiado por tus facturas?</span>
+                  <span class="form-subtitle-text form-highlight">¡Te bajamos el precio!</span>
+                </div>
+                <p class="form-description">Analizamos tu consumo y encontramos la mejor tarifa. Ahorra <strong>en tu factura mensual</strong>.</p>
               </div>
+
               <form
                 id="formulario-ahorro"
                 enctype="multipart/form-data"
@@ -182,31 +169,53 @@
                 method="post"
               >
                 <input type="hidden" name="_subject" value="Apaga Luz Lead">
+
                 <div class="form-grid">
                   <div class="form-group formcarry-block">
                     <label for="fc-generated-1-name" class="form-label">Nombre y apellidos <span class="required">*</span></label>
-                    <input type="text" id="fc-generated-1-name" name="name" required class="form-input" placeholder="Nombre y apellidos">
+                    <input type="text" id="fc-generated-1-name" name="nombre" required class="form-input" placeholder="Escribe tu nombre completo">
                   </div>
+
                   <div class="form-group formcarry-block">
                     <label for="fc-generated-1-email" class="form-label">Email <span class="required">*</span></label>
-                    <input type="email" id="fc-generated-1-email" name="email" required class="form-input" placeholder="Dirección de correo electrónico">
+                    <input type="email" id="fc-generated-1-email" name="email" required class="form-input" placeholder="tu@email.com">
                   </div>
                 </div>
 
                 <div class="form-group formcarry-block">
-                  <label for="fc-generated-1-telephone" class="form-label">Teléfono</label>
-                  <input type="tel" id="fc-generated-1-telephone" name="telefono" class="form-input" placeholder="Teléfono">
+                  <label for="fc-generated-1-telephone" class="form-label">Teléfono <span class="form-label-hint">(opcional - para contactarte más rápido)</span></label>
+                  <input type="tel" id="fc-generated-1-telephone" name="telefono" class="form-input" placeholder="Ej: 666 123 456">
                 </div>
 
                 <div class="form-group formcarry-block">
-                  <label for="fc-generated-1-single-file" class="form-label">Suba su factura si la tiene a mano</label>
-                  <input type="file" id="fc-generated-1-single-file" name="single file" class="form-file">
-                  <div class="file-info" id="file-info">No se ha seleccionado ningún archivo.</div>
+                  <label for="fc-generated-1-single-file" class="form-label">
+                    <span class="form-label-with-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="form-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                      </svg>
+                      Sube tu factura de luz
+                    </span>
+                    <span class="form-label-hint">(opcional - nos ayudará a darte el mejor precio)</span>
+                  </label>
+                  <div class="form-file-container">
+                    <input type="file" id="fc-generated-1-single-file" name="single file" class="form-file">
+                  </div>
                 </div>
 
-                 <div class="form-group formcarry-block">
-                  <label for="fc-generated-1-message" class="form-label">Mensaje</label>
-                  <textarea id="fc-generated-1-message" name="mensaje" rows="3" class="form-textarea" placeholder="Deja tu comentario o mensaje"></textarea>
+                <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-message" class="form-label">Mensaje <span class="form-label-hint">(opcional)</span></label>
+                  <textarea id="fc-generated-1-message" name="mensaje" rows="3" class="form-textarea" placeholder="Cuéntanos sobre tu consumo, tus horarios o cualquier duda..."></textarea>
+                </div>
+
+                <div class="form-benefits">
+                  <h4 class="form-benefits-title">¿Por qué confiar en nosotros?</h4>
+                  <ul class="form-benefits-list">
+                    <li class="form-benefits-item">✓ Ahorro garantizado</li>
+                    <li class="form-benefits-item">✓ Análisis personalizado de tu consumo</li>
+                    <li class="form-benefits-item">✓ Respuesta rápida</li>
+                  </ul>
                 </div>
 
                 <div class="g-recaptcha" data-sitekey="6LeAfgErAAAAAFWLL8fkYBJMD3WIFapreCXveguJ"></div>
@@ -218,8 +227,17 @@
                   </label>
                 </div>
 
-                <input class="form-button" type="submit" value="¡QUIERO AHORRAR AHORA!">
+                <button type="submit" class="form-button">
+                  <span class="form-button-text">¡QUIERO AHORRAR AHORA!</span>
+                </button>
 
+                <div class="form-guarantee">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="form-guarantee-icon">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                  </svg>
+                  <span>Tu información está segura y nunca será compartida.</span>
+                </div>
                 <div class="formcarry-block">
                   <div class="formcarry-message-block">
                     <div class="fc-message-icon"></div>
@@ -230,6 +248,23 @@
               </form>
             </div>
           </article>
+        </section>
+        <div id="ad-container">
+          <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <section id="container-max-min-avg">
+          <div class="container-max-min-avg-grid">
+            <article id="contanier-avg-price">
+            </article>
+            <article id="contanier-min-price">
+            </article>
+            <article id="contanier-max-price">
+            </article>
+          </div>
+          <a class="btn-whatsapp" id="btn-whatsapp-avg" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Compartir por WhatsApp</span></a>
         </section>
         <a href="/precio-luz-manana/" id="button-prices-next-day"></a>
         <details class="table-next-day">
