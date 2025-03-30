@@ -1,7 +1,7 @@
 name: flat-omie
 on:
   schedule:
-    - cron: 14 12 * * *
+    - cron: 13 12 * * *
   workflow_dispatch:
 jobs:
   scheduled:
