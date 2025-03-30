@@ -1,4 +1,4 @@
-/* Estilos para el botón CTA con marcas en la página principal */
+/* Estilos para el botón CTA con mensaje integrado */
 .ahorro-cta-container {
   position: relative;
   background-color: #fff;
@@ -7,7 +7,7 @@
   padding: 1.5rem;
   margin: 2rem 0;
   overflow: hidden;
-  border-left: 5px solid #ec7f00;
+  border-top: 5px solid #ec7f00;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -26,39 +26,6 @@
   background: linear-gradient(135deg, rgba(255, 174, 58, 0.2) 0%, rgba(255, 174, 58, 0) 60%);
   border-radius: 0 0 0 150px;
   z-index: 0;
-}
-
-/* Sección de marcas para mayor credibilidad */
-.ahorro-cta-brands {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.ahorro-cta-brand {
-  display: flex;
-  align-items: center;
-}
-
-.ahorro-cta-brand-logo {
-  width: 24px;
-  height: 24px;
-  margin-right: 0.5rem;
-}
-
-.ahorro-cta-brand-name {
-  font-family: var(--numbers);
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--blue);
-}
-
-.ahorro-cta-brand-separator {
-  margin: 0 0.75rem;
-  color: #888;
-  font-size: 1rem;
 }
 
 .ahorro-cta-content {
@@ -85,12 +52,35 @@
   flex-grow: 1;
 }
 
+/* Integración de marcas en el encabezado */
+.ahorro-cta-brands {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ahorro-cta-brand-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
 .ahorro-cta-heading {
-  margin: 0 0 0.25rem 0;
-  font-family: var(--numbers);
-  font-size: 1.35rem;
-  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  font-family: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--blue);
+  line-height: 1.3;
+}
+
+.ahorro-cta-brand-name {
+  font-family: var(--numbers);
+  font-weight: 700;
+  color: #021e5c;
+  margin-top: .5rem;
+  display: inline-block;
 }
 
 .ahorro-cta-description {
@@ -117,6 +107,7 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(236, 127, 0, 0.2);
   white-space: nowrap;
+  margin-left: 1rem;
 }
 
 .ahorro-cta-button svg {
@@ -156,6 +147,21 @@
 }
 
 /* Responsive */
+@media only screen and (max-width: 960px) {
+  .ahorro-cta-content {
+    flex-wrap: wrap;
+  }
+
+  .ahorro-cta-text {
+    flex-basis: calc(100% - 80px);
+    margin-bottom: 1rem;
+  }
+
+  .ahorro-cta-button {
+    margin-left: 80px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .ahorro-cta-content {
     flex-direction: column;
@@ -168,12 +174,21 @@
   }
 
   .ahorro-cta-text {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    flex-basis: 100%;
+  }
+
+  .ahorro-cta-brands {
+    justify-content: center;
   }
 
   .ahorro-cta-badge {
     right: 50%;
     transform: translateX(50%);
+  }
+
+  .ahorro-cta-button {
+    margin-left: 0;
   }
 
   .ahorro-cta-trust {
@@ -183,7 +198,7 @@
 
 @media only screen and (max-width: 480px) {
   .ahorro-cta-heading {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .ahorro-cta-description {
@@ -193,19 +208,6 @@
   .ahorro-cta-button {
     width: 100%;
     padding: 0.75rem 1rem;
-  }
-
-  .ahorro-cta-brands {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ahorro-cta-brand-separator {
-    display: none;
-  }
-
-  .ahorro-cta-brand {
-    margin-bottom: 0.5rem;
   }
 }
 /* Estilos mejorados para el formulario CTA */
