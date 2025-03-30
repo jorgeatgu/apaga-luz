@@ -2,194 +2,194 @@
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 0,
-  "price": 0.036,
-  "pricemin": 0.036
-},
-{
-  "year": "2025",
-  "month": "03",
-  "day": "30",
-  "hour": 1,
-  "price": 0.032,
-  "pricemin": 0.032
-},
-{
-  "year": "2025",
-  "month": "03",
-  "day": "30",
-  "hour": 2,
   "price": 0.0065,
   "pricemin": 0.0065
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
+  "hour": 1,
+  "price": 0.02,
+  "pricemin": 0.02
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "31",
+  "hour": 2,
+  "price": 0.03,
+  "pricemin": 0.03
+},
+{
+  "year": "2025",
+  "month": "03",
+  "day": "31",
   "hour": 3,
-  "price": 0.001,
-  "pricemin": 0.001
+  "price": 0.0065,
+  "pricemin": 0.0065
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 4,
-  "price": 0.001,
-  "pricemin": 0.001
+  "price": 0.0065,
+  "pricemin": 0.0065
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 5,
-  "price": 0.0009,
-  "pricemin": 0.0009
+  "price": 0.01,
+  "pricemin": 0.01
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 6,
-  "price": 0.0017,
-  "pricemin": 0.0017
+  "price": 0.0744,
+  "pricemin": 0.0744
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 7,
-  "price": 0.0013,
-  "pricemin": 0.0013
+  "price": 0.04003,
+  "pricemin": 0.04003
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 8,
-  "price": 0.00,
-  "pricemin": 0.00
+  "price": 0.04126,
+  "pricemin": 0.04126
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 9,
-  "price": -1.53,
-  "pricemin": -1.53
+  "price": 0.0015,
+  "pricemin": 0.0015
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 10,
-  "price": -2.31,
-  "pricemin": -2.31
+  "price": -0.0001,
+  "pricemin": -0.0001
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 11,
-  "price": -3.8,
-  "pricemin": -3.8
+  "price": -0.0031,
+  "pricemin": -0.0031
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 12,
-  "price": -4,
-  "pricemin": -4
+  "price": -0.0066,
+  "pricemin": -0.0066
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 13,
-  "price": -4,
-  "pricemin": -4
+  "price": -0.0062,
+  "pricemin": -0.0062
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 14,
-  "price": -5,
-  "pricemin": -5
+  "price": -0.0062,
+  "pricemin": -0.0062
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 15,
-  "price": -5.21,
-  "pricemin": -5.21
+  "price": -0.01,
+  "pricemin": -0.01
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 16,
-  "price": -4,
-  "pricemin": -4
+  "price": -0.0099,
+  "pricemin": -0.0099
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 17,
-  "price": -3,
-  "pricemin": -3
+  "price": -0.0001,
+  "pricemin": -0.0001
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 18,
-  "price": -2.2,
-  "pricemin": -2.2
+  "price": 0.002,
+  "pricemin": 0.002
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 19,
-  "price": 0.0002,
-  "pricemin": 0.0002
+  "price": 0.055,
+  "pricemin": 0.055
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 20,
-  "price": 0.02546,
-  "pricemin": 0.02546
+  "price": 0.14679,
+  "pricemin": 0.14679
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 21,
-  "price": 0.03501,
-  "pricemin": 0.03501
+  "price": 0.19725,
+  "pricemin": 0.19725
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 22,
-  "price": 0.02563,
-  "pricemin": 0.02563
+  "price": 0.11985,
+  "pricemin": 0.11985
 },
 {
   "year": "2025",
   "month": "03",
-  "day": "30",
+  "day": "31",
   "hour": 23,
-  "price": 0.01063,
-  "pricemin": 0.01063
+  "price": 0.9501,
+  "pricemin": 0.9501
 },
 {
   "year": "*\r",
