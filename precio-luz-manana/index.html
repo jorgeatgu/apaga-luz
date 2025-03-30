@@ -133,12 +133,128 @@
 
   <script type="application/ld+json">
   {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Precio de la luz mañana hora a hora | Consulta ahora",
+    "description": "Consulta con antelación el precio de la luz para mañana hora por hora. Planifica tu consumo y ahorra eligiendo las tarifas más económicas. ¡Datos actualizados diariamente!",
+    "publisher": {
+      "@type": "Organization",
       "name": "Apaga-luz",
-      "url": "https://www.apaga-luz.com/precio-luz-manana/",
-      "description": "¿Necesitas consultar el precio de la luz mañana por horas? ¡ENTRA aquí y descubre las horas más baratas de la tarifa de luz para mañana!",
-      "inLanguage": "es"
+      "logo": "https://www.apaga-luz.com/apple-touch-icon.png",
+      "url": "https://www.apaga-luz.com"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Jorge Aznar"
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [
+        ".post-title",
+        ".post-text"
+      ]
+    },
+    "mainEntity": {
+      "@type": "Dataset",
+      "name": "Precios de electricidad por hora para mañana",
+      "description": "Dataset con los precios anticipados de la electricidad para cada hora del día siguiente en España",
+      "temporal": "Actualizado diariamente a las 20:15",
+      "spatialCoverage": "España",
+      "variableMeasured": [
+        "Precio (€/kWh)",
+        "Hora del día"
+      ]
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.apaga-luz.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Precio de la luz mañana",
+          "item": "https://www.apaga-luz.com/precio-luz-manana/"
+        }
+      ]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuándo se actualiza el precio de la luz para mañana?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El precio definitivo de la luz para mañana se publica en la web ESIOS a las 20:15, después de la subasta de Red Eléctrica de España. Sin embargo, desde las 13:30 ya puedes ver una estimación preliminar basada en los datos de la subasta del OMIE (Operador del Mercado Ibérico de Electricidad)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué es útil conocer el precio de la luz con antelación?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Conocer el precio de la luz para mañana te permite planificar mejor tu consumo eléctrico, programando el uso de electrodomésticos de alto consumo (lavadora, secadora, lavavajillas, horno) en las horas más económicas, lo que puede suponer un ahorro significativo en tu factura mensual."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué diferencia hay entre los precios de la OMIE y de ESIOS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La primera subasta (OMIE) entre las 13:15 y 14:30 establece el precio base del mercado mayorista. La subasta definitiva de ESIOS a las 20:15 añade los costes por servicios de ajuste, peajes de acceso y conexión a la tarifa de energía. El precio de ESIOS es el que realmente se aplica a tu factura si tienes tarifa regulada PVPC."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Me afecta el precio de la luz por horas si tengo contrato de mercado libre?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Si tienes contratada una tarifa de mercado libre, el precio por kWh no varía por horas, sino que se mantiene fijo según lo estipulado en tu contrato. Las variaciones horarias del precio de la luz afectan principalmente a quienes tienen contratada la tarifa regulada (PVPC)."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Cómo interpretar el precio de la luz para mañana",
+    "description": "Guía para entender y aprovechar la información sobre precios de la electricidad del día siguiente",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Consulta la tabla de precios",
+        "text": "Revisa la tabla de precios por hora para identificar las franjas más económicas y más caras del día siguiente."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Identifica las horas valle",
+        "text": "Localiza las horas con precios más bajos (generalmente durante la madrugada y algunas horas del mediodía)."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Planifica el uso de electrodomésticos",
+        "text": "Programa el uso de electrodomésticos de alto consumo (lavadora, secadora, lavavajillas) en las horas más económicas."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Evita las horas punta",
+        "text": "Minimiza el consumo energético durante las horas con tarifas más elevadas (generalmente por la tarde-noche)."
+      }
+    ],
+    "totalTime": "PT10M"
   }
   </script>
 </head>

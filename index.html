@@ -112,13 +112,112 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Apaga-luz",
-    "url": "https://www.apaga-luz.com",
-    "description": "Apaga-luz muestra el precio de la luz por horas, actualizado en tiempo real. Incluye el precio de la luz para el día siguiente.",
-    "inLanguage": "es"
+    "@type": "WebPage",
+    "name": "Precio de la luz por hora hoy | Consultar ahora | Apaga Luz",
+    "description": "Consulta en tiempo real el precio de la luz hoy hora a hora. Descubre cuándo es más barata la electricidad y ahorra en tu factura. ¡Actualizado cada hora!",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Apaga-luz",
+      "logo": "https://www.apaga-luz.com/apple-touch-icon.png",
+      "url": "https://www.apaga-luz.com"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Jorge Aznar"
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [
+        ".blog-grid-element-title",
+        ".blog-grid-element-text",
+        ".section-subtitle"
+      ]
+    },
+    "mainEntity": {
+      "@type": "Dataset",
+      "name": "Precios de electricidad por hora",
+      "description": "Dataset con los precios de la electricidad para cada hora del día actual en España",
+      "temporal": "Actualizado diariamente",
+      "spatialCoverage": "España",
+      "variableMeasured": [
+        "Precio (€/kWh)",
+        "Hora del día"
+      ]
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.apaga-luz.com/"
+        }
+      ]
+    }
   }
   </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿A qué hora es más barata la luz hoy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Las horas donde cuesta menos la luz suelen ser la madrugada y algunas horas del mediodía. Sin embargo, esto cambia diariamente; por ello, nuestro servicio te permite consultar las tarifas en tiempo real y ajustar el consumo según la información actualizada."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo puedo ahorrar en mi factura de la luz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para ahorrar en tu factura de luz, puedes: 1) Utilizar los electrodomésticos en las horas donde la electricidad es más barata (consulta nuestra tabla diaria), 2) Verificar que tu tarifa se ajusta a tus necesidades de consumo, 3) Optimizar el uso de la calefacción y aire acondicionado, y 4) Considerar el cambio a electrodomésticos más eficientes energéticamente."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué significa PVPC en el precio de la luz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PVPC (Precio Voluntario para el Pequeño Consumidor) es la tarifa regulada por el gobierno español para suministros eléctricos con potencia contratada igual o inferior a 10 kW. Esta tarifa se actualiza cada hora y está directamente vinculada al precio del mercado mayorista de electricidad."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué fluctúa tanto el precio de la electricidad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El precio de la electricidad fluctúa debido a múltiples factores: demanda energética, disponibilidad de fuentes renovables, costes de producción, precio de combustibles como el gas natural, y las condiciones del mercado energético internacional. Por ello, es importante consultar precios actualizados para optimizar tu consumo."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Consulta de precios de la luz por hora",
+    "serviceType": "Información energética",
+    "provider": {
+      "@type": "Organization",
+      "name": "Apaga-luz",
+      "url": "https://www.apaga-luz.com"
+    },
+    "description": "Servicio gratuito de consulta del precio de la electricidad por horas, actualizado en tiempo real para ayudarte a ahorrar en tu factura.",
+    "areaServed": "España",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Consumidores de electricidad"
+    }
+  }
+  </script>s
 </head>
 
 <body>
