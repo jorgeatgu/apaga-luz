@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahorra hasta un 30% en tu factura de luz | Apaga Luz</title>
+  <meta name="description" content="Descubre cómo nuestros clientes ahorran hasta 280€ al año en su factura de luz. Análisis personalizado y sin compromiso.">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <link rel="stylesheet" href="/source/styles/styles.css">
+
+  <style>
+    .landing-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .landing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .landing-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--blue);
+      font-family: var(--numbers);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .landing-logo-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.75rem;
+    }
+
+    .landing-back {
+      font-size: 0.875rem;
+      color: var(--blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .landing-back svg {
+      margin-right: 0.5rem;
+    }
+
+    /* Sección hero */
+    .landing-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .landing-hero-content {
+      flex-basis: 50%;
+      padding-right: 2rem;
+    }
+
+    .landing-hero-title {
+      font-family: var(--numbers);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      color: var(--blue);
+      margin: 0 0 1.5rem 0;
+    }
+
+    .landing-hero-subtitle {
+      font-size: 1.25rem;
+      color: #555;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .landing-hero-benefits {
+      margin: 1rem 0;
+    }
+
+    .landing-benefit {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .landing-benefit-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: #10b981;
+      margin-right: 0.75rem;
+      margin-top: 0.125rem;
+    }
+
+    .landing-benefit-text {
+      font-size: 1.05rem;
+      color: #333;
+      line-height: 1.4;
+      margin-top: 0;
+    }
+
+    .landing-hero-image {
+      flex-basis: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .landing-hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Sección de testimonios */
+    .landing-testimonials {
+      margin-bottom: 4rem;
+    }
+
+    .landing-section-title {
+      font-family: var(--numbers);
+      font-size: 1.75rem;
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .landing-section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: #ec7f00;
+      border-radius: 2px;
+    }
+
+    .landing-testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .landing-testimonial {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .landing-testimonial-quote {
+      position: absolute;
+      top: -12px;
+      left: 1.5rem;
+      font-size: 3rem;
+      color: rgba(236, 127, 0, 0.2);
+      font-family: serif;
+      line-height: 1;
+    }
+
+    .landing-testimonial-text {
+      font-style: italic;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .landing-testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+
+    .landing-testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-weight: 700;
+    }
+
+    .landing-testimonial-name {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .landing-testimonial-location {
+      font-size: 0.875rem;
+      color: #777;
+    }
+
+    /* Sección de pasos */
+    .landing-steps {
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .landing-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .landing-step {
+      text-align: center;
+    }
+
+    .landing-step-number {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(236, 127, 0, 0.1);
+      color: #ec7f00;
+      font-family: var(--numbers);
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .landing-step-title {
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+    }
+
+    .landing-step-description {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Sección de FAQ */
+    .landing-faq {
+      margin-bottom: 4rem;
+    }
+
+    .landing-faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .landing-faq-item {
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .landing-faq-question {
+      background-color: #f9f9f9;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .landing-faq-question::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: #ec7f00;
+    }
+
+    .landing-faq-item[open] .landing-faq-question::after {
+      content: '−';
+    }
+
+    .landing-faq-answer {
+      padding: 1rem 1.5rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Formulario de contacto */
+    .landing-form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .landing-form-header {
+      background-color: var(--blue);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .landing-form-title {
+      font-family: var(--numbers);
+      font-size: 1.75rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .landing-form-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .landing-form-content {
+      padding: 2rem;
+    }
+
+    /* Responsive */
+    @media only screen and (max-width: 992px) {
+      .landing-testimonials-grid,
+      .landing-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
+      .landing-hero {
+        flex-direction: column;
+      }
+
+      .landing-hero-content {
+        flex-basis: 100%;
+        padding-right: 0;
+      }
+
+      .landing-hero-image {
+        flex-basis: 100%;
+      }
+
+      .landing-hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media only screen and (max-width: 576px) {
+      .landing-testimonials-grid,
+      .landing-steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .landing-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .landing-back {
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-container">
+    <header class="landing-header">
+      <a href="/" class="landing-logo">
+        <img src="/apple-touch-icon.png" alt="Apaga Luz" class="landing-logo-icon">
+        <span>Apaga Luz</span>
+      </a>
+
+      <a href="/" class="landing-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver a la página principal
+      </a>
+    </header>
+
+    <section class="landing-hero">
+      <div class="landing-hero-content">
+        <h1 class="landing-hero-title">Reduce tu factura de luz hasta un 30% sin cambiar tus hábitos</h1>
+
+        <p class="landing-hero-subtitle">
+          Cada mes, miles de hogares pagan de más por su electricidad sin saberlo. Nuestros expertos analizan tu consumo y te ayudan a encontrar la mejor tarifa para ti.
+        </p>
+
+        <div class="landing-hero-benefits">
+          <div class="landing-benefit">
+            <svg class="landing-benefit-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+            <p class="landing-benefit-text"><strong>Ahorro garantizado</strong></p>
+          </div>
+
+          <div class="landing-benefit">
+            <svg class="landing-benefit-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+            <p class="landing-benefit-text"><strong>Servicio gratuito</strong></p>
+          </div>
+
+          <div class="landing-benefit">
+            <svg class="landing-benefit-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+            <p class="landing-benefit-text"><strong>Análisis personalizado</strong> de tu consumo actual</p>
+          </div>
+
+          <div class="landing-benefit">
+            <svg class="landing-benefit-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+            <p class="landing-benefit-text"><strong>Sin permanencia ni letra pequeña</strong>, solo ahorro real</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-form">
+      <div class="landing-form-container">
+        <div class="landing-form-header">
+          <h2 class="landing-form-title">¡Comienza a ahorrar ahora!</h2>
+          <p class="landing-form-subtitle">Completa el formulario y recibe tu análisis personalizado</p>
+        </div>
+
+        <div class="landing-form-content">
+          <div class="container-form">
+            <form
+              id="formulario-ahorro"
+              enctype="multipart/form-data"
+              class="form-ahorro formcarryForm"
+              action="https://formcarry.com/s/X0IhNkEysKd"
+              method="post"
+            >
+              <input type="hidden" name="_subject" value="Apaga Luz Lead">
+
+              <div class="form-grid">
+                <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-name" class="form-label">Nombre y apellidos <span class="required">*</span></label>
+                  <input type="text" id="fc-generated-1-name" name="nombre" required class="form-input" placeholder="Escribe tu nombre completo">
+                </div>
+
+                <div class="form-group formcarry-block">
+                  <label for="fc-generated-1-email" class="form-label">Email <span class="required">*</span></label>
+                  <input type="email" id="fc-generated-1-email" name="email" required class="form-input" placeholder="tu@email.com">
+                </div>
+              </div>
+
+              <div class="form-group formcarry-block">
+                <label for="fc-generated-1-telephone" class="form-label">Teléfono <span class="form-label-hint">(para contactarte más rápido)</span></label>
+                <input type="tel" id="fc-generated-1-telephone" name="telefono" class="form-input" placeholder="Ej: 666 123 456">
+              </div>
+
+              <div class="form-group formcarry-block">
+                <label for="fc-generated-1-single-file" class="form-label">
+                  <span class="form-label-with-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="form-icon">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Sube tu factura de luz
+                    <span class="form-label-hint">(opcional)</span>
+                  </span>
+                </label>
+                <div class="form-file-container">
+                  <input type="file" id="fc-generated-1-single-file" name="single file" class="form-file">
+                  <div class="file-info" id="file-info">No se ha seleccionado ningún archivo.</div>
+                </div>
+              </div>
+
+              <div class="form-group formcarry-block">
+                <label for="fc-generated-1-message" class="form-label">Mensaje <span class="form-label-hint">(opcional)</span></label>
+                <textarea id="fc-generated-1-message" name="mensaje" rows="3" class="form-textarea" placeholder="Cuéntanos sobre tu consumo, tus horarios o cualquier duda..."></textarea>
+              </div>
+
+              <div class="g-recaptcha" data-sitekey="6LeAfgErAAAAAFWLL8fkYBJMD3WIFapreCXveguJ"></div>
+
+              <div class="form-check formcarry-block">
+                <input type="checkbox" id="privacidad" name="privacidad" required class="form-checkbox">
+                <label for="privacidad" class="form-check-label">
+                  Sí, acepto la <a href="https://plenoahorro.com/politicas-de-privacidad/" class="form-link">política de privacidad</a>.
+                </label>
+              </div>
+
+              <button type="submit" class="form-button">
+                <span class="form-button-text">¡QUIERO AHORRAR AHORA!</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="form-button-icon">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+
+              <div class="form-guarantee">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="form-guarantee-icon">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+                <span>Tu información está segura y nunca será compartida.</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-testimonials">
+      <h2 class="landing-section-title">Lo que dicen nuestros clientes</h2>
+
+      <div class="landing-testimonials-grid">
+        <div class="landing-testimonial">
+          <div class="landing-testimonial-quote">"</div>
+          <p class="landing-testimonial-text">Conseguí ahorrar casi 240€ al año. El proceso fue muy sencillo y me atendieron enseguida. Muy recomendable.</p>
+          <div class="landing-testimonial-author">
+            <div class="landing-testimonial-avatar">MG</div>
+            <div>
+              <div class="landing-testimonial-name">María González</div>
+              <div class="landing-testimonial-location">Madrid</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="landing-testimonial">
+          <div class="landing-testimonial-quote">"</div>
+          <p class="landing-testimonial-text">Llevaba años pagando tarifas excesivas. Gracias a su asesoramiento, ahora pago un 27% menos y entiendo mejor mi consumo.</p>
+          <div class="landing-testimonial-author">
+            <div class="landing-testimonial-avatar">JR</div>
+            <div>
+              <div class="landing-testimonial-name">Juan Rodríguez</div>
+              <div class="landing-testimonial-location">Barcelona</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="landing-testimonial">
+          <div class="landing-testimonial-quote">"</div>
+          <p class="landing-testimonial-text">Al principio era escéptica, pero después de cambiar de tarifa según sus recomendaciones, mi factura se redujo considerablemente.</p>
+          <div class="landing-testimonial-author">
+            <div class="landing-testimonial-avatar">LS</div>
+            <div>
+              <div class="landing-testimonial-name">Laura Sánchez</div>
+              <div class="landing-testimonial-location">Valencia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-steps">
+      <h2 class="landing-section-title">¿Cómo funciona?</h2>
+
+      <div class="landing-steps-grid">
+        <div class="landing-step">
+          <div class="landing-step-number">1</div>
+          <h3 class="landing-step-title">Envíanos tus datos</h3>
+          <p class="landing-step-description">Completa el formulario con tus datos básicos y, si es posible, adjunta tu última factura para un análisis más preciso.</p>
+        </div>
+
+        <div class="landing-step">
+          <div class="landing-step-number">2</div>
+          <h3 class="landing-step-title">Analizamos tu consumo</h3>
+          <p class="landing-step-description">Nuestros expertos estudian tu perfil de consumo y comparan las mejores tarifas del mercado adaptadas a tus necesidades.</p>
+        </div>
+
+        <div class="landing-step">
+          <div class="landing-step-number">3</div>
+          <h3 class="landing-step-title">Comienza a ahorrar</h3>
+          <p class="landing-step-description">Te enviamos una propuesta personalizada con las mejores opciones para reducir tu factura. Tú decides si quieres implementarla.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Manejar archivos subidos
+      const fileInput = document.getElementById('fc-generated-1-single-file');
+      const fileInfo = document.getElementById('file-info');
+      const fileContainer = document.querySelector('.form-file-container');
+
+      if (fileInput && fileInfo) {
+        fileInput.addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+            const fileName = this.files[0].name;
+            fileInfo.innerHTML = `<span style="color: #ec7f00; font-weight: 600;">✓ Archivo seleccionado:</span> ${fileName}`;
+            fileContainer.style.borderColor = '#a2fcc1';
+            fileContainer.style.backgroundColor = 'rgba(162, 252, 193, 0.1)';
+          } else {
+            fileInfo.textContent = 'No se ha seleccionado ningún archivo.';
+            fileContainer.style.borderColor = 'rgba(236, 127, 0, 0.3)';
+            fileContainer.style.backgroundColor = 'rgba(236, 127, 0, 0.05)';
+          }
+        });
+
+        fileContainer.addEventListener('click', function(e) {
+          if (e.target !== fileInput) {
+            fileInput.click();
+          }
+        });
+      }
+
+      // Animación de las FAQ
+      const faqItems = document.querySelectorAll('.landing-faq-item');
+
+      faqItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const isOpen = this.hasAttribute('open');
+
+          // Cerrar todos los elementos
+          faqItems.forEach(faq => {
+            faq.removeAttribute('open');
+          });
+
+          // Si el elemento estaba cerrado, abrirlo
+          if (!isOpen) {
+            this.setAttribute('open', '');
+          }
+        });
+      });
+
+      // Track conversión al enviar el formulario
+      const form = document.getElementById('formulario-ahorro');
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          // Aquí se puede añadir código para tracking de conversiones
+          console.log('Formulario enviado - conversión registrada');
+
+          const submitButton = this.querySelector('.form-button');
+          if (submitButton) {
+            submitButton.innerHTML = '<span class="form-button-text">Enviando...</span>';
+            submitButton.disabled = true;
+          }
+        });
+      }
+
+      // Función para hacer scroll suave a las secciones
+      const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop - 20,
+            behavior: 'smooth'
+          });
+        }
+      };
+
+      // Configurar los enlaces para scroll suave
+      const ctaButtons = document.querySelectorAll('[data-scroll-to]');
+
+      ctaButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('data-scroll-to');
+          scrollToSection(targetId);
+        });
+      });
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-E9V8ZPM3P0');
+  </script>
+</body>
+</html>
