@@ -1,0 +1,153 @@
+/* Estilos para la página de horas más baratas */
+.cheapest-hours-display {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: var(--grey);
+  border-radius: 8px;
+}
+
+.tariff-blocks-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.tariff-block {
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.tariff-valle {
+  background-color: var(--green-light);
+  border-left: 5px solid var(--green);
+}
+
+.tariff-llano {
+  background-color: var(--orange-light);
+  border-left: 5px solid var(--orange);
+}
+
+.tariff-punta {
+  background-color: var(--red-light);
+  border-left: 5px solid var(--red);
+}
+
+.tariff-block h3 {
+  margin-top: 0;
+  font-family: var(--numbers);
+  font-size: 1.2rem;
+}
+
+.strategies-container {
+  margin: 1.5rem 0;
+}
+
+.strategy-item {
+  margin-bottom: 2rem;
+}
+
+.consumption-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.consumption-table th,
+.consumption-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--grey);
+}
+
+.consumption-table th {
+  background-color: var(--blue);
+  color: var(--white);
+  font-family: var(--numbers);
+  font-weight: normal;
+}
+
+.consumption-table tr:nth-child(even) {
+  background-color: var(--grey);
+}
+
+.savings-calculator {
+  text-align: center;
+}
+
+.savings-examples {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.savings-example {
+  padding: 1rem;
+  background-color: var(--grey);
+  border-radius: 4px;
+}
+
+.savings-example h4 {
+  margin-top: 0;
+  font-family: var(--numbers);
+}
+
+.tariff-comparison {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.tariff-type {
+  background-color: var(--white);
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.resource-card {
+  display: block;
+  padding: 1.25rem;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--blue);
+  transition: transform 0.2s ease-in-out;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+}
+
+.resource-card h3 {
+  margin-top: 0;
+  font-family: var(--numbers);
+  font-size: 1.2rem;
+}
+
+.resource-card p {
+  margin-bottom: 0;
+  color: var(--black);
+}
+
+@media only screen and (min-width: 48rem) {
+
+  .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
