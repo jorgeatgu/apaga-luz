@@ -466,37 +466,8 @@ details[open] {
   }
 }
 
-.menu {
-  background: none;
-  padding: 1rem;
-  text-align: center;
-}
-
-.menu-container {
-  background: var(--white);
-  padding: 1rem;
-  margin: 0 auto;
-  width: max-content;
-  border-radius: 4px;
-  box-shadow: var(--shadow);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .bg-green-light {
   background-color: var(--green-light);
-}
-
-.menu-element {
-  font-family: var(--numbers);
-  text-decoration: none;
-  color: var(--blue);
-  padding: .5rem;
-  text-transform: uppercase;
-  &:hover {
-    color: #333;
-    text-decoration: underline;
-  }
 }
 
 .btn-whatsapp {
@@ -778,7 +749,7 @@ details[open] {
 }
 
 #ad-container {
-  display: !important;
+  display: block !important;
   min-height: 400px !important;
   background-color: #f9f9f9;
 }
@@ -815,19 +786,19 @@ details[open] {
 .best-hours-usage-item h3,
 .planning-item h3 {
   font-family: var(--numbers);
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   font-size: 1.2rem;
 }
 
 .best-hours-usage-item ul,
 .planning-item ul {
   padding-left: 1.5rem;
-  margin-top: 0.5rem;
+  margin-top: .5rem;
 }
 
 .best-hours-usage-item li,
 .planning-item li {
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   font-family: var(--text);
   line-height: 1.4;
 }

@@ -60,7 +60,7 @@
 
 .consumption-table th,
 .consumption-table td {
-  padding: 0.8rem;
+  padding: .8rem;
   text-align: left;
   border-bottom: 1px solid var(--grey);
 }
@@ -127,7 +127,7 @@
   box-shadow: var(--shadow);
   text-decoration: none;
   color: var(--blue);
-  transition: transform 0.2s ease-in-out;
+  transition: transform .2s ease-in-out;
 }
 
 .resource-card:hover {

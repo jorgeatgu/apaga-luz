@@ -1,29 +1,28 @@
-/* Estilos para el botón CTA con mensaje integrado */
 .ahorro-cta-container {
   position: relative;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12), 0 2px 8px rgba(0, 0, 0, .08);
   padding: 1.5rem;
   margin: 2rem 0;
   overflow: hidden;
   border-top: 5px solid #ec7f00;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .ahorro-cta-container:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .15), 0 6px 12px rgba(0, 0, 0, .1);
 }
 
-.ahorro-cta-container::before {
+.ahorro-cta-container:before {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
   width: 150px;
   height: 150px;
-  background: linear-gradient(135deg, rgba(255, 174, 58, 0.2) 0%, rgba(255, 174, 58, 0) 60%);
+  background: linear-gradient(135deg, rgba(255, 174, 58, .2) 0%, rgba(255, 174, 58, 0) 60%);
   border-radius: 0 0 0 150px;
   z-index: 0;
 }
@@ -40,7 +39,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background-color: rgba(236, 127, 0, 0.1);
+  background-color: rgba(236, 127, 0, .1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,22 +51,21 @@
   flex-grow: 1;
 }
 
-/* Integración de marcas en el encabezado */
 .ahorro-cta-brands {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
 }
 
 .ahorro-cta-brand-logo {
   width: 24px;
   height: 24px;
-  margin-right: 0.75rem;
+  margin-right: .75rem;
   flex-shrink: 0;
 }
 
 .ahorro-cta-heading {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 .5rem;
   font-family: var(--text);
   font-size: 1.25rem;
   font-weight: 600;
@@ -98,26 +96,26 @@
   color: white;
   font-family: var(--numbers);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: .9rem;
   text-decoration: none;
-  padding: 0.8rem 1.25rem;
+  padding: .8rem 1.25rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(236, 127, 0, 0.2);
+  transition: all .3s ease;
+  box-shadow: 0 4px 6px rgba(236, 127, 0, .2);
   white-space: nowrap;
   margin-left: 1rem;
 }
 
 .ahorro-cta-button svg {
-  margin-left: 0.5rem;
-  transition: transform 0.3s ease;
+  margin-left: .5rem;
+  transition: transform .3s ease;
 }
 
 .ahorro-cta-button:hover {
   background-color: #d97000;
-  box-shadow: 0 6px 10px rgba(236, 127, 0, 0.3);
+  box-shadow: 0 6px 10px rgba(236, 127, 0, .3);
 }
 
 .ahorro-cta-button:hover svg {
@@ -130,23 +128,22 @@
   right: 2rem;
   background-color: #ec7f00;
   color: white;
-  font-size: 0.75rem;
+  font-size: .75rem;
   font-weight: 700;
-  padding: 0.25rem 0.75rem 0.35rem;
+  padding: .25rem .75rem .35rem;
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
   font-family: var(--numbers);
 }
 
 .ahorro-cta-trust {
-  margin-top: 0.75rem;
+  margin-top: .75rem;
   text-align: right;
-  font-size: 0.8rem;
+  font-size: .8rem;
   color: #666;
   font-style: italic;
 }
 
-/* Responsive */
 @media only screen and (max-width: 960px) {
   .ahorro-cta-content {
     flex-wrap: wrap;
@@ -202,15 +199,14 @@
   }
 
   .ahorro-cta-description {
-    font-size: 0.9rem;
+    font-size: .9rem;
   }
 
   .ahorro-cta-button {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: .75rem 1rem;
   }
 }
-/* Estilos mejorados para el formulario CTA */
 .formulario-ahorro-wrapper {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
@@ -227,7 +223,6 @@
   transform: translateY(-2px);
 }
 
-/* Mejoras al encabezado del formulario */
 .form-header {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, .05);
@@ -272,7 +267,6 @@
   line-height: 1.5;
 }
 
-/* Mejoras en los campos del formulario */
 .form-group {
   margin-bottom: 1.25rem;
 }
@@ -355,7 +349,6 @@
   color: #666;
 }
 
-/* Sección de beneficios */
 .form-benefits {
   background-color: rgba(162, 252, 193, .2);
   border-radius: 8px;
@@ -383,7 +376,6 @@
   color: #333;
 }
 
-/* Mejora del botón de envío */
 .form-button {
   background-color: #ec7f00;
   color: white;
@@ -446,7 +438,6 @@
   transform: translateX(4px);
 }
 
-/* Checkbox y garantía */
 .form-check {
   display: flex;
   align-items: flex-start;
@@ -491,7 +482,6 @@
   color: var(--blue);
 }
 
-/* Media queries para responsive */
 @media only screen and (max-width: 767px) {
   .form-subtitle-text {
     font-size: 1.5rem;

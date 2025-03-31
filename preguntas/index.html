@@ -16,15 +16,48 @@
   <link rel="manifest" href="/site.webmanifest">s
 </head>
 <body class="bg-secondary">
-  <header>
-    <nav class="menu">
-      <div class="menu-container">
-        <a class="menu-element menu-root" href="/">Inicio</a>
-        <a class="menu-element" href="/precio-luz-manana/">Precio de la luz mañana</a>
-        <a class="menu-element" href="/graficas/">Gráficas</a>
-        <a class="menu-element" href="/noticias/">noticias</a>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-identity">
+        <a href="/" class="site-logo">
+          <img src="/apple-touch-icon.png" alt="Apaga Luz" class="logo-image">
+          <span class="site-name">Apaga Luz</span>
+        </a>
       </div>
-    </nav>
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <nav class="site-navigation">
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="/" class="nav-link active">Inicio</a></li>
+          <li class="nav-item"><a href="/precio-luz-manana/" class="nav-link">Precio mañana</a></li>
+          <li class="nav-item has-dropdown">
+            <a href="#" class="nav-link dropdown-toggle">
+              Precios por horas
+              <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/horas-baratas-luz/" class="dropdown-item">Horas más baratas</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="/graficas/" class="nav-link">Gráficas</a></li>
+          <li class="nav-item"><a href="/noticias/" class="nav-link">Blog</a></li>
+          <li class="nav-item cta-container">
+            <a href="/ahorra-en-tu-factura" class="cta-button">
+              <span>REDUCIR MI FACTURA</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
   <main>
     <section>

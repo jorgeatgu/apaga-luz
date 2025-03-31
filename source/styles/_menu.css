@@ -1,0 +1,270 @@
+.site-header {
+  background-color: #fff;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.site-identity {
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--blue);
+}
+
+.logo-image {
+  width: 32px;
+  height: 32px;
+  margin-right: .5rem;
+}
+
+.site-name {
+  font-family: var(--numbers);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 6px;
+  cursor: pointer;
+  z-index: 10;
+  order: 3;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--blue);
+  transition: all .3s;
+}
+
+.site-navigation {
+  width: 100%;
+  order: 4;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .5s ease-in-out;
+  margin-top: .75rem;
+}
+
+.menu-open .site-navigation {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.menu-open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.menu-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  margin-bottom: .5rem;
+  position: relative;
+}
+
+.nav-link {
+  font-family: var(--numbers);
+  color: var(--blue);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: .9rem;
+  padding: .75rem 1rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(2, 30, 92, .02);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(2, 30, 92, .05);
+}
+
+.dropdown-icon {
+  transition: transform .3s;
+}
+
+.has-dropdown.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease-in-out;
+}
+
+.has-dropdown.open .dropdown-menu {
+  max-height: 200px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: .6rem 1rem .6rem 2rem;
+  color: var(--blue);
+  text-decoration: none;
+  font-size: .85rem;
+  transition: background-color .2s;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(2, 30, 92, .02);
+}
+
+.cta-container {
+  margin-top: .5rem;
+}
+
+.cta-button {
+  background-color: #ec7f00;
+  color: white;
+  font-family: var(--numbers);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: .85rem;
+  padding: .75rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s;
+}
+
+.cta-button svg {
+  margin-left: .5rem;
+  transition: transform .2s;
+}
+
+.cta-button:hover {
+  background-color: #d97000;
+}
+
+.cta-button:hover svg {
+  transform: translateX(3px);
+}
+
+@media (min-width: 992px) {
+  .header-container {
+    flex-wrap: nowrap;
+    padding: .75rem 1.5rem;
+  }
+
+  .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .site-name {
+    font-size: 1.25rem;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-navigation {
+    order: 2;
+    flex: 1;
+    max-height: none;
+    overflow: visible;
+    margin-top: 0;
+  }
+
+  .nav-menu {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nav-item {
+    margin: 0 .25rem;
+    margin-bottom: 0;
+  }
+
+  .nav-link {
+    padding: .5rem .75rem;
+    background-color: transparent;
+    justify-content: center;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 200px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all .2s;
+    padding: .5rem 0;
+    z-index: 10;
+    max-height: none;
+  }
+
+  .has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-item {
+    padding: .5rem 1rem;
+  }
+
+  .cta-container {
+    margin-top: 0;
+    margin-left: .5rem;
+  }
+
+  .cta-button {
+    white-space: nowrap;
+  }
+}
