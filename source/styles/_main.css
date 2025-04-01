@@ -809,3 +809,9 @@ details[open] {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  body {
+    padding-top: 5.5rem;
+  }
+}
