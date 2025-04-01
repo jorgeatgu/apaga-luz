@@ -24,6 +24,7 @@ export default defineConfig({
         'ahorra-en-tu-factura': 'ahorra-en-tu-factura/index.html',
         'companias-electricas-mas-baratas-2025': 'noticias/companias-electricas-mas-baratas-2025/index.html',
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
+        'tipos-tarifas-electricas': 'tipos-tarifas-electricas/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       },
