@@ -22,8 +22,8 @@ export default defineConfig({
         'mejor-comercializadora-pvpc': 'noticias/mejor-comercializadora-pvpc/index.html',
         'comparador-tarifas-luz-y-gas': 'noticias/comparador-tarifas-luz-y-gas/index.html',
         'ahorra-en-tu-factura': 'ahorra-en-tu-factura/index.html',
+        'companias-electricas-mas-baratas-2025': 'noticias/companias-electricas-mas-baratas-2025/index.html',
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
-        'companias-electricas-mas-baratas-2025': 'companias-electricas-mas-baratas-2025/index.html',
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html'
       },
