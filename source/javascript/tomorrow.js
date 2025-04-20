@@ -10,20 +10,37 @@ at 20:30 I publish the next day's data,
 this table will only be available until 00:00.
 */
 
+const today = new Date();
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const options = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+};
+const formattedDate = tomorrow.toLocaleDateString('es-ES', options);
+
+// Actualizar todos los elementos que muestran la fecha
+document.querySelectorAll('.tomorrow-date').forEach(element => {
+  element.textContent = formattedDate;
+});
+
+// Actualizar timestamp de última actualización
+const now = new Date();
+const hours = String(now.getHours()).padStart(2, '0');
+const minutes = String(now.getMinutes()).padStart(2, '0');
+document.querySelectorAll('.last-update-time').forEach(element => {
+  element.textContent = `${hours}:${minutes}`;
+});
+
 let user_hour = new Date().getHours();
 let user_minutes = new Date().getMinutes();
 user_hour = user_hour < 10 ? `0${user_hour}` : user_hour;
 user_minutes = user_minutes < 10 ? `0${user_minutes}` : user_minutes;
 const EIGHT_TWENTY = 1220;
 const QUARTER_PAST_ONE = 790;
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-
-const options = {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric'
-};
 
 const get_day_from_data_omie = +data_tomorrow_omie[0].day;
 const get_month_from_data_omie = +data_tomorrow_omie[0].month;

@@ -508,26 +508,6 @@
       attributeFilter: ['style']
     });
 
-    // Actualizar automáticamente la fecha
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = tomorrow.toLocaleDateString('es-ES', options);
-
-    // Actualizar todos los elementos que muestran la fecha
-    document.querySelectorAll('.tomorrow-date').forEach(element => {
-      element.textContent = formattedDate;
-    });
-
-    // Actualizar timestamp de última actualización
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    document.querySelectorAll('.last-update-time').forEach(element => {
-      element.textContent = `${hours}:${minutes}`;
-    });
   });
   </script>
   <link rel="preload" href="/source/fonts/fjalla-one-v12-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -652,7 +632,10 @@
             Si quieres comparar los precios de mañana con los actuales, consulta el <a href="/">precio de la luz hoy hora a hora</a>. También te puede interesar conocer más sobre <a href="/noticias/mejor-comercializadora-pvpc/">las mejores comercializadoras PVPC</a> para optimizar tu tarifa.
           </p>
 
-          <h2 id="warning-tomorrow-data" class="post-warning post-warning-orange">Precios de la luz para mañana, <span class="tomorrow-date">viernes, 19 de abril de 2025</span></h2>
+          <h2 class="post-warning post-warning-orange" id="warning-tomorrow-data"></h2>
+
+          <h4 id="table-next-day-data" class="sponsor-card" style="display: none"></h4>
+
 
           <div id="ad-container">
             <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
