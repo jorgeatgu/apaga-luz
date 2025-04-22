@@ -26,6 +26,7 @@ export default defineConfig({
         'como-afecta-tarifa-por-horas-a-tu-factura': 'noticias/como-afecta-tarifa-por-horas-a-tu-factura/index.html',
         'franjas-horarias-luz-hoy': 'noticias/franjas-horarias-luz-hoy/index.html',
         'luz-barata-2025': 'noticias/luz-barata-2025/index.html',
+        'precio-luz-horas-ahorrar-factura-energetica': 'noticias/precio-luz-horas-ahorrar-factura-energetica/index.html',
         'ofertas-luz-2025': 'noticias/ofertas-luz-2025/index.html',
         'comparador-luz-2025-elige-la-mejor-tarifa': 'noticias/comparador-luz-2025-elige-la-mejor-tarifa/index.html',
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
