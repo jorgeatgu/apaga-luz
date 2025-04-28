@@ -28,6 +28,8 @@ export default defineConfig({
         'luz-barata-2025': 'noticias/luz-barata-2025/index.html',
         'precio-luz-horas-ahorrar-factura-energetica': 'noticias/precio-luz-horas-ahorrar-factura-energetica/index.html',
         'ofertas-luz-2025': 'noticias/ofertas-luz-2025/index.html',
+        'guia-apagon-prologando': 'noticias/guia-apagon-prologando/index.html',
+        'sistemas-respaldo-electrico': 'noticias/sistemas-respaldo-electrico/index.html',
         'comparador-luz-2025-elige-la-mejor-tarifa': 'noticias/comparador-luz-2025-elige-la-mejor-tarifa/index.html',
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
         'tipos-tarifas-electricas': 'tipos-tarifas-electricas/index.html',
