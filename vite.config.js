@@ -31,6 +31,8 @@ export default defineConfig({
         'guia-apagon-prolongado': 'noticias/guia-apagon-prolongado/index.html',
         'sistemas-respaldo-electrico': 'noticias/sistemas-respaldo-electrico/index.html',
         'comparador-luz-2025-elige-la-mejor-tarifa': 'noticias/comparador-luz-2025-elige-la-mejor-tarifa/index.html',
+        'iva-factura-electrica': 'noticias/iva-factura-electrica/index.html',
+        'bono-electrico-guia-completa': 'noticias/bono-electrico-guia-completa/index.html',
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
         'tipos-tarifas-electricas': 'tipos-tarifas-electricas/index.html',
         graficas: 'graficas/index.html',
