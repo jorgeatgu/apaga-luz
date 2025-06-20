@@ -1,0 +1,28 @@
+name: flat-tomorrow
+on:
+  schedule:
+    - cron: 22 18 * * *
+  workflow_dispatch:
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: |
+          echo "date_tomorrow=$(date -d "tomorrow" +'%d-%m-%Y')" >> $GITHUB_OUTPUT
+      - name: Setup deno
+        uses: denoland/setup-deno@main
+        with:
+          deno-version: v1.x
+      - name: Check out repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Flat Data
+        uses: githubocto/flat@3.4.0
+        with:
+          http_url: https://api.esios.ree.es/indicators/1001?start_date=2025-06-21T00%3A00%3A00%2B02%3A00&end_date=2025-06-21T23%3A55%3A00%2B02%3A00&geo_ids[]=8741&geo_agg=sum&locale=es
+          downloaded_filename: public/data/price_test.json
+          authorization: ${{ secrets.API_KEY }}
+          postprocess: test.js
