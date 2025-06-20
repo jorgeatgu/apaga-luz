@@ -23,17 +23,19 @@ function createZone(hour) {
 function transformPriceData() {
   const values = json.indicator.values;
 
-
   // Transformar cada valor al formato deseado
   transformedData = values.map(item => {
-    // Extraer fecha y hora del datetime
-    const datetime = new Date(item.datetime);
-    const day = datetime.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    const hour = datetime.getHours();
+    // Extraer fecha y hora del datetime usando regex para evitar problemas de zona horaria
+    const datetimeStr = item.datetime;
+    const dateMatch = datetimeStr.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):/);
+
+    if (!dateMatch) {
+      throw new Error(`Formato de fecha inválido: ${datetimeStr}`);
+    }
+
+    const [, year, month, dayOfMonth, hourStr] = dateMatch;
+    const day = `${dayOfMonth}/${month}/${year}`;
+    const hour = parseInt(hourStr, 10);
 
     // Convertir precio de €/MWh a €/kWh (dividir entre 1000)
     const price = Math.round((item.value / 1000) * 1000) / 1000; // Redondear a 3 decimales
@@ -51,5 +53,5 @@ function transformPriceData() {
 
 }
 
-const newFilename = 'public/data/test_new_price.json';
+const newFilename = 'public/data/tomorrow_price.json';
 await writeJSON(newFilename, transformedData)
