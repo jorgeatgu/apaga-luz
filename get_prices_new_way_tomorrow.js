@@ -1,6 +1,6 @@
 import { readJSON, writeJSON } from 'https://deno.land/x/flat@0.0.10/src/json.ts'
 
-const filename = 'public/data/price_test.json';
+const filename = 'public/data/price.json';
 const json = await readJSON(filename)
 let transformedData
 
