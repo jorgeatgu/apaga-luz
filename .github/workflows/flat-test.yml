@@ -1,4 +1,4 @@
-name: flat-tomorrow
+name: flat-test
 on:
   schedule:
     - cron: 22 18 * * *
@@ -22,7 +22,7 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@3.4.0
         with:
-          http_url: https://api.esios.ree.es/indicators/1001?start_date=2025-06-21T00%3A00%3A00%2B02%3A00&end_date=2025-06-21T23%3A55%3A00%2B02%3A00&geo_ids[]=8741&geo_agg=sum&locale=es
+          http_url: https://gist.githubusercontent.com/jorgeatgu/05b5bd1e14fe3dcfb9f19d7523ec016e/raw/9c1990e277ef8b9d2d637622d57de4e1428af68d/.json
           downloaded_filename: public/data/price_test.json
           authorization: ${{ secrets.API_KEY }}
           postprocess: test.js
