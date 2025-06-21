@@ -20,7 +20,7 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@3.4.0
         with:
-          http_url: https://gist.githubusercontent.com/jorgeatgu/05b5bd1e14fe3dcfb9f19d7523ec016e/raw/9c1990e277ef8b9d2d637622d57de4e1428af68d/.json
+          http_url: https://gist.githubusercontent.com/jorgeatgu/05b5bd1e14fe3dcfb9f19d7523ec016e/raw/8d8c30557d919139e5987b957314be895613ff43/.json
           downloaded_filename: public/data/price.json
           authorization: ${{ secrets.API_KEY }}
           postprocess: get_prices_new_way_canary.js
