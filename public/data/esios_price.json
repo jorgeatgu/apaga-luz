@@ -1,0 +1,223 @@
+{
+  "indicator": {
+    "name": "Término de facturación de energía activa del PVPC 2.0TD",
+    "short_name": "PVPC T. 2.0TD",
+    "id": 1001,
+    "composited": false,
+    "step_type": "linear",
+    "disaggregated": true,
+    "magnitud": [
+      {
+        "name": "Precio €/MWh",
+        "id": 23
+      }
+    ],
+    "tiempo": [
+      {
+        "name": "Hora",
+        "id": 4
+      }
+    ],
+    "geos": [
+      {
+        "geo_id": 8741,
+        "geo_name": "Península"
+      }
+    ],
+    "values_updated_at": "2025-06-22T20:16:45.000+02:00",
+    "values": [
+      {
+        "value": 149.18,
+        "datetime": "2025-06-23T00:00:00.000+02:00",
+        "datetime_utc": "2025-06-22T22:00:00Z",
+        "tz_time": "2025-06-22T22:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 145.78,
+        "datetime": "2025-06-23T01:00:00.000+02:00",
+        "datetime_utc": "2025-06-22T23:00:00Z",
+        "tz_time": "2025-06-22T23:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 140.94,
+        "datetime": "2025-06-23T02:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T00:00:00Z",
+        "tz_time": "2025-06-23T00:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 138.7,
+        "datetime": "2025-06-23T03:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T01:00:00Z",
+        "tz_time": "2025-06-23T01:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 138.22,
+        "datetime": "2025-06-23T04:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T02:00:00Z",
+        "tz_time": "2025-06-23T02:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 137.35,
+        "datetime": "2025-06-23T05:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T03:00:00Z",
+        "tz_time": "2025-06-23T03:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 145.21,
+        "datetime": "2025-06-23T06:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T04:00:00Z",
+        "tz_time": "2025-06-23T04:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 147.86,
+        "datetime": "2025-06-23T07:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T05:00:00Z",
+        "tz_time": "2025-06-23T05:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 160.66,
+        "datetime": "2025-06-23T08:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T06:00:00Z",
+        "tz_time": "2025-06-23T06:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 144.27,
+        "datetime": "2025-06-23T09:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T07:00:00Z",
+        "tz_time": "2025-06-23T07:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 199.19,
+        "datetime": "2025-06-23T10:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T08:00:00Z",
+        "tz_time": "2025-06-23T08:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 180.96,
+        "datetime": "2025-06-23T11:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T09:00:00Z",
+        "tz_time": "2025-06-23T09:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 176.0,
+        "datetime": "2025-06-23T12:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T10:00:00Z",
+        "tz_time": "2025-06-23T10:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 172.66,
+        "datetime": "2025-06-23T13:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T11:00:00Z",
+        "tz_time": "2025-06-23T11:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 92.97,
+        "datetime": "2025-06-23T14:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T12:00:00Z",
+        "tz_time": "2025-06-23T12:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 107.5,
+        "datetime": "2025-06-23T15:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T13:00:00Z",
+        "tz_time": "2025-06-23T13:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 108.72,
+        "datetime": "2025-06-23T16:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T14:00:00Z",
+        "tz_time": "2025-06-23T14:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 129.49,
+        "datetime": "2025-06-23T17:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T15:00:00Z",
+        "tz_time": "2025-06-23T15:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 218.66,
+        "datetime": "2025-06-23T18:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T16:00:00Z",
+        "tz_time": "2025-06-23T16:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 233.91,
+        "datetime": "2025-06-23T19:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T17:00:00Z",
+        "tz_time": "2025-06-23T17:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 246.48,
+        "datetime": "2025-06-23T20:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T18:00:00Z",
+        "tz_time": "2025-06-23T18:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 313.33,
+        "datetime": "2025-06-23T21:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T19:00:00Z",
+        "tz_time": "2025-06-23T19:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 226.07,
+        "datetime": "2025-06-23T22:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T20:00:00Z",
+        "tz_time": "2025-06-23T20:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      },
+      {
+        "value": 181.61,
+        "datetime": "2025-06-23T23:00:00.000+02:00",
+        "datetime_utc": "2025-06-23T21:00:00Z",
+        "tz_time": "2025-06-23T21:00:00.000Z",
+        "geo_id": 8741,
+        "geo_name": "Península"
+      }
+    ]
+  }
+}
