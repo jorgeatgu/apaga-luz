@@ -22,7 +22,7 @@ jobs:
       - name: Flat Data
         uses: githubocto/flat@3.4.0
         with:
-          http_url: https://www.apaga-luz.com/data/esios_price.json
+          http_url: https://api.esios.ree.es/archives/70/download_json
           downloaded_filename: public/data/price.json
           authorization: ${{ secrets.API_KEY }}
-          postprocess: get_prices_new_way_tomorrow.js
+          postprocess: tomorrow.js
