@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     outDir: 'build',
+    modulePreload: false,
     rollupOptions: {
       input: {
         main: 'index.html',
