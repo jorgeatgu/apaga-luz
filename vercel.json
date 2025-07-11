@@ -29,6 +29,27 @@
       }
     },
     {
+      "src": "/wp-includes/.*",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "WordPress paths not allowed"
+      }
+    },
+    {
+      "src": "/wp-admin/.*",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "WordPress paths not allowed"
+      }
+    },
+    {
+      "src": "/admin/.*",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Admin paths not allowed"
+      }
+    },
+    {
       "src": "/simple\\.php",
       "status": 403,
       "headers": {
