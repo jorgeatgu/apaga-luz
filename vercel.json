@@ -1,11 +1,5 @@
 {
-  "redirects": [
-    {
-      "source": "/noticias/novedades-precio-luz-manana/",
-      "destination": "/precio-luz-manana/",
-      "permanent": true
-    }
-  ],
+
   "routes": [
     {
       "src": "/moon\\.php",
