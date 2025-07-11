@@ -5,5 +5,93 @@
       "destination": "/precio-luz-manana/",
       "permanent": true
     }
+  ],
+  "routes": [
+    {
+      "src": "/moon\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/fm\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/wp-content/.*",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "WordPress paths not allowed"
+      }
+    },
+    {
+      "src": "/simple\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/modules/.*",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/file\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/css\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/cong\\.php",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "Malicious request detected"
+      }
+    },
+    {
+      "src": "/.*\\.php$",
+      "status": 403,
+      "headers": {
+        "X-Block-Reason": "PHP files not allowed"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
   ]
 }
