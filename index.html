@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
   <style>
+    /* Critical CSS - Optimized for Core Web Vitals */
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
       --numbers: 'Fjalla One', sans-serif;
@@ -40,6 +41,7 @@
       --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, .25);
     }
 
+    /* Optimized base styles */
     body,
     html {
       margin: 0;
@@ -48,30 +50,12 @@
       position: relative;
     }
 
-    .menu {
-      background: none;
-      padding: 1rem;
-      text-align: center;
+    body {
+      /* Prevent layout shifts */
+      min-height: 100vh;
     }
 
-    .menu-container {
-      background: var(--white);
-      padding: 1rem;
-      margin: 0 auto;
-      width: max-content;
-      border-radius: 4px;
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .menu-element {
-      text-decoration: none;
-      color: var(--blue);
-      padding: .5rem;
-      text-transform: uppercase;
-    }
-
+    /* Container optimizations for layout stability */
     .container-hour-datetime,
     .container-hour-price {
       font-family: var(--fontSystem);
@@ -83,10 +67,15 @@
       width: max-content;
       box-shadow: var(--shadow);
       min-height: 6rem;
+      /* Prevent layout shift with proper sizing */
+      contain: layout style;
     }
 
+    /* Reserve space to prevent CLS */
     .container-wrapper {
       min-height: 600px;
+      /* Isolate reflows */
+      contain: layout;
     }
 
     .container-table-price-left,
@@ -94,21 +83,21 @@
     .table-next-day-grid-left,
     .table-next-day-grid-right {
       min-height: 300px;
+      /* Prevent reflows from affecting parent */
+      contain: layout;
     }
 
+    /* Performance optimization for animations */
+    .container-table-price-element {
+      will-change: auto;
+    }
+
+    /* Reduce paint complexity */
+    .container-table-price-element:hover {
+      transform: translateZ(0);
+    }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const body = document.body;
-    const observer = new MutationObserver(() => {
-      body.style.padding = '';
-    });
-    observer.observe(body, {
-      attributes: true,
-      attributeFilter: ['style']
-    });
-  });
-  </script>
+  <!-- Removed inline script - moved to consolidated listener in main.js for better performance -->
 
   <script type="application/ld+json">
   {

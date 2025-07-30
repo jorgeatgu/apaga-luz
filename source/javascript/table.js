@@ -142,6 +142,8 @@ export function table_price_tomorrow(
 ) {
   const container = document.querySelector('.table-next-day');
   const table_grid = document.querySelector(element);
+  if (!container || !table_grid) return;
+
   let title;
 
   const today = new Date();
@@ -164,70 +166,78 @@ export function table_price_tomorrow(
     container.insertAdjacentHTML('afterbegin', title);
   }
 
+  // Use DocumentFragment for better performance
+  const fragment = document.createDocumentFragment();
+
   for (let element of data_hours) {
     const { price, hour, zone, tramo } = element;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-    const tramoCssClass = compensacion ? null : `tramo-${tramo}`;
+    const tramoCssClass = compensacion ? '' : `tramo-${tramo}`;
 
-    const block_hour = `<div class="container-table-price-element">
-      <span class="container-table-price-element-hour tramo-hidden ${zone} ${tramoCssClass}">
-        ${transform_hour}
-      </span>
-      <span class="container-table-price-element-price">
-        ${price} € kWh
-      </span>
-    </div>`;
+    // Create DOM elements for better performance
+    const blockDiv = document.createElement('div');
+    blockDiv.className = 'container-table-price-element';
 
-    table_grid.insertAdjacentHTML('beforeend', block_hour);
+    const hourSpan = document.createElement('span');
+    hourSpan.className = `container-table-price-element-hour tramo-hidden ${zone} ${tramoCssClass}`;
+    hourSpan.textContent = transform_hour;
+
+    const priceSpan = document.createElement('span');
+    priceSpan.className = 'container-table-price-element-price';
+    priceSpan.textContent = `${price} € kWh`;
+
+    blockDiv.appendChild(hourSpan);
+    blockDiv.appendChild(priceSpan);
+    fragment.appendChild(blockDiv);
   }
+
+  // Single DOM operation
+  table_grid.appendChild(fragment);
 }
 
 export function remove_table(element) {
+  // Optimized: Use innerHTML = '' instead of removeChild loop
   const container_table_ = document.querySelector(element);
-  while (container_table_.firstChild) {
-    container_table_.removeChild(container_table_.firstChild);
+  if (container_table_) {
+    container_table_.innerHTML = '';
   }
 }
 
 export function remove_tables() {
+  // Optimized: Use innerHTML = '' instead of removeChild loops
+  // This is significantly faster for clearing multiple elements
   const container_table_left = document.querySelector(
     '.container-table-price-left'
   );
   const container_table_right = document.querySelector(
     '.container-table-price-right'
   );
-  while (container_table_left.firstChild) {
-    container_table_left.removeChild(container_table_left.firstChild);
-  }
 
-  while (container_table_right.firstChild) {
-    container_table_right.removeChild(container_table_right.firstChild);
-  }
+  if (container_table_left) container_table_left.innerHTML = '';
+  if (container_table_right) container_table_right.innerHTML = '';
 }
 
 export function remove_tables_tomorrow() {
+  // Optimized: Use innerHTML = '' instead of removeChild loops
   const container_table_left = document.querySelector(
     '.table-next-day-grid-left'
   );
   const container_table_right = document.querySelector(
     '.table-next-day-grid-right'
   );
-  while (container_table_left.firstChild) {
-    container_table_left.removeChild(container_table_left.firstChild);
-  }
 
-  while (container_table_right.firstChild) {
-    container_table_right.removeChild(container_table_right.firstChild);
-  }
+  if (container_table_left) container_table_left.innerHTML = '';
+  if (container_table_right) container_table_right.innerHTML = '';
 }
 
 export function table_price(data_hours, element) {
   const container = document.querySelector(element);
+  if (!container) return;
+
   const get_value_checkbox_hours =
     document.getElementById('checkbox-hours').checked;
 
   const today = new Date();
-
   const options = {
     weekday: 'long',
     month: 'long',
@@ -236,7 +246,15 @@ export function table_price(data_hours, element) {
   };
 
   const getElementDate = document.getElementById('section-subtitle-date');
-  getElementDate.textContent = `${today.toLocaleDateString('es-ES', options)}`;
+  if (getElementDate) {
+    getElementDate.textContent = `${today.toLocaleDateString(
+      'es-ES',
+      options
+    )}`;
+  }
+
+  // Use DocumentFragment for better performance
+  const fragment = document.createDocumentFragment();
 
   for (let elements of data_hours) {
     const { price, hour, zone, hourHasPassed, tramo } = elements;
@@ -244,14 +262,23 @@ export function table_price(data_hours, element) {
     const hour_has_passed_class =
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
-    const block_hour = `<div class="${hour_has_passed_class} container-table-price-element">
-      <span class="container-table-price-element-hour tramo-hidden ${zone} tramo-${tramo}">
-        ${transform_hour}
-      </span>
-      <span class="container-table-price-element-price">
-        ${price} € kWh
-      </span>
-    </div>`;
-    container.insertAdjacentHTML('beforeend', block_hour);
+    // Create DOM elements instead of innerHTML for better performance
+    const blockDiv = document.createElement('div');
+    blockDiv.className = `${hour_has_passed_class} container-table-price-element`;
+
+    const hourSpan = document.createElement('span');
+    hourSpan.className = `container-table-price-element-hour tramo-hidden ${zone} tramo-${tramo}`;
+    hourSpan.textContent = transform_hour;
+
+    const priceSpan = document.createElement('span');
+    priceSpan.className = 'container-table-price-element-price';
+    priceSpan.textContent = `${price} € kWh`;
+
+    blockDiv.appendChild(hourSpan);
+    blockDiv.appendChild(priceSpan);
+    fragment.appendChild(blockDiv);
   }
+
+  // Single DOM operation
+  container.appendChild(fragment);
 }

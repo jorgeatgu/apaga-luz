@@ -1,4 +1,4 @@
-import data from '../../public/data/today_price.json';
+// Removed static import - data is now loaded dynamically in main.js
 
 export function reload_page(minutes) {
   const reload_page_minutes = 60 - minutes;
