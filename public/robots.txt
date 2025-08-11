@@ -1,2 +1,34 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Permitir acceso a recursos importantes para SEO
+Allow: /public/data/*.json
+Allow: /images/
+Allow: /*.css
+Allow: /*.js
+
+# Bloquear archivos innecesarios para crawlers
+Disallow: /node_modules/
+Disallow: /build/
+Disallow: /source/
+Disallow: /*.lock$
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+Disallow: /babel.config.json
+Disallow: /postcss.config.js
+Disallow: /vite.config.js
+Disallow: /vercel.json
+Disallow: /deno.lock
+Disallow: /test-*.html
+
+# Permitir específicamente Googlebot para datos estructurados
+User-agent: Googlebot
+Allow: /public/data/
+
+# Sitemap
+Sitemap: https://www.apaga-luz.com/sitemap.xml
+
+# Crawl-delay para bots menos importantes
+User-agent: *
+Crawl-delay: 1
