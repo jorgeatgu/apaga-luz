@@ -14,6 +14,19 @@ import {
   remove_tables_tomorrow
 } from './table.js';
 
+import { initNavigation } from './navigation.js';
+
+// Lazy load Web Vitals monitoring
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    import('./web-vitals.js').then(module => module.initWebVitals());
+  });
+} else {
+  setTimeout(() => {
+    import('./web-vitals.js').then(module => module.initWebVitals());
+  }, 2000);
+}
+
 // Performance-optimized main application
 class ApagaLuzApp {
   constructor() {
@@ -536,17 +549,23 @@ class ApagaLuzApp {
       'checkbox'
     );
 
-    // Bind events
+    // Bind events with passive option for better INP
     const orderPriceBtn = document.getElementById('order-price');
     const orderHourBtn = document.getElementById('order-hour');
     const checkboxHours = document.getElementById('checkbox-hours');
 
     if (orderPriceBtn)
-      orderPriceBtn.addEventListener('click', debouncedOrderByPrice);
+      orderPriceBtn.addEventListener('click', debouncedOrderByPrice, {
+        passive: true
+      });
     if (orderHourBtn)
-      orderHourBtn.addEventListener('click', debouncedOrderByHour);
+      orderHourBtn.addEventListener('click', debouncedOrderByHour, {
+        passive: true
+      });
     if (checkboxHours)
-      checkboxHours.addEventListener('change', debouncedCheckboxChange);
+      checkboxHours.addEventListener('change', debouncedCheckboxChange, {
+        passive: true
+      });
 
     // Color blindness and tramos toggles
     this.setupToggleEvents();
@@ -625,10 +644,13 @@ class ApagaLuzApp {
     if (orderPriceNextBtn)
       orderPriceNextBtn.addEventListener(
         'click',
-        debouncedOrderTomorrowByPrice
+        debouncedOrderTomorrowByPrice,
+        { passive: true }
       );
     if (orderHourNextBtn)
-      orderHourNextBtn.addEventListener('click', debouncedOrderTomorrowByHour);
+      orderHourNextBtn.addEventListener('click', debouncedOrderTomorrowByHour, {
+        passive: true
+      });
   }
 
   orderTableTomorrowByPrice() {
@@ -666,41 +688,37 @@ class ApagaLuzApp {
 }
 
 // Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
-  // All-in-one initialization
-  const elements = {
-    body: document.body,
-    menuToggle: document.querySelector('.menu-toggle'),
-    header: document.querySelector('.site-header'),
-    fileInput: document.getElementById('fc-generated-1-single-file'),
-    fileInfo: document.getElementById('file-info'),
-    fileContainer: document.querySelector('.form-file-container'),
-    form: document.getElementById('formulario-ahorro'),
-    dropdownToggles: document.querySelectorAll('.dropdown-toggle'),
-    navLinks: document.querySelectorAll(
-      '.nav-link:not(.dropdown-toggle), .dropdown-item'
-    )
-  };
+document.addEventListener(
+  'DOMContentLoaded',
+  function () {
+    // All-in-one initialization
+    const elements = {
+      body: document.body,
+      fileInput: document.getElementById('fc-generated-1-single-file'),
+      fileInfo: document.getElementById('file-info'),
+      fileContainer: document.querySelector('.form-file-container'),
+      form: document.getElementById('formulario-ahorro')
+    };
 
-  // Initialize page components
-  initializePageComponents(elements);
-  setupFormHandling(
-    elements.form,
-    elements.fileInput,
-    elements.fileInfo,
-    elements.fileContainer
-  );
-  setupMenuNavigation(
-    elements.menuToggle,
-    elements.header,
-    elements.dropdownToggles,
-    elements.navLinks
-  );
-  injectFormStyles();
+    // Initialize page components
+    initializePageComponents(elements);
+    setupFormHandling(
+      elements.form,
+      elements.fileInput,
+      elements.fileInfo,
+      elements.fileContainer
+    );
 
-  // Initialize main app
-  new ApagaLuzApp();
-});
+    // Initialize navigation using centralized module
+    initNavigation();
+
+    injectFormStyles();
+
+    // Initialize main app
+    new ApagaLuzApp();
+  },
+  { once: true }
+);
 
 // Helper functions (moved from previous implementation)
 function initializePageComponents(elements) {
@@ -833,55 +851,7 @@ function validateEmail(emailInput) {
   }
 }
 
-function setupMenuNavigation(menuToggle, header, dropdownToggles, navLinks) {
-  if (menuToggle) {
-    menuToggle.addEventListener('click', function () {
-      requestAnimationFrame(() => {
-        header.classList.toggle('menu-open');
-        const isExpanded = header.classList.contains('menu-open');
-        this.setAttribute('aria-expanded', isExpanded);
-        document.body.style.overflow = isExpanded ? 'hidden' : '';
-      });
-    });
-  }
-
-  dropdownToggles.forEach(toggle => {
-    toggle.addEventListener('click', function (e) {
-      if (window.innerWidth < 992) {
-        e.preventDefault();
-        requestAnimationFrame(() => {
-          const parent = this.closest('.has-dropdown');
-          parent.classList.toggle('open');
-        });
-      }
-    });
-  });
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', function () {
-      if (window.innerWidth < 992) {
-        requestAnimationFrame(() => {
-          header.classList.remove('menu-open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        });
-      }
-    });
-  });
-
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 992) {
-      requestAnimationFrame(() => {
-        header.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        document.querySelectorAll('.has-dropdown.open').forEach(item => {
-          item.classList.remove('open');
-        });
-      });
-    }
-  });
-}
+// Función removida - ahora se usa el módulo navigation.js
 
 function injectFormStyles() {
   const style = document.createElement('style');

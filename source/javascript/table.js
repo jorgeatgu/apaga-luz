@@ -10,6 +10,9 @@ export function create_new_table(data_table, selector, type_of_filter) {
   } else {
     data = data_table.sort((a, b) => new Date(a.dia) - new Date(b.dia));
   }
+
+  // Usar DocumentFragment para construir la tabla completa antes de insertarla
+  const fragment = document.createDocumentFragment();
   const table = document.createElement('table');
   table.classList.add('table-same-day');
   const header = table.createTHead().insertRow();
@@ -51,16 +54,20 @@ export function create_new_table(data_table, selector, type_of_filter) {
   //para poder crear una row por hora
   const array_of_hours = [...new Set(data.map(({ hora }) => hora))];
 
+  // Crear todas las filas en memoria antes de insertarlas
+  const rowsFragment = document.createDocumentFragment();
+
   //For sobre cada hora, filtramos los datos
   //con la hora para añadir los datos de cada
   //año en la row de la tabla.
   array_of_hours.forEach(th => {
     let data_filter_hours = data.filter(({ hora }) => hora === th);
-    const row = body.insertRow();
+    const row = document.createElement('tr');
     row.classList.add('row-same-day');
-    row.insertCell(0).innerText = `${
-      data_filter_hours[0].hora.split('-')[0]
-    }:00`;
+
+    const firstCell = document.createElement('td');
+    firstCell.textContent = `${data_filter_hours[0].hora.split('-')[0]}:00`;
+    row.appendChild(firstCell);
 
     const max_value = Math.max(
       ...data_filter_hours.map(({ precio }) => precio)
@@ -69,9 +76,10 @@ export function create_new_table(data_table, selector, type_of_filter) {
       ...data_filter_hours.map(({ precio }) => precio)
     );
 
-    data_filter_hours.map(({ precio, dia }, index) => {
-      const new_cell = row.insertCell(index + 1);
-      new_cell.innerText = `${(precio / 1000).toFixed(3)} €`;
+    data_filter_hours.forEach(({ precio, dia }, index) => {
+      const new_cell = document.createElement('td');
+      new_cell.textContent = `${(precio / 1000).toFixed(3)} €`;
+
       if (dia !== 'Hora' && type_of_filter === 'day') {
         let parse_date_content = `${dia.split('/')[1]}/${dia.split('/')[0]}/${
           dia.split('/')[2]
@@ -87,10 +95,23 @@ export function create_new_table(data_table, selector, type_of_filter) {
         new_cell.style.fontWeight = 'bold';
         new_cell.style.backgroundColor = 'var(--green-light)';
       }
+
+      row.appendChild(new_cell);
     });
+
+    rowsFragment.appendChild(row);
   });
 
-  document.getElementById(selector).appendChild(table);
+  // Insertar todas las filas de una vez
+  body.appendChild(rowsFragment);
+
+  // Añadir la tabla completa al documento
+  fragment.appendChild(table);
+
+  // Una sola operación DOM para insertar todo
+  requestAnimationFrame(() => {
+    document.getElementById(selector).appendChild(fragment);
+  });
 
   //Sorting table https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript/49041392#49041392
   if (width_mobile > 763) {
@@ -106,24 +127,41 @@ export function create_new_table(data_table, selector, type_of_filter) {
         getCellValue(asc ? b : a, idx)
       );
     let asc = true;
-    document
-      .querySelectorAll(`#${selector} table .header-same-day td`)
-      .forEach(th =>
-        th.addEventListener('click', event => {
-          const { target } = event;
-          sortDirectionIcon(asc, target);
-          const table = th.closest('table');
-          const tbody = table.querySelector('tbody');
-          Array.from(tbody.querySelectorAll('tr'))
-            .sort(
-              comparer(
-                Array.from(th.parentNode.children).indexOf(th),
-                (asc = !asc)
+    // Usar delegación de eventos para mejorar el rendimiento
+    const tableHeader = document.querySelector(
+      `#${selector} table .header-same-day`
+    );
+    if (tableHeader) {
+      tableHeader.addEventListener(
+        'click',
+        event => {
+          const th = event.target.closest('td');
+          if (!th) return;
+
+          requestAnimationFrame(() => {
+            sortDirectionIcon(asc, th);
+            const table = th.closest('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // Crear fragmento para el reordenamiento
+            const sortedFragment = document.createDocumentFragment();
+            rows
+              .sort(
+                comparer(
+                  Array.from(th.parentNode.children).indexOf(th),
+                  (asc = !asc)
+                )
               )
-            )
-            .forEach(tr => tbody.appendChild(tr));
-        })
+              .forEach(tr => sortedFragment.appendChild(tr));
+
+            // Una sola operación DOM para reordenar
+            tbody.appendChild(sortedFragment);
+          });
+        },
+        { passive: true }
       );
+    }
   }
 
   function sortDirectionIcon(asc, target) {

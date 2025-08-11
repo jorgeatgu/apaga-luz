@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test de Rendimiento INP - Apaga Luz</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    h1 {
+      color: #021e5c;
+      margin-bottom: 30px;
+    }
+    
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .test-button {
+      background: #021e5c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    .test-button:hover {
+      background: #0a2850;
+    }
+    
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f8ff;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .metric {
+      padding: 10px;
+      margin: 10px 0;
+      border-left: 4px solid #021e5c;
+      background: white;
+    }
+    
+    .metric.good { border-left-color: #10b981; }
+    .metric.needs-improvement { border-left-color: #f59e0b; }
+    .metric.poor { border-left-color: #ef4444; }
+    
+    .metric-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #021e5c;
+    }
+    
+    .metric-label {
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔬 Test de Rendimiento INP - Apaga Luz</h1>
+  
+  <div class="test-section">
+    <h2>Métricas Web Vitals</h2>
+    <button class="test-button" onclick="measureWebVitals()">Medir Web Vitals</button>
+    <div id="vitals-results" class="results" style="display: none;"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test de Interacciones</h2>
+    <button class="test-button" onclick="testButtonClick()">Test Click Simple</button>
+    <button class="test-button" onclick="testHeavyOperation()">Test Operación Pesada</button>
+    <button class="test-button" onclick="testDOMManipulation()">Test Manipulación DOM</button>
+    <button class="test-button" onclick="testMultipleListeners()">Test Múltiples Listeners</button>
+    <div id="interaction-results" class="results" style="display: none;"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test de Navegación</h2>
+    <button class="test-button" onclick="testNavigation()">Simular Navegación Móvil</button>
+    <div id="nav-results" class="results" style="display: none;"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Enlaces a Páginas</h2>
+    <a href="/index.html" target="_blank" class="test-button" style="display: inline-block; text-decoration: none;">
+      Página Principal
+    </a>
+    <a href="/graficas/index.html" target="_blank" class="test-button" style="display: inline-block; text-decoration: none;">
+      Gráficas
+    </a>
+    <a href="/precio-luz-manana/index.html" target="_blank" class="test-button" style="display: inline-block; text-decoration: none;">
+      Precio Mañana
+    </a>
+  </div>
+
+  <script>
+    // Medir Web Vitals
+    async function measureWebVitals() {
+      const resultsDiv = document.getElementById('vitals-results');
+      resultsDiv.style.display = 'block';
+      resultsDiv.innerHTML = 'Cargando Web Vitals...';
+      
+      try {
+        // Cargar Web Vitals
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js';
+        document.head.appendChild(script);
+        
+        script.onload = () => {
+          const results = [];
+          
+          window.webVitals.onINP(({value, rating}) => {
+            results.push(`INP: ${value.toFixed(2)}ms (${rating})`);
+            updateResults();
+          });
+          
+          window.webVitals.onFID(({value, rating}) => {
+            results.push(`FID: ${value.toFixed(2)}ms (${rating})`);
+            updateResults();
+          });
+          
+          window.webVitals.onLCP(({value, rating}) => {
+            results.push(`LCP: ${value.toFixed(2)}ms (${rating})`);
+            updateResults();
+          });
+          
+          window.webVitals.onCLS(({value, rating}) => {
+            results.push(`CLS: ${value.toFixed(3)} (${rating})`);
+            updateResults();
+          });
+          
+          window.webVitals.onTTFB(({value, rating}) => {
+            results.push(`TTFB: ${value.toFixed(2)}ms (${rating})`);
+            updateResults();
+          });
+          
+          function updateResults() {
+            resultsDiv.innerHTML = `📊 Métricas Web Vitals:\n\n${results.join('\n')}\n\n✅ Objetivo INP: < 200ms`;
+          }
+          
+          resultsDiv.innerHTML = '⏳ Interactúa con la página para generar métricas INP y FID...';
+        };
+      } catch (error) {
+        resultsDiv.innerHTML = `❌ Error: ${error.message}`;
+      }
+    }
+    
+    // Test de click simple
+    function testButtonClick() {
+      const start = performance.now();
+      const resultsDiv = document.getElementById('interaction-results');
+      resultsDiv.style.display = 'block';
+      
+      // Simular trabajo mínimo
+      requestAnimationFrame(() => {
+        const duration = performance.now() - start;
+        resultsDiv.innerHTML += `\n✓ Click simple: ${duration.toFixed(2)}ms`;
+        
+        if (duration > 50) {
+          resultsDiv.innerHTML += ` ⚠️ (objetivo: < 50ms)`;
+        } else {
+          resultsDiv.innerHTML += ` ✅`;
+        }
+      });
+    }
+    
+    // Test de operación pesada
+    function testHeavyOperation() {
+      const start = performance.now();
+      const resultsDiv = document.getElementById('interaction-results');
+      resultsDiv.style.display = 'block';
+      
+      // Simular operación pesada
+      let sum = 0;
+      for (let i = 0; i < 1000000; i++) {
+        sum += Math.sqrt(i);
+      }
+      
+      const duration = performance.now() - start;
+      resultsDiv.innerHTML += `\n✓ Operación pesada: ${duration.toFixed(2)}ms`;
+      
+      if (duration > 200) {
+        resultsDiv.innerHTML += ` ❌ (INP > 200ms!)`;
+      } else if (duration > 100) {
+        resultsDiv.innerHTML += ` ⚠️ (necesita mejora)`;
+      } else {
+        resultsDiv.innerHTML += ` ✅`;
+      }
+    }
+    
+    // Test de manipulación DOM
+    function testDOMManipulation() {
+      const start = performance.now();
+      const resultsDiv = document.getElementById('interaction-results');
+      resultsDiv.style.display = 'block';
+      
+      requestAnimationFrame(() => {
+        // Crear elementos de prueba
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < 100; i++) {
+          const div = document.createElement('div');
+          div.textContent = `Item ${i}`;
+          fragment.appendChild(div);
+        }
+        
+        // Crear contenedor temporal
+        const temp = document.createElement('div');
+        temp.style.display = 'none';
+        document.body.appendChild(temp);
+        temp.appendChild(fragment);
+        
+        // Limpiar
+        setTimeout(() => temp.remove(), 100);
+        
+        const duration = performance.now() - start;
+        resultsDiv.innerHTML += `\n✓ Manipulación DOM (100 elementos): ${duration.toFixed(2)}ms`;
+        
+        if (duration > 100) {
+          resultsDiv.innerHTML += ` ⚠️ (objetivo: < 100ms)`;
+        } else {
+          resultsDiv.innerHTML += ` ✅`;
+        }
+      });
+    }
+    
+    // Test de múltiples listeners
+    function testMultipleListeners() {
+      const start = performance.now();
+      const resultsDiv = document.getElementById('interaction-results');
+      resultsDiv.style.display = 'block';
+      
+      // Simular múltiples event listeners
+      const handlers = [];
+      for (let i = 0; i < 10; i++) {
+        handlers.push(() => {
+          const now = performance.now();
+        });
+      }
+      
+      // Ejecutar todos
+      handlers.forEach(handler => handler());
+      
+      const duration = performance.now() - start;
+      resultsDiv.innerHTML += `\n✓ Múltiples listeners (10): ${duration.toFixed(2)}ms`;
+      
+      if (duration > 50) {
+        resultsDiv.innerHTML += ` ⚠️ (considerar delegación de eventos)`;
+      } else {
+        resultsDiv.innerHTML += ` ✅`;
+      }
+    }
+    
+    // Test de navegación
+    function testNavigation() {
+      const resultsDiv = document.getElementById('nav-results');
+      resultsDiv.style.display = 'block';
+      resultsDiv.innerHTML = '';
+      
+      // Simular apertura de menú
+      const menuStart = performance.now();
+      requestAnimationFrame(() => {
+        const menuDuration = performance.now() - menuStart;
+        resultsDiv.innerHTML += `Apertura de menú: ${menuDuration.toFixed(2)}ms\n`;
+        
+        // Simular cierre de menú
+        const closeStart = performance.now();
+        requestAnimationFrame(() => {
+          const closeDuration = performance.now() - closeStart;
+          resultsDiv.innerHTML += `Cierre de menú: ${closeDuration.toFixed(2)}ms\n`;
+          
+          // Resumen
+          const total = menuDuration + closeDuration;
+          resultsDiv.innerHTML += `\n📊 Total navegación: ${total.toFixed(2)}ms`;
+          
+          if (total > 200) {
+            resultsDiv.innerHTML += ` ❌ (INP > 200ms!)`;
+          } else if (total > 100) {
+            resultsDiv.innerHTML += ` ⚠️ (puede mejorar)`;
+          } else {
+            resultsDiv.innerHTML += ` ✅ (excelente!)`;
+          }
+        });
+      });
+    }
+    
+    // Auto-iniciar medición de Web Vitals
+    window.addEventListener('load', () => {
+      setTimeout(measureWebVitals, 1000);
+    });
+  </script>
+</body>
+</html>

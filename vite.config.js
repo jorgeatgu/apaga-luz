@@ -50,9 +50,22 @@ export default defineConfig({
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
-        manualChunks: {
-          d3: ['d3-array', 'd3-axis', 'd3-fetch', 'd3-format', 'd3-scale', 'd3-selection', 'd3-shape', 'd3-time-format', 'd3-transition'],
-          vendor: ['vanillajs-datepicker']
+        manualChunks(id) {
+          // Separar D3 solo para páginas que lo necesitan
+          if (id.includes('d3-')) {
+            return 'd3-libs';
+          }
+          // Separar librerías de terceros
+          if (id.includes('node_modules')) {
+            if (id.includes('vanillajs-datepicker')) {
+              return 'datepicker';
+            }
+            return 'vendor';
+          }
+          // Separar módulos de navegación compartidos
+          if (id.includes('navigation.js')) {
+            return 'navigation';
+          }
         }
       }
     },

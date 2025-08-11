@@ -3,6 +3,7 @@ import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 import { is_week_end } from './utils.js';
+import { initNavigation } from './navigation.js';
 
 /*
 Prices are published at 20:15,
@@ -153,15 +154,35 @@ function order_table_tomorrow_by_hour() {
   );
 }
 
-document.getElementById('order-price-next').addEventListener('click', () => {
-  remove_tables_tomorrow();
-  order_table_tomorrow_by_price();
-});
+// Usar debounce para mejorar INP
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
-document.getElementById('order-hour-next').addEventListener('click', () => {
-  remove_tables_tomorrow();
-  order_table_tomorrow_by_hour();
-});
+const debouncedOrderByPrice = debounce(() => {
+  requestAnimationFrame(() => {
+    remove_tables_tomorrow();
+    order_table_tomorrow_by_price();
+  });
+}, 200);
+
+const debouncedOrderByHour = debounce(() => {
+  requestAnimationFrame(() => {
+    remove_tables_tomorrow();
+    order_table_tomorrow_by_hour();
+  });
+}, 200);
+
+document
+  .getElementById('order-price-next')
+  .addEventListener('click', debouncedOrderByPrice, { passive: true });
+document
+  .getElementById('order-hour-next')
+  .addEventListener('click', debouncedOrderByHour, { passive: true });
 
 const text_whatsApp = `whatsapp://send?text=Aquí puedes consultar el precio de la luz de mañana ${tomorrow.toLocaleDateString(
   'es-ES',
@@ -170,59 +191,11 @@ const text_whatsApp = `whatsapp://send?text=Aquí puedes consultar el precio de 
 const button_whatsApp = document.getElementById('btn-whatsapp-manana');
 button_whatsApp.href = text_whatsApp;
 
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const header = document.querySelector('.site-header');
-
-  if (menuToggle) {
-    menuToggle.addEventListener('click', function () {
-      header.classList.toggle('menu-open');
-      const isExpanded = header.classList.contains('menu-open');
-      this.setAttribute('aria-expanded', isExpanded);
-
-      if (isExpanded) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-  dropdownToggles.forEach(toggle => {
-    toggle.addEventListener('click', function (e) {
-      if (window.innerWidth < 992) {
-        e.preventDefault();
-        const parent = this.closest('.has-dropdown');
-        parent.classList.toggle('open');
-      }
-    });
-  });
-
-  const navLinks = document.querySelectorAll(
-    '.nav-link:not(.dropdown-toggle), .dropdown-item'
-  );
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', function () {
-      if (window.innerWidth < 992) {
-        header.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-  });
-
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 992) {
-      header.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-
-      document.querySelectorAll('.has-dropdown.open').forEach(item => {
-        item.classList.remove('open');
-      });
-    }
-  });
-});
+// Inicializar navegación usando el módulo centralizado
+document.addEventListener(
+  'DOMContentLoaded',
+  function () {
+    initNavigation();
+  },
+  { once: true }
+);
