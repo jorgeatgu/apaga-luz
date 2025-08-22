@@ -5,6 +5,7 @@
 
 @import '_variables';
 @import '_main';
+@import '_performance';
 @import '_mailchimp';
 @import '_menu';
 @import '_faq';

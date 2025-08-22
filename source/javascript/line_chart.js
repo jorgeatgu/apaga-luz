@@ -10,21 +10,29 @@ import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
 import { day_names, month_names, width_mobile } from './utils.js';
 
-// Throttle function para mejorar INP en eventos frecuentes
+// Throttle function optimizada para mejorar INP en eventos frecuentes
 function throttle(func, delay) {
   let lastCall = 0;
-  let timeout;
+  let rafId = null;
+  let lastArgs = null;
+
   return function (...args) {
+    lastArgs = args;
     const now = Date.now();
+
     if (now - lastCall >= delay) {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
       lastCall = now;
-      func.apply(this, args);
-    } else {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
+      func.apply(this, lastArgs);
+    } else if (!rafId) {
+      rafId = requestAnimationFrame(() => {
         lastCall = Date.now();
-        func.apply(this, args);
-      }, delay - (now - lastCall));
+        func.apply(this, lastArgs);
+        rafId = null;
+      });
     }
   };
 }
@@ -183,12 +191,16 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .join('path')
       .attr('class', `line-${html_element}`)
       .transition()
-      .duration(300)
+      .duration(200) // Reducir duración para mejor percepción de respuesta
       .ease(d3.easeLinear)
       .attrTween('d', function (d) {
         let previous = d3.select(this).attr('d');
         let current = line(d);
-        return d3.interpolatePath(previous, current);
+        // Solo animar si hay un path previo
+        if (previous && previous !== 'null') {
+          return d3.interpolatePath(previous, current);
+        }
+        return () => current;
       });
 
     const focus = g.select(`.focus-${html_element}`);
@@ -204,139 +216,151 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .attr('cy', 0)
       .attr('r', 0);
 
-    // Throttle mousemove para mejorar INP
-    const throttledMousemove = throttle(mousemove, 16); // ~60fps
+    // Throttle mousemove para mejorar INP con debounce en mobile
+    const isMobile = width_mobile <= 764;
+    const throttledMousemove = throttle(mousemove, isMobile ? 32 : 16); // 30fps mobile, 60fps desktop
 
     overlay
       .attr('width', width)
       .attr('height', height)
+      .style('will-change', 'transform') // Hint para optimización GPU
       .on(
         'mouseover',
         function () {
-          focus.style('display', null);
+          requestAnimationFrame(() => {
+            focus.style('display', null);
+          });
         },
         { passive: true }
       )
       .on(
         'mouseout',
         function () {
-          focus.style('display', 'none');
+          requestAnimationFrame(() => {
+            focus.style('display', 'none');
+            tooltip.style('opacity', 0);
+          });
         },
         { passive: true }
       )
       .on('mousemove', throttledMousemove, { passive: true });
 
     function mousemove(event) {
-      // Usar requestAnimationFrame para operaciones DOM
-      requestAnimationFrame(() => {
-        const { layerX } = event;
-        const x0 = x.invert(layerX - left);
-        const i = bisec_date(data, x0, 1);
-        const d0 = data[i - 1];
-        const d1 = data[i];
-        const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
-        const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
+      // Optimización: salir temprano si no hay datos
+      if (!data || data.length === 0) return;
 
-        const month_content = `<span class="tooltip-group-by-${html_element}-year">En ${
-          month_names[d[x_axis_prop].getMonth()]
-        } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-          3
-        )} € kWh</strong></span>`;
+      // No usar requestAnimationFrame aquí porque ya está en el throttle
+      const { layerX } = event;
+      const x0 = x.invert(layerX - left);
+      const i = bisec_date(data, x0, 1);
+      const d0 = data[i - 1];
+      const d1 = data[i];
+      const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
+      const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
 
-        const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-          d.day
-        } de ${month_names[d[x_axis_prop].getMonth()]} del ${
-          d.year
-        } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-          3
-        )} €/kWh</strong></span>`;
+      const month_content = `<span class="tooltip-group-by-${html_element}-year">En ${
+        month_names[d[x_axis_prop].getMonth()]
+      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} € kWh</strong></span>`;
 
-        const hour_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-          d.day
-        } de ${month_names[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
-          d.hora
-        }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
-          3
-        )} €/kWh</strong></span>`;
+      const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.day
+      } de ${month_names[d[x_axis_prop].getMonth()]} del ${
+        d.year
+      } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
 
-        const day_week_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-          d.day_of_week
-        }
+      const hour_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.day
+      } de ${month_names[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
+        d.hora
+      }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} €/kWh</strong></span>`;
+
+      const day_week_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+        d.day_of_week
+      }
        ${d.day} de ${month_names[d[x_axis_prop].getMonth()]} de ${d.year}
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-        const main_week_linechart = d.dia
-          ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
-              month_names[d[x_axis_prop].getMonth()]
-            }
+      const main_week_linechart = d.dia
+        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+            month_names[d[x_axis_prop].getMonth()]
+          }
        a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`
-          : '';
+        : '';
 
-        const gas_hour_linechart = d.dia
-          ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
-              month_names[d[x_axis_prop].getMonth()]
-            }
+      const gas_hour_linechart = d.dia
+        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+            month_names[d[x_axis_prop].getMonth()]
+          }
        a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`
-          : '';
+        : '';
 
-        const gas_day_linechart = `<span class="tooltip-group-by-${html_element}-year">El
+      const gas_day_linechart = `<span class="tooltip-group-by-${html_element}-year">El
        ${d.day} de ${month_names[d[x_axis_prop].getMonth()]} de ${d.year}
       el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-        const gas_month_linechart = `<span class="tooltip-group-by-${html_element}-year">En ${
-          month_names[d[x_axis_prop].getMonth()]
-        } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-          3
-        )} € kWh</strong></span>`;
+      const gas_month_linechart = `<span class="tooltip-group-by-${html_element}-year">En ${
+        month_names[d[x_axis_prop].getMonth()]
+      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+        3
+      )} € kWh</strong></span>`;
 
-        tooltip
-          .style('opacity', 1)
-          .html(
-            html_element === 'month-price'
-              ? month_content
-              : html_element === 'day-price' ||
-                html_element === 'day-price-last-year'
-              ? day_content
-              : html_element === 'hour-price'
-              ? hour_content
-              : html_element === 'day-week-price'
-              ? day_week_content
-              : html_element === 'main-line-price'
-              ? main_week_linechart
-              : html_element === 'hour-price-gas'
-              ? gas_hour_linechart
-              : html_element === 'day-price-gas'
-              ? gas_day_linechart
-              : html_element === 'month-price-gas'
-              ? gas_month_linechart
-              : ''
-          )
-          .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
-          .style('left', () =>
-            width_mobile > 764 ? `${position_left_tooltip}px` : '49%'
-          );
+      tooltip
+        .style('opacity', 1)
+        .html(
+          html_element === 'month-price'
+            ? month_content
+            : html_element === 'day-price' ||
+              html_element === 'day-price-last-year'
+            ? day_content
+            : html_element === 'hour-price'
+            ? hour_content
+            : html_element === 'day-week-price'
+            ? day_week_content
+            : html_element === 'main-line-price'
+            ? main_week_linechart
+            : html_element === 'hour-price-gas'
+            ? gas_hour_linechart
+            : html_element === 'day-price-gas'
+            ? gas_day_linechart
+            : html_element === 'month-price-gas'
+            ? gas_month_linechart
+            : ''
+        )
+        .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
+        .style('left', () =>
+          width_mobile > 764 ? `${position_left_tooltip}px` : '49%'
+        );
 
-        focus
-          .select(`.y-hover-line-${html_element}`)
-          .attr('transform', `translate(${x(d[x_axis_prop])},0)`)
-          .attr('y1', y(d[y_axis_prop]));
+      // Batch DOM updates
+      const xPos = x(d[x_axis_prop]);
+      const yPos = y(d[y_axis_prop]);
 
-        focus
-          .select(`.circle-focus-${html_element}`)
-          .attr('cx', x(d[x_axis_prop]))
-          .attr('cy', y(d[y_axis_prop]))
-          .attr('r', 3);
-      });
+      focus
+        .select(`.y-hover-line-${html_element}`)
+        .attr('transform', `translate(${xPos},0)`)
+        .attr('y1', yPos);
+
+      focus
+        .select(`.circle-focus-${html_element}`)
+        .attr('cx', xPos)
+        .attr('cy', yPos)
+        .attr('r', 3);
     }
 
     draw_axes(g);

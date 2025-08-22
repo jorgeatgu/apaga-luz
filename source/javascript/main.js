@@ -1,3 +1,4 @@
+import './passive-events-polyfill.js';
 import './../styles/styles.css';
 import {
   reload_page,
@@ -15,6 +16,13 @@ import {
 } from './table.js';
 
 import { initNavigation } from './navigation.js';
+import {
+  debounce,
+  throttle,
+  chunkedTask,
+  batchDOMUpdates,
+  LRUCache
+} from './performance-utils.js';
 
 // Lazy load Web Vitals monitoring
 if ('requestIdleCallback' in window) {
@@ -37,8 +45,8 @@ class ApagaLuzApp {
     this.filterDataToday = null;
     this.filterDataTomorrow = null;
     this.typeOfOrder = 'hour';
-    this.priceCalculationsCache = new Map();
-    this.debounceTimers = new Map();
+    this.priceCalculationsCache = new LRUCache(20);
+    this.processingTask = null;
 
     this.init();
   }
@@ -118,6 +126,7 @@ class ApagaLuzApp {
   }
 
   processHourlyData(data, userHour, userDay) {
+    // Process data in chunks for better INP
     const processed = data
       .map(({ hour, price, ...rest }) => ({
         hourHasPassed: +hour < userHour,
@@ -127,34 +136,68 @@ class ApagaLuzApp {
       }))
       .sort(({ price: a }, { price: b }) => a - b);
 
-    // Add zone and tramo information
-    processed.forEach((element, index) => {
-      // Zone based on price ranking
-      if (index < 8) {
-        element.zone = 'valle';
-      } else if (index >= 8 && index < 16) {
-        element.zone = 'llano';
-      } else {
-        element.zone = 'punta';
-      }
+    // Process zone and tramo information asynchronously for large datasets
+    if (processed.length > 12) {
+      // Use chunked processing for better performance
+      chunkedTask(
+        processed,
+        (element, index) => {
+          // Zone based on price ranking
+          if (index < 8) {
+            element.zone = 'valle';
+          } else if (index >= 8 && index < 16) {
+            element.zone = 'llano';
+          } else {
+            element.zone = 'punta';
+          }
 
-      // Tramo based on time slots
-      if (element.hour >= 0 && element.hour < 8 && !is_week_end(userDay)) {
-        element.tramo = 'valle';
-      } else if (
-        (element.hour >= 8 && element.hour < 10 && !is_week_end(userDay)) ||
-        (element.hour >= 14 && element.hour < 18 && !is_week_end(userDay)) ||
-        (element.hour >= 22 && element.hour < 24 && !is_week_end(userDay))
-      ) {
-        element.tramo = 'llano';
-      } else {
-        element.tramo = 'punta';
-      }
+          // Tramo based on time slots
+          const isWeekend = is_week_end(userDay);
+          if (isWeekend) {
+            element.tramo = 'valle';
+          } else if (element.hour >= 0 && element.hour < 8) {
+            element.tramo = 'valle';
+          } else if (
+            (element.hour >= 8 && element.hour < 10) ||
+            (element.hour >= 14 && element.hour < 18) ||
+            (element.hour >= 22 && element.hour < 24)
+          ) {
+            element.tramo = 'llano';
+          } else {
+            element.tramo = 'punta';
+          }
+        },
+        { chunkSize: 6 }
+      );
+    } else {
+      // Process synchronously for small datasets
+      processed.forEach((element, index) => {
+        // Zone based on price ranking
+        if (index < 8) {
+          element.zone = 'valle';
+        } else if (index >= 8 && index < 16) {
+          element.zone = 'llano';
+        } else {
+          element.zone = 'punta';
+        }
 
-      if (is_week_end(userDay)) {
-        element.tramo = 'valle';
-      }
-    });
+        // Tramo based on time slots
+        const isWeekend = is_week_end(userDay);
+        if (isWeekend) {
+          element.tramo = 'valle';
+        } else if (element.hour >= 0 && element.hour < 8) {
+          element.tramo = 'valle';
+        } else if (
+          (element.hour >= 8 && element.hour < 10) ||
+          (element.hour >= 14 && element.hour < 18) ||
+          (element.hour >= 22 && element.hour < 24)
+        ) {
+          element.tramo = 'llano';
+        } else {
+          element.tramo = 'punta';
+        }
+      });
+    }
 
     return processed;
   }
@@ -189,8 +232,10 @@ class ApagaLuzApp {
   calculatePriceStats(data) {
     const cacheKey = data.map(item => `${item.hour}-${item.price}`).join('|');
 
-    if (this.priceCalculationsCache.has(cacheKey)) {
-      return this.priceCalculationsCache.get(cacheKey);
+    // Use LRU cache for better memory management
+    const cached = this.priceCalculationsCache.get(cacheKey);
+    if (cached) {
+      return cached;
     }
 
     const sortedData = data
@@ -208,12 +253,6 @@ class ApagaLuzApp {
     const result = { max_price, min_price, avg_price };
 
     this.priceCalculationsCache.set(cacheKey, result);
-
-    // Limit cache size
-    if (this.priceCalculationsCache.size > 10) {
-      const firstKey = this.priceCalculationsCache.keys().next().value;
-      this.priceCalculationsCache.delete(firstKey);
-    }
 
     return result;
   }
@@ -287,16 +326,6 @@ class ApagaLuzApp {
 
     if (buttonWhatsApp) buttonWhatsApp.href = textWhatsApp;
     if (buttonWhatsAppAvg) buttonWhatsAppAvg.href = textWhatsAppAvg;
-  }
-
-  debounce(func, delay, key = 'default') {
-    return (...args) => {
-      clearTimeout(this.debounceTimers.get(key));
-      this.debounceTimers.set(
-        key,
-        setTimeout(() => func.apply(this, args), delay)
-      );
-    };
   }
 
   orderByPrice() {
@@ -510,30 +539,30 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Debounced event handlers
-    const debouncedOrderByPrice = this.debounce(
+    // Optimized event handlers with debouncing for better INP
+    const debouncedOrderByPrice = debounce(
       () => {
         requestAnimationFrame(() => {
           remove_tables();
           this.orderByPrice();
         });
       },
-      200,
-      'orderPrice'
+      150,
+      { leading: true, trailing: false }
     );
 
-    const debouncedOrderByHour = this.debounce(
+    const debouncedOrderByHour = debounce(
       () => {
         requestAnimationFrame(() => {
           remove_tables();
           this.orderByHour();
         });
       },
-      200,
-      'orderHour'
+      150,
+      { leading: true, trailing: false }
     );
 
-    const debouncedCheckboxChange = this.debounce(
+    const debouncedCheckboxChange = debounce(
       () => {
         requestAnimationFrame(() => {
           if (this.typeOfOrder === 'price') {
@@ -546,7 +575,7 @@ class ApagaLuzApp {
         });
       },
       100,
-      'checkbox'
+      { leading: false, trailing: true }
     );
 
     // Bind events with passive option for better INP
@@ -580,62 +609,73 @@ class ApagaLuzApp {
     const root = document.documentElement;
 
     if (colorBlindnessToggle) {
-      colorBlindnessToggle.addEventListener('change', e => {
+      // Use passive listener for better INP
+      const handleColorBlindness = throttle(e => {
         const { checked } = e.target;
-        if (checked) {
-          root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
-          root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
-          root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
-        } else {
-          root.style.setProperty('--orange-light', '#ffae3ab3');
-          root.style.setProperty('--green-light', '#a2fcc1b3');
-          root.style.setProperty('--red-light', '#ec1d2fb3');
-        }
+        requestAnimationFrame(() => {
+          if (checked) {
+            root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
+            root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
+            root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
+          } else {
+            root.style.setProperty('--orange-light', '#ffae3ab3');
+            root.style.setProperty('--green-light', '#a2fcc1b3');
+            root.style.setProperty('--red-light', '#ec1d2fb3');
+          }
+        });
+      }, 100);
+
+      colorBlindnessToggle.addEventListener('change', handleColorBlindness, {
+        passive: true
       });
     }
 
     if (tramosToggle) {
-      tramosToggle.addEventListener('change', e => {
+      const handleTramosToggle = throttle(e => {
         const { checked } = e.target;
         const priceElements = document.querySelectorAll(
           '.container-table-price-element-hour'
         );
 
-        requestAnimationFrame(() => {
-          priceElements.forEach(element => {
-            if (checked) {
-              element.classList.remove('tramo-hidden');
-            } else {
-              element.classList.add('tramo-hidden');
-            }
+        // Batch DOM updates for better performance
+        if (priceElements.length > 0) {
+          requestAnimationFrame(() => {
+            const className = 'tramo-hidden';
+            priceElements.forEach(element => {
+              element.classList.toggle(className, !checked);
+            });
           });
-        });
+        }
+      }, 100);
+
+      tramosToggle.addEventListener('change', handleTramosToggle, {
+        passive: true
       });
     }
   }
 
   setupTomorrowHandlers() {
-    // Debounced handlers for tomorrow's data
-    const debouncedOrderTomorrowByPrice = this.debounce(
+    // Optimized handlers for tomorrow's data with better INP
+    const debouncedOrderTomorrowByPrice = debounce(
       () => {
         requestAnimationFrame(() => {
           remove_tables_tomorrow();
           this.orderTableTomorrowByPrice();
         });
       },
-      200,
-      'orderTomorrowPrice'
+      150,
+      { leading: true, trailing: false }
     );
 
-    const debouncedOrderTomorrowByHour = this.debounce(
+    const debouncedOrderTomorrowByHour = debounce(
       () => {
         requestAnimationFrame(() => {
           remove_tables_tomorrow();
           this.orderTableTomorrowByHour();
         });
       },
-      200,
-      'orderTomorrowHour'
+      150,
+      { leading: true, trailing: false }
     );
 
     const orderPriceNextBtn = document.getElementById('order-price-next');

@@ -1,0 +1,156 @@
+/* Performance optimizations for better INP scores */
+
+/* Container isolation for complex layouts */
+.container-wrapper,
+.container-table-price-left,
+.container-table-price-right,
+.table-next-day-grid-left,
+.table-next-day-grid-right {
+  contain: layout style paint;
+  will-change: contents;
+}
+
+/* Isolate chart containers to prevent layout recalculations */
+.charts,
+.line-chart-month-price,
+.line-chart-day-price,
+.line-chart-hour-price,
+.line-chart-main-line-price {
+  contain: layout style paint size;
+  will-change: transform;
+}
+
+/* Table optimizations */
+.table-same-day {
+  contain: layout style paint;
+  will-change: contents;
+}
+
+.tbody-same-day {
+  contain: layout;
+}
+
+/* Navigation performance */
+.site-header {
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+.nav-menu {
+  contain: layout style;
+}
+
+/* Modal and overlay optimization */
+.modal,
+.tooltip,
+.overlay {
+  contain: layout style paint;
+  will-change: opacity, transform;
+}
+
+/* Form elements optimization */
+.form-file-container,
+.datepicker-container {
+  contain: layout style;
+}
+
+/* Price display elements */
+.container-table-price-element {
+  contain: layout style;
+}
+
+/* Optimize scrollable areas */
+.scrollable-content {
+  contain: layout style paint;
+  overflow-anchor: none; /* Prevent scroll anchoring issues */
+}
+
+/* Footer optimization */
+footer {
+  contain: layout style paint;
+}
+
+/* Prevent layout shifts from dynamic content */
+.container-max-min-avg {
+  min-height: 60px;
+  contain: layout;
+}
+
+.container-table-next-day-title {
+  min-height: 40px;
+  contain: layout;
+}
+
+/* Optimize animations and transitions */
+@media (prefers-reduced-motion: no-preference) {
+  .transition-optimized {
+    transition-property: transform, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    will-change: transform, opacity;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 764px) {
+  /* Reduce complexity on mobile */
+  .charts {
+    contain: layout style;
+  }
+
+  /* Optimize touch targets */
+  button,
+  .btn,
+  .clickable {
+    touch-action: manipulation; /* Prevent double-tap zoom delay */
+  }
+
+  /* Reduce paint areas on mobile */
+  .container-wrapper {
+    contain: layout;
+  }
+}
+
+/* High performance selectors for frequently updated elements */
+[data-dynamic-content] {
+  contain: layout style;
+  will-change: contents;
+}
+
+/* Optimize backdrop filters (expensive operation) */
+.backdrop-blur {
+  will-change: backdrop-filter;
+  transform: translateZ(0);
+}
+
+/* Ensure smooth scrolling without impacting INP */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Optimize grid layouts */
+.grid-container {
+  contain: layout style paint;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Loading states optimization */
+.loading,
+.skeleton {
+  contain: layout style paint;
+  will-change: opacity;
+}
+
+/* Prevent FOUC and layout shifts */
+.no-fouc {
+  visibility: visible !important;
+}
