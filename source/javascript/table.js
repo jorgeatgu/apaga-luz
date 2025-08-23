@@ -268,7 +268,7 @@ export function table_price_tomorrow(
   const fragment = document.createDocumentFragment();
 
   for (let element of data_hours) {
-    const { price, hour, zone, tramo } = element;
+    const { price, hour, priceColor, tramo } = element;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const tramoCssClass = compensacion ? '' : `tramo-${tramo}`;
 
@@ -277,7 +277,9 @@ export function table_price_tomorrow(
     blockDiv.className = 'container-table-price-element';
 
     const hourSpan = document.createElement('span');
-    hourSpan.className = `container-table-price-element-hour tramo-hidden ${zone} ${tramoCssClass}`;
+    hourSpan.className = `container-table-price-element-hour tramo-hidden ${
+      priceColor || ''
+    } ${tramoCssClass}`;
     hourSpan.textContent = transform_hour;
 
     const priceSpan = document.createElement('span');
@@ -355,7 +357,7 @@ export function table_price(data_hours, element) {
   const fragment = document.createDocumentFragment();
 
   for (let elements of data_hours) {
-    const { price, hour, zone, hourHasPassed, tramo } = elements;
+    const { price, hour, priceColor, hourHasPassed, tramo } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const hour_has_passed_class =
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
@@ -365,7 +367,7 @@ export function table_price(data_hours, element) {
     blockDiv.className = `${hour_has_passed_class} container-table-price-element`;
 
     const hourSpan = document.createElement('span');
-    hourSpan.className = `container-table-price-element-hour tramo-hidden ${zone} tramo-${tramo}`;
+    hourSpan.className = `container-table-price-element-hour tramo-hidden ${priceColor} tramo-${tramo}`;
     hourSpan.textContent = transform_hour;
 
     const priceSpan = document.createElement('span');

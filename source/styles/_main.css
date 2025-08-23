@@ -339,6 +339,20 @@ h3.post-text {
   padding: .25rem .5rem;
   border-radius: 4px;
 
+  /* Price-based colors (always active) */
+  &.price-green {
+    background: var(--green-light);
+  }
+
+  &.price-red {
+    background: var(--red-light);
+  }
+
+  &.price-yellow {
+    background: var(--orange-light);
+  }
+
+  /* Old zone classes - kept for compatibility but not used */
   &.valle {
     background: var(--green-light);
   }

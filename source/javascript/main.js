@@ -126,32 +126,40 @@ class ApagaLuzApp {
   }
 
   processHourlyData(data, userHour, userDay) {
-    // Process data in chunks for better INP
-    const processed = data
-      .map(({ hour, price, ...rest }) => ({
-        hourHasPassed: +hour < userHour,
-        price: price.toFixed(3),
-        hour,
-        ...rest
-      }))
-      .sort(({ price: a }, { price: b }) => a - b);
+    // First, create a copy sorted by price to determine color assignment
+    const sortedByPrice = [...data].sort((a, b) => a.price - b.price);
 
-    // Process zone and tramo information asynchronously for large datasets
+    // Create a map for price-based color assignment
+    const priceColorMap = new Map();
+    sortedByPrice.forEach((item, index) => {
+      let priceColor;
+      if (index < 8) {
+        priceColor = 'price-green'; // 8 cheapest - green
+      } else if (index < 16) {
+        priceColor = 'price-yellow'; // 8 middle - yellow
+      } else {
+        priceColor = 'price-red'; // 8 most expensive - red
+      }
+      priceColorMap.set(Number(item.hour), priceColor);
+    });
+
+    // Process data with ranking info
+    const processed = data.map(({ hour, price, ...rest }) => ({
+      hourHasPassed: +hour < userHour,
+      originalPrice: price,
+      price: price.toFixed(3),
+      hour,
+      priceColor: priceColorMap.get(Number(hour)),
+      ...rest
+    }));
+
+    // Process tramo information asynchronously for large datasets
     if (processed.length > 12) {
       // Use chunked processing for better performance
       chunkedTask(
         processed,
-        (element, index) => {
-          // Zone based on price ranking
-          if (index < 8) {
-            element.zone = 'valle';
-          } else if (index >= 8 && index < 16) {
-            element.zone = 'llano';
-          } else {
-            element.zone = 'punta';
-          }
-
-          // Tramo based on time slots
+        element => {
+          // Tramo based on time slots (for labels when checkbox is activated)
           const isWeekend = is_week_end(userDay);
           if (isWeekend) {
             element.tramo = 'valle';
@@ -171,17 +179,8 @@ class ApagaLuzApp {
       );
     } else {
       // Process synchronously for small datasets
-      processed.forEach((element, index) => {
-        // Zone based on price ranking
-        if (index < 8) {
-          element.zone = 'valle';
-        } else if (index >= 8 && index < 16) {
-          element.zone = 'llano';
-        } else {
-          element.zone = 'punta';
-        }
-
-        // Tramo based on time slots
+      processed.forEach(element => {
+        // Tramo based on time slots (for labels when checkbox is activated)
         const isWeekend = is_week_end(userDay);
         if (isWeekend) {
           element.tramo = 'valle';
@@ -329,8 +328,9 @@ class ApagaLuzApp {
   }
 
   orderByPrice() {
+    // Sort by price but don't modify zones - they should always be based on price ranking
     this.filterDataToday = this.filterDataToday.sort(
-      ({ price: a }, { price: b }) => a - b
+      ({ price: a }, { price: b }) => parseFloat(a) - parseFloat(b)
     );
     table_price(
       this.filterDataToday.slice(0, 12),
@@ -344,6 +344,7 @@ class ApagaLuzApp {
   }
 
   orderByHour() {
+    // Sort by hour but keep the zone colors that were assigned based on price
     this.filterDataToday = this.filterDataToday.sort(
       ({ hour: a }, { hour: b }) => a - b
     );
@@ -457,24 +458,37 @@ class ApagaLuzApp {
     if (containerTableTomorrow) {
       if (isTimeForEsiosData && itsTheRightDay) {
         // Process the data for display
-        this.filterDataTomorrow = this.tomorrowData
-          .sort(({ price: a }, { price: b }) => a - b)
-          .map(({ price, ...rest }) => ({
-            price: price.toFixed(3),
-            ...rest
-          }));
+        // First, create a copy sorted by price to assign colors
+        const sortedByPrice = [...this.tomorrowData].sort(
+          (a, b) => a.price - b.price
+        );
 
-        // Add zone and tramo information
-        this.filterDataTomorrow.forEach((element, index) => {
-          // Zone based on price ranking
+        // Create a map for price-based color assignment
+        const priceColorMap = new Map();
+        sortedByPrice.forEach((item, index) => {
+          let priceColor;
           if (index < 8) {
-            element.zone = 'valle';
-          } else if (index >= 8 && index < 16) {
-            element.zone = 'llano';
+            priceColor = 'price-green'; // 8 cheapest - green
+          } else if (index < 16) {
+            priceColor = 'price-yellow'; // 8 middle - yellow
           } else {
-            element.zone = 'punta';
+            priceColor = 'price-red'; // 8 most expensive - red
           }
+          priceColorMap.set(Number(item.hour), priceColor);
+        });
 
+        this.filterDataTomorrow = this.tomorrowData
+          .map(({ price, hour, ...rest }) => ({
+            originalPrice: price,
+            price: price.toFixed(3),
+            hour,
+            priceColor: priceColorMap.get(Number(hour)),
+            ...rest
+          }))
+          .sort(({ originalPrice: a }, { originalPrice: b }) => a - b);
+
+        // Add tramo information for labels
+        this.filterDataTomorrow.forEach(element => {
           // Tramo based on time slots
           if (element.hour >= 0 && element.hour < 8 && !is_week_end(tomorrow)) {
             element.tramo = 'valle';
@@ -697,7 +711,7 @@ class ApagaLuzApp {
     if (!this.filterDataTomorrow) return;
 
     this.filterDataTomorrow = this.filterDataTomorrow.sort(
-      ({ price: a }, { price: b }) => a - b
+      ({ price: a }, { price: b }) => parseFloat(a) - parseFloat(b)
     );
 
     table_price_tomorrow(
@@ -713,6 +727,7 @@ class ApagaLuzApp {
   orderTableTomorrowByHour() {
     if (!this.filterDataTomorrow) return;
 
+    // Sort by hour but keep the zones that were assigned based on price ranking
     this.filterDataTomorrow = this.filterDataTomorrow.sort(
       ({ hour: a }, { hour: b }) => a - b
     );
