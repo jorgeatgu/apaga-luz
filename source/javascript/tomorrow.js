@@ -78,22 +78,30 @@ filter_data_tomorrow = filter_data_tomorrow.sort(
 );
 
 const container_table_tomorrow = document.querySelector('.table-next-day');
-filter_data_tomorrow = filter_data_tomorrow.map(({ price, ...rest }) => {
+// Create a map for price-based color assignment
+const priceColorMap = new Map();
+filter_data_tomorrow.forEach((item, index) => {
+  let priceColor;
+  if (index < 8) {
+    priceColor = 'price-green'; // 8 cheapest - green
+  } else if (index < 16) {
+    priceColor = 'price-yellow'; // 8 middle - yellow
+  } else {
+    priceColor = 'price-red'; // 8 most expensive - red
+  }
+  priceColorMap.set(Number(item.hour), priceColor);
+});
+
+filter_data_tomorrow = filter_data_tomorrow.map(({ price, hour, ...rest }) => {
   return {
     price: price.toFixed(3),
+    hour,
+    priceColor: priceColorMap.get(Number(hour)),
     ...rest
   };
 });
 
-for (let [index, element] of filter_data_tomorrow.entries()) {
-  if (index < 8) {
-    element.zone = 'valle';
-  } else if (index >= 8 && index < 16) {
-    element.zone = 'llano';
-  } else {
-    element.zone = 'punta';
-  }
-
+for (let element of filter_data_tomorrow) {
   if (element.hour >= 0 && element.hour < 8 && !is_week_end(tomorrow)) {
     element.tramo = 'valle';
   } else if (
