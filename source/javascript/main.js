@@ -3,6 +3,7 @@ import './../styles/styles.css';
 import {
   reload_page,
   get_zone_color,
+  get_price_color,
   width_mobile,
   day_names_us,
   is_week_end
@@ -224,7 +225,9 @@ class ApagaLuzApp {
     const mainElement = document.body;
 
     if (currentHourData && mainElement) {
-      mainElement.style.backgroundColor = get_zone_color(currentHourData.zone);
+      mainElement.style.backgroundColor = get_price_color(
+        currentHourData.priceColor
+      );
     }
   }
 

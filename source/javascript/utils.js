@@ -27,6 +27,13 @@ export function createZone(hour) {
 export const get_zone_color = zone =>
   zone === 'valle' ? '#a2fcc1' : zone === 'llano' ? '#ffae3a' : '#ec1d2f';
 
+export const get_price_color = priceColor =>
+  priceColor === 'price-green'
+    ? '#a2fcc1'
+    : priceColor === 'price-yellow'
+    ? '#ffae3a'
+    : '#ec1d2f';
+
 export const month_names = [
   'enero',
   'febrero',
