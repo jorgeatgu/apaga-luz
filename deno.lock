@@ -9,6 +9,7 @@
       "dependencies": [
         "npm:@babel/eslint-parser@^7.16.5",
         "npm:@babel/preset-env@^7.16.11",
+        "npm:@builder.io/partytown@^0.10.3",
         "npm:d3-array@^3.1.1",
         "npm:d3-axis@^3.0.0",
         "npm:d3-collection@^1.0.7",
@@ -22,6 +23,7 @@
         "npm:d3-transition@^3.0.1",
         "npm:eslint-config-standard@16.0.2",
         "npm:eslint@^7.5.0",
+        "npm:lighthouse@^12.8.2",
         "npm:lint-staged@10.5.4",
         "npm:postcss-cli@^11.0.1",
         "npm:postcss-custom-properties@14.0.4",
