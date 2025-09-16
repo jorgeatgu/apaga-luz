@@ -107,10 +107,7 @@
     .line-chart-day-price,
     .line-chart-month-price,
     .line-chart-day-price-last-year,
-    .line-chart-main-line-price,
-    .area-stacked-energy-consumption,
-    .line-chart-hour-price,
-    .line-chart-day-week-price {
+    .line-chart-main-line-price {
       min-height: 500px;
     }
 
@@ -159,7 +156,8 @@
     });
   });
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" data-overlays="bottom" crossorigin="anonymous"></script>
+  <!-- AdSense script optimizado para mejor INP -->
+  <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" data-overlays="bottom" crossorigin="anonymous" data-optimized="true"></script>
 </head>
 
 <body class="bg-secondary">
@@ -225,12 +223,10 @@
         Los datos anteriores a la reforma del 1 de junio de 2021 vienen con los precios de tres tarifas, he usado la TARIFA POR DEFECTO (PEAJE 2.0 A) por ser la más similar a la actual.
       </p>
     </section>
-    <div id="ad-container">
+    <div id="ad-container" data-ad-priority="high">
       <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </div>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    
     <section id="precio-medio-luz-dia" class="container-chart">
       <h2 class="container-chart-title">Precio medio de la luz por día</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por día. El precio medio se calcula sumando el precios de todas las horas del día y diviendo el resultado entre veinticuatro.</p>
@@ -264,37 +260,6 @@
       <article class="line-chart-main-line-price charts">
         <svg>
           <g class="line-chart-main-line-price-container"></g>
-        </svg>
-      </article>
-    </section>
-    <section id="consumo-energia-espana" class="container-chart">
-      <h2 class="container-chart-title">Consumo de energía en España</h2>
-      <p class="charts-text">En esta gráfica puedes ver el consumo de energía de España por tipo de energía entre 1965 y 2020.</p>
-      <p class="charts-text">Los datos utilizados para esta gráfica pertenecen a Our World in Data. Hannah Ritchie, Max Roser and Pablo Rosado (2020) - "Energy". <a href="https://ourworldindata.org/energy">Published online at OurWorldInData.org</a></p>
-      <p class="charts-text">Un teravatio-hora (TWh) es una unidad de potencia equivalente a un billón de vatios-hora (1012 Wh). <a href="https://es.wikipedia.org/wiki/Vatio-hora">Wikipedia</a></p>
-      <article class="area-stacked-energy-consumption charts">
-        <svg>
-          <g class="area-stacked-energy-consumption-container"></g>
-        </svg>
-      </article>
-    </section>
-    <section id="precio-medio-luz-horas" class="container-chart">
-      <h2 class="container-chart-title">Precio de la luz por horas</h2>
-      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por una hora en concreto a lo largo de toda la serie histórica.</p>
-      <select class="classic" id="select-hour-price"></select>
-      <article class="line-chart-hour-price charts">
-        <svg>
-          <g class="line-chart-hour-price-container"></g>
-        </svg>
-      </article>
-    </section>
-    <section id="precio-medio-luz-semana" class="container-chart">
-      <h2 class="container-chart-title">Precio de la luz por día de la semana</h2>
-      <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por uno de los días de la semana a lo largo de toda la serie histórica.</p>
-      <select class="classic" id="select-day-week-price"></select>
-      <article class="line-chart-day-week-price charts">
-        <svg>
-          <g class="line-chart-day-week-price-container"></g>
         </svg>
       </article>
     </section>

@@ -25,6 +25,12 @@ import {
   LRUCache
 } from './performance-utils.js';
 
+// Importar optimizador INP para mejor rendimiento
+import { inpOptimizer } from './inp-optimizer.js';
+
+// Importar optimizador de ads para reducir impacto en INP
+import { adsOptimizer } from './ads-optimizer.js';
+
 // Lazy load Web Vitals monitoring
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {
@@ -95,35 +101,82 @@ class ApagaLuzApp {
     this.updateTimeDisplay(userHour, userMinutes);
     this.updatePriceDisplay(currentPriceData.price);
 
-    // Process data for tables
-    this.filterDataToday = this.processHourlyData(
-      dataPrices,
-      userHour,
-      userDay
-    );
+    // Process data for tables usando chunked task si es necesario
+    const dataSize = dataPrices.length;
+    if (dataSize > 24) {
+      // Para datasets grandes, usar procesamiento en chunks
+      chunkedTask(
+        [dataPrices],
+        data => {
+          this.filterDataToday = this.processHourlyData(
+            data,
+            userHour,
+            userDay
+          );
+        },
+        {
+          chunkSize: 1,
+          onComplete: () => {
+            this.completeInitialization(userHour);
+          }
+        }
+      );
+      return; // Salir temprano para evitar ejecución síncrona
+    } else {
+      this.filterDataToday = this.processHourlyData(
+        dataPrices,
+        userHour,
+        userDay
+      );
+    }
 
-    // Set background color based on current hour zone
-    this.setBackgroundColor(userHour);
-
-    // Initialize tables
-    this.orderByHour();
-
-    // Setup price statistics
-    this.displayPriceStatistics();
-
-    // Setup WhatsApp sharing
-    this.setupWhatsAppSharing(
+    this.completeInitialization(
       userHour,
       userMinutes,
-      currentPriceData.price,
+      currentPriceData,
       userDay
     );
+  }
 
-    // Setup page reload
-    reload_page(userMinutes);
+  completeInitialization(userHour, userMinutes, currentPriceData, userDay) {
+    // Batch todas las operaciones de inicialización para mejor INP
+    requestAnimationFrame(() => {
+      // Set background color based on current hour zone
+      this.setBackgroundColor(userHour);
 
-    // Setup tomorrow data if needed
-    this.initializeTomorrowDataIfNeeded(userHour, userMinutes);
+      // Initialize tables
+      this.orderByHour();
+
+      // Setup price statistics
+      this.displayPriceStatistics();
+
+      if (currentPriceData && userMinutes !== undefined) {
+        // Setup WhatsApp sharing
+        this.setupWhatsAppSharing(
+          userHour,
+          userMinutes,
+          currentPriceData.price,
+          userDay
+        );
+
+        // Setup page reload
+        reload_page(userMinutes);
+      }
+
+      // Setup tomorrow data if needed usando idle callback
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(
+          () => {
+            this.initializeTomorrowDataIfNeeded(userHour, userMinutes || 0);
+          },
+          { timeout: 1000 }
+        );
+      } else {
+        setTimeout(() => {
+          this.initializeTomorrowDataIfNeeded(userHour, userMinutes || 0);
+        }, 100);
+      }
+    });
   }
 
   processHourlyData(data, userHour, userDay) {
@@ -203,19 +256,32 @@ class ApagaLuzApp {
   }
 
   updateTimeDisplay(hour, minutes) {
-    const formattedHour = hour < 10 ? `0${hour}` : hour;
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    // Batch DOM updates para mejor rendimiento
+    requestAnimationFrame(() => {
+      const formattedHour = hour < 10 ? `0${hour}` : hour;
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
+      const hoursElement = document.getElementById('hours');
+      const minutesElement = document.getElementById('minutes');
 
-    if (hoursElement) hoursElement.textContent = formattedHour;
-    if (minutesElement) minutesElement.textContent = formattedMinutes;
+      // Usar DocumentFragment para evitar multiple reflows
+      if (hoursElement && hoursElement.textContent !== formattedHour) {
+        hoursElement.textContent = formattedHour;
+      }
+      if (minutesElement && minutesElement.textContent !== formattedMinutes) {
+        minutesElement.textContent = formattedMinutes;
+      }
+    });
   }
 
   updatePriceDisplay(price) {
-    const priceElement = document.getElementById('price');
-    if (priceElement) priceElement.textContent = price.toFixed(3);
+    requestAnimationFrame(() => {
+      const priceElement = document.getElementById('price');
+      const formattedPrice = price.toFixed(3);
+      if (priceElement && priceElement.textContent !== formattedPrice) {
+        priceElement.textContent = formattedPrice;
+      }
+    });
   }
 
   setBackgroundColor(userHour) {
@@ -556,43 +622,34 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Optimized event handlers with debouncing for better INP
-    const debouncedOrderByPrice = debounce(
+    // Optimized event handlers using INP optimizer
+    const debouncedOrderByPrice = inpOptimizer.createOptimizedHandler(
       () => {
-        requestAnimationFrame(() => {
+        remove_tables();
+        this.orderByPrice();
+      },
+      { priority: 'high' }
+    );
+
+    const debouncedOrderByHour = inpOptimizer.createOptimizedHandler(
+      () => {
+        remove_tables();
+        this.orderByHour();
+      },
+      { priority: 'high' }
+    );
+
+    const debouncedCheckboxChange = inpOptimizer.createOptimizedHandler(
+      () => {
+        if (this.typeOfOrder === 'price') {
           remove_tables();
           this.orderByPrice();
-        });
-      },
-      150,
-      { leading: true, trailing: false }
-    );
-
-    const debouncedOrderByHour = debounce(
-      () => {
-        requestAnimationFrame(() => {
+        } else {
           remove_tables();
           this.orderByHour();
-        });
+        }
       },
-      150,
-      { leading: true, trailing: false }
-    );
-
-    const debouncedCheckboxChange = debounce(
-      () => {
-        requestAnimationFrame(() => {
-          if (this.typeOfOrder === 'price') {
-            remove_tables();
-            this.orderByPrice();
-          } else {
-            remove_tables();
-            this.orderByHour();
-          }
-        });
-      },
-      100,
-      { leading: false, trailing: true }
+      { priority: 'normal' }
     );
 
     // Bind events with passive option for better INP
@@ -786,25 +843,31 @@ function initializePageComponents(elements) {
   function resetBodyPaddingIfNeeded() {
     if (paddingResetTimer) return;
 
-    paddingResetTimer = setTimeout(() => {
+    // Usar rAF para mejor timing y INP
+    paddingResetTimer = requestAnimationFrame(() => {
       if (elements.body.style.padding) {
         elements.body.style.padding = '';
       }
       paddingResetTimer = null;
-    }, 100);
+    });
   }
 
   window.addEventListener('load', resetBodyPaddingIfNeeded);
-  setInterval(resetBodyPaddingIfNeeded, 5000);
+  // Usar un timeout más largo y cleanup para mejor INP
+  const paddingCheckInterval = setInterval(resetBodyPaddingIfNeeded, 10000); // Menos frecuente
 
-  // Load ads with reduced impact
-  if (window.adsbygoogle && window.adsbygoogle.length === 0) {
-    window.addEventListener('load', function () {
-      setTimeout(() => {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }, 1000);
-    });
-  }
+  // Cleanup al unload para evitar memory leaks
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      clearInterval(paddingCheckInterval);
+    },
+    { once: true }
+  );
+
+  // Ads optimization is now handled by ads-optimizer.js module
+  // The module automatically handles lazy loading, ad blocker detection,
+  // and intelligent loading strategies to minimize INP impact
 }
 
 function setupFormHandling(form, fileInput, fileInfo, fileContainer) {

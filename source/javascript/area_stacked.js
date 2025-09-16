@@ -5,6 +5,9 @@ import { scaleTime, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv } from 'd3-fetch';
 import { format } from 'd3-format';
+import { throttle, chunkedTask } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
+import { d3WorkerManager } from './d3-worker-manager.js';
 
 const d3 = {
   select,
@@ -26,7 +29,7 @@ const d3 = {
   format
 };
 
-export function area_stacked(data_chart, element_options) {
+export async function area_stacked(data_chart, element_options) {
   const {
     html_element,
     x_axis_prop,
@@ -47,9 +50,13 @@ export function area_stacked(data_chart, element_options) {
     .attr('class', 'tooltip tooltip-area-stack')
     .style('opacity', 0);
 
-  function setup_scales() {
+  async function setup_scales() {
     const keys = area_stacked_data.columns.slice(1, 9);
-    const stacked = d3.stack().keys(keys)(area_stacked_data);
+
+    // Usar chunked processing para stacking pesado
+    const stacked = await inpOptimizer.scheduleTask(() => {
+      return d3.stack().keys(keys)(area_stacked_data);
+    }, 'high');
 
     const countX = d3
       .scaleTime()
@@ -60,6 +67,7 @@ export function area_stacked(data_chart, element_options) {
       .domain([0, d3.max(stacked[stacked.length - 1], d => d[1])]);
 
     scales.count = { x: countX, y: countY };
+    return stacked;
   }
 
   function setup_elements() {
@@ -80,30 +88,36 @@ export function area_stacked(data_chart, element_options) {
     y.range([height, 0]);
   }
 
-  function draw_axes(g) {
+  async function draw_axes(g) {
     const {
       count: { x, y }
     } = scales;
-    const axis_x = d3
-      .axisBottom(x)
-      .tickFormat(d3.format('d'))
-      .tickPadding(7)
-      .ticks(9);
 
-    g.select('.axis-x')
-      .attr('transform', `translate(0,${height})`)
-      .call(axis_x);
+    // Chunked axis rendering para evitar blocking
+    await inpOptimizer.scheduleTask(() => {
+      const axis_x = d3
+        .axisBottom(x)
+        .tickFormat(d3.format('d'))
+        .tickPadding(7)
+        .ticks(9);
 
-    const axis_y = d3
-      .axisLeft(y)
-      .tickFormat(d => d + ' TWh')
-      .tickSizeInner(-width)
-      .ticks(12);
+      g.select('.axis-x')
+        .attr('transform', `translate(0,${height})`)
+        .call(axis_x);
+    }, 'high');
 
-    g.select('.axis-y').call(axis_y);
+    await inpOptimizer.scheduleTask(() => {
+      const axis_y = d3
+        .axisLeft(y)
+        .tickFormat(d => d + ' TWh')
+        .tickSizeInner(-width)
+        .ticks(12);
+
+      g.select('.axis-y').call(axis_y);
+    }, 'high');
   }
 
-  function update_chart(area_stacked_data) {
+  async function update_chart(area_stacked_data) {
     const w = chart.node().offsetWidth;
     const h = 600;
 
@@ -184,7 +198,7 @@ export function area_stacked(data_chart, element_options) {
         focus.style('display', 'none');
         area_stacked_tooltip.style('opacity', 0);
       })
-      .on('mousemove', mousemove);
+      .on('mousemove', throttle(mousemove, 50, { passive: true })); // Throttle más agresivo
 
     function mousemove(event) {
       const { layerX } = event;
@@ -230,23 +244,88 @@ export function area_stacked(data_chart, element_options) {
         .attr('transform', `translate(${scales.count.x(d[x_axis_prop])},0)`);
     }
 
-    draw_axes(g);
+    await draw_axes(g);
   }
 
-  function resize() {
-    update_chart(area_stacked_data);
+  async function resize() {
+    await update_chart(area_stacked_data);
   }
 
-  function load_data() {
-    d3.csv(data_chart).then(data => {
-      area_stacked_data = data;
-      setup_elements();
-      setup_scales();
-      update_chart(area_stacked_data);
-    });
+  async function load_data() {
+    try {
+      // Intentar usar worker para procesamiento de CSV pesado
+      let csvText;
+      if (typeof data_chart === 'string') {
+        const response = await fetch(data_chart);
+        csvText = await response.text();
+      } else {
+        csvText = data_chart;
+      }
+
+      // Usar worker si está disponible
+      try {
+        area_stacked_data = await d3WorkerManager.processAreaStackedData(
+          csvText,
+          {
+            chunkSize: 100
+          }
+        );
+        console.log(
+          'CSV processed with Web Worker:',
+          area_stacked_data.length,
+          'rows'
+        );
+      } catch (workerError) {
+        console.warn(
+          'Worker CSV processing failed, using fallback:',
+          workerError
+        );
+        // Fallback usando d3.csv tradicional
+        area_stacked_data = await d3.csv(data_chart);
+      }
+
+      await initializeAreaChart();
+    } catch (error) {
+      console.error('Failed to load area stacked data:', error);
+    }
   }
 
-  window.addEventListener('resize', resize);
+  async function initializeAreaChart() {
+    // Procesar datos de forma chunked
+    if (area_stacked_data && area_stacked_data.length > 0) {
+      await chunkedTask(
+        area_stacked_data,
+        d => {
+          Object.keys(d).forEach(key => {
+            if (key !== x_axis_prop) {
+              d[key] = +d[key];
+            }
+          });
+        },
+        { chunkSize: 50 }
+      );
+    }
 
-  load_data();
+    setup_elements();
+    const stacked = await setup_scales();
+    await update_chart(area_stacked_data);
+  }
+
+  // Optimizar resize con throttling para mejor INP
+  const isMobile = window.innerWidth <= 768;
+  const throttleDelay = isMobile ? 100 : 250;
+  const throttledResize = throttle(resize, throttleDelay, { trailing: true });
+
+  window.addEventListener('resize', throttledResize, { passive: true });
+
+  // Cleanup
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', throttledResize);
+    },
+    { once: true }
+  );
+
+  await load_data();
 }

@@ -66,16 +66,18 @@ export function debounce(func, delay, options = {}) {
 }
 
 /**
- * Throttle optimizado con requestAnimationFrame
+ * Throttle optimizado con requestAnimationFrame y soporte para INP
  */
 export function throttle(func, delay, options = {}) {
   let lastCall = 0;
   let timeout;
+  let rafId;
   let lastArgs;
   let lastThis;
   let result;
   let isTrailing = options.trailing !== false;
   let isLeading = options.leading !== false;
+  let useRAF = options.useRAF || false;
 
   const invokeFunc = () => {
     const args = lastArgs;
@@ -99,17 +101,37 @@ export function throttle(func, delay, options = {}) {
         clearTimeout(timeout);
         timeout = null;
       }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
 
       if (isLeading) {
-        return invokeFunc();
-      }
-    } else if (!timeout && isTrailing) {
-      timeout = setTimeout(() => {
-        timeout = null;
-        if (lastArgs) {
-          invokeFunc();
+        if (useRAF) {
+          rafId = requestAnimationFrame(() => {
+            invokeFunc();
+            rafId = null;
+          });
+        } else {
+          return invokeFunc();
         }
-      }, remaining);
+      }
+    } else if (!timeout && !rafId && isTrailing) {
+      if (useRAF) {
+        rafId = requestAnimationFrame(() => {
+          if (lastArgs) {
+            invokeFunc();
+          }
+          rafId = null;
+        });
+      } else {
+        timeout = setTimeout(() => {
+          timeout = null;
+          if (lastArgs) {
+            invokeFunc();
+          }
+        }, remaining);
+      }
     }
 
     return result;
@@ -117,7 +139,8 @@ export function throttle(func, delay, options = {}) {
 
   throttled.cancel = () => {
     clearTimeout(timeout);
-    timeout = lastArgs = lastThis = null;
+    if (rafId) cancelAnimationFrame(rafId);
+    timeout = rafId = lastArgs = lastThis = null;
     lastCall = 0;
   };
 
@@ -300,5 +323,162 @@ export function monitorLongTasks(callback, threshold = 50) {
     return observer;
   } catch (e) {
     console.warn('Long task monitoring not supported');
+  }
+}
+
+/**
+ * Scheduler optimizado para tareas de baja prioridad
+ */
+export function scheduleTask(task, priority = 'background') {
+  if ('scheduler' in window && 'postTask' in window.scheduler) {
+    return window.scheduler.postTask(task, { priority });
+  } else if ('requestIdleCallback' in window) {
+    return new Promise(resolve => {
+      requestIdleCallback(
+        () => {
+          resolve(task());
+        },
+        { timeout: 5000 }
+      );
+    });
+  } else {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(task()), 0);
+    });
+  }
+}
+
+/**
+ * Debounce especializado para inputs con mejor INP
+ */
+export function debounceInput(func, delay = 100) {
+  let timeoutId;
+  let rafId;
+
+  return function (...args) {
+    // Cancelar timers previos
+    if (timeoutId) clearTimeout(timeoutId);
+    if (rafId) cancelAnimationFrame(rafId);
+
+    // Para inputs, usar rAF para mejor responsividad
+    rafId = requestAnimationFrame(() => {
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    });
+  };
+}
+
+/**
+ * Cache especializado para operaciones DOM costosas
+ */
+export class DOMCache {
+  constructor(maxSize = 50) {
+    this.cache = new Map();
+    this.maxSize = maxSize;
+  }
+
+  get(selector) {
+    if (this.cache.has(selector)) {
+      const entry = this.cache.get(selector);
+      // Verificar si el elemento sigue en el DOM
+      if (document.contains(entry.element)) {
+        return entry.element;
+      } else {
+        this.cache.delete(selector);
+      }
+    }
+
+    const element = document.querySelector(selector);
+    if (element) {
+      this.set(selector, element);
+    }
+    return element;
+  }
+
+  set(selector, element) {
+    if (this.cache.size >= this.maxSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+
+    this.cache.set(selector, {
+      element,
+      timestamp: Date.now()
+    });
+  }
+
+  clear() {
+    this.cache.clear();
+  }
+}
+
+/**
+ * Yielding mejorado para operaciones largas
+ */
+export function yieldToMain() {
+  return new Promise(resolve => {
+    if ('scheduler' in window && 'postTask' in window.scheduler) {
+      window.scheduler.postTask(resolve, { priority: 'user-blocking' });
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
+}
+
+/**
+ * Optimizador de event listeners
+ */
+export class EventOptimizer {
+  constructor() {
+    this.listeners = new Map();
+  }
+
+  add(element, event, handler, options = {}) {
+    const key = `${element.tagName}-${event}`;
+
+    // Aplicar passive por defecto a eventos de scroll/touch
+    const passiveEvents = [
+      'scroll',
+      'wheel',
+      'touchstart',
+      'touchmove',
+      'touchend'
+    ];
+    if (passiveEvents.includes(event) && options.passive === undefined) {
+      options.passive = true;
+    }
+
+    // Throttle por defecto a eventos frecuentes
+    const frequentEvents = ['scroll', 'resize', 'mousemove', 'touchmove'];
+    let finalHandler = handler;
+
+    if (frequentEvents.includes(event) && !options.noThrottle) {
+      finalHandler = throttle(handler, options.throttleDelay || 16);
+    }
+
+    element.addEventListener(event, finalHandler, options);
+
+    // Guardar para cleanup
+    if (!this.listeners.has(element)) {
+      this.listeners.set(element, []);
+    }
+    this.listeners.get(element).push({ event, handler: finalHandler, options });
+  }
+
+  removeAll(element) {
+    if (this.listeners.has(element)) {
+      const elementListeners = this.listeners.get(element);
+      elementListeners.forEach(({ event, handler, options }) => {
+        element.removeEventListener(event, handler, options);
+      });
+      this.listeners.delete(element);
+    }
+  }
+
+  cleanup() {
+    this.listeners.forEach((listeners, element) => {
+      this.removeAll(element);
+    });
   }
 }

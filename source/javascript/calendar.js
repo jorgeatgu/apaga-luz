@@ -2,6 +2,7 @@ import './../styles/styles.css';
 import datos from '../../public/group-by-month.json';
 import { Datepicker } from 'vanillajs-datepicker';
 import es from 'vanillajs-datepicker/locales/es';
+import { throttle } from './performance-utils.js';
 Object.assign(Datepicker.locales, es);
 const monthNames = [
   'enero',
@@ -241,7 +242,21 @@ function lineChart(dataChart, element) {
     });
   }
 
-  window.addEventListener('resize', resize);
+  // Optimizar resize con throttling para mejor INP
+  const isMobile = window.innerWidth <= 768;
+  const throttleDelay = isMobile ? 100 : 250;
+  const throttledResize = throttle(resize, throttleDelay, { trailing: true });
+
+  window.addEventListener('resize', throttledResize, { passive: true });
+
+  // Cleanup
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', throttledResize);
+    },
+    { once: true }
+  );
 
   loadData();
 }

@@ -1,5 +1,204 @@
 import { width_mobile } from './utils.js';
 import { chunkedTask, batchDOMUpdates, throttle } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
+
+// Event delegation manager para tablas
+class TableEventManager {
+  constructor() {
+    this.initialized = false;
+    this.tableContainers = [];
+  }
+
+  init() {
+    if (this.initialized) return;
+
+    // Identificar contenedores de tabla principales
+    this.tableContainers = [
+      '.container-table-price-left',
+      '.container-table-price-right',
+      '.table-next-day-grid-left',
+      '.table-next-day-grid-right'
+    ];
+
+    this.setupEventDelegation();
+    this.initialized = true;
+  }
+
+  setupEventDelegation() {
+    // Usar un solo listener para todos los contenedores de tabla
+    this.tableContainers.forEach(selector => {
+      const container = document.querySelector(selector);
+      if (container) {
+        // Optimizar hover y click events usando delegación
+        const optimizedHandler = inpOptimizer.createOptimizedHandler(
+          this.handleTableInteraction.bind(this),
+          { priority: 'normal' }
+        );
+
+        // Event delegation para clicks
+        container.addEventListener('click', optimizedHandler, {
+          passive: true
+        });
+
+        // Throttle hover events para mejor performance
+        const throttledHover = throttle(this.handleTableHover.bind(this), 16);
+        container.addEventListener('mouseover', throttledHover, {
+          passive: true
+        });
+      }
+    });
+  }
+
+  handleTableInteraction(e) {
+    const target = e.target;
+    const priceElement = target.closest('.container-table-price-element');
+
+    if (
+      priceElement &&
+      !priceElement.classList.contains('element-hour-disabled')
+    ) {
+      // Manejar click en elemento de precio
+      this.handlePriceElementClick(priceElement, e);
+    }
+  }
+
+  handleTableHover(e) {
+    const target = e.target;
+    const priceElement = target.closest('.container-table-price-element');
+
+    if (priceElement) {
+      // Efectos visuales de hover optimizados
+      requestAnimationFrame(() => {
+        priceElement.style.transform = 'scale(1.02)';
+        priceElement.style.willChange = 'transform';
+      });
+
+      // Limpiar después de un tiempo
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          priceElement.style.transform = '';
+          priceElement.style.willChange = 'auto';
+        });
+      }, 200);
+    }
+  }
+
+  handlePriceElementClick(element, event) {
+    // Aquí se pueden agregar comportamientos específicos al hacer click
+    // Por ejemplo: mostrar detalles, copiar al clipboard, etc.
+    console.log('Price element clicked:', element);
+  }
+}
+
+// Instancia global del manager
+const tableEventManager = new TableEventManager();
+
+// Virtual Scrolling Manager for large tables
+class VirtualScrollManager {
+  constructor() {
+    this.observers = new Map();
+    this.virtualizedTables = new Set();
+  }
+
+  virtualize(table, threshold = 50) {
+    if (table.rows.length <= threshold || this.virtualizedTables.has(table)) {
+      return;
+    }
+
+    this.virtualizedTables.add(table);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.rows);
+
+    if (rows.length <= threshold) return;
+
+    // Store original rows data
+    const rowData = rows.map(row => ({
+      html: row.outerHTML,
+      height: row.offsetHeight || 40 // fallback height
+    }));
+
+    // Calculate virtual container height
+    const totalHeight = rowData.reduce((sum, row) => sum + row.height, 0);
+
+    // Create virtual container
+    const virtualContainer = document.createElement('div');
+    virtualContainer.style.height = `${totalHeight}px`;
+    virtualContainer.style.position = 'relative';
+    virtualContainer.style.contain = 'layout style paint';
+
+    // Create visible viewport
+    const viewport = document.createElement('div');
+    viewport.style.position = 'absolute';
+    viewport.style.top = '0';
+    viewport.style.width = '100%';
+    viewport.style.contain = 'layout style';
+
+    virtualContainer.appendChild(viewport);
+
+    // Replace tbody content
+    tbody.innerHTML = '';
+    tbody.appendChild(virtualContainer);
+
+    // Virtual scrolling logic
+    let startIndex = 0;
+    let endIndex = Math.min(20, rows.length); // Show 20 rows initially
+    let scrollTop = 0;
+
+    const updateVisibleRows = () => {
+      const containerRect = table.getBoundingClientRect();
+      const rowHeight = rowData[0]?.height || 40;
+      const visibleCount = Math.ceil(containerRect.height / rowHeight) + 10; // 10 buffer rows
+
+      startIndex = Math.max(0, Math.floor(scrollTop / rowHeight) - 5);
+      endIndex = Math.min(rows.length, startIndex + visibleCount);
+
+      // Clear viewport
+      viewport.innerHTML = '';
+
+      // Add visible rows
+      for (let i = startIndex; i < endIndex; i++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.innerHTML = rowData[i].html;
+        rowDiv.style.position = 'absolute';
+        rowDiv.style.top = `${i * rowHeight}px`;
+        rowDiv.style.width = '100%';
+        rowDiv.style.contain = 'layout style';
+        viewport.appendChild(rowDiv.firstElementChild);
+      }
+    };
+
+    // Throttled scroll handler
+    const throttledScroll = throttle(() => {
+      const rect = table.getBoundingClientRect();
+      scrollTop = window.pageYOffset - rect.top + window.innerHeight;
+
+      requestAnimationFrame(updateVisibleRows);
+    }, 16);
+
+    // Initial render
+    updateVisibleRows();
+
+    // Listen to scroll events
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+
+    // Store cleanup function
+    this.observers.set(table, () => {
+      window.removeEventListener('scroll', throttledScroll);
+      this.virtualizedTables.delete(table);
+    });
+  }
+
+  cleanup(table) {
+    const cleanup = this.observers.get(table);
+    if (cleanup) {
+      cleanup();
+      this.observers.delete(table);
+    }
+  }
+}
+
+// Global instance
+const virtualScrollManager = new VirtualScrollManager();
 
 export function create_new_table(data_table, selector, type_of_filter) {
   let data;
@@ -60,8 +259,8 @@ export function create_new_table(data_table, selector, type_of_filter) {
   // Crear todas las filas en memoria antes de insertarlas
   const rowsFragment = document.createDocumentFragment();
 
-  // Process rows in chunks for better INP performance
-  if (array_of_hours.length > 12) {
+  // Process rows in chunks for better INP performance (optimized threshold)
+  if (array_of_hours.length > 8) {
     // For large tables, use chunked processing
     chunkedTask(
       array_of_hours,
@@ -107,10 +306,12 @@ export function create_new_table(data_table, selector, type_of_filter) {
         rowsFragment.appendChild(row);
       },
       {
-        chunkSize: 6,
+        chunkSize: 4, // Smaller chunks for better INP
         onComplete: () => {
-          // Insert all rows at once after processing
-          body.appendChild(rowsFragment);
+          // Use rAF for smooth insertion
+          requestAnimationFrame(() => {
+            body.appendChild(rowsFragment);
+          });
         }
       }
     );
@@ -172,6 +373,17 @@ export function create_new_table(data_table, selector, type_of_filter) {
       // Add CSS containment to the container for better performance
       container.style.contain = 'layout';
       container.appendChild(fragment);
+
+      // Inicializar event delegation si es necesario
+      tableEventManager.init();
+
+      // Aplicar virtual scrolling si la tabla es muy grande
+      requestIdleCallback(
+        () => {
+          virtualScrollManager.virtualize(table);
+        },
+        { timeout: 1000 }
+      );
     }
   });
 
@@ -198,25 +410,37 @@ export function create_new_table(data_table, selector, type_of_filter) {
         const th = event.target.closest('td');
         if (!th) return;
 
+        // Use double rAF for better performance during sorting
         requestAnimationFrame(() => {
-          sortDirectionIcon(asc, th);
-          const table = th.closest('table');
-          const tbody = table.querySelector('tbody');
-          const rows = Array.from(tbody.querySelectorAll('tr'));
+          requestAnimationFrame(() => {
+            sortDirectionIcon(asc, th);
+            const table = th.closest('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
 
-          // Crear fragmento para el reordenamiento
-          const sortedFragment = document.createDocumentFragment();
-          rows
-            .sort(
-              comparer(
-                Array.from(th.parentNode.children).indexOf(th),
-                (asc = !asc)
+            // Batch sort operations
+            const sortedFragment = document.createDocumentFragment();
+
+            // Optimize sorting with hint for GPU acceleration
+            tbody.style.willChange = 'contents';
+
+            rows
+              .sort(
+                comparer(
+                  Array.from(th.parentNode.children).indexOf(th),
+                  (asc = !asc)
+                )
               )
-            )
-            .forEach(tr => sortedFragment.appendChild(tr));
+              .forEach(tr => sortedFragment.appendChild(tr));
 
-          // Una sola operación DOM para reordenar
-          tbody.appendChild(sortedFragment);
+            // Single DOM operation for reordering
+            tbody.appendChild(sortedFragment);
+
+            // Cleanup will-change after animation
+            setTimeout(() => {
+              tbody.style.willChange = 'auto';
+            }, 300);
+          });
         });
       }, 200);
 
@@ -241,6 +465,9 @@ export function table_price_tomorrow(
   const container = document.querySelector('.table-next-day');
   const table_grid = document.querySelector(element);
   if (!container || !table_grid) return;
+
+  // Early return if no data
+  if (!data_hours || data_hours.length === 0) return;
 
   let title;
 
@@ -291,8 +518,18 @@ export function table_price_tomorrow(
     fragment.appendChild(blockDiv);
   }
 
-  // Single DOM operation
-  table_grid.appendChild(fragment);
+  // Single DOM operation with performance optimization
+  requestAnimationFrame(() => {
+    table_grid.appendChild(fragment);
+
+    // Defer event delegation initialization
+    requestIdleCallback(
+      () => {
+        tableEventManager.init();
+      },
+      { timeout: 500 }
+    );
+  });
 }
 
 export function remove_table(element) {
@@ -306,36 +543,46 @@ export function remove_table(element) {
 export function remove_tables() {
   // Optimized: Use innerHTML = '' instead of removeChild loops
   // This is significantly faster for clearing multiple elements
-  const container_table_left = document.querySelector(
-    '.container-table-price-left'
-  );
-  const container_table_right = document.querySelector(
-    '.container-table-price-right'
-  );
+  // Use rAF to prevent blocking the main thread
+  requestAnimationFrame(() => {
+    const containers = [
+      document.querySelector('.container-table-price-left'),
+      document.querySelector('.container-table-price-right')
+    ].filter(Boolean); // Remove null elements
 
-  if (container_table_left) container_table_left.innerHTML = '';
-  if (container_table_right) container_table_right.innerHTML = '';
+    containers.forEach(container => {
+      if (container.children.length > 0) {
+        container.innerHTML = '';
+      }
+    });
+  });
 }
 
 export function remove_tables_tomorrow() {
-  // Optimized: Use innerHTML = '' instead of removeChild loops
-  const container_table_left = document.querySelector(
-    '.table-next-day-grid-left'
-  );
-  const container_table_right = document.querySelector(
-    '.table-next-day-grid-right'
-  );
+  // Optimized: Use innerHTML = '' instead of removeChild loops with rAF
+  requestAnimationFrame(() => {
+    const containers = [
+      document.querySelector('.table-next-day-grid-left'),
+      document.querySelector('.table-next-day-grid-right')
+    ].filter(Boolean);
 
-  if (container_table_left) container_table_left.innerHTML = '';
-  if (container_table_right) container_table_right.innerHTML = '';
+    containers.forEach(container => {
+      if (container.children.length > 0) {
+        container.innerHTML = '';
+      }
+    });
+  });
 }
 
 export function table_price(data_hours, element) {
   const container = document.querySelector(element);
   if (!container) return;
 
-  const get_value_checkbox_hours =
-    document.getElementById('checkbox-hours').checked;
+  // Cache DOM queries para evitar reconsultas
+  const checkboxHours = document.getElementById('checkbox-hours');
+  const get_value_checkbox_hours = checkboxHours
+    ? checkboxHours.checked
+    : false;
 
   const today = new Date();
   const options = {
@@ -353,18 +600,69 @@ export function table_price(data_hours, element) {
     )}`;
   }
 
-  // Use DocumentFragment for better performance
+  // Use DocumentFragment for better performance with batch processing
   const fragment = document.createDocumentFragment();
 
+  // Process elements in chunks for better INP (optimized threshold)
+  if (data_hours.length > 8) {
+    chunkedTask(
+      data_hours,
+      elements => {
+        const { price, hour, priceColor, hourHasPassed, tramo } = elements;
+        const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
+        const hour_has_passed_class =
+          hourHasPassed && get_value_checkbox_hours
+            ? 'element-hour-disabled'
+            : '';
+
+        // Create DOM elements with CSS containment hints
+        const blockDiv = document.createElement('div');
+        blockDiv.className = `${hour_has_passed_class} container-table-price-element`;
+        blockDiv.style.contain = 'layout style'; // Performance hint
+
+        const hourSpan = document.createElement('span');
+        hourSpan.className = `container-table-price-element-hour tramo-hidden ${priceColor} tramo-${tramo}`;
+        hourSpan.textContent = transform_hour;
+
+        const priceSpan = document.createElement('span');
+        priceSpan.className = 'container-table-price-element-price';
+        priceSpan.textContent = `${price} € kWh`;
+
+        blockDiv.appendChild(hourSpan);
+        blockDiv.appendChild(priceSpan);
+        fragment.appendChild(blockDiv);
+      },
+      {
+        chunkSize: 4, // Smaller chunks for better responsiveness
+        onComplete: () => {
+          // Use rAF for smooth insertion and better INP
+          requestAnimationFrame(() => {
+            container.appendChild(fragment);
+            // Initialize event delegation after DOM is ready
+            requestIdleCallback(
+              () => {
+                tableEventManager.init();
+              },
+              { timeout: 500 }
+            );
+          });
+        }
+      }
+    );
+    return; // Exit early to avoid synchronous processing
+  }
+
+  // Synchronous processing for small datasets
   for (let elements of data_hours) {
     const { price, hour, priceColor, hourHasPassed, tramo } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
     const hour_has_passed_class =
       hourHasPassed && get_value_checkbox_hours ? 'element-hour-disabled' : '';
 
-    // Create DOM elements instead of innerHTML for better performance
+    // Create DOM elements with performance hints
     const blockDiv = document.createElement('div');
     blockDiv.className = `${hour_has_passed_class} container-table-price-element`;
+    blockDiv.style.contain = 'layout style';
 
     const hourSpan = document.createElement('span');
     hourSpan.className = `container-table-price-element-hour tramo-hidden ${priceColor} tramo-${tramo}`;
@@ -379,6 +677,16 @@ export function table_price(data_hours, element) {
     fragment.appendChild(blockDiv);
   }
 
-  // Single DOM operation
-  container.appendChild(fragment);
+  // Single DOM operation with performance optimization
+  requestAnimationFrame(() => {
+    container.appendChild(fragment);
+
+    // Defer event delegation initialization for better INP
+    requestIdleCallback(
+      () => {
+        tableEventManager.init();
+      },
+      { timeout: 500 }
+    );
+  });
 }

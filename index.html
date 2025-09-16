@@ -16,7 +16,8 @@
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" data-overlays="bottom" crossorigin="anonymous"></script>
+  <!-- AdSense script optimizado para mejor INP - se carga con defer en lugar de async -->
+  <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" data-overlays="bottom" crossorigin="anonymous" data-optimized="true"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
@@ -97,7 +98,13 @@
       transform: translateZ(0);
     }
   </style>
-  <!-- Removed inline script - moved to consolidated listener in main.js for better performance -->
+  <!-- Performance optimizations: ads handled by ads-optimizer.js module -->
+  <script>
+    // Prevenir CLS reservando espacio para ads
+    if (typeof CSS !== 'undefined' && CSS.supports('contain', 'layout')) {
+      document.documentElement.style.setProperty('--ad-min-height', '280px');
+    }
+  </script>
 
   <script type="application/ld+json">
   {
@@ -275,12 +282,16 @@
           <p class="blog-grid-element-text">Para maximizar tu ahorro, es recomendable <a href="/precio-luz-manana/">consultar los precios de la luz para mañana</a> y planificar tu consumo con antelación. También puedes analizar las <a href="/graficas/">tendencias históricas de precios</a> para entender mejor los patrones de fluctuación.</p>
         </div>
       </article>
-      <div id="ad-container">
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-8990231994528437" data-ad-slot="2765328821" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <!-- Ad optimizado con lazy loading para mejor INP -->
+      <div id="ad-container" data-ad-priority="high">
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-client="ca-pub-8990231994528437"
+             data-ad-slot="2765328821"
+             data-ad-format="auto"
+             data-full-width-responsive="true"
+             data-lazy-ad="true"></ins>
       </div>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
       <article class="container-hour">
         <div class="container-hour-datetime">
           <span id="hours"></span><span>:</span><span id="minutes"></span>

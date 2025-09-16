@@ -1,33 +1,46 @@
 import './../styles/styles.css';
+import { throttle } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.querySelector('.menu-toggle');
   const header = document.querySelector('.site-header');
 
   if (menuToggle) {
-    menuToggle.addEventListener('click', function () {
-      header.classList.toggle('menu-open');
-      const isExpanded = header.classList.contains('menu-open');
-      this.setAttribute('aria-expanded', isExpanded);
+    // Optimizar click handler con INP optimizer
+    const optimizedMenuToggle = inpOptimizer.createOptimizedHandler(
+      function () {
+        header.classList.toggle('menu-open');
+        const isExpanded = header.classList.contains('menu-open');
+        menuToggle.setAttribute('aria-expanded', isExpanded);
 
-      if (isExpanded) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
+        if (isExpanded) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      },
+      { priority: 'high' }
+    );
+
+    menuToggle.addEventListener('click', optimizedMenuToggle, {
+      passive: false
     });
   }
 
   const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 
   dropdownToggles.forEach(toggle => {
-    toggle.addEventListener('click', function (e) {
+    // Usar passive listener donde sea posible
+    const handleDropdownClick = function (e) {
       if (window.innerWidth < 992) {
         e.preventDefault();
         const parent = this.closest('.has-dropdown');
         parent.classList.toggle('open');
       }
-    });
+    };
+
+    toggle.addEventListener('click', handleDropdownClick, { passive: false });
   });
 
   const navLinks = document.querySelectorAll(
@@ -35,24 +48,51 @@ document.addEventListener('DOMContentLoaded', function () {
   );
 
   navLinks.forEach(link => {
-    link.addEventListener('click', function () {
+    // Optimizar con passive listener
+    const handleNavClick = function () {
       if (window.innerWidth < 992) {
-        header.classList.remove('menu-open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        requestAnimationFrame(() => {
+          header.classList.remove('menu-open');
+          if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+          document.body.style.overflow = '';
+        });
       }
-    });
+    };
+
+    link.addEventListener('click', handleNavClick, { passive: true });
   });
 
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 992) {
-      header.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+  // Optimizar resize con throttling
+  const handleResize = throttle(
+    function () {
+      if (window.innerWidth >= 992) {
+        requestAnimationFrame(() => {
+          header.classList.remove('menu-open');
+          if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+          document.body.style.overflow = '';
 
-      document.querySelectorAll('.has-dropdown.open').forEach(item => {
-        item.classList.remove('open');
-      });
-    }
-  });
+          document.querySelectorAll('.has-dropdown.open').forEach(item => {
+            item.classList.remove('open');
+          });
+        });
+      }
+    },
+    250,
+    { trailing: true }
+  );
+
+  window.addEventListener('resize', handleResize, { passive: true });
+
+  // Cleanup
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', handleResize);
+    },
+    { once: true }
+  );
 });

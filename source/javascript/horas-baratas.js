@@ -1,5 +1,7 @@
 import './../styles/styles.css';
 import data_today from '/public/data/today_price.json';
+import { throttle, debounce } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   // Inicializar componentes principales
@@ -58,13 +60,16 @@ function initCheapestHoursList() {
       } con un precio de ${cheapestHours[0].price.toFixed(3)} €/kWh.</p>
     `;
 
-    // Animar la aparición de las tarjetas
-    setTimeout(() => {
-      const hourItems = document.querySelectorAll('.cheapest-hour-item');
-      hourItems.forEach(item => {
-        item.classList.add('visible');
+    // Animar la aparición de las tarjetas usando rAF para mejor INP
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const hourItems = document.querySelectorAll('.cheapest-hour-item');
+        // Usar DocumentFragment para batch updates
+        hourItems.forEach(item => {
+          item.classList.add('visible');
+        });
       });
-    }, 300);
+    });
   }
 }
 
@@ -86,52 +91,99 @@ function initSavingsCalculator() {
 
   if (!calculateButton) return;
 
-  // Actualizar valores de rango al mover los sliders
-  highUsageInput.addEventListener('input', function () {
-    highUsageValue.textContent = this.value + '%';
+  // Throttled input handlers para mejorar INP en sliders
+  const throttledHighUsageUpdate = throttle(
+    () => {
+      requestAnimationFrame(() => {
+        highUsageValue.textContent = highUsageInput.value + '%';
+      });
+    },
+    16,
+    { trailing: true }
+  );
+
+  const throttledShiftUpdate = throttle(
+    () => {
+      requestAnimationFrame(() => {
+        shiftPotentialValue.textContent = shiftPotentialInput.value + '%';
+      });
+    },
+    16,
+    { trailing: true }
+  );
+
+  // Usar passive listeners para mejor rendimiento
+  highUsageInput.addEventListener('input', throttledHighUsageUpdate, {
+    passive: true
+  });
+  shiftPotentialInput.addEventListener('input', throttledShiftUpdate, {
+    passive: true
   });
 
-  shiftPotentialInput.addEventListener('input', function () {
-    shiftPotentialValue.textContent = this.value + '%';
+  // Función para calcular el ahorro - optimizada con INP optimizer
+  const optimizedCalculate = inpOptimizer.createOptimizedHandler(
+    function () {
+      // Obtener valores
+      const monthlyConsumption =
+        parseFloat(monthlyConsumptionInput.value) || 300;
+      const highUsage = parseFloat(highUsageInput.value) / 100;
+      const shiftPotential = parseFloat(shiftPotentialInput.value) / 100;
+
+      // Precios aproximados en €/kWh
+      const pricePeak = 0.25; // Precio hora punta
+      const priceValley = 0.15; // Precio hora valle
+      const priceDifference = pricePeak - priceValley;
+
+      // Cálculos
+      const consumptionInPeakHours = monthlyConsumption * highUsage;
+      const consumptionToShift = consumptionInPeakHours * shiftPotential;
+      const monthlySavingsValue = consumptionToShift * priceDifference;
+      const annualSavingsValue = monthlySavingsValue * 12;
+
+      // Mostrar resultados con animación
+      animateValue(monthlySavings, 0, monthlySavingsValue.toFixed(2), 1000);
+      animateValue(annualSavings, 0, annualSavingsValue.toFixed(2), 1500);
+
+      // Mostrar resultados con efecto visual optimizado para INP
+      const resultBoxes = document.querySelectorAll('.result-box');
+      requestAnimationFrame(() => {
+        resultBoxes.forEach(box => {
+          box.style.transform = 'scale(1.05)';
+          box.style.willChange = 'transform'; // Hint para GPU
+        });
+
+        // Usar rAF en lugar de setTimeout para mejor timing
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            resultBoxes.forEach(box => {
+              box.style.transform = 'scale(1)';
+              box.style.willChange = 'auto'; // Limpiar hint
+            });
+          }, 200); // Duración más corta
+        });
+      });
+    },
+    { priority: 'high' }
+  );
+
+  calculateButton.addEventListener('click', optimizedCalculate, {
+    passive: true
   });
 
-  // Función para calcular el ahorro
-  calculateButton.addEventListener('click', function () {
-    // Obtener valores
-    const monthlyConsumption = parseFloat(monthlyConsumptionInput.value) || 300;
-    const highUsage = parseFloat(highUsageInput.value) / 100;
-    const shiftPotential = parseFloat(shiftPotentialInput.value) / 100;
-
-    // Precios aproximados en €/kWh
-    const pricePeak = 0.25; // Precio hora punta
-    const priceValley = 0.15; // Precio hora valle
-    const priceDifference = pricePeak - priceValley;
-
-    // Cálculos
-    const consumptionInPeakHours = monthlyConsumption * highUsage;
-    const consumptionToShift = consumptionInPeakHours * shiftPotential;
-    const monthlySavingsValue = consumptionToShift * priceDifference;
-    const annualSavingsValue = monthlySavingsValue * 12;
-
-    // Mostrar resultados con animación
-    animateValue(monthlySavings, 0, monthlySavingsValue.toFixed(2), 1000);
-    animateValue(annualSavings, 0, annualSavingsValue.toFixed(2), 1500);
-
-    // Mostrar resultados con efecto visual
-    const resultBoxes = document.querySelectorAll('.result-box');
-    resultBoxes.forEach(box => {
-      box.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        box.style.transform = 'scale(1)';
-      }, 300);
-    });
-  });
-
-  // Inicializar calculadora con un cálculo automático
+  // Inicializar calculadora con un cálculo automático usando rIC
   if (calculateButton) {
-    setTimeout(() => {
-      calculateButton.click();
-    }, 1000);
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(
+        () => {
+          calculateButton.click();
+        },
+        { timeout: 2000 }
+      );
+    } else {
+      setTimeout(() => {
+        calculateButton.click();
+      }, 500); // Timeout más corto como fallback
+    }
   }
 }
 
@@ -192,15 +244,25 @@ function initTariffComparison() {
   if (profileOptions.length > 0) {
     updateRecommendation('morning');
 
-    // Añadir event listeners a las opciones de perfil
+    // Añadir event listeners optimizados a las opciones de perfil
     profileOptions.forEach(option => {
       const radio = option.querySelector('input[type="radio"]');
-      radio.addEventListener('change', function () {
-        if (this.checked) {
-          const profile = option.dataset.profile;
-          updateRecommendation(profile);
-        }
-      });
+
+      // Usar debounce para evitar múltiples actualizaciones rápidas
+      const optimizedChange = debounce(
+        function () {
+          if (this.checked) {
+            const profile = option.dataset.profile;
+            requestAnimationFrame(() => {
+              updateRecommendation(profile);
+            });
+          }
+        },
+        150,
+        { leading: true, trailing: false }
+      );
+
+      radio.addEventListener('change', optimizedChange, { passive: true });
     });
   }
 
@@ -294,29 +356,38 @@ function addVisualEffects() {
     }
   }
 
-  // Animación para las tarjetas de recursos
+  // Animación optimizada usando CSS hover y passive listeners
   const resourceCards = document.querySelectorAll('.resource-card');
-  resourceCards.forEach(card => {
-    card.addEventListener('mouseenter', function () {
-      this.style.transform = 'translateY(-8px)';
-    });
-
-    card.addEventListener('mouseleave', function () {
-      this.style.transform = 'translateY(-5px)';
-    });
-  });
-
-  // Animación para los bloques de tarifas
   const tariffBlocks = document.querySelectorAll('.tariff-block');
-  tariffBlocks.forEach(block => {
-    block.addEventListener('mouseenter', function () {
-      this.style.transform = 'translateY(-5px)';
-    });
 
-    block.addEventListener('mouseleave', function () {
-      this.style.transform = 'translateY(0)';
+  // Usar delegación de eventos para mejor rendimiento
+  const handleHoverEffects = (elements, enterTransform, leaveTransform) => {
+    elements.forEach(element => {
+      element.addEventListener(
+        'mouseenter',
+        function () {
+          this.style.willChange = 'transform';
+          this.style.transform = enterTransform;
+        },
+        { passive: true }
+      );
+
+      element.addEventListener(
+        'mouseleave',
+        function () {
+          this.style.transform = leaveTransform;
+          // Limpiar will-change después de la animación
+          requestAnimationFrame(() => {
+            this.style.willChange = 'auto';
+          });
+        },
+        { passive: true }
+      );
     });
-  });
+  };
+
+  handleHoverEffects(resourceCards, 'translateY(-8px)', 'translateY(-5px)');
+  handleHoverEffects(tariffBlocks, 'translateY(-5px)', 'translateY(0)');
 
   // Mejorar interactividad en FAQ
   const faqItems = document.querySelectorAll('.faq-container details');
@@ -343,21 +414,56 @@ function formatHour(hour) {
   return `${hour.toString().padStart(2, '0')}:00`;
 }
 
-// Función para animar el contador
+// Throttle helper para inputs
+function throttleInput(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    if (timeoutId) return; // Prevenir ejecuciones múltiples
+
+    timeoutId = requestAnimationFrame(() => {
+      func.apply(this, args);
+      timeoutId = null;
+    });
+  };
+}
+
+// Función optimizada para animar el contador con mejor INP
 function animateValue(element, start, end, duration) {
   if (!element) return;
 
   let startTimestamp = null;
+  let rafId = null;
+
   const step = timestamp => {
     if (!startTimestamp) startTimestamp = timestamp;
-    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-    const value = progress * (end - start) + start;
+    const elapsed = timestamp - startTimestamp;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Usar easing para suavizar la animación
+    const easedProgress =
+      progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+    const value = easedProgress * (end - start) + start;
     element.textContent = parseFloat(value).toFixed(2);
+
     if (progress < 1) {
-      window.requestAnimationFrame(step);
+      rafId = requestAnimationFrame(step);
+    } else {
+      rafId = null;
     }
   };
-  window.requestAnimationFrame(step);
+
+  rafId = requestAnimationFrame(step);
+
+  // Devolver función de cancelación para limpieza
+  return () => {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  };
 }
 
 // Función para determinar el periodo (valle, llano, punta) según la hora

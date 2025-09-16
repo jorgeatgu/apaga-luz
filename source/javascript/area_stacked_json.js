@@ -12,6 +12,7 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { json } from 'd3-fetch';
 import { format } from 'd3-format';
 import data_generation from '/public/data/generacion-energia-comunidad.json';
+import { throttle } from './performance-utils.js';
 
 const d3 = {
   select,
@@ -366,7 +367,21 @@ export function area_stacked_json(element_options) {
     update_chart(area_stacked_data);
   }
 
-  window.addEventListener('resize', resize);
+  // Optimizar resize con throttling para mejor INP
+  const isMobile = window.innerWidth <= 768;
+  const throttleDelay = isMobile ? 100 : 250;
+  const throttledResize = throttle(resize, throttleDelay, { trailing: true });
+
+  window.addEventListener('resize', throttledResize, { passive: true });
+
+  // Cleanup
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', throttledResize);
+    },
+    { once: true }
+  );
 
   load_data();
 }

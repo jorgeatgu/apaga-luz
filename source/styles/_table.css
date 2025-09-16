@@ -1,5 +1,6 @@
 .container-table {
   background-color: var(--bg-charts-table);
+  contain: layout style;
 }
 
 .table-element {
@@ -30,6 +31,7 @@
   background-color: var(--white);
   border-radius: 4px;
   border: 1px solid #A0ABAF;
+  contain: layout style paint;
 }
 
 .header-same-day {
@@ -61,11 +63,15 @@
     &.sorted-down {
       background: #A0ABAF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9 16.172l-6.071-6.071-1.414 1.414L10 20l.707-.707 7.778-7.778-1.414-1.414L11 16.172V0H9z'/%3E%3C/svg%3E") no-repeat 100% 50%;
       background-size: .75rem .75rem;
+      will-change: background;
+      transition: background .2s ease;
     }
 
     &.sorted-up {
       background: #A0ABAF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M9 3.828L2.929 9.899 1.515 8.485 10 0l.707.707 7.778 7.778-1.414 1.414L11 3.828V20H9V3.828z'/%3E%3C/svg%3E") no-repeat 100% 50%;
       background-size: .75rem .75rem;
+      will-change: background;
+      transition: background .2s ease;
     }
   }
 }
@@ -92,8 +98,10 @@
   }
 
   &:hover {
+    will-change: background-color;
     td {
       background: #f4f4f4;
+      transition: background-color .15s ease;
     }
   }
 
@@ -102,6 +110,30 @@
       border-bottom: 0;
     }
   }
+}
+
+/* Performance optimizations for price tables */
+.container-table-price-element {
+  contain: layout style;
+  will-change: transform;
+}
+
+.container-table-price-element:hover {
+  will-change: transform, background-color;
+}
+
+.table-next-day {
+  contain: layout style paint;
+}
+
+.table-next-day-grid-left,
+.table-next-day-grid-right {
+  contain: layout style;
+}
+
+.container-table-price-left,
+.container-table-price-right {
+  contain: layout style;
 }
 
 details.details-table {

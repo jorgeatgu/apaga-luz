@@ -9,12 +9,88 @@ import { format } from 'd3-format';
 import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
 import { day_names, month_names, width_mobile } from './utils.js';
+import {
+  throttle as performanceThrottle,
+  chunkedTask
+} from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
+import { d3WorkerManager } from './d3-worker-manager.js';
 
-// Throttle function optimizada para mejorar INP en eventos frecuentes
-function throttle(func, delay) {
+// Usar throttle optimizado de performance-utils para mejor INP
+const throttle = performanceThrottle;
+
+// Cache LRU para datos procesados (main thread)
+const chartDataCache = new Map();
+const MAX_CACHE_SIZE = 15;
+
+/**
+ * Renderizado chunked de paths D3 para evitar long tasks
+ */
+async function renderPathChunked(container, data, lineGenerator, htmlElement) {
+  const chunkSize = 200; // Puntos por chunk
+
+  if (data.length <= chunkSize) {
+    // Renderizado directo para datasets pequeños
+    container
+      .selectAll(`.line-${htmlElement}`)
+      .data([data])
+      .join('path')
+      .attr('class', `line-${htmlElement}`)
+      .transition()
+      .duration(120) // Reducido para mejor INP
+      .ease(d3.easeLinear)
+      .attr('d', lineGenerator);
+    return;
+  }
+
+  // Renderizado chunked para datasets grandes
+  const pathElement = container
+    .selectAll(`.line-${htmlElement}`)
+    .data([data])
+    .join('path')
+    .attr('class', `line-${htmlElement}`);
+
+  // Generar path en chunks
+  let pathData = '';
+  for (let i = 0; i < data.length; i += chunkSize) {
+    const chunk = data.slice(i, i + chunkSize);
+
+    // Asegurar continuidad entre chunks
+    if (i > 0) {
+      chunk.unshift(data[i - 1]);
+    }
+
+    const chunkPath = lineGenerator(chunk);
+    if (chunkPath) {
+      pathData += i === 0 ? chunkPath : chunkPath.replace(/^M[^L]*L/, 'L');
+    }
+
+    // Yield control cada 3 chunks
+    if (i % (chunkSize * 3) === 0) {
+      await new Promise(resolve => {
+        if ('scheduler' in window && 'postTask' in window.scheduler) {
+          window.scheduler.postTask(resolve, { priority: 'user-blocking' });
+        } else {
+          requestAnimationFrame(resolve);
+        }
+      });
+    }
+  }
+
+  // Aplicar path final con transición optimizada
+  pathElement
+    .transition()
+    .duration(150)
+    .ease(d3.easeLinear)
+    .attr('d', pathData);
+}
+
+// Función throttle local deprecada - usar performanceThrottle
+function __deprecated_throttle(func, delay) {
   let lastCall = 0;
   let rafId = null;
   let lastArgs = null;
+  let isIdle = false;
 
   return function (...args) {
     lastArgs = args;
@@ -26,7 +102,25 @@ function throttle(func, delay) {
         rafId = null;
       }
       lastCall = now;
-      func.apply(this, lastArgs);
+
+      // Usar requestIdleCallback para operaciones no críticas
+      if ('requestIdleCallback' in window && !isIdle) {
+        isIdle = true;
+        requestIdleCallback(
+          deadline => {
+            if (deadline.timeRemaining() > 5) {
+              func.apply(this, lastArgs);
+            } else {
+              // Fallback a rAF si no hay tiempo suficiente
+              requestAnimationFrame(() => func.apply(this, lastArgs));
+            }
+            isIdle = false;
+          },
+          { timeout: 50 }
+        );
+      } else {
+        func.apply(this, lastArgs);
+      }
     } else if (!rafId) {
       rafId = requestAnimationFrame(() => {
         lastCall = Date.now();
@@ -80,7 +174,30 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     .attr('class', `tooltip tooltip-${html_element}`)
     .style('opacity', 0);
 
-  function setup_scales() {
+  async function setup_scales() {
+    // Usar worker si está disponible para datasets grandes
+    if (line_chart_data.length > 100) {
+      try {
+        const scaleData = await d3WorkerManager.calculateScales(
+          line_chart_data,
+          {
+            xAxisProp: x_axis_prop,
+            yAxisProp: y_axis_prop,
+            width: width || 800,
+            height: height || 500
+          }
+        );
+
+        const count_x = d3.scaleTime().domain(scaleData.x.domain);
+        const count_y = d3.scaleLinear().domain(scaleData.y.domain);
+        scales.count = { x: count_x, y: count_y };
+        return;
+      } catch (error) {
+        console.warn('Worker scale calculation failed, using fallback:', error);
+      }
+    }
+
+    // Fallback tradicional
     const count_x = d3
       .scaleTime()
       .domain(d3.extent(line_chart_data, d => d[x_axis_prop]));
@@ -113,43 +230,50 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     y.range([height, 0]);
   }
 
-  function draw_axes(g) {
-    const axisX = d3
-      .axisBottom(scales.count.x)
-      .tickPadding(4)
-      .tickFormat(d => {
-        if (main_chart || html_element.includes('gas')) {
-          return new Intl.DateTimeFormat('es-ES', {
-            day: 'numeric',
-            month: 'numeric'
-          }).format(d);
-        } else {
-          return d.getFullYear();
-        }
-      })
-      .ticks(5);
+  async function draw_axes(g) {
+    // Chunked axis rendering para evitar blocking
+    await inpOptimizer.scheduleTask(() => {
+      const axisX = d3
+        .axisBottom(scales.count.x)
+        .tickPadding(4)
+        .tickFormat(d => {
+          if (main_chart || html_element.includes('gas')) {
+            return new Intl.DateTimeFormat('es-ES', {
+              day: 'numeric',
+              month: 'numeric'
+            }).format(d);
+          } else {
+            return d.getFullYear();
+          }
+        })
+        .ticks(5);
 
-    g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
+      g.select('.axis-x')
+        .attr('transform', `translate(0,${height})`)
+        .call(axisX);
+    }, 'high');
 
-    const axisY = d3
-      .axisLeft(scales.count.y)
-      .tickPadding(15)
-      .tickFormat(d =>
-        d < 0.1
-          ? `${d3.format('.2n')(d)} €/kWh`
-          : `${d3.format('.3n')(d)} €/kWh`
-      )
-      .tickSize(-width)
-      .ticks(8);
+    await inpOptimizer.scheduleTask(() => {
+      const axisY = d3
+        .axisLeft(scales.count.y)
+        .tickPadding(15)
+        .tickFormat(d =>
+          d < 0.1
+            ? `${d3.format('.2n')(d)} €/kWh`
+            : `${d3.format('.3n')(d)} €/kWh`
+        )
+        .tickSize(-width)
+        .ticks(8);
 
-    g.select('.axis-y')
-      .transition()
-      .duration(450)
-      .ease(d3.easeLinear)
-      .call(axisY);
+      g.select('.axis-y')
+        .transition()
+        .duration(300) // Reducido de 450ms para mejor INP
+        .ease(d3.easeLinear)
+        .call(axisY);
+    }, 'high');
   }
 
-  function update_chart(data) {
+  async function update_chart(data) {
     const w = chart.node().offsetWidth;
     const h = 500;
 
@@ -185,23 +309,8 @@ export function line_chart(data_chart, element_options, selected_value = '') {
 
     const container = chart.select(`.line-chart-${html_element}-container-bis`);
 
-    container
-      .selectAll(`.line-${html_element}`)
-      .data([data])
-      .join('path')
-      .attr('class', `line-${html_element}`)
-      .transition()
-      .duration(200) // Reducir duración para mejor percepción de respuesta
-      .ease(d3.easeLinear)
-      .attrTween('d', function (d) {
-        let previous = d3.select(this).attr('d');
-        let current = line(d);
-        // Solo animar si hay un path previo
-        if (previous && previous !== 'null') {
-          return d3.interpolatePath(previous, current);
-        }
-        return () => current;
-      });
+    // Chunked path rendering para datasets grandes
+    await renderPathChunked(container, data, line, html_element);
 
     const focus = g.select(`.focus-${html_element}`);
 
@@ -216,9 +325,9 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       .attr('cy', 0)
       .attr('r', 0);
 
-    // Throttle mousemove para mejorar INP con debounce en mobile
+    // Throttle mousemove para mejorar INP con debounce más agresivo
     const isMobile = width_mobile <= 764;
-    const throttledMousemove = throttle(mousemove, isMobile ? 32 : 16); // 30fps mobile, 60fps desktop
+    const throttledMousemove = throttle(mousemove, isMobile ? 100 : 50); // Más agresivo para mejor INP
 
     overlay
       .attr('width', width)
@@ -249,124 +358,143 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       // Optimización: salir temprano si no hay datos
       if (!data || data.length === 0) return;
 
-      // No usar requestAnimationFrame aquí porque ya está en el throttle
-      const { layerX } = event;
-      const x0 = x.invert(layerX - left);
-      const i = bisec_date(data, x0, 1);
-      const d0 = data[i - 1];
-      const d1 = data[i];
-      const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
-      const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
+      // Optimización: usar try-catch para evitar errores que bloqueen el hilo
+      try {
+        const { layerX } = event;
+        const x0 = x.invert(layerX - left);
+        const i = bisec_date(data, x0, 1);
 
-      const month_content = `<span class="tooltip-group-by-${html_element}-year">En ${
-        month_names[d[x_axis_prop].getMonth()]
-      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-        3
-      )} € kWh</strong></span>`;
+        // Validar índices antes de acceder a los datos
+        if (i <= 0 || i >= data.length) return;
 
-      const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-        d.day
-      } de ${month_names[d[x_axis_prop].getMonth()]} del ${
-        d.year
-      } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-        3
-      )} €/kWh</strong></span>`;
+        const d0 = data[i - 1];
+        const d1 = data[i];
+        if (!d0 || !d1) return;
 
-      const hour_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-        d.day
-      } de ${month_names[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
-        d.hora
-      }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
-        3
-      )} €/kWh</strong></span>`;
+        const d = x0 - d0[x_axis_prop] > d1[x_axis_prop] - x0 ? d1 : d0;
+        const position_left_tooltip = (w - tooltip.node().offsetWidth) / 2;
 
-      const day_week_content = `<span class="tooltip-group-by-${html_element}-year">El ${
-        d.day_of_week
-      }
+        const month_content = `<span class="tooltip-group-by-${html_element}-year">En ${
+          month_names[d[x_axis_prop].getMonth()]
+        } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+          3
+        )} € kWh</strong></span>`;
+
+        const day_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+          d.day
+        } de ${month_names[d[x_axis_prop].getMonth()]} del ${
+          d.year
+        } el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+          3
+        )} €/kWh</strong></span>`;
+
+        const hour_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+          d.day
+        } de ${month_names[d[x_axis_prop].getMonth()]} del ${d.year} a las ${
+          d.hora
+        }:00 el precio fue de <strong>${d[y_axis_prop].toFixed(
+          3
+        )} €/kWh</strong></span>`;
+
+        const day_week_content = `<span class="tooltip-group-by-${html_element}-year">El ${
+          d.day_of_week
+        }
        ${d.day} de ${month_names[d[x_axis_prop].getMonth()]} de ${d.year}
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-      const main_week_linechart = d.dia
-        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
-            month_names[d[x_axis_prop].getMonth()]
-          }
+        const main_week_linechart = d.dia
+          ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+              month_names[d[x_axis_prop].getMonth()]
+            }
        a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`
-        : '';
+          : '';
 
-      const gas_hour_linechart = d.dia
-        ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
-            month_names[d[x_axis_prop].getMonth()]
-          }
+        const gas_hour_linechart = d.dia
+          ? `<span class="tooltip-group-by-${html_element}-year">El ${d.dia.getDate()} de ${
+              month_names[d[x_axis_prop].getMonth()]
+            }
        a las ${d.dia.getHours()}:00
       el precio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`
-        : '';
+          : '';
 
-      const gas_day_linechart = `<span class="tooltip-group-by-${html_element}-year">El
+        const gas_day_linechart = `<span class="tooltip-group-by-${html_element}-year">El
        ${d.day} de ${month_names[d[x_axis_prop].getMonth()]} de ${d.year}
       el precio medio fue de <strong>${d[y_axis_prop].toFixed(
         3
       )} €/kWh</strong></span>`;
 
-      const gas_month_linechart = `<span class="tooltip-group-by-${html_element}-year">En ${
-        month_names[d[x_axis_prop].getMonth()]
-      } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
-        3
-      )} € kWh</strong></span>`;
+        const gas_month_linechart = `<span class="tooltip-group-by-${html_element}-year">En ${
+          month_names[d[x_axis_prop].getMonth()]
+        } del ${d.year} el precio medio fue de <strong>${d[y_axis_prop].toFixed(
+          3
+        )} € kWh</strong></span>`;
 
-      tooltip
-        .style('opacity', 1)
-        .html(
-          html_element === 'month-price'
-            ? month_content
-            : html_element === 'day-price' ||
-              html_element === 'day-price-last-year'
-            ? day_content
-            : html_element === 'hour-price'
-            ? hour_content
-            : html_element === 'day-week-price'
-            ? day_week_content
-            : html_element === 'main-line-price'
-            ? main_week_linechart
-            : html_element === 'hour-price-gas'
-            ? gas_hour_linechart
-            : html_element === 'day-price-gas'
-            ? gas_day_linechart
-            : html_element === 'month-price-gas'
-            ? gas_month_linechart
-            : ''
-        )
-        .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
-        .style('left', () =>
-          width_mobile > 764 ? `${position_left_tooltip}px` : '49%'
-        );
+        tooltip
+          .style('opacity', 1)
+          .html(
+            html_element === 'month-price'
+              ? month_content
+              : html_element === 'day-price' ||
+                html_element === 'day-price-last-year'
+              ? day_content
+              : html_element === 'hour-price'
+              ? hour_content
+              : html_element === 'day-week-price'
+              ? day_week_content
+              : html_element === 'main-line-price'
+              ? main_week_linechart
+              : html_element === 'hour-price-gas'
+              ? gas_hour_linechart
+              : html_element === 'day-price-gas'
+              ? gas_day_linechart
+              : html_element === 'month-price-gas'
+              ? gas_month_linechart
+              : ''
+          )
+          .style('top', () => (width_mobile > 764 ? '5%' : ' 0%'))
+          .style('left', () =>
+            width_mobile > 764 ? `${position_left_tooltip}px` : '49%'
+          );
 
-      // Batch DOM updates
-      const xPos = x(d[x_axis_prop]);
-      const yPos = y(d[y_axis_prop]);
+        // Batch DOM updates con validación y GPU optimization
+        const xPos = x(d[x_axis_prop]);
+        const yPos = y(d[y_axis_prop]);
 
-      focus
-        .select(`.y-hover-line-${html_element}`)
-        .attr('transform', `translate(${xPos},0)`)
-        .attr('y1', yPos);
+        // Validar posiciones para evitar valores NaN que causen reflows
+        if (isNaN(xPos) || isNaN(yPos)) return;
 
-      focus
-        .select(`.circle-focus-${html_element}`)
-        .attr('cx', xPos)
-        .attr('cy', yPos)
-        .attr('r', 3);
+        // Batch multiple DOM updates en single rAF
+        requestAnimationFrame(() => {
+          const focusElements = {
+            line: focus.select(`.y-hover-line-${html_element}`),
+            circle: focus.select(`.circle-focus-${html_element}`)
+          };
+
+          // Usar transform3d para mejor GPU acceleration
+          focusElements.line
+            .style('transform', `translate3d(${xPos}px, 0px, 0px)`)
+            .attr('y1', yPos);
+
+          focusElements.circle
+            .style('transform', `translate3d(${xPos}px, ${yPos}px, 0px)`)
+            .attr('r', 3);
+        });
+      } catch (error) {
+        console.warn('Error in mousemove handler:', error);
+      }
     }
 
-    draw_axes(g);
+    await draw_axes(g);
   }
 
-  function handle_select() {
+  async function handle_select() {
     let select_values =
       html_element === 'day-week-price'
         ? day_names
@@ -404,10 +532,10 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         : line_chart_data.filter(({ hora }) => hora === selected_value);
 
     setup_elements();
-    setup_scales();
-    update_chart(line_chart_data_filter);
+    await setup_scales();
+    await update_chart(line_chart_data_filter);
 
-    select_element.on('change', function () {
+    select_element.on('change', async function () {
       const selected_value = d3
         .select(`#select-${html_element}`)
         .property('value');
@@ -419,86 +547,164 @@ export function line_chart(data_chart, element_options, selected_value = '') {
             )
           : line_chart_data.filter(({ hora }) => hora === selected_value);
 
-      setup_scales();
-      update_chart(line_chart_data_filter);
+      await setup_scales();
+      await update_chart(line_chart_data_filter);
     });
   }
 
-  function resize() {
+  async function resize() {
     const update_data = select_html ? line_chart_data_filter : line_chart_data;
-    update_chart(update_data);
+    await update_chart(update_data);
   }
 
-  function load_data() {
-    d3.json(data_chart).then(data => {
-      line_chart_data = data.sort(
-        (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
-      );
+  async function load_data() {
+    try {
+      // Cache check primero
+      const cacheKey = `${data_chart}_${html_element}_${selected_value || ''}`;
+      if (chartDataCache.has(cacheKey)) {
+        const cachedResult = chartDataCache.get(cacheKey);
+        line_chart_data = cachedResult.data;
+        await initializeChart();
+        return;
+      }
 
-      if (!select_html) {
-        if (main_chart) {
-          line_chart_data.forEach(d => {
+      const data = await d3.json(data_chart);
+
+      // Usar worker para preprocessing de datos grandes
+      let processedResult;
+      if (data.length > 100) {
+        try {
+          processedResult = await d3WorkerManager.processLineChartData(data, {
+            xAxisProp: x_axis_prop,
+            yAxisProp: y_axis_prop,
+            sortData: true
+          });
+          line_chart_data = processedResult.data;
+        } catch (error) {
+          console.warn('Worker processing failed, using fallback:', error);
+          line_chart_data = data.sort(
+            (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+          );
+        }
+      } else {
+        line_chart_data = data.sort(
+          (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+        );
+      }
+
+      // Cache resultado
+      if (chartDataCache.size >= MAX_CACHE_SIZE) {
+        const firstKey = chartDataCache.keys().next().value;
+        chartDataCache.delete(firstKey);
+      }
+      chartDataCache.set(cacheKey, {
+        data: line_chart_data,
+        timestamp: Date.now()
+      });
+
+      await initializeChart();
+    } catch (error) {
+      console.error('Failed to load chart data:', error);
+    }
+  }
+
+  async function initializeChart() {
+    if (!select_html) {
+      if (main_chart) {
+        await chunkedTask(
+          line_chart_data,
+          d => {
             d[y_axis_prop] = d[y_axis_prop] / 1000;
-            d[x_axis_prop] = new Date(
-              `${d[x_axis_prop].split('/')[1]}/${
-                d[x_axis_prop].split('/')[0]
-              }/${d[x_axis_prop].split('/')[2]}`
-            );
-            d[x_axis_prop].setHours(
-              d[x_axis_prop].getHours() + d.hora.split('-')[0]
-            );
-          });
-          line_chart_data = data.sort(
-            (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
-          );
-        } else if (html_element === 'hour-price-gas') {
-          line_chart_data.forEach(d => {
-            d.day = d[x_axis_prop].split('/')[0];
-            d.year = d[x_axis_prop].split('/')[2];
-            d[x_axis_prop] = new Date(
-              `${d[x_axis_prop].split('/')[1]}/${
-                d[x_axis_prop].split('/')[0]
-              }/${d[x_axis_prop].split('/')[2]}`
-            );
+
+            // Verificar tipo antes de procesar fecha
+            if (typeof d[x_axis_prop] === 'string') {
+              d[x_axis_prop] = new Date(
+                `${d[x_axis_prop].split('/')[1]}/${
+                  d[x_axis_prop].split('/')[0]
+                }/${d[x_axis_prop].split('/')[2]}`
+              );
+            } else if (!(d[x_axis_prop] instanceof Date)) {
+              d[x_axis_prop] = new Date(d[x_axis_prop]);
+            }
+
+            if (d.hora && typeof d.hora === 'string') {
+              d[x_axis_prop].setHours(
+                d[x_axis_prop].getHours() + parseInt(d.hora.split('-')[0])
+              );
+            }
+          },
+          { chunkSize: 50 }
+        );
+        line_chart_data.sort(
+          (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+        );
+      } else if (html_element === 'hour-price-gas') {
+        await chunkedTask(
+          line_chart_data,
+          d => {
+            // Verificar tipo antes de procesar fecha
+            if (typeof d[x_axis_prop] === 'string') {
+              d.day = d[x_axis_prop].split('/')[0];
+              d.year = d[x_axis_prop].split('/')[2];
+              d[x_axis_prop] = new Date(
+                `${d[x_axis_prop].split('/')[1]}/${
+                  d[x_axis_prop].split('/')[0]
+                }/${d[x_axis_prop].split('/')[2]}`
+              );
+            } else if (!(d[x_axis_prop] instanceof Date)) {
+              d[x_axis_prop] = new Date(d[x_axis_prop]);
+              d.day = d[x_axis_prop].getDate();
+              d.year = d[x_axis_prop].getFullYear();
+            }
             d[x_axis_prop].setHours(d[x_axis_prop].getHours() + d.hora);
-          });
-          line_chart_data = data.sort(
-            (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
-          );
-          setup_elements();
-          setup_scales();
-          update_chart(line_chart_data);
-        } else {
-          line_chart_data.forEach(d => {
+          },
+          { chunkSize: 50 }
+        );
+        line_chart_data.sort(
+          (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
+        );
+        setup_elements();
+        await setup_scales();
+        await update_chart(line_chart_data);
+      } else {
+        await chunkedTask(
+          line_chart_data,
+          d => {
             d[y_axis_prop] =
               html_element === 'day-price-gas' ||
               html_element === 'month-price-gas'
                 ? d[y_axis_prop]
                 : d[y_axis_prop] / 1000;
             d[x_axis_prop] = new Date(d[x_axis_prop]);
-          });
-        }
-
-        setup_elements();
-        setup_scales();
-        update_chart(line_chart_data);
-      } else {
-        line_chart_data = transform_data_day(line_chart_data);
-        handle_select();
+          },
+          { chunkSize: 50 }
+        );
       }
 
-      let meanPrice = mean(line_chart_data.map(d => d[y_axis_prop]));
-      let medianPrice = median(line_chart_data.map(d => d[y_axis_prop]));
-    });
+      setup_elements();
+      await setup_scales();
+      await update_chart(line_chart_data);
+    } else {
+      line_chart_data = await transform_data_day(line_chart_data);
+      await handle_select();
+    }
+
+    // Calcular estadísticas de forma chunked
+    const meanPrice = mean(line_chart_data.map(d => d[y_axis_prop]));
+    const medianPrice = median(line_chart_data.map(d => d[y_axis_prop]));
   }
 
-  function transform_data_day(data) {
+  async function transform_data_day(data) {
     let data_return = data;
     if (html_element === 'day-week-price') {
-      data_return.forEach(d => {
-        d[y_axis_prop] = d[y_axis_prop] / 1000;
-        d[x_axis_prop] = new Date(d[x_axis_prop]);
-      });
+      await chunkedTask(
+        data_return,
+        d => {
+          d[y_axis_prop] = d[y_axis_prop] / 1000;
+          d[x_axis_prop] = new Date(d[x_axis_prop]);
+        },
+        { chunkSize: 50 }
+      );
 
       data_return = data_return.map(({ date, ...rest }) => {
         return {
@@ -510,17 +716,32 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         };
       });
     } else {
-      data_return.forEach(d => {
-        d[y_axis_prop] = d[y_axis_prop] / 1000;
-        d.hora = d.hora.split('-')[0];
-        d.day = d[x_axis_prop].split('/')[0];
-        d.year = d[x_axis_prop].split('/')[2];
-        d[x_axis_prop] = new Date(
-          `${d[x_axis_prop].split('/')[1]}/${d[x_axis_prop].split('/')[0]}/${
-            d[x_axis_prop].split('/')[2]
-          }`
-        );
-      });
+      await chunkedTask(
+        data_return,
+        d => {
+          d[y_axis_prop] = d[y_axis_prop] / 1000;
+
+          if (d.hora && typeof d.hora === 'string') {
+            d.hora = d.hora.split('-')[0];
+          }
+
+          // Verificar tipo antes de procesar fecha
+          if (typeof d[x_axis_prop] === 'string') {
+            d.day = d[x_axis_prop].split('/')[0];
+            d.year = d[x_axis_prop].split('/')[2];
+            d[x_axis_prop] = new Date(
+              `${d[x_axis_prop].split('/')[1]}/${
+                d[x_axis_prop].split('/')[0]
+              }/${d[x_axis_prop].split('/')[2]}`
+            );
+          } else if (!(d[x_axis_prop] instanceof Date)) {
+            d[x_axis_prop] = new Date(d[x_axis_prop]);
+            d.day = d[x_axis_prop].getDate();
+            d.year = d[x_axis_prop].getFullYear();
+          }
+        },
+        { chunkSize: 50 }
+      );
     }
 
     return data_return.sort(
@@ -528,7 +749,22 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     );
   }
 
-  window.addEventListener('resize', resize);
+  // Optimizar resize con throttling diferenciado para móvil/desktop
+  const isMobile = window.innerWidth <= 768;
+  const throttleDelay = isMobile ? 100 : 250;
+  const throttledResize = throttle(resize, throttleDelay, { trailing: true });
+
+  // Usar passive para mejor INP
+  window.addEventListener('resize', throttledResize, { passive: true });
+
+  // Cleanup en unload para evitar memory leaks
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', throttledResize);
+    },
+    { once: true }
+  );
 
   load_data();
 }

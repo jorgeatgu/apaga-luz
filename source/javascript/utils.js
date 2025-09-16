@@ -5,9 +5,32 @@ export function reload_page(minutes) {
   const milliseconds = (h, m, s) => (h * 60 * 60 + m * 60 + s) * 1000;
   const result = milliseconds(0, reload_page_minutes, 0);
 
-  setTimeout(() => {
-    location.reload();
+  // Usar timeout optimizado que no interfiera con INP
+  const timeoutId = setTimeout(() => {
+    // Recargar solo si la página está visible para evitar interferencias
+    if (!document.hidden) {
+      location.reload();
+    } else {
+      // Si no está visible, esperar a que lo esté
+      const handleVisibilityChange = () => {
+        if (!document.hidden) {
+          location.reload();
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange, {
+        once: true
+      });
+    }
   }, result);
+
+  // Limpiar timeout si la página se descarga
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      clearTimeout(timeoutId);
+    },
+    { once: true }
+  );
 }
 
 export function createZone(hour) {

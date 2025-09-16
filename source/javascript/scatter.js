@@ -5,6 +5,7 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { json } from 'd3-fetch';
 import { easeQuad } from 'd3-ease';
 import 'd3-transition';
+import { throttle } from './performance-utils.js';
 
 const d3 = {
   select,
@@ -173,7 +174,21 @@ export function scatterPlot(dataChart, scatterOptions) {
     });
   }
 
-  window.addEventListener('resize', resize);
+  // Optimizar resize con throttling para mejor INP
+  const isMobile = window.innerWidth <= 768;
+  const throttleDelay = isMobile ? 100 : 250;
+  const throttledResize = throttle(resize, throttleDelay, { trailing: true });
+
+  window.addEventListener('resize', throttledResize, { passive: true });
+
+  // Cleanup
+  window.addEventListener(
+    'beforeunload',
+    () => {
+      window.removeEventListener('resize', throttledResize);
+    },
+    { once: true }
+  );
 
   loadData();
 }
