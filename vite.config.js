@@ -29,6 +29,7 @@ export default defineConfig({
         'luz-barata-2025': 'noticias/luz-barata-2025/index.html',
         'como-ahorrar-precio-luz-por-horas': 'noticias/como-ahorrar-precio-luz-por-horas/index.html',
         'mejores-horas-electrodomesticos': 'noticias/mejores-horas-electrodomesticos/index.html',
+        'interpretar-graficas-precio-luz-tiempo-real': 'noticias/interpretar-graficas-precio-luz-tiempo-real/index.html',
         'precio-luz-horas-ahorrar-factura-energetica': 'noticias/precio-luz-horas-ahorrar-factura-energetica/index.html',
         'ofertas-luz-2025': 'noticias/ofertas-luz-2025/index.html',
         'guia-apagon-prolongado': 'noticias/guia-apagon-prolongado/index.html',
