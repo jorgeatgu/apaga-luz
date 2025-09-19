@@ -43,16 +43,18 @@ class NavigationManager {
       this.handleMenuToggle.bind(this),
       { passive: false }
     );
+
+    // Cerrar dropdowns al hacer click fuera en desktop
+    document.addEventListener('click', this.handleDocumentClick.bind(this), {
+      passive: true
+    });
   }
 
   handleHeaderClick(e) {
     const target = e.target;
 
     // Handle dropdown toggles
-    if (
-      target.classList.contains('dropdown-toggle') &&
-      window.innerWidth < 992
-    ) {
+    if (target.classList.contains('dropdown-toggle')) {
       e.preventDefault();
       requestAnimationFrame(() => {
         const parent = target.closest('.has-dropdown');
@@ -90,6 +92,24 @@ class NavigationManager {
         this.closeMenu();
       }
     });
+  }
+
+  handleDocumentClick(e) {
+    // Solo en desktop
+    if (window.innerWidth < 992) return;
+
+    // No hacer nada si el click fue dentro del header
+    if (this.header && this.header.contains(e.target)) return;
+
+    // Cerrar todos los dropdowns abiertos
+    const openDropdowns = document.querySelectorAll('.has-dropdown.open');
+    if (openDropdowns.length > 0) {
+      requestAnimationFrame(() => {
+        openDropdowns.forEach(item => {
+          item.classList.remove('open');
+        });
+      });
+    }
   }
 
   openMenu() {
@@ -144,6 +164,7 @@ class NavigationManager {
     if (this.menuToggle) {
       this.menuToggle.removeEventListener('click', this.handleMenuToggle);
     }
+    document.removeEventListener('click', this.handleDocumentClick);
     this.initialized = false;
   }
 }
