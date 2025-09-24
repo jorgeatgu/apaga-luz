@@ -85,9 +85,49 @@
     .container-table-price-right,
     .table-next-day-grid-left,
     .table-next-day-grid-right {
-      min-height: 300px;
+      min-height: 450px !important;
       /* Prevent reflows from affecting parent */
-      contain: layout;
+      contain: layout style;
+    }
+
+    /* CLS Fix: Skeleton loading states */
+    .price-skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+      height: 60px;
+      margin: 8px 0;
+      border-radius: 8px;
+    }
+
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Enhanced containment for better layout stability */
+    .container-table-price-element {
+      contain: layout style paint;
+      will-change: auto;
+    }
+
+    /* CLS Fix: Ad container optimization */
+    #ad-container {
+      min-height: 280px;
+      contain: layout style;
+      display: block;
+      position: relative;
+    }
+
+    .adsbygoogle {
+      min-height: 280px;
+      display: block !important;
+    }
+
+    /* Prevent ads from causing CLS during load */
+    .adsbygoogle[data-lazy-ad="true"] {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
     }
 
     /* Performance optimization for animations */

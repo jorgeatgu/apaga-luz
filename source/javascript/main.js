@@ -609,6 +609,26 @@ class ApagaLuzApp {
       chart.style.minHeight = '500px';
     });
 
+    // CLS Fix: Initialize price table containers with skeletons
+    const priceContainers = [
+      '.container-table-price-left',
+      '.container-table-price-right'
+    ];
+
+    priceContainers.forEach(selector => {
+      const container = document.querySelector(selector);
+      if (container && container.children.length === 0) {
+        // Create skeleton elements to prevent CLS
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < 12; i++) {
+          const skeletonDiv = document.createElement('div');
+          skeletonDiv.className = 'price-skeleton';
+          fragment.appendChild(skeletonDiv);
+        }
+        container.appendChild(fragment);
+      }
+    });
+
     // Initialize tomorrow's elements as hidden by default
     const containerTableTomorrow = document.querySelector('.table-next-day');
     if (containerTableTomorrow) {

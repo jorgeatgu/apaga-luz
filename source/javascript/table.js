@@ -550,9 +550,15 @@ export function remove_tables() {
       document.querySelector('.container-table-price-right')
     ].filter(Boolean); // Remove null elements
 
-    containers.forEach(container => {
+    containers.forEach((container, index) => {
       if (container.children.length > 0) {
         container.innerHTML = '';
+        // CLS Fix: Show skeleton immediately after clearing to prevent layout shift
+        const selector =
+          index === 0
+            ? '.container-table-price-left'
+            : '.container-table-price-right';
+        showTableSkeleton(selector);
       }
     });
   });
@@ -574,9 +580,37 @@ export function remove_tables_tomorrow() {
   });
 }
 
+// CLS Fix: Function to show skeleton while loading
+function showTableSkeleton(element) {
+  const container = document.querySelector(element);
+  if (!container) return;
+
+  // Clear existing content
+  container.innerHTML = '';
+
+  // Create skeleton elements (12 per container to match real data)
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < 12; i++) {
+    const skeletonDiv = document.createElement('div');
+    skeletonDiv.className = 'price-skeleton';
+    fragment.appendChild(skeletonDiv);
+  }
+
+  container.appendChild(fragment);
+}
+
 export function table_price(data_hours, element) {
   const container = document.querySelector(element);
   if (!container) return;
+
+  // Clear container completely (including skeletons) before adding real data
+  container.innerHTML = '';
+
+  // Show skeleton briefly to prevent CLS if no data yet
+  if (!data_hours || data_hours.length === 0) {
+    showTableSkeleton(element);
+    return;
+  }
 
   // Cache DOM queries para evitar reconsultas
   const checkboxHours = document.getElementById('checkbox-hours');
