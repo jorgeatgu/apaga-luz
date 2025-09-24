@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-09-24T08:11:59.059Z",
+  "url": "http://localhost:8001",
+  "mobile": {
+    "device": "mobile",
+    "error": "page.waitForTimeout is not a function"
+  },
+  "desktop": {
+    "device": "desktop",
+    "error": "page.waitForTimeout is not a function"
+  },
+  "networkAnalysis": {
+    "totalRequests": 29,
+    "criticalPathRequests": 19,
+    "imageRequests": 2,
+    "fontRequests": 2,
+    "thirdPartyRequests": 14
+  },
+  "jsAnalysis": {
+    "totalScripts": 14,
+    "inlineScripts": 5,
+    "externalScripts": 9,
+    "blockingScripts": 6,
+    "inlineSize": 5,
+    "detectedLibraries": [
+      "Google Analytics"
+    ],
+    "asyncScripts": 2,
+    "deferredScripts": 1
+  },
+  "interactionAnalysis": {},
+  "recommendations": [
+    {
+      "priority": "MEDIA",
+      "category": "JavaScript",
+      "issue": "6 scripts bloqueantes",
+      "impact": "Render Blocking",
+      "actions": [
+        "Añadir async/defer a scripts no críticos",
+        "Implementar code splitting",
+        "Mover scripts al final del body"
+      ]
+    },
+    {
+      "priority": "MEDIA",
+      "category": "Red",
+      "issue": "14 requests de terceros",
+      "impact": "Network Performance",
+      "actions": [
+        "Evaluar necesidad de cada script de terceros",
+        "Implementar lazy loading para ads",
+        "Usar resource hints (preconnect, dns-prefetch)"
+      ]
+    }
+  ]
+}

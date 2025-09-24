@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-09-24T07:58:27.733Z",
+  "loadTimes": {
+    "domLoad": 283,
+    "fullLoad": 320,
+    "domContentLoaded": 0,
+    "loadComplete": 0
+  },
+  "coreWebVitals": {
+    "LCP": 1768,
+    "CLS": 0.359,
+    "FCP": null,
+    "TTFB": 8
+  },
+  "network": {
+    "totalRequests": 27,
+    "resources": 11,
+    "requestsByType": {
+      "document": 5,
+      "script": 11,
+      "stylesheet": 2,
+      "image": 2,
+      "font": 2,
+      "fetch": 3,
+      "xhr": 1,
+      "other": 1
+    }
+  },
+  "interactions": {
+    "tested": 1,
+    "averageTime": 28,
+    "maxTime": 28
+  },
+  "javascript": {
+    "total": 14,
+    "external": 9,
+    "inline": 5,
+    "blocking": 6
+  }
+}
