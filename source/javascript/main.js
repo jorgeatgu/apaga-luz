@@ -26,6 +26,7 @@ import {
 } from './performance-utils.js';
 
 // Importar optimizador INP para mejor rendimiento
+import { inpOptimizer } from './inp-optimizer.js';
 
 // Importar optimizador de ads para reducir impacto en INP
 import { adsOptimizer } from './ads-optimizer.js';

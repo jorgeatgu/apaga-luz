@@ -1,5 +1,6 @@
 import { width_mobile } from './utils.js';
 import { chunkedTask, batchDOMUpdates, throttle } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
 
 // Event delegation manager para tablas
 class TableEventManager {
@@ -377,12 +378,18 @@ export function create_new_table(data_table, selector, type_of_filter) {
       tableEventManager.init();
 
       // Aplicar virtual scrolling si la tabla es muy grande
-      requestIdleCallback(
-        () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(
+          () => {
+            virtualScrollManager.virtualize(table);
+          },
+          { timeout: 1000 }
+        );
+      } else {
+        setTimeout(() => {
           virtualScrollManager.virtualize(table);
-        },
-        { timeout: 1000 }
-      );
+        }, 0);
+      }
     }
   });
 
@@ -522,12 +529,18 @@ export function table_price_tomorrow(
     table_grid.appendChild(fragment);
 
     // Defer event delegation initialization
-    requestIdleCallback(
-      () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(
+        () => {
+          tableEventManager.init();
+        },
+        { timeout: 500 }
+      );
+    } else {
+      setTimeout(() => {
         tableEventManager.init();
-      },
-      { timeout: 500 }
-    );
+      }, 0);
+    }
   });
 }
 
@@ -672,12 +685,18 @@ export function table_price(data_hours, element) {
           requestAnimationFrame(() => {
             container.appendChild(fragment);
             // Initialize event delegation after DOM is ready
-            requestIdleCallback(
-              () => {
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(
+                () => {
+                  tableEventManager.init();
+                },
+                { timeout: 500 }
+              );
+            } else {
+              setTimeout(() => {
                 tableEventManager.init();
-              },
-              { timeout: 500 }
-            );
+              }, 0);
+            }
           });
         }
       }
@@ -715,11 +734,17 @@ export function table_price(data_hours, element) {
     container.appendChild(fragment);
 
     // Defer event delegation initialization for better INP
-    requestIdleCallback(
-      () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(
+        () => {
+          tableEventManager.init();
+        },
+        { timeout: 500 }
+      );
+    } else {
+      setTimeout(() => {
         tableEventManager.init();
-      },
-      { timeout: 500 }
-    );
+      }, 0);
+    }
   });
 }

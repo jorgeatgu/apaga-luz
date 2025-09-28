@@ -1,3 +1,5 @@
+import { inpOptimizer } from './inp-optimizer.js';
+
 export function show_modal() {
   // Usar requestIdleCallback para mejor INP
   if ('requestIdleCallback' in window) {

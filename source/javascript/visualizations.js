@@ -22,6 +22,7 @@ async function loadJsonData() {
 import { create_new_table } from './table.js';
 import { initNavigation } from './navigation.js';
 import { chunkedTask, throttle } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
 
 const user_day = new Date();
 

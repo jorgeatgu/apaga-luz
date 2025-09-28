@@ -346,12 +346,24 @@ if (document.readyState === 'loading') {
   document.addEventListener(
     'DOMContentLoaded',
     () => {
-      requestIdleCallback(() => inpOptimizer.autoOptimize(), { timeout: 2000 });
+      // Usar setTimeout como fallback para mejor compatibilidad
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => inpOptimizer.autoOptimize(), {
+          timeout: 2000
+        });
+      } else {
+        setTimeout(() => inpOptimizer.autoOptimize(), 0);
+      }
     },
     { once: true }
   );
 } else {
-  requestIdleCallback(() => inpOptimizer.autoOptimize(), { timeout: 2000 });
+  // Usar setTimeout como fallback para mejor compatibilidad
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => inpOptimizer.autoOptimize(), { timeout: 2000 });
+  } else {
+    setTimeout(() => inpOptimizer.autoOptimize(), 0);
+  }
 }
 
 // Hacer disponible globalmente para debugging

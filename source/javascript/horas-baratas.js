@@ -1,6 +1,7 @@
 import './../styles/styles.css';
 import data_today from '/public/data/today_price.json';
 import { throttle, debounce } from './performance-utils.js';
+import { inpOptimizer } from './inp-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   // Inicializar componentes principales
