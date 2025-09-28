@@ -1,6 +1,5 @@
 import { width_mobile } from './utils.js';
 import { chunkedTask, batchDOMUpdates, throttle } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 
 // Event delegation manager para tablas
 class TableEventManager {

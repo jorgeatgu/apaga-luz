@@ -13,7 +13,6 @@ import {
   throttle as performanceThrottle,
   chunkedTask
 } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 import { d3WorkerManager } from './d3-worker-manager.js';
 
 // Usar throttle optimizado de performance-utils para mejor INP

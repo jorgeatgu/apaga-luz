@@ -6,7 +6,6 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { csv } from 'd3-fetch';
 import { format } from 'd3-format';
 import { throttle, chunkedTask } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 import { d3WorkerManager } from './d3-worker-manager.js';
 
 const d3 = {
