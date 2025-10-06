@@ -1,6 +1,7 @@
 import './../styles/styles.css';
 import { throttle } from './performance-utils.js';
 import { inpOptimizer } from './inp-optimizer.js';
+import { adsOptimizer } from './ads-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.querySelector('.menu-toggle');
