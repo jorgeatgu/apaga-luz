@@ -38,7 +38,7 @@
         "npm:terser@^5.39.0",
         "npm:vanillajs-datepicker@^1.2.0",
         "npm:vercel@^41.4.1",
-        "npm:vite@6.2.7"
+        "npm:vite@6.3.6"
       ]
     }
   }
