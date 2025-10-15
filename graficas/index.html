@@ -107,7 +107,10 @@
     .line-chart-day-price,
     .line-chart-month-price,
     .line-chart-day-price-last-year,
-    .line-chart-main-line-price {
+    .line-chart-main-line-price,
+    .area-stacked-energy-consumption,
+    .line-chart-hour-price,
+    .line-chart-day-week-price {
       min-height: 500px;
     }
 
@@ -260,6 +263,17 @@
       <article class="line-chart-main-line-price charts">
         <svg>
           <g class="line-chart-main-line-price-container"></g>
+        </svg>
+      </article>
+    </section>
+    <section id="consumo-energia-espana" class="container-chart">
+      <h2 class="container-chart-title">Consumo de energía en España</h2>
+      <p class="charts-text">En esta gráfica puedes ver el consumo de energía de España por tipo de energía entre 1965 y 2020.</p>
+      <p class="charts-text">Los datos utilizados para esta gráfica pertenecen a Our World in Data. Hannah Ritchie, Max Roser and Pablo Rosado (2020) - "Energy". <a href="https://ourworldindata.org/energy">Published online at OurWorldInData.org</a></p>
+      <p class="charts-text">Un teravatio-hora (TWh) es una unidad de potencia equivalente a un billón de vatios-hora (1012 Wh). <a href="https://es.wikipedia.org/wiki/Vatio-hora">Wikipedia</a></p>
+      <article class="area-stacked-energy-consumption charts">
+        <svg>
+          <g class="area-stacked-energy-consumption-container"></g>
         </svg>
       </article>
     </section>
