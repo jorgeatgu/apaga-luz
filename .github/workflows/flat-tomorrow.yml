@@ -1,7 +1,7 @@
 name: flat-tomorrow
 on:
   schedule:
-    - cron: 21 18 * * *
+    - cron: 23 19 * * *
   workflow_dispatch:
 jobs:
   scheduled:
