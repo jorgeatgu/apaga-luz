@@ -1,7 +1,7 @@
 name: flat
 on:
   schedule:
-    - cron: '55 22 * * *'
+    - cron: '55 20 * * *'
   workflow_dispatch:
 jobs:
   scheduled:
