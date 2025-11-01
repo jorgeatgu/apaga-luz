@@ -22,7 +22,9 @@
   <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" data-overlays="bottom" crossorigin="anonymous" data-optimized="true"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+  <!-- Google Fonts async load for better FCP/LCP -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet"></noscript>
   <style>
     /* Critical CSS - Optimized for Core Web Vitals */
     :root {
@@ -326,8 +328,8 @@
           <p class="blog-grid-element-text">Apaga Luz es un proyecto para mostraros, de la forma más sencilla posible, el precio de la luz por horas, tanto para el día de hoy, como para mañana. Además, os mostramos una tabla con toda la tarifa de la luz de hoy por franjas horarios, separando las horas más baratas de las más caras.</p>
         </div>
       </article>
-      <!-- Ad optimizado con lazy loading para mejor INP -->
-      <div id="ad-container" data-ad-priority="high">
+      <!-- Ad optimizado con CLS fix (responsive) para mejor UX y performance -->
+      <div id="ad-container" class="ad-wrapper-responsive" data-ad-priority="high">
         <ins class="adsbygoogle"
              style="display:block; text-align:center;"
              data-ad-client="ca-pub-8990231994528437"

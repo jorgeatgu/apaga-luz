@@ -13,7 +13,9 @@
   <link rel="preconnect" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+  <!-- Google Fonts async load for better FCP/LCP -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet"></noscript>
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -909,6 +911,17 @@
             También en la página principal podrás ver otra gráfica que muestra el precio que ha tenido la luz por hora en el último mes.
           </p>
         </article>
+
+        <!-- Ad optimizado con CLS fix (responsive) para mejor UX y performance -->
+        <div id="ad-container" class="ad-wrapper-responsive" data-ad-priority="high">
+          <ins class="adsbygoogle"
+               style="display:block; text-align:center;"
+               data-ad-client="ca-pub-8990231994528437"
+               data-ad-slot="2765328821"
+               data-ad-format="auto"
+               data-full-width-responsive="true"
+               data-lazy-ad="true"></ins>
+        </div>
 
         <section class="related-articles">
           <h2>Artículos relacionados con el precio de la luz mañana</h2>
