@@ -25,9 +25,6 @@ import {
   LRUCache
 } from './performance-utils.js';
 
-// Cargar AdSense dinámicamente para optimizar INP (DEBE ser antes que ads-optimizer)
-import './adsense-loader.js';
-
 // Importar optimizador INP para mejor rendimiento
 import { inpOptimizer } from './inp-optimizer.js';
 

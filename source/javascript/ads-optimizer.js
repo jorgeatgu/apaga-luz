@@ -375,28 +375,9 @@ class AdsOptimizer {
             setTimeout(() => placeholder.remove(), 300);
           }
 
-          // Cargar anuncio con AdSense (esperar si aún no está cargado)
-          if (typeof adsbygoogle !== 'undefined' && adsbygoogle !== null) {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          } else {
-            // AdSense aún no cargado, esperar máximo 5 segundos
-            let retryCount = 0;
-            const maxRetries = 50; // 5s con 100ms entre intentos
-
-            const waitForAdSense = () => {
-              if (typeof adsbygoogle !== 'undefined' && adsbygoogle !== null) {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-              } else if (retryCount < maxRetries) {
-                retryCount++;
-                setTimeout(waitForAdSense, 100);
-              } else {
-                console.warn(
-                  '[ads-optimizer] AdSense script not available after timeout'
-                );
-              }
-            };
-
-            waitForAdSense();
+          // Cargar anuncio con AdSense
+          if (window.adsbygoogle) {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
           }
 
           clearTimeout(timeout);
