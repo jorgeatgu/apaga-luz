@@ -215,3 +215,14 @@ html {
   min-height: 250px;
   width: 100%;
 }
+
+/* ===== INP OPTIMIZATION: Content-Visibility for Off-Screen Elements ===== */
+/* Skips rendering cost for elements outside the viewport */
+.price-table-wrapper,
+.chart-container,
+.blog-post-list,
+.related-articles {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px; /* Placeholder height while off-screen */
+}

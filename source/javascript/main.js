@@ -97,7 +97,7 @@ class ApagaLuzApp {
     const currentPriceData = dataPrices.find(({ hour }) => +hour === userHour);
     if (!currentPriceData) return;
 
-    // Update UI elements
+    // Update UI elements immediately (show current price)
     this.updateTimeDisplay(userHour, userMinutes);
     this.updatePriceDisplay(currentPriceData.price);
 
@@ -117,7 +117,8 @@ class ApagaLuzApp {
         {
           chunkSize: 1,
           onComplete: () => {
-            this.completeInitialization(userHour);
+            // Defer full table initialization for better INP
+            this.deferCompleteInitialization(userHour, userMinutes, currentPriceData, userDay);
           }
         }
       );
@@ -130,12 +131,40 @@ class ApagaLuzApp {
       );
     }
 
-    this.completeInitialization(
+    // Defer full table initialization for better INP
+    this.deferCompleteInitialization(
       userHour,
       userMinutes,
       currentPriceData,
       userDay
     );
+  }
+
+  deferCompleteInitialization(userHour, userMinutes, currentPriceData, userDay) {
+    // Trigger table initialization on scroll or after 2 seconds
+    let initialized = false;
+
+    const initTables = () => {
+      if (initialized) return;
+      initialized = true;
+
+      // Remove event listeners
+      document.removeEventListener('scroll', initTables, { passive: true });
+
+      // Initialize tables
+      this.completeInitialization(
+        userHour,
+        userMinutes,
+        currentPriceData,
+        userDay
+      );
+    };
+
+    // Option 1: Initialize on scroll (interactive users get it immediately)
+    document.addEventListener('scroll', initTables, { passive: true, once: true });
+
+    // Option 2: Initialize after 2s as fallback (non-interactive users still get tables)
+    setTimeout(initTables, 2000);
   }
 
   completeInitialization(userHour, userMinutes, currentPriceData, userDay) {
