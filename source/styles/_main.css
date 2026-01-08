@@ -380,12 +380,7 @@ h3.post-text {
     background: var(--white);
     padding: .125rem .5rem;
     font-family: var(--roboto);
-  }
-
-  &.tramo-valle.tramo-hidden:after,
-  &.tramo-llano.tramo-hidden:after,
-  &.tramo-punta.tramo-hidden:after {
-    display: none;
+    display: none; /* Oculto por defecto - se muestra con .show-tramos en padre */
   }
 
   &.tramo-punta:after {
@@ -394,6 +389,15 @@ h3.post-text {
 
   &.tramo-llano:after {
     content: 'llano';
+  }
+}
+
+/* Cuando el checkbox de tramos está activo, mostrar las etiquetas */
+.container-wrapper.show-tramos .container-table-price-element-hour {
+  &.tramo-valle:after,
+  &.tramo-llano:after,
+  &.tramo-punta:after {
+    display: block;
   }
 }
 

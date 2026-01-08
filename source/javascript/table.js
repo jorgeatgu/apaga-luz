@@ -510,7 +510,7 @@ export function table_price_tomorrow(
     blockDiv.className = 'container-table-price-element';
 
     const hourSpan = document.createElement('span');
-    hourSpan.className = `container-table-price-element-hour tramo-hidden ${
+    hourSpan.className = `container-table-price-element-hour ${
       priceColor || ''
     } ${tramoCssClass}`;
     hourSpan.textContent = transform_hour;
@@ -553,42 +553,31 @@ export function remove_table(element) {
 }
 
 export function remove_tables() {
-  // Optimized: Use innerHTML = '' instead of removeChild loops
-  // This is significantly faster for clearing multiple elements
-  // Use rAF to prevent blocking the main thread
-  requestAnimationFrame(() => {
-    const containers = [
-      document.querySelector('.container-table-price-left'),
-      document.querySelector('.container-table-price-right')
-    ].filter(Boolean); // Remove null elements
+  // SÍNCRONO - evita condición de carrera con table_price()
+  // El skeleton no es necesario porque table_price() se ejecuta inmediatamente después
+  const containers = [
+    document.querySelector('.container-table-price-left'),
+    document.querySelector('.container-table-price-right')
+  ].filter(Boolean);
 
-    containers.forEach((container, index) => {
-      if (container.children.length > 0) {
-        container.innerHTML = '';
-        // CLS Fix: Show skeleton immediately after clearing to prevent layout shift
-        const selector =
-          index === 0
-            ? '.container-table-price-left'
-            : '.container-table-price-right';
-        showTableSkeleton(selector);
-      }
-    });
+  containers.forEach(container => {
+    if (container.children.length > 0) {
+      container.textContent = ''; // textContent es más seguro y rápido que innerHTML
+    }
   });
 }
 
 export function remove_tables_tomorrow() {
-  // Optimized: Use innerHTML = '' instead of removeChild loops with rAF
-  requestAnimationFrame(() => {
-    const containers = [
-      document.querySelector('.table-next-day-grid-left'),
-      document.querySelector('.table-next-day-grid-right')
-    ].filter(Boolean);
+  // SÍNCRONO - evita condición de carrera con table_price_tomorrow()
+  const containers = [
+    document.querySelector('.table-next-day-grid-left'),
+    document.querySelector('.table-next-day-grid-right')
+  ].filter(Boolean);
 
-    containers.forEach(container => {
-      if (container.children.length > 0) {
-        container.innerHTML = '';
-      }
-    });
+  containers.forEach(container => {
+    if (container.children.length > 0) {
+      container.textContent = '';
+    }
   });
 }
 
@@ -667,7 +656,7 @@ export function table_price(data_hours, element) {
         blockDiv.style.contain = 'layout style'; // Performance hint
 
         const hourSpan = document.createElement('span');
-        hourSpan.className = `container-table-price-element-hour tramo-hidden ${priceColor} tramo-${tramo}`;
+        hourSpan.className = `container-table-price-element-hour ${priceColor} tramo-${tramo}`;
         hourSpan.textContent = transform_hour;
 
         const priceSpan = document.createElement('span');
@@ -717,7 +706,7 @@ export function table_price(data_hours, element) {
     blockDiv.style.contain = 'layout style';
 
     const hourSpan = document.createElement('span');
-    hourSpan.className = `container-table-price-element-hour tramo-hidden ${priceColor} tramo-${tramo}`;
+    hourSpan.className = `container-table-price-element-hour ${priceColor} tramo-${tramo}`;
     hourSpan.textContent = transform_hour;
 
     const priceSpan = document.createElement('span');

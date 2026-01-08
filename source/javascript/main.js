@@ -118,7 +118,12 @@ class ApagaLuzApp {
           chunkSize: 1,
           onComplete: () => {
             // Defer full table initialization for better INP
-            this.deferCompleteInitialization(userHour, userMinutes, currentPriceData, userDay);
+            this.deferCompleteInitialization(
+              userHour,
+              userMinutes,
+              currentPriceData,
+              userDay
+            );
           }
         }
       );
@@ -140,7 +145,12 @@ class ApagaLuzApp {
     );
   }
 
-  deferCompleteInitialization(userHour, userMinutes, currentPriceData, userDay) {
+  deferCompleteInitialization(
+    userHour,
+    userMinutes,
+    currentPriceData,
+    userDay
+  ) {
     // Trigger table initialization on scroll or after 2 seconds
     let initialized = false;
 
@@ -161,7 +171,10 @@ class ApagaLuzApp {
     };
 
     // Option 1: Initialize on scroll (interactive users get it immediately)
-    document.addEventListener('scroll', initTables, { passive: true, once: true });
+    document.addEventListener('scroll', initTables, {
+      passive: true,
+      once: true
+    });
 
     // Option 2: Initialize after 2s as fallback (non-interactive users still get tables)
     setTimeout(initTables, 2000);
@@ -671,35 +684,32 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Optimized event handlers using INP optimizer
-    const debouncedOrderByPrice = inpOptimizer.createOptimizedHandler(
-      () => {
+    // Handlers simplificados - sin overhead de Promise/scheduling
+    // Todo en un solo rAF para evitar múltiples frames de pintura
+    const handleOrderByPrice = throttle(() => {
+      requestAnimationFrame(() => {
         remove_tables();
         this.orderByPrice();
-      },
-      { priority: 'high' }
-    );
+      });
+    }, 150);
 
-    const debouncedOrderByHour = inpOptimizer.createOptimizedHandler(
-      () => {
+    const handleOrderByHour = throttle(() => {
+      requestAnimationFrame(() => {
         remove_tables();
         this.orderByHour();
-      },
-      { priority: 'high' }
-    );
+      });
+    }, 150);
 
-    const debouncedCheckboxChange = inpOptimizer.createOptimizedHandler(
-      () => {
+    const handleCheckboxChange = throttle(() => {
+      requestAnimationFrame(() => {
+        remove_tables();
         if (this.typeOfOrder === 'price') {
-          remove_tables();
           this.orderByPrice();
         } else {
-          remove_tables();
           this.orderByHour();
         }
-      },
-      { priority: 'normal' }
-    );
+      });
+    }, 150);
 
     // Bind events with passive option for better INP
     const orderPriceBtn = document.getElementById('order-price');
@@ -707,15 +717,15 @@ class ApagaLuzApp {
     const checkboxHours = document.getElementById('checkbox-hours');
 
     if (orderPriceBtn)
-      orderPriceBtn.addEventListener('click', debouncedOrderByPrice, {
+      orderPriceBtn.addEventListener('click', handleOrderByPrice, {
         passive: true
       });
     if (orderHourBtn)
-      orderHourBtn.addEventListener('click', debouncedOrderByHour, {
+      orderHourBtn.addEventListener('click', handleOrderByHour, {
         passive: true
       });
     if (checkboxHours)
-      checkboxHours.addEventListener('change', debouncedCheckboxChange, {
+      checkboxHours.addEventListener('change', handleCheckboxChange, {
         passive: true
       });
 
@@ -754,20 +764,13 @@ class ApagaLuzApp {
     }
 
     if (tramosToggle) {
+      // OPTIMIZADO: Toggle clase en el padre en vez de iterar 24+ elementos
+      // El CSS se encarga de mostrar/ocultar los tramos
       const handleTramosToggle = throttle(e => {
         const { checked } = e.target;
-        const priceElements = document.querySelectorAll(
-          '.container-table-price-element-hour'
-        );
-
-        // Batch DOM updates for better performance
-        if (priceElements.length > 0) {
-          requestAnimationFrame(() => {
-            const className = 'tramo-hidden';
-            priceElements.forEach(element => {
-              element.classList.toggle(className, !checked);
-            });
-          });
+        const container = document.querySelector('.container-wrapper');
+        if (container) {
+          container.classList.toggle('show-tramos', checked);
         }
       }, 100);
 
