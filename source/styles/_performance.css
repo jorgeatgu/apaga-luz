@@ -226,3 +226,26 @@ html {
   content-visibility: auto;
   contain-intrinsic-size: auto 500px; /* Placeholder height while off-screen */
 }
+
+/* ===== INP OPTIMIZATION: Selective will-change for Interactions ===== */
+/* Only apply will-change during hover/focus to avoid unnecessary GPU memory usage */
+.btn-order:hover,
+.btn-order:focus,
+.btn-order:active {
+  will-change: transform;
+}
+
+.container-table-price-element:hover {
+  will-change: transform;
+}
+
+/* Optimizar indicador de precio - usar transform para posicionamiento */
+.indicator-marker {
+  will-change: transform;
+}
+
+/* Botones de navegación */
+.nav-link:hover,
+.nav-link:focus {
+  will-change: transform, opacity;
+}

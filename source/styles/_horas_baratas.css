@@ -208,7 +208,9 @@
   margin: 0 3px;
   background-color: var(--blue);
   position: relative;
-  transition: height .5s ease, background-color .3s ease;
+  /* INP: usar transform en vez de height para evitar reflow */
+  transition: transform .5s ease, background-color .3s ease;
+  transform-origin: bottom center;
   cursor: pointer;
 }
 
@@ -327,11 +329,12 @@
   width: 8px;
   height: 25px;
   top: -5px;
+  left: 0; /* Base position, use transform for animation */
   background-color: white;
   border: 2px solid #333;
   border-radius: 3px;
-  transform: translateX(-4px);
-  transition: left .3s ease;
+  /* INP: usar transform en vez de left para evitar reflow */
+  transition: transform .3s ease;
 }
 
 .indicator-labels {
@@ -773,7 +776,9 @@
   background: linear-gradient(to top, var(--blue), #5c98e6);
   border-radius: 8px 8px 0 0;
   position: relative;
-  transition: height .5s ease;
+  /* INP: usar transform en vez de height para evitar reflow */
+  transition: transform .5s ease;
+  transform-origin: bottom center;
 }
 
 .chart-bar:before {

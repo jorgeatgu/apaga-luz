@@ -684,23 +684,35 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Handlers simplificados - sin overhead de Promise/scheduling
-    // Todo en un solo rAF para evitar múltiples frames de pintura
-    const handleOrderByPrice = throttle(() => {
+    // Helper para ceder al main thread antes de trabajo pesado
+    const yieldToMain = async () => {
+      if ('scheduler' in window && 'yield' in scheduler) {
+        await scheduler.yield();
+      }
+    };
+
+    // Handlers optimizados para INP:
+    // - Throttle reducido de 150ms a 100ms
+    // - scheduler.yield() para ceder al main thread
+    // - rAF para batching de DOM updates
+    const handleOrderByPrice = throttle(async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         this.orderByPrice();
       });
-    }, 150);
+    }, 100);
 
-    const handleOrderByHour = throttle(() => {
+    const handleOrderByHour = throttle(async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         this.orderByHour();
       });
-    }, 150);
+    }, 100);
 
-    const handleCheckboxChange = throttle(() => {
+    const handleCheckboxChange = throttle(async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         if (this.typeOfOrder === 'price') {
@@ -709,7 +721,7 @@ class ApagaLuzApp {
           this.orderByHour();
         }
       });
-    }, 150);
+    }, 100);
 
     // Bind events with passive option for better INP
     const orderPriceBtn = document.getElementById('order-price');
