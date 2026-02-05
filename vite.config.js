@@ -43,7 +43,8 @@ export default defineConfig({
         'horas-baratas-luz': 'horas-baratas-luz/index.html',
         'tipos-tarifas-electricas': 'tipos-tarifas-electricas/index.html',
         graficas: 'graficas/index.html',
-        preguntas: 'preguntas/index.html'
+        preguntas: 'preguntas/index.html',
+        'guia-tipos-tarifas-electricas-2026': 'noticias/guia-tipos-tarifas-electricas-2026/index.html'
       },
       output: {
         assetFileNames: (assetInfo) => {
