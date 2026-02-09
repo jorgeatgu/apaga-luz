@@ -1,9 +1,9 @@
 :root {
   --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
   --monospace: 'SFMono-Regular', Consolas, Menlo, Courier, monospace;
-  --numbers: 'Fjalla One', sans-serif;
-  --roboto: 'Roboto Condensed', sans-serif;
-  --text: 'Rubik', sans-serif;
+  --numbers: 'Fjalla One', 'Fjalla-fallback', sans-serif;
+  --roboto: 'Roboto Condensed', 'RobotoCondensed-fallback', sans-serif;
+  --text: 'Rubik', 'Rubik-fallback', sans-serif;
   --black: #111;
   --blue: #021e5c;
   --white: #fff;

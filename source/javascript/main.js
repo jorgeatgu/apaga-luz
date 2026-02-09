@@ -176,8 +176,12 @@ class ApagaLuzApp {
       once: true
     });
 
-    // Option 2: Initialize after 2s as fallback (non-interactive users still get tables)
-    setTimeout(initTables, 2000);
+    // Option 2: Initialize after idle or 500ms fallback
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initTables, { timeout: 500 });
+    } else {
+      setTimeout(initTables, 500);
+    }
   }
 
   completeInitialization(userHour, userMinutes, currentPriceData, userDay) {
@@ -697,24 +701,23 @@ class ApagaLuzApp {
     // - rAF para batching de DOM updates
     const handleOrderByPrice = throttle(async () => {
       await yieldToMain();
-      requestAnimationFrame(() => {
-        remove_tables();
-        this.orderByPrice();
-      });
+      remove_tables();
+      await yieldToMain();
+      requestAnimationFrame(() => this.orderByPrice());
     }, 100);
 
     const handleOrderByHour = throttle(async () => {
       await yieldToMain();
-      requestAnimationFrame(() => {
-        remove_tables();
-        this.orderByHour();
-      });
+      remove_tables();
+      await yieldToMain();
+      requestAnimationFrame(() => this.orderByHour());
     }, 100);
 
     const handleCheckboxChange = throttle(async () => {
       await yieldToMain();
+      remove_tables();
+      await yieldToMain();
       requestAnimationFrame(() => {
-        remove_tables();
         if (this.typeOfOrder === 'price') {
           this.orderByPrice();
         } else {
@@ -901,37 +904,9 @@ document.addEventListener(
 
 // Helper functions (moved from previous implementation)
 function initializePageComponents(elements) {
-  // Optimized body padding reset
-  let paddingResetTimer = null;
-
-  function resetBodyPaddingIfNeeded() {
-    if (paddingResetTimer) return;
-
-    // Usar rAF para mejor timing y INP
-    paddingResetTimer = requestAnimationFrame(() => {
-      if (elements.body.style.padding) {
-        elements.body.style.padding = '';
-      }
-      paddingResetTimer = null;
-    });
-  }
-
-  window.addEventListener('load', resetBodyPaddingIfNeeded);
-  // Usar un timeout más largo y cleanup para mejor INP
-  const paddingCheckInterval = setInterval(resetBodyPaddingIfNeeded, 10000); // Menos frecuente
-
-  // Cleanup al unload para evitar memory leaks
-  window.addEventListener(
-    'beforeunload',
-    () => {
-      clearInterval(paddingCheckInterval);
-    },
-    { once: true }
-  );
-
-  // Ads optimization is now handled by ads-optimizer.js module
-  // The module automatically handles lazy loading, ad blocker detection,
-  // and intelligent loading strategies to minimize INP impact
+  // Body padding reset ya no es necesario:
+  // CSS inline en index.html aplica body { padding: 0 !important; }
+  // Esto previene que AdSense añada padding al body sin necesidad de interval polling
 }
 
 function setupFormHandling(form, fileInput, fileInfo, fileContainer) {

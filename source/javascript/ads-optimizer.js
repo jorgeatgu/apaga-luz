@@ -47,9 +47,8 @@ class AdsOptimizer {
    */
   async detectAdBlocker() {
     return new Promise(resolve => {
-      // Crear elemento de prueba
       const testAd = document.createElement('div');
-      testAd.innerHTML = '&nbsp;';
+      testAd.textContent = '\u00A0';
       testAd.className =
         'adsbox pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad-text adSense adBlock adContent adBanner';
       testAd.style.cssText =
@@ -57,37 +56,23 @@ class AdsOptimizer {
 
       document.body.appendChild(testAd);
 
-      // Verificar después de un pequeño delay
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          const isBlocked =
-            testAd.offsetHeight === 0 ||
-            testAd.offsetWidth === 0 ||
-            testAd.offsetLeft === 0 ||
-            testAd.offsetTop === 0 ||
-            testAd.offsetParent === null ||
-            testAd.clientHeight === 0 ||
-            testAd.clientWidth === 0 ||
-            window.getComputedStyle(testAd).display === 'none' ||
-            window.getComputedStyle(testAd).visibility === 'hidden';
+      // Una sola lectura de layout en idle callback para minimizar impacto INP
+      const checkFn = () => {
+        const isBlocked = testAd.offsetHeight === 0;
+        if (testAd.parentNode) testAd.parentNode.removeChild(testAd);
+        this.isAdBlockerDetected = isBlocked;
+        if (isBlocked) {
+          console.info('Ad blocker detectado - mostrando contenido alternativo');
+          this.handleAdBlocker();
+        }
+        resolve(isBlocked);
+      };
 
-          this.isAdBlockerDetected = isBlocked;
-
-          // Limpiar elemento de prueba
-          if (testAd.parentNode) {
-            testAd.parentNode.removeChild(testAd);
-          }
-
-          if (isBlocked) {
-            console.info(
-              'Ad blocker detectado - mostrando contenido alternativo'
-            );
-            this.handleAdBlocker();
-          }
-
-          resolve(isBlocked);
-        }, 100);
-      });
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(checkFn, { timeout: 2000 });
+      } else {
+        setTimeout(checkFn, 500);
+      }
     });
   }
 

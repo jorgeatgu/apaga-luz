@@ -159,12 +159,13 @@ html {
 /* Keeps ads responsive while preventing layout shifts */
 .ad-wrapper-responsive {
   min-height: 280px;
-  max-height: 600px;
+  max-height: 300px;
   width: 100%;
   contain: layout style;
   margin: 1rem 0;
   position: relative;
   display: block;
+  overflow: hidden;
 }
 
 /* Mobile-optimized ad space (98% of traffic) */
@@ -175,11 +176,12 @@ html {
   }
 }
 
-/* Desktop ad space */
+/* Desktop ad space - max-height reducido para minimizar CLS */
 @media (min-width: 769px) {
   .ad-wrapper-responsive {
     min-height: 280px;
-    max-height: 600px;
+    max-height: 300px;
+    overflow: hidden;
   }
 }
 
@@ -217,14 +219,18 @@ html {
 }
 
 /* ===== INP OPTIMIZATION: Content-Visibility for Off-Screen Elements ===== */
-/* Skips rendering cost for elements outside the viewport */
-.price-table-wrapper,
-.chart-container,
+/* Solo below-the-fold: content-visibility para reducir coste de renderizado */
 .blog-post-list,
 .related-articles {
   contain: layout style paint;
   content-visibility: auto;
-  contain-intrinsic-size: auto 500px; /* Placeholder height while off-screen */
+  contain-intrinsic-size: auto 500px;
+}
+
+/* Near-fold en desktop: sin content-visibility para evitar CLS */
+.price-table-wrapper,
+.chart-container {
+  contain: layout style paint;
 }
 
 /* ===== INP OPTIMIZATION: Selective will-change for Interactions ===== */

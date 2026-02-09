@@ -114,12 +114,10 @@
 
         // Si fue un tap rápido sin movimiento significativo
         const tapDuration = touchEndTime - touchStartTime;
-        const tapDistance = Math.sqrt(
-          Math.pow(touchEndX - touchStartX, 2) +
-            Math.pow(touchEndY - touchStartY, 2)
-        );
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
 
-        if (tapDuration < 200 && tapDistance < 10) {
+        if (tapDuration < 200 && (dx * dx + dy * dy) < 100) {
           // Fast tap detected
           e.target.classList.add('tap-feedback');
           setTimeout(() => {
