@@ -45,7 +45,9 @@ export default defineConfig({
         graficas: 'graficas/index.html',
         preguntas: 'preguntas/index.html',
         'guia-tipos-tarifas-electricas-2026': 'noticias/guia-tipos-tarifas-electricas-2026/index.html',
-        'precio-luz-canarias-hoy': 'noticias/precio-luz-canarias-hoy/index.html'
+        'precio-luz-canarias-hoy': 'noticias/precio-luz-canarias-hoy/index.html',
+        'precio-luz-por-hora': 'noticias/precio-luz-por-hora/index.html',
+        'tarifas-electricas-diarias': 'noticias/tarifas-electricas-diarias/index.html'
       },
       output: {
         assetFileNames: (assetInfo) => {
