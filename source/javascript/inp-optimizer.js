@@ -8,7 +8,7 @@ class INPOptimizer {
   constructor() {
     this.taskQueue = [];
     this.isProcessing = false;
-    this.maxTaskDuration = 5; // máximo 5ms por tarea para mantener 60fps
+    this.maxTaskDuration = 50; // 50ms — reduce overhead de scheduling en móvil
     this.interactions = new Map();
     this.init();
   }

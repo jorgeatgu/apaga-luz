@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     menuToggle.addEventListener('click', optimizedMenuToggle, {
-      passive: false
+      passive: true
     });
   }
 

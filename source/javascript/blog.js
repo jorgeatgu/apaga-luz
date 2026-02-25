@@ -37,24 +37,29 @@ function calcularTiempoLectura() {
 
 /**
  * Añade efectos interactivos a las tablas del artículo
+ * En dispositivos táctiles no hay hover real, se omite completamente
  */
 function inicializarEfectosTablas() {
-  const tableCells = document.querySelectorAll('.post-table td');
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
 
-  tableCells.forEach(cell => {
-    // Resaltar celdas de la misma columna al pasar el cursor
-    cell.addEventListener('mouseenter', () => {
-      // Obtener índice de la columna
-      const cellIndex = Array.from(cell.parentNode.children).indexOf(cell);
-      // Obtener todas las celdas con el mismo índice
-      const sameCells = document.querySelectorAll(`.post-table td:nth-child(${cellIndex + 1})`);
-      sameCells.forEach(el => el.classList.add('highlighted'));
+  const tables = document.querySelectorAll('.post-table');
+
+  tables.forEach(table => {
+    table.addEventListener('mouseover', e => {
+      const cell = e.target.closest('td');
+      if (!cell) return;
+      const idx = Array.from(cell.parentNode.children).indexOf(cell);
+      table
+        .querySelectorAll(`td:nth-child(${idx + 1})`)
+        .forEach(el => el.classList.add('highlighted'));
     });
 
-    cell.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.post-table td.highlighted').forEach(el => {
-        el.classList.remove('highlighted');
-      });
+    table.addEventListener('mouseout', e => {
+      if (!e.relatedTarget?.closest('.post-table')) {
+        table
+          .querySelectorAll('td.highlighted')
+          .forEach(el => el.classList.remove('highlighted'));
+      }
     });
   });
 }
@@ -85,7 +90,9 @@ function configurarBotonesCompartir() {
  * Esto añade una animación suave a los elementos cuando aparecen en la pantalla
  */
 function inicializarAnimacionesDesplazamiento() {
-  const elementos = document.querySelectorAll('.post-subtitle, .post-minititle, .post-table, .cta-container');
+  const elementos = document.querySelectorAll(
+    '.post-subtitle, .post-minititle, .post-table, .cta-container'
+  );
 
   const opciones = {
     root: null, // viewport
@@ -93,7 +100,7 @@ function inicializarAnimacionesDesplazamiento() {
     threshold: 0.1 // 10% del elemento debe ser visible
   };
 
-  const observador = new IntersectionObserver((entradas) => {
+  const observador = new IntersectionObserver(entradas => {
     entradas.forEach(entrada => {
       if (entrada.isIntersecting) {
         entrada.target.classList.add('animated');
