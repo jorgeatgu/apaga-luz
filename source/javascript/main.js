@@ -851,6 +851,19 @@ class ApagaLuzApp {
   }
 }
 
+// Prefetch common navigation targets after page load
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    ['/precio-luz-manana/', '/horas-baratas-luz/'].forEach(href => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = href;
+      link.as = 'document';
+      document.head.appendChild(link);
+    });
+  });
+}
+
 // Initialize app when DOM is ready
 document.addEventListener(
   'DOMContentLoaded',
