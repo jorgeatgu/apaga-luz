@@ -688,61 +688,43 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Helper para ceder al main thread antes de trabajo pesado
-    const yieldToMain = async () => {
-      if ('scheduler' in window && 'yield' in scheduler) {
-        await scheduler.yield();
-      }
+    // Handlers simplificados: un solo rAF agrupa clear+rebuild en un frame.
+    // El trabajo real es <2ms para 24 items, no necesita yielding adicional.
+    const handleOrderByPrice = () => {
+      requestAnimationFrame(() => {
+        remove_tables();
+        this.orderByPrice();
+      });
     };
 
-    // Handlers optimizados para INP:
-    // - Throttle reducido de 150ms a 100ms
-    // - scheduler.yield() para ceder al main thread
-    // - rAF para batching de DOM updates
-    const handleOrderByPrice = throttle(async () => {
-      await yieldToMain();
-      remove_tables();
-      await yieldToMain();
-      requestAnimationFrame(() => this.orderByPrice());
-    }, 100);
-
-    const handleOrderByHour = throttle(async () => {
-      await yieldToMain();
-      remove_tables();
-      await yieldToMain();
-      requestAnimationFrame(() => this.orderByHour());
-    }, 100);
-
-    const handleCheckboxChange = throttle(async () => {
-      await yieldToMain();
-      remove_tables();
-      await yieldToMain();
+    const handleOrderByHour = () => {
       requestAnimationFrame(() => {
+        remove_tables();
+        this.orderByHour();
+      });
+    };
+
+    const handleCheckboxChange = () => {
+      requestAnimationFrame(() => {
+        remove_tables();
         if (this.typeOfOrder === 'price') {
           this.orderByPrice();
         } else {
           this.orderByHour();
         }
       });
-    }, 100);
+    };
 
-    // Bind events with passive option for better INP
     const orderPriceBtn = document.getElementById('order-price');
     const orderHourBtn = document.getElementById('order-hour');
     const checkboxHours = document.getElementById('checkbox-hours');
 
     if (orderPriceBtn)
-      orderPriceBtn.addEventListener('click', handleOrderByPrice, {
-        passive: true
-      });
+      orderPriceBtn.addEventListener('click', handleOrderByPrice);
     if (orderHourBtn)
-      orderHourBtn.addEventListener('click', handleOrderByHour, {
-        passive: true
-      });
+      orderHourBtn.addEventListener('click', handleOrderByHour);
     if (checkboxHours)
-      checkboxHours.addEventListener('change', handleCheckboxChange, {
-        passive: true
-      });
+      checkboxHours.addEventListener('change', handleCheckboxChange);
 
     // Color blindness and tramos toggles
     this.setupToggleEvents();

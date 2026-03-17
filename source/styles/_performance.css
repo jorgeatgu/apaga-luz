@@ -227,6 +227,12 @@ html {
   contain-intrinsic-size: auto 500px;
 }
 
+.table-next-day,
+.container-wrapper {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
 /* Near-fold en desktop: sin content-visibility para evitar CLS */
 .price-table-wrapper,
 .chart-container {

@@ -639,7 +639,7 @@ export function table_price(data_hours, element) {
   const fragment = document.createDocumentFragment();
 
   // Process elements in chunks for better INP (optimized threshold)
-  if (data_hours.length > 8) {
+  if (data_hours.length > 48) {
     chunkedTask(
       data_hours,
       elements => {
