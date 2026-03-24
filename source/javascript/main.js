@@ -721,8 +721,7 @@ class ApagaLuzApp {
 
     if (orderPriceBtn)
       orderPriceBtn.addEventListener('click', handleOrderByPrice);
-    if (orderHourBtn)
-      orderHourBtn.addEventListener('click', handleOrderByHour);
+    if (orderHourBtn) orderHourBtn.addEventListener('click', handleOrderByHour);
     if (checkboxHours)
       checkboxHours.addEventListener('change', handleCheckboxChange);
 
@@ -851,8 +850,25 @@ class ApagaLuzApp {
   }
 }
 
-// Prefetch common navigation targets after page load
-if ('requestIdleCallback' in window) {
+// Speculation Rules API (Chrome/Edge 121+) con fallback prefetch
+if (
+  HTMLScriptElement.supports &&
+  HTMLScriptElement.supports('speculationrules')
+) {
+  const specScript = document.createElement('script');
+  specScript.type = 'speculationrules';
+  specScript.textContent = JSON.stringify({
+    prefetch: [
+      {
+        where: {
+          and: [{ href_matches: '/*' }, { not: { href_matches: 'https://*' } }]
+        },
+        eagerness: 'moderate'
+      }
+    ]
+  });
+  document.head.appendChild(specScript);
+} else if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {
     ['/precio-luz-manana/', '/horas-baratas-luz/'].forEach(href => {
       const link = document.createElement('link');

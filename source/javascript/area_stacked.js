@@ -320,7 +320,7 @@ export async function area_stacked(data_chart, element_options) {
 
   // Cleanup
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', throttledResize);
     },

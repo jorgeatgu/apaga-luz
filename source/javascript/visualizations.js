@@ -353,9 +353,9 @@ async function loadChartsProgressively() {
     }, 2000);
   }
 
-  // Cleanup en beforeunload
+  // Cleanup en pagehide
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       lazyLoader.destroy();
     },

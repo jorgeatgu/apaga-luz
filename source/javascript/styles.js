@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Cleanup
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', handleResize);
     },

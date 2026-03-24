@@ -183,7 +183,7 @@ export function scatterPlot(dataChart, scatterOptions) {
 
   // Cleanup
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', throttledResize);
     },

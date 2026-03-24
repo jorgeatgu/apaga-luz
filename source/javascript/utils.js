@@ -25,7 +25,7 @@ export function reload_page(minutes) {
 
   // Limpiar timeout si la página se descarga
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       clearTimeout(timeoutId);
     },

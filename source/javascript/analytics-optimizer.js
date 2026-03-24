@@ -127,15 +127,6 @@ class AnalyticsOptimizer {
         this.stats.lastActivity = Date.now();
       }
     });
-
-    // Enviar eventos antes de que la página se cierre
-    window.addEventListener(
-      'beforeunload',
-      () => {
-        this.flushQueue('page_unload');
-      },
-      { once: true }
-    );
   }
 
   /**

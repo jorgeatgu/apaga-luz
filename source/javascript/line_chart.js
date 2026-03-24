@@ -757,9 +757,9 @@ export function line_chart(data_chart, element_options, selected_value = '') {
   // Usar passive para mejor INP
   window.addEventListener('resize', throttledResize, { passive: true });
 
-  // Cleanup en unload para evitar memory leaks
+  // Cleanup en pagehide para evitar memory leaks
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', throttledResize);
     },

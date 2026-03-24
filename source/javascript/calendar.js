@@ -251,7 +251,7 @@ function lineChart(dataChart, element) {
 
   // Cleanup
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', throttledResize);
     },

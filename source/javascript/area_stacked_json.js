@@ -376,7 +376,7 @@ export function area_stacked_json(element_options) {
 
   // Cleanup
   window.addEventListener(
-    'beforeunload',
+    'pagehide',
     () => {
       window.removeEventListener('resize', throttledResize);
     },
