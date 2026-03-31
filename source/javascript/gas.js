@@ -9,6 +9,7 @@ import {
   last_n_days,
   day_names_us
 } from './utils.js';
+import { yieldToMain } from './performance-utils.js';
 
 /*
 Prices are published at 20:15,
@@ -122,12 +123,14 @@ function order_table_tomorrow_by_hour() {
   );
 }
 
-document.getElementById('order-price-next').addEventListener('click', () => {
+document.getElementById('order-price-next').addEventListener('click', async () => {
+  await yieldToMain();
   remove_tables_tomorrow();
   order_table_tomorrow_by_price();
 });
 
-document.getElementById('order-hour-next').addEventListener('click', () => {
+document.getElementById('order-hour-next').addEventListener('click', async () => {
+  await yieldToMain();
   remove_tables_tomorrow();
   order_table_tomorrow_by_hour();
 });

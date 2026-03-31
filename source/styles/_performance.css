@@ -58,6 +58,17 @@
 /* Price display elements */
 .container-table-price-element {
   contain: layout style;
+  transition: transform 0.15s ease-out;
+}
+
+.container-table-price-element:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  .container-table-price-element:hover {
+    transform: scale(1.02);
+  }
 }
 
 /* Optimize scrollable areas */
@@ -247,9 +258,6 @@ html {
   will-change: transform;
 }
 
-.container-table-price-element:hover {
-  will-change: transform;
-}
 
 /* Optimizar indicador de precio - usar transform para posicionamiento */
 .indicator-marker {

@@ -1,5 +1,10 @@
 import { width_mobile } from './utils.js';
-import { chunkedTask, batchDOMUpdates, throttle } from './performance-utils.js';
+import {
+  chunkedTask,
+  batchDOMUpdates,
+  throttle,
+  yieldToMain
+} from './performance-utils.js';
 import { inpOptimizer } from './inp-optimizer.js';
 
 // Event delegation manager para tablas
@@ -40,11 +45,6 @@ class TableEventManager {
           passive: true
         });
 
-        // Throttle hover events para mejor performance
-        const throttledHover = throttle(this.handleTableHover.bind(this), 16);
-        container.addEventListener('mouseover', throttledHover, {
-          passive: true
-        });
       }
     });
   }
@@ -62,26 +62,6 @@ class TableEventManager {
     }
   }
 
-  handleTableHover(e) {
-    const target = e.target;
-    const priceElement = target.closest('.container-table-price-element');
-
-    if (priceElement) {
-      // Efectos visuales de hover optimizados
-      requestAnimationFrame(() => {
-        priceElement.style.transform = 'scale(1.02)';
-        priceElement.style.willChange = 'transform';
-      });
-
-      // Limpiar después de un tiempo
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          priceElement.style.transform = '';
-          priceElement.style.willChange = 'auto';
-        });
-      }, 200);
-    }
-  }
 
   handlePriceElementClick(element, event) {
     // Aquí se pueden agregar comportamientos específicos al hacer click
@@ -412,43 +392,31 @@ export function create_new_table(data_table, selector, type_of_filter) {
       `#${selector} table .header-same-day`
     );
     if (tableHeader) {
-      const handleSort = throttle(event => {
+      const handleSort = throttle(async event => {
         const th = event.target.closest('td');
         if (!th) return;
 
-        // Use double rAF for better performance during sorting
+        await yieldToMain();
+
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            sortDirectionIcon(asc, th);
-            const table = th.closest('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
+          sortDirectionIcon(asc, th);
+          const table = th.closest('table');
+          const tbody = table.querySelector('tbody');
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          const sortedFragment = document.createDocumentFragment();
 
-            // Batch sort operations
-            const sortedFragment = document.createDocumentFragment();
-
-            // Optimize sorting with hint for GPU acceleration
-            tbody.style.willChange = 'contents';
-
-            rows
-              .sort(
-                comparer(
-                  Array.from(th.parentNode.children).indexOf(th),
-                  (asc = !asc)
-                )
+          rows
+            .sort(
+              comparer(
+                Array.from(th.parentNode.children).indexOf(th),
+                (asc = !asc)
               )
-              .forEach(tr => sortedFragment.appendChild(tr));
+            )
+            .forEach(tr => sortedFragment.appendChild(tr));
 
-            // Single DOM operation for reordering
-            tbody.appendChild(sortedFragment);
-
-            // Cleanup will-change after animation
-            setTimeout(() => {
-              tbody.style.willChange = 'auto';
-            }, 300);
-          });
+          tbody.appendChild(sortedFragment);
         });
-      }, 200);
+      }, 50);
 
       tableHeader.addEventListener('click', handleSort, { passive: true });
     }
@@ -524,24 +492,21 @@ export function table_price_tomorrow(
     fragment.appendChild(blockDiv);
   }
 
-  // Single DOM operation with performance optimization
-  requestAnimationFrame(() => {
-    table_grid.appendChild(fragment);
+  table_grid.appendChild(fragment);
 
-    // Defer event delegation initialization
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(
-        () => {
-          tableEventManager.init();
-        },
-        { timeout: 500 }
-      );
-    } else {
-      setTimeout(() => {
+  // Defer event delegation initialization
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(
+      () => {
         tableEventManager.init();
-      }, 0);
-    }
-  });
+      },
+      { timeout: 500 }
+    );
+  } else {
+    setTimeout(() => {
+      tableEventManager.init();
+    }, 0);
+  }
 }
 
 export function remove_table(element) {

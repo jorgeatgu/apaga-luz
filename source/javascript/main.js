@@ -733,46 +733,13 @@ class ApagaLuzApp {
   }
 
   setupToggleEvents() {
-    const colorBlindnessToggle = document.getElementById('color-blindness');
     const tramosToggle = document.getElementById('tramos');
-    const root = document.documentElement;
-
-    if (colorBlindnessToggle) {
-      // Use passive listener for better INP
-      const handleColorBlindness = throttle(e => {
-        const { checked } = e.target;
-        requestAnimationFrame(() => {
-          if (checked) {
-            root.style.setProperty('--orange-light', 'rgb(255, 176, 0)');
-            root.style.setProperty('--green-light', 'rgb(100, 143, 255)');
-            root.style.setProperty('--red-light', 'rgb(220, 38, 127)');
-          } else {
-            root.style.setProperty('--orange-light', '#ffae3ab3');
-            root.style.setProperty('--green-light', '#a2fcc1b3');
-            root.style.setProperty('--red-light', '#ec1d2fb3');
-          }
-        });
-      }, 100);
-
-      colorBlindnessToggle.addEventListener('change', handleColorBlindness, {
-        passive: true
-      });
-    }
 
     if (tramosToggle) {
-      // OPTIMIZADO: Toggle clase en el padre en vez de iterar 24+ elementos
-      // El CSS se encarga de mostrar/ocultar los tramos
-      const handleTramosToggle = throttle(e => {
-        const { checked } = e.target;
-        const container = document.querySelector('.container-wrapper');
-        if (container) {
-          container.classList.toggle('show-tramos', checked);
-        }
-      }, 100);
-
-      tramosToggle.addEventListener('change', handleTramosToggle, {
-        passive: true
-      });
+      tramosToggle.addEventListener('change', (e) => {
+        document.querySelector('.container-wrapper')
+          ?.classList.toggle('show-tramos', e.target.checked);
+      }, { passive: true });
     }
   }
 
