@@ -24,7 +24,6 @@ export default defineConfig({
         'descubre-las-ventajas-de-desocuparla-con-desokupa-demolition': 'noticias/descubre-las-ventajas-de-desocuparla-con-desokupa-demolition/index.html',
         'mejor-comercializadora-pvpc': 'noticias/mejor-comercializadora-pvpc/index.html',
         'comparador-tarifas-luz-y-gas': 'noticias/comparador-tarifas-luz-y-gas/index.html',
-        'ahorra-en-tu-factura': 'ahorra-en-tu-factura/index.html',
         'companias-electricas-mas-baratas-2026': 'noticias/companias-electricas-mas-baratas-2026/index.html',
         'como-afecta-tarifa-por-horas-a-tu-factura': 'noticias/como-afecta-tarifa-por-horas-a-tu-factura/index.html',
         'franjas-horarias-luz-hoy': 'noticias/franjas-horarias-luz-hoy/index.html',
