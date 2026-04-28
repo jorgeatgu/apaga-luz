@@ -22,7 +22,8 @@ import {
   throttle,
   chunkedTask,
   batchDOMUpdates,
-  LRUCache
+  LRUCache,
+  yieldToMain
 } from './performance-utils.js';
 
 // Importar optimizador INP para mejor rendimiento
@@ -688,23 +689,24 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    // Handlers simplificados: un solo rAF agrupa clear+rebuild en un frame.
-    // El trabajo real es <2ms para 24 items, no necesita yielding adicional.
-    const handleOrderByPrice = () => {
+    const handleOrderByPrice = async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         this.orderByPrice();
       });
     };
 
-    const handleOrderByHour = () => {
+    const handleOrderByHour = async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         this.orderByHour();
       });
     };
 
-    const handleCheckboxChange = () => {
+    const handleCheckboxChange = async () => {
+      await yieldToMain();
       requestAnimationFrame(() => {
         remove_tables();
         if (this.typeOfOrder === 'price') {
@@ -736,10 +738,15 @@ class ApagaLuzApp {
     const tramosToggle = document.getElementById('tramos');
 
     if (tramosToggle) {
-      tramosToggle.addEventListener('change', (e) => {
-        document.querySelector('.container-wrapper')
-          ?.classList.toggle('show-tramos', e.target.checked);
-      }, { passive: true });
+      tramosToggle.addEventListener(
+        'change',
+        e => {
+          document
+            .querySelector('.container-wrapper')
+            ?.classList.toggle('show-tramos', e.target.checked);
+        },
+        { passive: true }
+      );
     }
   }
 

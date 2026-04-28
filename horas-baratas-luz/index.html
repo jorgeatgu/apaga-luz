@@ -16,7 +16,34 @@
   <link rel="preconnect" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet"></noscript>
+  <style>
+    @font-face {
+      font-family: 'Rubik-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 103%;
+      ascent-override: 88%;
+      descent-override: 24%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: 'Fjalla-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 96%;
+      ascent-override: 100%;
+      descent-override: 22%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: 'RobotoCondensed-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 89%;
+      ascent-override: 95%;
+      descent-override: 24%;
+      line-gap-override: 0%;
+    }
+  </style>
   <link rel="stylesheet" href="/source/styles/styles.css">
   <!-- AdSense script optimizado para mejor INP -->
   <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous" data-optimized="true"></script>

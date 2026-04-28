@@ -17,6 +17,32 @@
   <!-- Google Fonts async load for better FCP/LCP -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet"></noscript>
+  <style>
+    @font-face {
+      font-family: 'Rubik-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 103%;
+      ascent-override: 88%;
+      descent-override: 24%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: 'Fjalla-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 96%;
+      ascent-override: 100%;
+      descent-override: 22%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: 'RobotoCondensed-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 89%;
+      ascent-override: 95%;
+      descent-override: 24%;
+      line-gap-override: 0%;
+    }
+  </style>
 
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -241,9 +267,9 @@
   <style>
     :root {
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
-      --numbers: 'Fjalla One', sans-serif;
-      --roboto: 'Roboto Condensed', sans-serif;
-      --text: 'Rubik', sans-serif;
+      --numbers: 'Fjalla One', 'Fjalla-fallback', sans-serif;
+      --roboto: 'Roboto Condensed', 'RobotoCondensed-fallback', sans-serif;
+      --text: 'Rubik', 'Rubik-fallback', sans-serif;
       --black: #111;
       --blue: #021e5c;
       --white: #fff;
