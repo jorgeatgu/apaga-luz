@@ -8,17 +8,32 @@
     {
       "src": "/noticias/descubre-mejores-tarifas-luz-2025/",
       "status": 301,
-      "headers": { "Location": "/noticias/descubre-mejores-tarifas-luz-2026/" }
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
       "src": "/noticias/luz-barata-2025/",
       "status": 301,
-      "headers": { "Location": "/noticias/luz-barata-2026/" }
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
       "src": "/noticias/comparador-luz-2025-elige-la-mejor-tarifa/",
       "status": 301,
-      "headers": { "Location": "/noticias/comparador-luz-2026-elige-la-mejor-tarifa/" }
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
+    },
+    {
+      "src": "/noticias/descubre-mejores-tarifas-luz-2026/",
+      "status": 301,
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
+    },
+    {
+      "src": "/noticias/comparador-luz-2026-elige-la-mejor-tarifa/",
+      "status": 301,
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
+    },
+    {
+      "src": "/noticias/luz-barata-2026/",
+      "status": 301,
+      "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
       "src": "/noticias/ofertas-luz-2025/",
