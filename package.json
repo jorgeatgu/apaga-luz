@@ -33,7 +33,7 @@
     "prettier": "^2.5.1",
     "stylelint": "^14.3.0",
     "terser": "^5.39.0",
-    "vercel": "^41.4.1",
+    "vercel": "^41.7.8",
     "vite": "6.4.2"
   },
   "dependencies": {
