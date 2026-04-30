@@ -31,14 +31,14 @@
         "npm:postcss-import@^16.1.0",
         "npm:postcss-nested@7.0.2",
         "npm:postcss-sorting@^9.1.0",
-        "npm:postcss@8.4.31",
+        "npm:postcss@8.5.10",
         "npm:pre-commit@^1.2.2",
         "npm:prettier@^2.5.1",
         "npm:stylelint@^14.3.0",
         "npm:terser@^5.39.0",
         "npm:vanillajs-datepicker@^1.2.0",
-        "npm:vercel@^41.4.1",
-        "npm:vite@6.4.1"
+        "npm:vercel@^41.7.8",
+        "npm:vite@6.4.2"
       ]
     }
   }
