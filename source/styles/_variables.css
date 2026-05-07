@@ -3,7 +3,7 @@
   --monospace: 'SFMono-Regular', Consolas, Menlo, Courier, monospace;
   --numbers: 'Fjalla One', 'Fjalla-fallback', sans-serif;
   --roboto: 'Roboto Condensed', 'RobotoCondensed-fallback', sans-serif;
-  --text: 'Rubik', 'Rubik-fallback', sans-serif;
+  --text: var(--fontSystem);
   --black: #111;
   --blue: #021e5c;
   --white: #fff;

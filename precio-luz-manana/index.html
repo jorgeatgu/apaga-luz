@@ -11,37 +11,8 @@
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous" ></script>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Google Fonts async load for better FCP/LCP -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:wght@100..900&family=Rubik:wght@300..900&display=swap" rel="stylesheet"></noscript>
   <style>
-    @font-face {
-      font-family: 'Rubik-fallback';
-      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
-      size-adjust: 103%;
-      ascent-override: 88%;
-      descent-override: 24%;
-      line-gap-override: 0%;
-    }
-    @font-face {
-      font-family: 'Fjalla-fallback';
-      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
-      size-adjust: 96%;
-      ascent-override: 100%;
-      descent-override: 22%;
-      line-gap-override: 0%;
-    }
-    @font-face {
-      font-family: 'RobotoCondensed-fallback';
-      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
-      size-adjust: 89%;
-      ascent-override: 95%;
-      descent-override: 24%;
-      line-gap-override: 0%;
-    }
   </style>
 
 
@@ -269,7 +240,7 @@
       --fontSystem: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, sans-serif;
       --numbers: 'Fjalla One', 'Fjalla-fallback', sans-serif;
       --roboto: 'Roboto Condensed', 'RobotoCondensed-fallback', sans-serif;
-      --text: 'Rubik', 'Rubik-fallback', sans-serif;
+      --text: var(--fontSystem);
       --black: #111;
       --blue: #021e5c;
       --white: #fff;
@@ -533,6 +504,42 @@
   });
   </script>
 
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/fjalla-one-latin-400.woff2" crossorigin>
+  <style>
+    /* self-hosted fonts */
+    @font-face {
+      font-family: 'Fjalla One';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/fonts/fjalla-one-latin-400.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Roboto Condensed';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('/fonts/roboto-condensed-latin-700.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Fjalla-fallback';
+      src: local('Arial Narrow'), local('Arial');
+      size-adjust: 92.18%;
+      ascent-override: 112.93%;
+      descent-override: 29.29%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: 'RobotoCondensed-fallback';
+      src: local('BlinkMacSystemFont'), local('-apple-system'), local('Segoe UI');
+      size-adjust: 89%;
+      ascent-override: 95%;
+      descent-override: 24%;
+      line-gap-override: 0%;
+    }
+  </style>
 </head>
 
 <body class="container-table">
