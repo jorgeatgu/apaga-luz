@@ -7,10 +7,26 @@
   <title>Subastas precio de la luz mañana: OMIE, ESIOS y compensación del gas | Apaga Luz</title>
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/subastas-precio-luz-manana/">
   <meta name="description" content="Cómo se calcula el precio de la luz para mañana: diferencia entre OMIE, compensación del gas y ESIOS, horarios de publicación y por qué los precios varían.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Subastas precio de la luz mañana: OMIE, ESIOS y compensación del gas | Apaga Luz">
+  <meta property="og:description" content="Cómo se calcula el precio de la luz para mañana: diferencia entre OMIE, compensación del gas y ESIOS, horarios de publicación y por qué los precios varían.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.apaga-luz.com/noticias/subastas-precio-luz-manana/">
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Apaga Luz">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Subastas precio de la luz mañana: OMIE, ESIOS y compensación del gas | Apaga Luz">
+  <meta name="twitter:description" content="Cómo se calcula el precio de la luz para mañana: diferencia entre OMIE, compensación del gas y ESIOS, horarios de publicación y por qué los precios varían.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
   <meta name="author" content="Jorge Aznar">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -218,7 +234,10 @@
           <p class="post-text">Seguro que en algún momento os habéis cruzado con un mapa de Europa que muestra unos precios bastante bajos en comparación con el resto.</p>
 
           <figure class="post-image">
-            <img src="../../public/images/mapa-europa-precio-luz.png" alt="Mapa de Europa que muestra los precios de luz de mañana de cada país" class="img-fluid"/>
+            <picture>
+              <source type="image/webp" srcset="../../public/images/mapa-europa-precio-luz.webp">
+              <img src="../../public/images/mapa-europa-precio-luz.png" alt="Mapa de Europa que muestra los precios de luz de mañana de cada país" class="img-fluid" width="1142" height="996" loading="lazy"/>
+            </picture>
             <figcaption class="post-image-caption">Mapa comparativo de precios de electricidad en Europa</figcaption>
           </figure>
 
@@ -257,7 +276,10 @@
           <p class="post-text">He hecho una tabla con los datos extraídos del 22 de julio para que se vean las diferencias:</p>
 
           <figure class="post-image">
-            <img src="../../public/images/comparativa-subastas-de-la-luz.png" alt="Tabla comparativa con los precios de las subastas de la luz de mañana de omie, esios y la compensación del gas" class="img-fluid"/>
+            <picture>
+              <source type="image/webp" srcset="../../public/images/comparativa-subastas-de-la-luz.webp">
+              <img src="../../public/images/comparativa-subastas-de-la-luz.png" alt="Tabla comparativa con los precios de las subastas de la luz de mañana de omie, esios y la compensación del gas" class="img-fluid" width="614" height="467" loading="lazy"/>
+            </picture>
             <figcaption class="post-image-caption">Comparativa entre precios de OMIE, compensación por gas y ESIOS</figcaption>
           </figure>
 
@@ -396,14 +418,34 @@
     </div>
   </footer>
 
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 
 </body>

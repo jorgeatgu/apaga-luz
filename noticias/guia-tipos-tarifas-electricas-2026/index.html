@@ -10,6 +10,7 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/guia-tipos-tarifas-electricas-2026/">
 
   <meta property="og:title" content="Comparativa Tarifas Luz 2026: PVPC, Fija, Indexada y Discriminación Horaria">
@@ -17,7 +18,14 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://www.apaga-luz.com/noticias/guia-tipos-tarifas-electricas-2026/">
   <meta property="og:site_name" content="Apaga Luz">
-  <meta property="article:published_time" content="2026-02-05T00:00:00Z">
+  
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Comparativa Tarifas Luz 2026: PVPC, Fija, Indexada | Apaga Luz">
+  <meta name="twitter:description" content="Comparativa 2026 de tarifas eléctricas: PVPC, tarifa fija vs indexada + discriminación horaria. Guía para elegir la opción más barata. Casos reales incluidos.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png"><meta property="article:published_time" content="2026-02-05T00:00:00Z">
   <meta property="article:section" content="Guías">
   <meta property="article:tag" content="tarifas electricas">
   <meta property="article:tag" content="PVPC">
@@ -25,9 +33,7 @@
   <meta property="article:tag" content="tarifa indexada">
   <meta property="article:tag" content="discriminacion horaria">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Comparativa Tarifas Luz 2026: PVPC, Fija, Indexada">
-  <meta name="twitter:description" content="Descubre todos los tipos de tarifas de luz en España. Compara PVPC vs tarifa fija vs indexada y elige la mejor opción para ahorrar.">
+  
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -873,15 +879,34 @@
       </div>
     </div>
   </footer>
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
-
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 
 </body>

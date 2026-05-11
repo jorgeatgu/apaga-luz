@@ -10,6 +10,7 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/precio-luz-por-hora/">
 
   <meta property="og:title" content="Precio de la Luz Hoy por Horas - Ahorra Hasta un 73%">
@@ -18,16 +19,21 @@
   <meta property="og:url" content="https://www.apaga-luz.com/noticias/precio-luz-por-hora/">
   <meta property="og:site_name" content="Apaga Luz">
   <meta property="og:locale" content="es_ES">
-  <meta property="article:published_time" content="2026-02-24T00:00:00Z">
+  
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Precio Luz Hoy por Horas: Ahorra Hasta un 73% | 2026">
+  <meta name="twitter:description" content="Consulta el precio de la luz hoy hora a hora (PVPC). Descubre las franjas valle, llano y punta y ahorra hasta un 73% en tu factura. Datos actualizados 2026.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png"><meta property="article:published_time" content="2026-02-24T00:00:00Z">
   <meta property="article:section" content="Precios Electricidad">
   <meta property="article:tag" content="precio luz hoy">
   <meta property="article:tag" content="precio electricidad horas">
   <meta property="article:tag" content="PVPC">
   <meta property="article:tag" content="ahorro energia">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Precio de la Luz Hoy por Horas - Ahorra Hasta un 73%">
-  <meta name="twitter:description" content="Tabla de precios PVPC hora a hora actualizada. Descubre las franjas valle y cuándo es más barato consumir energía en España.">
+  
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -666,15 +672,34 @@
       </div>
     </div>
   </footer>
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
-
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 
 </body>

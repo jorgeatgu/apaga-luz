@@ -7,10 +7,26 @@
   <title>▷ 10 influencers ecológicos para seguir | Apaga-luz</title>
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/">
   <meta name="description" content="10 influencers ecológicos para seguir con ayuda de las herramientas de búsqueda de las redes sociales. Todo lo que necesitas saber, aquí. ¡Entra y descúbrelo!"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="▷ 10 influencers ecológicos para seguir | Apaga-luz">
+  <meta property="og:description" content="10 influencers ecológicos para seguir con ayuda de las herramientas de búsqueda de las redes sociales. Todo lo que necesitas saber, aquí. ¡Entra y descúbrelo!">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.apaga-luz.com/noticias/diez-inluencers-ecologicos-para-seguir-redes-sociales/">
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Apaga Luz">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="▷ 10 influencers ecológicos para seguir | Apaga-luz">
+  <meta name="twitter:description" content="10 influencers ecológicos para seguir con ayuda de las herramientas de búsqueda de las redes sociales. Todo lo que necesitas saber, aquí. ¡Entra y descúbrelo!">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
   <meta name="author" content="Jorge Aznar">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -221,7 +237,10 @@
 
           <!-- Imagen destacada -->
           <figure class="post-featured-image">
-            <img src="../../public/images/nature-2754285_1280.png" alt="Naturaleza sostenible y ecológica" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="../../public/images/nature-2754285_1280.webp">
+              <img src="../../public/images/nature-2754285_1280.png" alt="Naturaleza sostenible y ecológica" width="493" height="501" loading="lazy">
+            </picture>
           </figure>
         </header>
 
@@ -241,7 +260,10 @@
             <li><strong>Gotzon Mantuliz:</strong> Gotzon es un naturalista que viaja de forma regular, siempre incentivando las prácticas ecológicas por cada rincón por el que pasa.</li>
 
             <figure class="post-image">
-              <img src="../../public/images/blossoms-4967141_1280.jpg" alt="Flores en primavera mostrando la belleza natural" loading="lazy">
+              <picture>
+                <source type="image/webp" srcset="../../public/images/blossoms-4967141_1280.webp">
+                <img src="../../public/images/blossoms-4967141_1280.jpg" alt="Flores en primavera mostrando la belleza natural" width="1280" height="960" loading="lazy">
+              </picture>
             </figure>
 
             <li><strong>Paula Villaboy (Blondiemuser):</strong> una influencer preocupada tanto por el medio ambiente como por el estilo de vida diario. A veces suele compartir consejos sobre <a href="https://www.bbva.com/es/sostenibilidad/la-cosmetica-ecologica-y-sus-beneficios-para-la-salud-y-el-medioambiente/" rel="dofollow">cosméticos ecológicos</a> en sus redes sociales de TikTok e Instagram.</li>
@@ -366,14 +388,34 @@
     </div>
   </footer>
 
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 
 </body>

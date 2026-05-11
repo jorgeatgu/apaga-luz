@@ -6,11 +6,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Ofertas Luz 2026: Las 10 ofertas para Ahorrar en tu Factura</title>
   <meta name="description" content="Descubre las 10 mejores ofertas de luz de 2026. Analizamos condiciones, descuentos y letra pequeña para que elijas la promoción que más te conviene.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ofertas Luz 2026: Las 10 ofertas para Ahorrar en tu Factura">
+  <meta property="og:description" content="Descubre las 10 mejores ofertas de luz de 2026. Analizamos condiciones, descuentos y letra pequeña para que elijas la promoción que más te conviene.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.apaga-luz.com/noticias/ofertas-luz-2026/">
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Apaga Luz">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ofertas Luz 2026: Las 10 ofertas para Ahorrar en tu Factura">
+  <meta name="twitter:description" content="Descubre las 10 mejores ofertas de luz de 2026. Analizamos condiciones, descuentos y letra pequeña para que elijas la promoción que más te conviene.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
   <meta name="author" content="Jorge Aznar">
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/ofertas-luz-2026/" />
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -689,14 +705,34 @@
     </div>
   </footer>
 
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 </body>
 

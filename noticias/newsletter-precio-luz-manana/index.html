@@ -7,11 +7,27 @@
   <title>Lucis: newsletter gratuita con el precio de la luz para mañana | Apaga Luz</title>
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/newsletter-precio-luz-manana/">
   <meta name="description" content="Recibe gratis cada noche en tu email el precio de la luz para mañana en España. Suscríbete a Lucis, la newsletter diaria de Apaga Luz, sin coste y sin spam.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lucis: newsletter gratuita con el precio de la luz para mañana | Apaga Luz">
+  <meta property="og:description" content="Recibe gratis cada noche en tu email el precio de la luz para mañana en España. Suscríbete a Lucis, la newsletter diaria de Apaga Luz, sin coste y sin spam.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.apaga-luz.com/noticias/newsletter-precio-luz-manana/">
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Apaga Luz">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lucis: newsletter gratuita con el precio de la luz para mañana | Apaga Luz">
+  <meta name="twitter:description" content="Recibe gratis cada noche en tu email el precio de la luz para mañana en España. Suscríbete a Lucis, la newsletter diaria de Apaga Luz, sin coste y sin spam.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
   <meta name="robots" content="follow, noindex"/>
   <meta name="author" content="Jorge Aznar">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -307,14 +323,34 @@
     </div>
   </footer>
 
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 
 </body>

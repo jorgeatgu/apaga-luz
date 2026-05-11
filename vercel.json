@@ -51,6 +51,41 @@
       "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/fonts/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/source/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/images/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=2592000"
+      },
+      "continue": true
+    },
+    {
+      "src": "/data/(.*\\.json)",
+      "headers": {
+        "Cache-Control": "public, max-age=300, s-maxage=300"
+      },
+      "continue": true
+    },
+    {
       "src": "/robots\\.txt",
       "headers": {
         "Cache-Control": "public, max-age=3600, s-maxage=3600",

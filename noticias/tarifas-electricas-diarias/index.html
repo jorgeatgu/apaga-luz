@@ -10,6 +10,7 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://www.apaga-luz.com/noticias/tarifas-electricas-diarias/">
 
   <meta property="og:title" content="Tarifas Eléctricas Diarias PVPC: Cómo Funciona el Ciclo de Precios y Cómo Ahorrar">
@@ -17,16 +18,21 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://www.apaga-luz.com/noticias/tarifas-electricas-diarias/">
   <meta property="og:site_name" content="Apaga Luz">
-  <meta property="article:published_time" content="2026-02-24T00:00:00Z">
+  
+  <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tarifa PVPC Diaria: Cómo Funciona y Ahorrar | Apaga Luz">
+  <meta name="twitter:description" content="Descubre cómo funcionan las tarifas eléctricas diarias PVPC. Ciclo completo, volatilidad de precios y estrategias para ahorrar en tu factura. Guía 2026.">
+  <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png"><meta property="article:published_time" content="2026-02-24T00:00:00Z">
   <meta property="article:section" content="Guías">
   <meta property="article:tag" content="tarifa PVPC">
   <meta property="article:tag" content="tarifas eléctricas diarias">
   <meta property="article:tag" content="mercado mayorista electricidad">
   <meta property="article:tag" content="ahorrar con PVPC">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Tarifa PVPC Diaria: Cómo Funciona y Ahorrar">
-  <meta name="twitter:description" content="Ciclo completo del PVPC: subasta OMIE, publicación ESIOS, volatilidad 2026 y estrategias para reducir tu factura eléctrica.">
+  
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../../public/images/icon.svg" />
@@ -590,15 +596,34 @@
       </div>
     </div>
   </footer>
-  <script type="module" src="/source/javascript/styles.js"></script>
-  <script type="module" src="/source/javascript/blog.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0"></script>
+  <script type="module" defer src="/source/javascript/styles.js"></script>
+  <script type="module" defer src="/source/javascript/blog.js"></script>
+  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
   <script>
   window.dataLayer = window.dataLayer || [];
-
   function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-E9V8ZPM3P0');
+
+  let gtmLoaded = false;
+  const loadGTM = () => {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      gtag('js', new Date());
+      gtag('config', 'G-E9V8ZPM3P0');
+    };
+  };
+
+  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, loadGTM, { once: true, passive: true });
+  });
+
+  setTimeout(loadGTM, 5000);
   </script>
 </body>
 
