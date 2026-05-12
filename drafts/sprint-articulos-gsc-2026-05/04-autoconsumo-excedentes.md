@@ -107,13 +107,20 @@ Cluster (top 15 por impresiones):
   - (si existe) `noticias/pvpc-precio-hoy-tarifa-regulada/`
 - [ ] `/audit-schema` (verificar especialmente `ItemList` y `Product`)
 
-## Fase 5 — Publish (45 min)
+## Fase 5 — Publish (60 min)
 
-- [ ] Build local
-- [ ] Verificar tabla responsive móvil (crítico, tablas se rompen)
-- [ ] Commit + push
-- [ ] GSC URL Inspection
-- [ ] Compartir en redes (artículo "evergreen comercial" merece amplificación)
+Checklist estándar (ver "Reglas transversales" en `README.md` del sprint):
+
+- [ ] **Artículo HTML**: `noticias/mejor-tarifa-luz-autoconsumo-excedentes-2026/index.html` (referencia estructural: `noticias/companias-electricas-mas-baratas-2026/index.html`).
+- [ ] **Blog index**: añadir card en `noticias/index.html` respetando orden cronológico.
+- [ ] **Home**: añadir card en `index.html` (raíz) dentro del grid `blog-section`.
+- [ ] **Sitemap**: añadir `<url>` en `public/sitemap.xml` con `lastmod` actual y `priority` 0.80.
+- [ ] **Validar schemas**: ejecutar `/audit-schema` (atención a `ItemList` y `Product`).
+- [ ] **Smoke test local**: abrir el HTML y comprobar render + ausencia de 404 en links internos.
+- [ ] **Verificar móvil**: Lighthouse/PageSpeed sobre el preview — atención a **tablas responsive** (crítico, suelen romperse).
+- [ ] **Commit + push** (Vercel auto-deploy).
+- [ ] **GSC URL Inspection** → solicitar indexación del nuevo URL.
+- [ ] **Amplificación**: compartir en redes (artículo "evergreen comercial" lo merece).
 
 ## Fase 6 — Monitor post-publish
 

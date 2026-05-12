@@ -102,13 +102,19 @@ Cluster de queries (Consultas.csv, últimos 3 meses — top 15 por impresiones):
   - `noticias/franjas-horarias-luz-hoy/index.html`
 - [ ] `/audit-schema` validación
 
-## Fase 5 — Publish (30 min)
+## Fase 5 — Publish (45 min)
 
-- [ ] Build local + verificar render
-- [ ] Verificar móvil (Lighthouse/PageSpeed)
-- [ ] Commit + push (Vercel auto-deploy)
-- [ ] GSC URL Inspection → solicitar indexación
-- [ ] Confirmar entrada en `public/sitemap.xml` (revisar si la generación es automática)
+Checklist estándar (ver "Reglas transversales" en `README.md` del sprint):
+
+- [ ] **Artículo HTML**: `noticias/pvpc-precio-hoy-tarifa-regulada/index.html` clonado de `noticias/precio-luz-iberdrola-hoy/index.html`.
+- [ ] **Blog index**: añadir card en `noticias/index.html` respetando orden cronológico.
+- [ ] **Home**: añadir card en `index.html` (raíz) dentro del grid `blog-section`.
+- [ ] **Sitemap**: añadir `<url>` en `public/sitemap.xml` con `lastmod` actual y `priority` 0.80.
+- [ ] **Validar schemas**: ejecutar `/audit-schema` sobre el nuevo artículo.
+- [ ] **Smoke test local**: abrir el HTML y comprobar render + ausencia de 404 en links internos.
+- [ ] **Verificar móvil**: Lighthouse/PageSpeed sobre el preview.
+- [ ] **Commit + push** (Vercel auto-deploy).
+- [ ] **GSC URL Inspection** → solicitar indexación del nuevo URL.
 
 ## Fase 6 — Monitor post-publish
 

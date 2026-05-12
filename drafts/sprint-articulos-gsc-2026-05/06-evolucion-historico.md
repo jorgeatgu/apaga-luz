@@ -105,13 +105,19 @@ Cluster (top 15):
   - `noticias/iva-factura-electrica/`
 - [ ] `/audit-schema` (validar `Dataset` si se usa)
 
-## Fase 5 — Publish (30 min)
+## Fase 5 — Publish (45 min)
 
-- [ ] Build local
-- [ ] Verificar tabla responsive móvil
-- [ ] Commit + push
-- [ ] GSC URL Inspection
-- [ ] Sitemap
+Checklist estándar (ver "Reglas transversales" en `README.md` del sprint):
+
+- [ ] **Artículo HTML**: `noticias/evolucion-precio-luz-espana-historico/index.html` clonado de `noticias/precio-luz-iberdrola-hoy/index.html`.
+- [ ] **Blog index**: añadir card en `noticias/index.html` respetando orden cronológico.
+- [ ] **Home**: añadir card en `index.html` (raíz) dentro del grid `blog-section`.
+- [ ] **Sitemap**: añadir `<url>` en `public/sitemap.xml` con `lastmod` actual y `priority` 0.80.
+- [ ] **Validar schemas**: ejecutar `/audit-schema` (validar `Dataset` si se usa).
+- [ ] **Smoke test local**: abrir el HTML y comprobar render + ausencia de 404 en links internos.
+- [ ] **Verificar móvil**: Lighthouse/PageSpeed sobre el preview — atención a **tablas responsive** de la serie histórica.
+- [ ] **Commit + push** (Vercel auto-deploy).
+- [ ] **GSC URL Inspection** → solicitar indexación del nuevo URL.
 
 ## Fase 6 — Monitor post-publish
 

@@ -16,7 +16,7 @@ Fases comunes para todos los artículos:
 | **2. Outline + Quick Answer + FAQ** | H1, H2s, Quick Answer 40-60p, 5-8 FAQ | 1 h | `{slug}-outline.md` |
 | **3. Drafting** | `/write-article` + generación HTML | 2–4 h | `noticias/{slug}/index.html` |
 | **4. Schemas + meta + internal links** | JSON-LD, meta title/description, links | 1 h | artículo listo |
-| **5. Publish** | Build, push, GSC URL Inspection | 30 min | publicado |
+| **5. Publish** | HTML + blog index + home + sitemap + `/audit-schema` + push + GSC | 45-60 min | publicado |
 | **6. Monitor** | +1, +2, +4, +8 semanas | recurrente | datos GSC |
 
 ## Sprint 0 — Bloqueo previo (1–2 días)
@@ -61,6 +61,16 @@ Ordenado por **clicks recuperables / esfuerzo** (mejor primero):
 - **Plantilla HTML**: usar `noticias/precio-luz-iberdrola-hoy/index.html` como referencia estructural — head, meta, JSON-LD, CTA, sponsor card.
 - **Internal linking**: cada artículo nuevo debe recibir al menos 2 enlaces desde artículos existentes relacionados y enlazar a 2 artículos del sitio.
 - **Validación final**: pasar por `/audit-schema` antes de publicar.
+- **Checklist de publicación (Fase 5)** — aplicar siempre, en este orden:
+  1. Crear el artículo en `noticias/{slug}/index.html` (clonar `noticias/precio-luz-iberdrola-hoy/index.html` como plantilla canónica: head, schemas, header/footer estándar).
+  2. Añadir card en `noticias/index.html` respetando el orden cronológico del grid.
+  3. Añadir card en `index.html` (raíz) dentro del grid `blog-section` de la home.
+  4. Añadir `<url>` en `public/sitemap.xml` con `lastmod` actual y `priority` 0.80.
+  5. Ejecutar `/audit-schema` sobre el nuevo artículo.
+  6. Smoke test local: abrir el HTML, verificar render y ausencia de 404 en links internos.
+  7. Lighthouse / PageSpeed móvil (atención especial a tablas responsive).
+  8. Commit + push (Vercel auto-deploy).
+  9. GSC URL Inspection → solicitar indexación del nuevo URL.
 
 ## Métricas de éxito (a revisar Sprint 6 de cada artículo)
 
