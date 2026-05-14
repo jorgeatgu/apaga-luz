@@ -652,6 +652,24 @@ body.single-post .post-container {
     transform: translateY(-2px);
   }
 
+  .social-share-button.preferred-source {
+    width: auto;
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 0;
+  }
+
+  .social-share-button.preferred-source img {
+    display: block;
+    height: 40px;
+    width: auto;
+  }
+
+  .social-share-button.preferred-source:hover {
+    background-color: transparent;
+    transform: translateY(-2px);
+  }
+
   @media (max-width: 768px) {
     .post-container {
       padding: 1.5rem 1rem;
