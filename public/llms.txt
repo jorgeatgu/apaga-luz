@@ -1,0 +1,35 @@
+# Apaga-luz
+
+> Sitio que muestra el precio de la luz en España hora a hora (PVPC), con datos en tiempo real de REE, OMIE y ESIOS. Incluye guías sobre tarifas, ahorro energético y compañías eléctricas, escritas y mantenidas por Jorge Aznar.
+
+## Datos en tiempo real
+
+- [Precio de la luz hoy](https://www.apaga-luz.com/): Precio PVPC hora a hora del día actual
+- [Precio de la luz mañana](https://www.apaga-luz.com/precio-luz-manana/): Precio PVPC del día siguiente tras la subasta diaria
+- [Horas más baratas](https://www.apaga-luz.com/horas-baratas-luz/): Franjas valle, llano y punta del día
+- [Gráficas y datos históricos](https://www.apaga-luz.com/graficas/): Series temporales del PVPC
+- [API JSON de precios](https://www.apaga-luz.com/data/today_price.json): Datos estructurados para consumo programático
+
+## Guías pilar
+
+- [Tarifa de luz 2026: guía completa](https://www.apaga-luz.com/noticias/tarifa-luz-guia-completa-2026/): Qué es una tarifa de luz, componentes, PVPC vs mercado libre, cómo comparar y cómo cambiar
+- [Tipos de tarifas eléctricas 2026](https://www.apaga-luz.com/noticias/guia-tipos-tarifas-electricas-2026/): Comparativa técnica detallada PVPC vs fija vs indexada con discriminación horaria
+- [Compañías eléctricas más baratas 2026](https://www.apaga-luz.com/noticias/companias-electricas-mas-baratas-2026/): Ranking comercial de comercializadoras del mercado libre
+- [Ofertas de luz 2026](https://www.apaga-luz.com/noticias/ofertas-luz-2026/): Promociones, descuentos de bienvenida y letra pequeña
+- [Comparador de tarifas luz y gas 2026](https://www.apaga-luz.com/noticias/comparador-tarifas-luz-y-gas/): Comparativa dual fuel Endesa, Iberdrola, Naturgy
+- [Mejor comercializadora PVPC](https://www.apaga-luz.com/noticias/mejor-comercializadora-pvpc/): Qué comercializadora de referencia elegir para PVPC
+
+## Guías de ahorro
+
+- [Cómo encontrar tarifas de luz baratas](https://www.apaga-luz.com/noticias/como-encontrar-tarifas-de-luz-baratas-en-2026-para-ahorrar-en-tu-factura/)
+- [Mejores horas para electrodomésticos](https://www.apaga-luz.com/noticias/mejores-horas-electrodomesticos/)
+- [Bono social eléctrico: guía completa](https://www.apaga-luz.com/noticias/bono-social-electrico-guia-completa/)
+- [Tarifas con placas solares](https://www.apaga-luz.com/noticias/tarifas-placas-solares/)
+- [Consumo fantasma: identificar y eliminar](https://www.apaga-luz.com/noticias/consumo-fantasma-identificar-eliminar-gasto-electrico-en-tu-hogar/)
+
+## Precio por comercializadora
+
+- [Precio luz Iberdrola hoy](https://www.apaga-luz.com/noticias/precio-luz-iberdrola-hoy/)
+- [Precio luz Endesa hoy](https://www.apaga-luz.com/noticias/precio-luz-endesa-hoy/)
+- [Precio luz Naturgy hoy](https://www.apaga-luz.com/noticias/precio-luz-naturgy-hoy/)
+- [Precio luz Canarias hoy](https://www.apaga-luz.com/noticias/precio-luz-canarias-hoy/)
