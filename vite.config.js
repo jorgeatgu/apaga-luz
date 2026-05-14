@@ -46,7 +46,12 @@ export default defineConfig({
         'guia-tipos-tarifas-electricas-2026': 'noticias/guia-tipos-tarifas-electricas-2026/index.html',
         'precio-luz-canarias-hoy': 'noticias/precio-luz-canarias-hoy/index.html',
         'precio-luz-por-hora': 'noticias/precio-luz-por-hora/index.html',
-        'tarifas-electricas-diarias': 'noticias/tarifas-electricas-diarias/index.html'
+        'tarifas-electricas-diarias': 'noticias/tarifas-electricas-diarias/index.html',
+        'precio-luz-iberdrola-hoy': 'noticias/precio-luz-iberdrola-hoy/index.html',
+        'precio-luz-naturgy-hoy': 'noticias/precio-luz-naturgy-hoy/index.html',
+        'precio-luz-endesa-hoy': 'noticias/precio-luz-endesa-hoy/index.html',
+        'tarifa-luz-guia-completa-2026': 'noticias/tarifa-luz-guia-completa-2026/index.html',
+        'pvpc-precio-hoy-tarifa-regulada': 'noticias/pvpc-precio-hoy-tarifa-regulada/index.html'
       },
       output: {
         assetFileNames: (assetInfo) => {
