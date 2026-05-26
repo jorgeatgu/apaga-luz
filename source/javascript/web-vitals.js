@@ -120,7 +120,10 @@ class WebVitalsMonitor {
     onCLS(this.handleMetric.bind(this));
     onFID(this.handleMetric.bind(this));
     onFCP(this.handleMetric.bind(this));
-    onINP(this.handleINPMetric.bind(this));
+    // En debug reportamos cada cambio de INP (logging en vivo por interacción);
+    // en producción normal se mantiene el comportamiento estándar (un único
+    // reporte al ocultar la página), de menor overhead.
+    onINP(this.handleINPMetric.bind(this), { reportAllChanges: this.debug });
     onLCP(this.handleMetric.bind(this));
     onTTFB(this.handleMetric.bind(this));
 
