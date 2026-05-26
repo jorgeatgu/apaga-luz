@@ -76,9 +76,13 @@ class WebVitalsMonitor {
       // Build de ATRIBUCIÓN: expone metric.attribution con el desglose por
       // fases del INP (inputDelay/processing/presentation), el elemento
       // culpable y las Long Animation Frames (LoAF) responsables.
+      // Build ESM de atribución (con exports nombrados). El build .iife está
+      // pensado para <script> y falla al cargarse con import() dinámico
+      // (scope de módulo, `this` undefined), por eso usamos el ESM y
+      // asignamos su namespace a window.webVitals.
       const loadLibrary = () => {
         return import(
-          'https://unpkg.com/web-vitals@4/dist/web-vitals.attribution.iife.js'
+          'https://unpkg.com/web-vitals@4/dist/web-vitals.attribution.js'
         );
       };
 
@@ -96,16 +100,24 @@ class WebVitalsMonitor {
         webVitalsModule = await loadLibrary();
       }
 
-      if (window.webVitals) {
+      // El ESM expone onCLS/onINP/… como exports nombrados; los publicamos en
+      // window.webVitals para que initializeMetricObservers los consuma.
+      window.webVitals = webVitalsModule;
+
+      if (window.webVitals && window.webVitals.onINP) {
         this.initializeMetricObservers();
-        console.log('✅ Web Vitals library loaded and initialized');
+        if (this.debug) {
+          this.c.log('✅ Web Vitals (attribution) cargada e inicializada');
+        }
+      } else if (this.debug) {
+        this.c.warn(
+          '⚠️ Web Vitals cargó pero no expone onINP:',
+          webVitalsModule
+        );
       }
     } catch (error) {
-      console.error('❌ Error loading Web Vitals:', error);
-
-      // Reportar error si analytics está disponible
-      if (window.analyticsOptimizer) {
-        window.analyticsOptimizer.trackError(error, 'web_vitals_load');
+      if (this.debug) {
+        this.c.warn('❌ Error cargando Web Vitals:', error);
       }
     }
   }
@@ -114,20 +126,24 @@ class WebVitalsMonitor {
    * Inicializa observadores de métricas
    */
   initializeMetricObservers() {
-    const { onCLS, onFID, onFCP, onINP, onLCP, onTTFB } = window.webVitals;
+    // web-vitals v4 eliminó onFID (FID obsoleto, sustituido por INP), por eso
+    // cada observador se registra solo si existe en el módulo cargado.
+    const { onCLS, onFCP, onINP, onLCP, onTTFB } = window.webVitals;
 
-    // Configurar observadores con nueva función optimizada
-    onCLS(this.handleMetric.bind(this));
-    onFID(this.handleMetric.bind(this));
-    onFCP(this.handleMetric.bind(this));
+    if (onCLS) onCLS(this.handleMetric.bind(this));
+    if (onFCP) onFCP(this.handleMetric.bind(this));
+    if (onLCP) onLCP(this.handleMetric.bind(this));
+    if (onTTFB) onTTFB(this.handleMetric.bind(this));
     // En debug reportamos cada cambio de INP (logging en vivo por interacción);
     // en producción normal se mantiene el comportamiento estándar (un único
     // reporte al ocultar la página), de menor overhead.
-    onINP(this.handleINPMetric.bind(this), { reportAllChanges: this.debug });
-    onLCP(this.handleMetric.bind(this));
-    onTTFB(this.handleMetric.bind(this));
+    if (onINP) {
+      onINP(this.handleINPMetric.bind(this), { reportAllChanges: this.debug });
+    }
 
-    console.log('📊 Web Vitals observers initialized');
+    if (this.debug) {
+      this.c.log('📊 Web Vitals observers initialized');
+    }
   }
 
   /**
