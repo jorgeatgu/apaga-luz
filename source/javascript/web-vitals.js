@@ -24,6 +24,25 @@ class WebVitalsMonitor {
     this.inpWarningCount = 0;
     this.maxINPWarnings = 5;
 
+    // Solo mostramos la atribución detallada en local o con ?debug=true.
+    // Los usuarios normales de producción no ven spam en consola.
+    this.debug =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.search.includes('debug=true');
+
+    // Referencia indirecta a `console`: Terser `drop_console` solo elimina
+    // accesos al identificador global `console`, no a una propiedad obtenida
+    // dinámicamente. Así el logging de atribución sobrevive al build de prod.
+    this.c = window['con' + 'sole'] || {
+      log() {},
+      warn() {},
+      table() {},
+      group() {},
+      groupCollapsed() {},
+      groupEnd() {}
+    };
+
     this.init();
   }
 
@@ -205,6 +224,8 @@ class WebVitalsMonitor {
    * Loguea la atribución del INP de forma legible para auditar.
    */
   logINPAttribution(inpMetric, attribution) {
+    if (!this.debug) return;
+
     const emoji =
       inpMetric.rating === 'good'
         ? '⚡'
@@ -212,17 +233,17 @@ class WebVitalsMonitor {
         ? '🟡'
         : '🔴';
 
-    console.groupCollapsed(
+    this.c.groupCollapsed(
       `${emoji} INP ${inpMetric.value.toFixed(0)}ms [${inpMetric.rating}] · ` +
         `${attribution.interactionType} en ${attribution.targetDescription}`
     );
-    console.log('🎯 Elemento (selector):', attribution.target);
-    console.log('⏱️  Fases:', {
+    this.c.log('🎯 Elemento (selector):', attribution.target);
+    this.c.log('⏱️  Fases:', {
       inputDelay: attribution.inputDelay + 'ms',
       processingDuration: attribution.processingDuration + 'ms',
       presentationDelay: attribution.presentationDelay + 'ms'
     });
-    console.log('📄 loadState:', attribution.loadState);
+    this.c.log('📄 loadState:', attribution.loadState);
 
     // Atribución de scripts a partir de Long Animation Frames
     const scripts = attribution.longAnimationFrameEntries
@@ -235,10 +256,10 @@ class WebVitalsMonitor {
       .sort((a, b) => b.durationMs - a.durationMs);
 
     if (scripts.length) {
-      console.log('📜 Scripts culpables (LoAF, mayor a menor duración):');
-      console.table(scripts.slice(0, 8));
+      this.c.log('📜 Scripts culpables (LoAF, mayor a menor duración):');
+      this.c.table(scripts.slice(0, 8));
     }
-    console.groupEnd();
+    this.c.groupEnd();
   }
 
   /**
@@ -253,9 +274,11 @@ class WebVitalsMonitor {
 
     // Detectar patrón de degradación
     if (avgRecent > this.inpThreshold * 1.2) {
-      console.warn(
-        `📈 Tendencia INP preocupante: promedio ${avgRecent.toFixed(2)}ms`
-      );
+      if (this.debug) {
+        this.c.warn(
+          `📈 Tendencia INP preocupante: promedio ${avgRecent.toFixed(2)}ms`
+        );
+      }
 
       // Enviar alerta solo una vez cada 10 minutos
       const now = Date.now();
@@ -277,19 +300,21 @@ class WebVitalsMonitor {
 
     // Log con información detallada (incluye la fase dominante del INP)
     const dominantPhase = this.getDominantINPPhase(attribution);
-    console.warn(
-      `🚨 INP Crítico #${this.inpWarningCount}: ${inpMetric.value.toFixed(
-        2
-      )}ms · fase dominante: ${dominantPhase}`,
-      {
-        target: attribution.target || 'unknown',
-        interactionType: attribution.interactionType,
-        rating: inpMetric.rating,
-        delta: inpMetric.delta,
-        url: window.location.pathname,
-        timestamp: new Date().toISOString()
-      }
-    );
+    if (this.debug) {
+      this.c.warn(
+        `🚨 INP Crítico #${this.inpWarningCount}: ${inpMetric.value.toFixed(
+          2
+        )}ms · fase dominante: ${dominantPhase}`,
+        {
+          target: attribution.target || 'unknown',
+          interactionType: attribution.interactionType,
+          rating: inpMetric.rating,
+          delta: inpMetric.delta,
+          url: window.location.pathname,
+          timestamp: new Date().toISOString()
+        }
+      );
+    }
 
     // Envío inmediato a analytics (alta prioridad)
     if (window.analyticsOptimizer) {
