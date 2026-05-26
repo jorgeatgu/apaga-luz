@@ -29,9 +29,6 @@ import {
 // Importar optimizador INP para mejor rendimiento
 import { inpOptimizer } from './inp-optimizer.js';
 
-// Importar optimizador de ads para reducir impacto en INP
-import { adsOptimizer } from './ads-optimizer.js';
-
 // Lazy load Web Vitals monitoring
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {

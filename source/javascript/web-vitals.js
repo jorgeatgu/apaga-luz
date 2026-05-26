@@ -1,9 +1,10 @@
 // Web Vitals monitoring optimizado para medir INP y otras métricas
-// Este módulo se integra con analytics-optimizer para mejor performance
+// Usa el build de atribución de web-vitals para identificar el elemento y la
+// fase responsable de cada interacción lenta. Loguea en consola (en local o
+// con ?debug=true); ya no envía datos a Analytics.
 
 /**
  * WebVitalsMonitor - Sistema avanzado de monitoreo de Web Vitals
- * Integrado con analytics-optimizer para batching inteligente
  */
 class WebVitalsMonitor {
   constructor() {
@@ -53,8 +54,13 @@ class WebVitalsMonitor {
   async loadWebVitalsLibrary() {
     try {
       // Usar requestIdleCallback para mejor INP
+      // Build de ATRIBUCIÓN: expone metric.attribution con el desglose por
+      // fases del INP (inputDelay/processing/presentation), el elemento
+      // culpable y las Long Animation Frames (LoAF) responsables.
       const loadLibrary = () => {
-        return import('https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js');
+        return import(
+          'https://unpkg.com/web-vitals@4/dist/web-vitals.attribution.iife.js'
+        );
       };
 
       let webVitalsModule;
@@ -134,11 +140,13 @@ class WebVitalsMonitor {
    * Manejo especializado para métricas INP
    */
   handleINPMetric(inpMetric) {
+    const attribution = this.extractINPAttribution(inpMetric);
+
     // Añadir a histórico de INP
     this.realTimeINP.push({
       value: inpMetric.value,
       timestamp: Date.now(),
-      target: inpMetric.target || 'unknown',
+      target: attribution.target,
       rating: inpMetric.rating
     });
 
@@ -146,6 +154,10 @@ class WebVitalsMonitor {
     if (this.realTimeINP.length > 20) {
       this.realTimeINP.shift();
     }
+
+    // Log de atribución: imprime SIEMPRE el desglose para poder auditar
+    // (en local/preview o con ?debug=true) qué causa cada interacción.
+    this.logINPAttribution(inpMetric, attribution);
 
     // Análisis en tiempo real
     this.analyzeINPTrend();
@@ -155,8 +167,78 @@ class WebVitalsMonitor {
 
     // Alertas críticas para INP
     if (inpMetric.value > this.inpThreshold) {
-      this.handleCriticalINP(inpMetric);
+      this.handleCriticalINP(inpMetric, attribution);
     }
+  }
+
+  /**
+   * Extrae la atribución del INP (build web-vitals attribution v4).
+   * Devuelve siempre un objeto consistente aunque falte algún dato.
+   */
+  extractINPAttribution(inpMetric) {
+    const a = inpMetric.attribution || {};
+    const el = a.interactionTargetElement;
+
+    return {
+      // Selector CSS del elemento con el que se interactuó
+      target: a.interactionTarget || 'unknown',
+      // Descripción legible del elemento (tag + clases) si está vivo en el DOM
+      targetDescription: el
+        ? `${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''}${
+            el.className && typeof el.className === 'string'
+              ? '.' + el.className.trim().split(/\s+/).join('.')
+              : ''
+          }`
+        : a.interactionTarget || 'unknown',
+      interactionType: a.interactionType || 'unknown',
+      // Desglose por fases (las 3 sumadas ≈ INP)
+      inputDelay: Math.round(a.inputDelay || 0),
+      processingDuration: Math.round(a.processingDuration || 0),
+      presentationDelay: Math.round(a.presentationDelay || 0),
+      loadState: a.loadState || 'unknown',
+      // Scripts responsables según Long Animation Frame API
+      longAnimationFrameEntries: a.longAnimationFrameEntries || []
+    };
+  }
+
+  /**
+   * Loguea la atribución del INP de forma legible para auditar.
+   */
+  logINPAttribution(inpMetric, attribution) {
+    const emoji =
+      inpMetric.rating === 'good'
+        ? '⚡'
+        : inpMetric.rating === 'needs-improvement'
+        ? '🟡'
+        : '🔴';
+
+    console.groupCollapsed(
+      `${emoji} INP ${inpMetric.value.toFixed(0)}ms [${inpMetric.rating}] · ` +
+        `${attribution.interactionType} en ${attribution.targetDescription}`
+    );
+    console.log('🎯 Elemento (selector):', attribution.target);
+    console.log('⏱️  Fases:', {
+      inputDelay: attribution.inputDelay + 'ms',
+      processingDuration: attribution.processingDuration + 'ms',
+      presentationDelay: attribution.presentationDelay + 'ms'
+    });
+    console.log('📄 loadState:', attribution.loadState);
+
+    // Atribución de scripts a partir de Long Animation Frames
+    const scripts = attribution.longAnimationFrameEntries
+      .flatMap(loaf => loaf.scripts || [])
+      .map(s => ({
+        invoker: s.invoker,
+        source: s.sourceURL || s.invokerType,
+        durationMs: Math.round(s.duration || 0)
+      }))
+      .sort((a, b) => b.durationMs - a.durationMs);
+
+    if (scripts.length) {
+      console.log('📜 Scripts culpables (LoAF, mayor a menor duración):');
+      console.table(scripts.slice(0, 8));
+    }
+    console.groupEnd();
   }
 
   /**
@@ -190,16 +272,18 @@ class WebVitalsMonitor {
   /**
    * Maneja INP crítico (>200ms)
    */
-  handleCriticalINP(inpMetric) {
+  handleCriticalINP(inpMetric, attribution = {}) {
     this.inpWarningCount++;
 
-    // Log con información detallada
+    // Log con información detallada (incluye la fase dominante del INP)
+    const dominantPhase = this.getDominantINPPhase(attribution);
     console.warn(
       `🚨 INP Crítico #${this.inpWarningCount}: ${inpMetric.value.toFixed(
         2
-      )}ms`,
+      )}ms · fase dominante: ${dominantPhase}`,
       {
-        target: inpMetric.target,
+        target: attribution.target || 'unknown',
+        interactionType: attribution.interactionType,
         rating: inpMetric.rating,
         delta: inpMetric.delta,
         url: window.location.pathname,
@@ -214,7 +298,7 @@ class WebVitalsMonitor {
           event_name: 'critical_inp',
           event_category: 'performance_critical',
           value: Math.round(inpMetric.value),
-          target_element: inpMetric.target || 'unknown',
+          target_element: attribution.target || 'unknown',
           warning_count: this.inpWarningCount,
           page_path: window.location.pathname
         },
@@ -226,6 +310,20 @@ class WebVitalsMonitor {
     if (this.inpWarningCount >= this.maxINPWarnings) {
       this.suggestINPOptimizations();
     }
+  }
+
+  /**
+   * Determina qué fase (input/processing/presentation) domina el INP.
+   * Útil para decidir si el problema es de listeners (processing) o de
+   * pintado bloqueado por terceros como AdSense (presentation/input).
+   */
+  getDominantINPPhase(attribution = {}) {
+    const phases = {
+      inputDelay: attribution.inputDelay || 0,
+      processingDuration: attribution.processingDuration || 0,
+      presentationDelay: attribution.presentationDelay || 0
+    };
+    return Object.entries(phases).sort((a, b) => b[1] - a[1])[0][0];
   }
 
   /**

@@ -31,9 +31,7 @@
   <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
 
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
-  <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-  <link rel="preconnect" href="https://www.google-analytics.com">
   <!-- AdSense script optimizado para mejor INP - se carga con defer en lugar de async -->
   <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8990231994528437" crossorigin="anonymous"></script>
   <style>
@@ -125,32 +123,26 @@
       will-change: auto;
     }
 
-    /* CLS Fix: Ad container optimization */
+    /* CLS Fix: Ad container optimization (sin max-height/overflow para no
+       recortar formatos altos de Auto Ads) */
     #ad-container {
       min-height: 280px;
-      max-height: 300px;
       contain: layout style;
       display: block;
       position: relative;
-      overflow: hidden;
     }
 
     .adsbygoogle {
+      /* Reserva de altura para mitigar CLS. Sin max-height/overflow: Auto Ads
+         inyecta formatos más altos (in-article puede medir 400-600px) y
+         recortarlos reduce viewability/ingresos e incumple políticas. */
       min-height: 280px;
-      max-height: 300px;
       display: block !important;
-      overflow: hidden;
     }
 
     /* Prevenir que AdSense añada padding al body */
     body {
       padding: 0 !important;
-    }
-
-    /* Prevent ads from causing CLS during load */
-    .adsbygoogle[data-lazy-ad="true"] {
-      background: #f8f8f8;
-      border: 1px solid #e0e0e0;
     }
 
     /* Performance optimization for animations */
@@ -163,7 +155,7 @@
       transform: translateZ(0);
     }
   </style>
-  <!-- Performance optimizations: ads handled by ads-optimizer.js module -->
+  <!-- Auto Ads gestionados por AdSense; reserva de altura para mitigar CLS -->
   <script>
     // Prevenir CLS reservando espacio para ads
     if (typeof CSS !== 'undefined' && CSS.supports('contain', 'layout')) {
@@ -689,35 +681,6 @@
     </div>
   </footer>
   <script defer type="module" src="/source/javascript/main.js"></script>
-  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-
-  let gtmLoaded = false;
-  const loadGTM = () => {
-    if (gtmLoaded) return;
-    gtmLoaded = true;
-
-    const script = document.createElement('script');
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      gtag('js', new Date());
-      gtag('config', 'G-E9V8ZPM3P0');
-    };
-  };
-
-  // Cargar en primera interacción
-  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-    document.addEventListener(event, loadGTM, { once: true, passive: true });
-  });
-
-  // Fallback: cargar después de 5s
-  setTimeout(loadGTM, 5000);
-  </script>
 </body>
 
 </html>

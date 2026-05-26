@@ -674,33 +674,6 @@
   </footer>
   <script type="module" defer src="/source/javascript/styles.js"></script>
   <script type="module" defer src="/source/javascript/blog.js"></script>
-  <!-- Google Tag Manager - Lazy loaded for INP optimization -->
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-
-  let gtmLoaded = false;
-  const loadGTM = () => {
-    if (gtmLoaded) return;
-    gtmLoaded = true;
-
-    const script = document.createElement('script');
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9V8ZPM3P0';
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      gtag('js', new Date());
-      gtag('config', 'G-E9V8ZPM3P0');
-    };
-  };
-
-  ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-    document.addEventListener(event, loadGTM, { once: true, passive: true });
-  });
-
-  setTimeout(loadGTM, 5000);
-  </script>
 
 </body>
 
