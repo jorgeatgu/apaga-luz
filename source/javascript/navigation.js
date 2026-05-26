@@ -32,9 +32,12 @@ class NavigationManager {
   }
 
   setupEventDelegation() {
-    // Un solo listener para todo el header usando delegación
+    // Un solo listener para todo el header usando delegación.
+    // No es passive porque handleHeaderClick llama a preventDefault() en los
+    // dropdown-toggle; passive en 'click' no aporta rendimiento (solo aplica a
+    // touchstart/wheel/scroll).
     this.header.addEventListener('click', this.handleHeaderClick.bind(this), {
-      passive: true
+      passive: false
     });
 
     // Menu toggle específico con passive para mejor INP
