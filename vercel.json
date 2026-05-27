@@ -51,6 +51,11 @@
       "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
+      "src": "/ahorra-en-tu-factura/?",
+      "status": 301,
+      "headers": { "Location": "/noticias/como-ahorrar-precio-luz-por-horas/" }
+    },
+    {
       "src": "/assets/(.*)",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
