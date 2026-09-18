@@ -1,8 +1,17 @@
 name: flat-omie
 on:
+  # GitHub delays scheduled runs by hours at times; several slots make sure
+  # tomorrow's file lands soon after OMIE publishes it (~13:00 Madrid).
+  # Before that OMIE answers 404 and Flat fails without committing; after the
+  # first success the file does not change and Flat does not commit again.
   schedule:
+    - cron: 17 11 * * *
     - cron: 15 12 * * *
+    - cron: 17 13 * * *
+    - cron: 17 14 * * *
   workflow_dispatch:
+concurrency:
+  group: flat-omie
 jobs:
   scheduled:
     runs-on: ubuntu-latest
