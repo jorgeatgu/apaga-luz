@@ -257,6 +257,52 @@ test('formato de precios y horas; empates a la hora más temprana', () => {
   assert.equal(ctx2.hoy.precioMasCaro, '0,123');
 });
 
+test('precios casi nulos negativos no se muestran como -0,000', () => {
+  const prices = flatPrices(0.1);
+  prices[13] = -0.0003;
+  prices[14] = -0.012;
+  const ctx = computeDailyContext({
+    today: esiosDay('18/09/2026', prices),
+    now: NOW,
+    warn: () => {}
+  });
+  assert.equal(ctx.hoy.precioMasBarato, '-0,012');
+  prices[14] = 0.5;
+  const ctx2 = computeDailyContext({
+    today: esiosDay('18/09/2026', prices),
+    now: NOW,
+    warn: () => {}
+  });
+  assert.equal(ctx2.hoy.precioMasBarato, '0,000');
+});
+
+test('cambio de hora: OMIE con 92 y 100 cuartos se etiqueta en hora de reloj', () => {
+  // 29 mar 2026 (23 h): la hora índice 2 es la 03:00 de reloj.
+  const spring = Array(23).fill(0.1);
+  spring[2] = 0.01;
+  spring[22] = 0.3;
+  const springCtx = computeDailyContext({
+    omie: omieDay('2026', '03', '29', spring),
+    now: new Date('2026-03-28T15:00:00Z'),
+    warn: () => {}
+  });
+  assert.equal(springCtx.manana.estado, 'B');
+  assert.equal(springCtx.manana.horaMasBarata, 'de 03:00 a 04:00');
+  assert.equal(springCtx.manana.horaMasCara, 'de 23:00 a 24:00');
+
+  // 25 oct 2026 (25 h): la 02:00 se repite; la última hora es la 23:00.
+  const autumn = Array(25).fill(0.1);
+  autumn[4] = 0.01;
+  autumn[24] = 0.3;
+  const autumnCtx = computeDailyContext({
+    omie: omieDay('2026', '10', '25', autumn),
+    now: new Date('2026-10-24T15:00:00Z'),
+    warn: () => {}
+  });
+  assert.equal(autumnCtx.manana.horaMasBarata, 'de 03:00 a 04:00');
+  assert.equal(autumnCtx.manana.horaMasCara, 'de 23:00 a 24:00');
+});
+
 const CTX = {
   hoy: {
     fechaLarga: 'viernes 18 de septiembre',

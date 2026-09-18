@@ -121,7 +121,12 @@ function describeDate(date) {
   };
 }
 
-const formatPrice = price => price.toFixed(3).replace('.', ',');
+// Evita "-0,000" cuando un precio negativo muy pequeño redondea a cero.
+const formatPrice = price =>
+  price
+    .toFixed(3)
+    .replace(/^-(0\.0+)$/, '$1')
+    .replace('.', ',');
 const formatHour = hour => `de ${pad(hour)}:00 a ${pad(hour + 1)}:00`;
 
 const isFiniteNumber = value =>
@@ -181,14 +186,32 @@ function parseOmie(data, warn) {
   return rows;
 }
 
+// Último domingo del mes (cambios de hora en España: marzo y octubre).
+function isLastSunday({ year, month, day }, targetMonth) {
+  if (month !== targetMonth) return false;
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const nextWeek = new Date(Date.UTC(year, month - 1, day + 7));
+  return date.getUTCDay() === 0 && nextWeek.getUTCMonth() !== month - 1;
+}
+
+// Hora de reloj del periodo horario `index` de un día con `hours` horas. El
+// último domingo de marzo (23 h) no existe la 02:00; el de octubre (25 h) la
+// 02:00 se repite y ambas se promedian juntas.
+function clockHour(index, hours, date) {
+  if (hours === 23 && isLastSunday(date, 3) && index >= 2) return index + 1;
+  if (hours === 25 && isLastSunday(date, 10) && index >= 3) return index - 1;
+  return index;
+}
+
 // Precio por hora del día pedido. Si hay más de 25 periodos, son cuartos de
 // hora y se promedian de cuatro en cuatro.
 function hourlyPrices(rows, date) {
   const dayRows = rows.filter(row => sameDate(row.date, date));
   const periodsPerHour = dayRows.length > 25 ? 4 : 1;
+  const hours = Math.ceil(dayRows.length / periodsPerHour);
   const byHour = new Map();
   for (const { hour: period, price } of dayRows) {
-    const hour = Math.floor(period / periodsPerHour);
+    const hour = clockHour(Math.floor(period / periodsPerHour), hours, date);
     const bucket = byHour.get(hour) || [];
     bucket.push(price);
     byHour.set(hour, bucket);
