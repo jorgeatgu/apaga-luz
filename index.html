@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Precio luz hoy hora a hora | Tarifa PVPC actualizada | Apaga Luz</title>
-  <meta name="description" content="Precio luz hoy por horas actualizado. Consulta la tarifa PVPC hora a hora. Descubre las horas más baratas y ahorra en tu factura eléctrica">
+  <title>Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora | Apaga Luz</title>
+  <meta name="description" content="Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora<!--dd:if hoy.hayDatos-->: precio medio <!--dd:hoy.precioMedio-->del día<!--/dd--> €/kWh y hora más barata <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--><!--/dd-->. Tabla PVPC y horas baratas.">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,8 +16,8 @@
   <link rel="canonical" href="https://www.apaga-luz.com/">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Precio luz hoy hora a hora | Tarifa PVPC actualizada | Apaga Luz">
-  <meta property="og:description" content="Precio luz hoy por horas actualizado. Consulta la tarifa PVPC hora a hora. Descubre las horas más baratas y ahorra en tu factura eléctrica">
+  <meta property="og:title" content="Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora | Apaga Luz">
+  <meta property="og:description" content="Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora<!--dd:if hoy.hayDatos-->: precio medio <!--dd:hoy.precioMedio-->del día<!--/dd--> €/kWh y hora más barata <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--><!--/dd-->. Tabla PVPC y horas baratas.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.apaga-luz.com/">
   <meta property="og:image" content="https://www.apaga-luz.com/og-image.png">
@@ -26,8 +26,8 @@
   <meta property="og:site_name" content="Apaga Luz">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Precio luz hoy hora a hora | Tarifa PVPC actualizada | Apaga Luz">
-  <meta name="twitter:description" content="Precio luz hoy por horas actualizado. Consulta la tarifa PVPC hora a hora. Descubre las horas más baratas y ahorra en tu factura eléctrica">
+  <meta name="twitter:title" content="Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora | Apaga Luz">
+  <meta name="twitter:description" content="Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora<!--dd:if hoy.hayDatos-->: precio medio <!--dd:hoy.precioMedio-->del día<!--/dd--> €/kWh y hora más barata <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--><!--/dd-->. Tabla PVPC y horas baratas.">
   <meta name="twitter:image" content="https://www.apaga-luz.com/og-image.png">
 
   <meta name="ahrefs-site-verification" content="bc90992c333a3be76f85033dfdbcf32be3a121e84ac5b8b8999fc4b78f11d26d">
@@ -167,17 +167,23 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Precio de la luz en tiempo real | Datos instantáneos | Apaga Luz",
-    "description": "✓ Precio luz AHORA MISMO actualizado cada hora ➤ Consulta tarifas en tiempo real ⚡ Datos oficiales instantáneos de electricidad en España",
+    "name": "Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora | Apaga Luz",
+    "description": "Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora<!--dd:if hoy.hayDatos-->: precio medio <!--dd:hoy.precioMedio-->del día<!--/dd--> €/kWh y hora más barata <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--><!--/dd-->. Tabla PVPC y horas baratas.",
+    "url": "https://www.apaga-luz.com/",
+    "dateModified": "<!--dd:hoy.fechaIso-->2026-09-18<!--/dd-->",
     "publisher": {
       "@type": "Organization",
       "name": "Apaga-luz",
-      "logo": "https://www.apaga-luz.com/apple-touch-icon.png",
-      "url": "https://www.apaga-luz.com"
+      "url": "https://www.apaga-luz.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.apaga-luz.com/apple-touch-icon.png"
+      }
     },
     "author": {
-      "@type": "Person",
-      "name": "Jorge Aznar"
+      "@type": "Organization",
+      "name": "Apaga-luz",
+      "url": "https://www.apaga-luz.com"
     },
     "creator": {
       "@type": "Person",
@@ -189,6 +195,7 @@
       "@type": "SpeakableSpecification",
       "cssSelector": [
         ".blog-grid-element-title",
+        ".definition-snippet",
         ".blog-grid-element-text",
         ".section-subtitle"
       ]
@@ -384,6 +391,13 @@
   </header>
   <main>
     <section class="container">
+      <article class="container-blog-index">
+        <div class="blog-grid-element">
+          <h1 class="blog-grid-element-title">Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora</h1>
+          <p class="definition-snippet"><!--dd:if hoy.hayDatos-->Hoy, <!--dd:hoy.fechaLarga-->día en curso<!--/dd-->, el precio medio de la luz es <!--dd:hoy.precioMedio-->el de la tabla<!--/dd--> €/kWh. La hora más barata es <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:hoy.precioMasBarato-->mínimo del día<!--/dd--> €/kWh) y la más cara, <!--dd:hoy.horaMasCara-->por la tarde<!--/dd--> (<!--dd:hoy.precioMasCaro-->máximo del día<!--/dd--> €/kWh).<!--/dd--><!--dd:if hoy.hayDatos=false-->El precio de la luz hoy cambia cada hora. En la tabla de esta página tienes el precio de cada hora, el precio medio del día y las horas más baratas y más caras para poner la lavadora o el lavavajillas.<!--/dd--> <!--dd:if manana.estado=A-->El <a href="/precio-luz-manana/">precio de la luz mañana</a> se publica a las 13:30 y, hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=B-->Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh; el <a href="/precio-luz-manana/">precio de la luz mañana</a> hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=C-->Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh; consulta el <a href="/precio-luz-manana/">precio de la luz mañana</a> hora a hora.<!--/dd--></p>
+          <p class="blog-grid-element-text">Apaga Luz te muestra el <strong>precio de la luz hoy</strong> hora a hora de forma sencilla. Consulta la <strong>tarifa luz hoy</strong> y descubre cuándo es más barato poner la lavadora o el lavavajillas. Además, te mostramos una tabla con el precio electricidad por franjas horarias, separando las horas más baratas de las más caras.</p>
+        </div>
+      </article>
       <article class="container-hour">
         <div class="container-hour-datetime">
           <span id="hours"></span><span>:</span><span id="minutes"></span>
@@ -476,56 +490,8 @@
           <p>Con toda la fluctuación que tenemos en el mercado mayorista de la electricidad en España, es esencial consultar el <strong>precio luz hoy</strong> por hora, especialmente si tienes tarifa PVPC y quieres gestionar eficientemente tus recursos. El precio kWh actual varía según las subastas de <strong>OMIE</strong> (Operador del Mercado Ibérico de Energía), por lo que programar electrodomésticos en las horas más baratas de hoy puede generar ahorros significativos.
             Por eso, nuestra plataforma te muestra el precio electricidad en tiempo real para cada hora del día actual. Los datos provienen de <strong>ESIOS</strong> (Sistema de Información del Operador del Sistema), el sistema oficial de Red Eléctrica de España, ayudándote a identificar los mejores momentos para consumir electricidad según los datos PVPC actualizados. Para una visión completa, también consulta las <a href="/precio-luz-manana/">tarifas de mañana</a> y planifica tu consumo con antelación.</p>
           <p class="post-text"><strong>Precio luz en Canarias:</strong> Los precios PVPC mostrados corresponden a la Península y Baleares. En Canarias, el horario de la luz tiene una diferencia de -1 hora respecto a la Península, por lo que las franjas horarias más baratas se desplazan una hora hacia atrás.</p>
-          <p class="post-text">Estos precios PVPC son idénticos en las cuatro Comercializadoras de Referencia (CORs): Curenergía (Iberdrola), Energía XXI (Endesa), Gas&amp;Power (Naturgy) y Régsiti (Repsol). Para entender cómo aplica el PVPC a tu compañía, consulta nuestras guías: <a href="/noticias/precio-luz-iberdrola-hoy/">precio luz Iberdrola hoy</a> · <a href="/noticias/precio-luz-naturgy-hoy/">precio luz Naturgy hoy</a> · <a href="/noticias/precio-luz-endesa-hoy/">precio luz Endesa hoy</a>.</p>
+          <p class="post-text">Este precio PVPC es el mismo en todas las comercializadoras de referencia. Consulta el <a href="/noticias/precio-luz-iberdrola-hoy/">precio luz hoy Iberdrola</a>, el <a href="/noticias/precio-luz-naturgy-hoy/">precio luz hoy Naturgy</a> y el <a href="/noticias/precio-luz-endesa-hoy/">precio luz hoy Endesa</a>.</p>
         </article>
-        <section class="blog-section" aria-labelledby="precio-por-compania">
-          <div class="blog-container">
-            <h2 id="precio-por-compania" class="section-subtitle">Precio luz por compañía hoy</h2>
-            <p class="post-text">El precio PVPC es idéntico para todas las Comercializadoras de Referencia, pero cada compañía tiene además sus tarifas de mercado libre. Consulta cómo se forma el precio según tu comercializadora:</p>
-            <div class="blog-grid">
-              <a href="/noticias/precio-luz-iberdrola-hoy/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Precio luz Iberdrola hoy</h3>
-                  <p class="blog-card-text">PVPC vía Curenergía (filial COR), tarifas de mercado libre (Plan Estable, Plan Online, Una Tarifa) y rango €/kWh por horas.</p>
-                  <div class="blog-card-button">Ver guía Iberdrola</div>
-                </div>
-              </a>
-              <a href="/noticias/precio-luz-naturgy-hoy/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Precio luz Naturgy hoy</h3>
-                  <p class="blog-card-text">PVPC con Gas&amp;Power y tarifas de mercado libre Naturgy (Por Uso, Noche, Plana).</p>
-                  <div class="blog-card-button">Ver guía Naturgy</div>
-                </div>
-              </a>
-              <a href="/noticias/precio-luz-endesa-hoy/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Precio luz Endesa hoy</h3>
-                  <p class="blog-card-text">PVPC con Energía XXI (filial COR) y tarifas de mercado libre Endesa (One Luz, One Noche, One Plana).</p>
-                  <div class="blog-card-button">Ver guía Endesa</div>
-                </div>
-              </a>
-              <a href="/noticias/tarifas-de-totalenergies-luz-y-gas/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Tarifas TotalEnergies luz y gas</h3>
-                  <p class="blog-card-text">Tarifas Eco, Verde y precio fijo de TotalEnergies con comparativa frente al PVPC.</p>
-                  <div class="blog-card-button">Ver tarifas TotalEnergies</div>
-                </div>
-              </a>
-              <a href="/noticias/mejor-comercializadora-pvpc/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Mejor comercializadora PVPC</h3>
-                  <p class="blog-card-text">Comparativa entre Curenergía (Iberdrola), Energía XXI (Endesa), Gas&amp;Power (Naturgy) y Régsiti (Repsol).</p>
-                  <div class="blog-card-button">Comparar CORs</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </section>
         <article class="sponsor-card">
           <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>
           <div class="sponsor-card-buttons-grid">
@@ -555,17 +521,6 @@
                   <h3 class="blog-card-title">PVPC hoy: precio actual y guía completa de la tarifa regulada</h3>
                   <p class="blog-card-date">12 de mayo de 2026</p>
                   <p class="blog-card-text">Qué es el PVPC, cómo se calcula su precio hoy, el nuevo <strong>mercado cuartihorario</strong> (96 precios al día desde septiembre 2025) y cómo leer ESIOS. Guía conceptual de la tarifa regulada sin sesgo comercial.</p>
-                  <div class="blog-card-button">
-                    Leer más
-                  </div>
-                </div>
-              </a>
-              <a href="/noticias/precio-luz-naturgy-hoy/" class="blog-card">
-                <div class="blog-card-indicator blog-card-indicator-blue"></div>
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">Precio Luz Naturgy Hoy: Tarifa PVPC y Mercado Libre</h3>
-                  <p class="blog-card-date">12 de mayo de 2026</p>
-                  <p class="blog-card-text">Cómo se forma el precio Naturgy hoy: PVPC con Gas & Power (idéntico al de las demás CORs) y tarifas de mercado libre (Por Uso, Noche, Plana). Comparativa actualizada.</p>
                   <div class="blog-card-button">
                     Leer más
                   </div>
@@ -641,13 +596,6 @@
             </div>
           </div>
         </section>
-      </article>
-      <article class="container-blog-index">
-        <div class="blog-grid-element">
-          <h1 class="blog-grid-element-title">Precio luz hoy: Tarifa por horas actualizada</h1>
-          <p class="definition-snippet">El <strong>precio luz hoy</strong> en España con tarifa PVPC se actualiza cada hora según el mercado mayorista. Consulta aquí el coste actual del kWh y las horas más baratas para ahorrar.</p>
-          <p class="blog-grid-element-text">Apaga Luz te muestra el <strong>precio de la luz hoy</strong> hora a hora de forma sencilla. Consulta la <strong>tarifa luz hoy</strong> y descubre cuándo es más barato poner la lavadora o el lavavajillas. Además, te mostramos una tabla con el precio electricidad por franjas horarias, separando las horas más baratas de las más caras.</p>
-        </div>
       </article>
       <section class="container-blog-index">
         <div class="blog-grid-element">
