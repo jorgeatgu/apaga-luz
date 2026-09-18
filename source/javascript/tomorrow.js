@@ -3,6 +3,7 @@ import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
 import { is_week_end } from './utils.js';
+import { omie_hourly_prices } from './omie.js';
 import { initNavigation } from './navigation.js';
 
 /*
@@ -64,7 +65,7 @@ const check_the_day_in_data =
   get_day_from_data === tomorrow.getDate() &&
   get_month_from_data === tomorrow.getMonth() + 1;
 
-let filter_data_tomorrow_omie = data_tomorrow_omie.filter(({ price }) => price);
+let filter_data_tomorrow_omie = omie_hourly_prices(data_tomorrow_omie);
 
 let filter_data_tomorrow = its_time_to_show_the_data_from_esios
   ? data_tomorrow

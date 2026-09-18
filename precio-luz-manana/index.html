@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Precio luz mañana hora a hora | Tarifa PVPC actualizada 2026</title>
-  <meta name="description" content="Precio luz mañana actualizado a las 20:15. Consulta tarifa PVPC hora a hora, las horas más baratas y ahorra hasta 30% en tu factura eléctrica.">
+  <title>Precio de la luz mañana, <!--dd:manana.fechaLarga-->hora a hora<!--/dd-->: hora más barata y precio por horas</title>
+  <meta name="description" content="Precio de la luz mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->: hora más barata, hora más cara y tabla con el precio por horas. Se publica a las 13:30 y a las 20:15.">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -21,16 +21,21 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Previsión precio luz mañana | Estrategia de ahorro energético",
-    "description": "Optimiza tu gasto eléctrico con la previsión de precios para mañana. Planifica tu consumo y ahorra hasta 30% eligiendo las tarifas más económicas.",
+    "@type": "Article",
+    "headline": "Precio de la luz mañana, <!--dd:manana.fechaLarga-->hora a hora<!--/dd-->: hora más barata y precio por horas",
+    "description": "Precio de la luz mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->: hora más barata, hora más cara y tabla con el precio por horas. Se publica a las 13:30 y a las 20:15.",
     "url": "https://www.apaga-luz.com/precio-luz-manana/",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://www.apaga-luz.com/precio-luz-manana/"
     },
     "datePublished": "2022-01-01T00:00:00+01:00",
-    "dateModified": "2026-05-07T00:00:00+02:00",
+    "dateModified": "<!--dd:hoy.fechaIso-->2026-09-18<!--/dd-->",
+    "author": {
+      "@type": "Organization",
+      "name": "Apaga-luz",
+      "url": "https://www.apaga-luz.com"
+    },
     "publisher": {
       "@type": "Organization",
       "name": "Apaga-luz",
@@ -42,41 +47,68 @@
       },
       "url": "https://www.apaga-luz.com"
     },
-    "author": {
-      "@type": "Person",
-      "name": "Jorge Aznar",
-      "url": "https://jorgeatgu.com"
-    },
-    "creator": {
-      "@type": "Person",
-      "name": "Jorge Aznar",
-      "url": "https://jorgeatgu.com"
-    },
-    "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/LEGALCode.es",
+    "inLanguage": "es",
+    "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.es",
     "speakable": {
       "@type": "SpeakableSpecification",
       "cssSelector": [
         ".post-title",
-        ".post-text",
+        ".quick-answer",
         ".planning-section h2",
-        ".planning-item h3",
-        ".planning-tips li"
-      ]
-    },
-    "mainEntity": {
-      "@type": "Dataset",
-      "name": "Previsión PVPC precio luz mañana planificación ahorro",
-      "description": "Dataset oficial con predicción PVPC precios electricidad día siguiente optimizado para estrategias ahorro energético según OMIE ESIOS",
-      "temporal": "Actualizado diariamente a las 20:15",
-      "spatialCoverage": "España",
-      "variableMeasured": [
-        "Precio PVPC previsto (€/kWh)",
-        "Hora del día siguiente",
-        "Recomendaciones programación electrodomésticos",
-        "Potencial ahorro horas valle",
-        "Datos subasta OMIE ESIOS"
+        ".faq-item h3"
       ]
     }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Precio de la luz de mañana por horas en España",
+    "description": "Precio horario de la electricidad en España para el día siguiente, en euros por kWh. Se publica cada día con el resultado de la subasta diaria de OMIE a partir de las 13:30 y con el precio definitivo de la tarifa PVPC que Red Eléctrica de España publica en ESIOS a las 20:15.",
+    "url": "https://www.apaga-luz.com/precio-luz-manana/",
+    "keywords": [
+      "precio de la luz mañana",
+      "PVPC",
+      "precio de la electricidad por horas",
+      "España"
+    ],
+    "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.es",
+    "isAccessibleForFree": true,
+    "creator": {
+      "@type": "Organization",
+      "name": "Apaga-luz",
+      "url": "https://www.apaga-luz.com"
+    },
+    "isBasedOn": [
+      "https://www.esios.ree.es/",
+      "https://www.omie.es/"
+    ],
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "España"
+    },
+    "temporalCoverage": "<!--dd:manana.fechaIso-->2026-09-19<!--/dd-->",
+    "variableMeasured": [
+      {
+        "@type": "PropertyValue",
+        "name": "Precio de la electricidad",
+        "unitText": "EUR/kWh"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Hora del día",
+        "unitText": "h"
+      }
+    ],
+    "distribution": [
+      {
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://www.apaga-luz.com/data/tomorrow_price.json"
+      }
+    ]
   }
   </script>
 
@@ -108,66 +140,58 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "¿Cuándo se actualiza el precio de la luz para mañana?",
+        "name": "¿Cuál es el precio de la luz mañana hora a hora?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "El precio definitivo de la luz para mañana se publica en la web ESIOS a las 20:15, después de la subasta de Red Eléctrica de España. Sin embargo, desde las 13:30 ya puedes ver una estimación preliminar basada en los datos de la subasta del OMIE (Operador del Mercado Ibérico de Electricidad)."
+          "text": "El precio de la luz mañana hora a hora se publica a las 20:15 en ESIOS, tras la subasta diaria de Red Eléctrica de España. Antes, a las 13:30, OMIE adelanta el resultado de su subasta. La tabla de esta página muestra el precio de cada hora en €/kWh: desde las 13:30 con los datos de OMIE y desde las 20:15 con el precio definitivo de la tarifa PVPC."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Por qué es útil conocer el precio de la luz con antelación?",
+        "name": "¿A qué hora es más barata la luz mañana?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Conocer el precio de la luz para mañana te permite planificar mejor tu consumo eléctrico, programando el uso de electrodomésticos de alto consumo (lavadora, secadora, lavavajillas, horno) en las horas más económicas, lo que puede suponer un ahorro significativo en tu factura mensual."
+          "text": "Las horas más baratas de la luz mañana en la tarifa PVPC suelen estar en la madrugada, entre las 02:00 y las 06:00, y en las horas centrales del día cuando hay mucha producción solar. Los fines de semana y festivos nacionales todo el día es periodo valle. La hora exacta cambia cada día: la tabla de esta página, ordenada por precio, muestra primero la hora más barata de mañana."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué diferencia hay entre los precios de la OMIE y de ESIOS?",
+        "name": "¿Cuándo se publica el precio de la luz de mañana?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "La primera subasta (OMIE) entre las 13:15 y 14:30 establece el precio base del mercado mayorista. La subasta definitiva de ESIOS a las 20:15 añade los costes por servicios de ajuste, peajes de acceso y conexión a la tarifa de energía. El precio de ESIOS es el que realmente se aplica a tu factura si tienes tarifa regulada PVPC."
+          "text": "El precio de la luz de mañana se publica en dos momentos. A las 13:30 llega el resultado de la subasta diaria de OMIE (Operador del Mercado Ibérico de Energía), un primer avance hora a hora. A las 20:15 Red Eléctrica de España publica en ESIOS el precio definitivo de la tarifa PVPC, con los servicios de ajuste, peajes y costes regulados incluidos."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Me afecta el precio de la luz por horas si tengo contrato de mercado libre?",
+        "name": "¿Cómo se forma el precio de la luz para mañana?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Si tienes contratada una tarifa de mercado libre, el precio por kWh no varía por horas, sino que se mantiene fijo según lo estipulado en tu contrato. Las variaciones horarias del precio de la luz afectan principalmente a quienes tienen contratada la tarifa regulada (PVPC)."
+          "text": "El precio de la luz del día siguiente se determina mediante dos subastas diarias. La de OMIE, a las 13:30, establece el precio base del kWh para cada hora. La de ESIOS, publicada por Red Eléctrica de España a las 20:15, añade servicios de ajuste del sistema, peajes de acceso y costes regulados. Este segundo precio es el que se aplica en la factura con tarifa PVPC."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué horas son mejores para usar electrodomésticos con alto consumo?",
+        "name": "¿Me afecta la tarifa PVPC mañana según mi contrato?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las horas valle (generalmente entre las 00:00h y 08:00h de lunes a viernes, y las 24 horas los fines de semana y festivos nacionales) suelen tener los precios más económicos. Es ideal programar electrodomésticos como lavadoras, secadoras y lavavajillas durante estas franjas para maximizar el ahorro."
+          "text": "Depende del tipo de contrato. Si tienes tarifa PVPC (mercado regulado), sí te afecta: el precio varía cada hora según las subastas diarias, así que te beneficia llevar el consumo a las horas más baratas. Si tienes una tarifa de mercado libre, no te afecta: tu precio se mantiene según lo estipulado en tu contrato."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cuál es la hora más barata de luz mañana?",
+        "name": "¿Por qué varía tanto el precio luz mañana entre días?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las horas más baratas de la luz mañana en la tarifa PVPC se sitúan habitualmente en la madrugada, entre las 02:00 y las 06:00, y los fines de semana y festivos durante las 24 horas. La hora valle concreta cambia cada día tras la subasta diaria de ESIOS de las 20:15: en esta página puedes consultar la tabla actualizada del día siguiente para ver la hora exacta más económica."
+          "text": "El precio de la luz mañana cambia cada día porque depende de las subastas diarias del pool eléctrico. Influyen la demanda energética (los días laborables tienen mayor consumo industrial), la producción renovable (los días ventosos o soleados abaratan los precios), el precio del gas natural y los intercambios con Francia y Portugal."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cuánto cuesta la luz mañana hora a hora?",
+        "name": "¿Qué es la tarifa PVPC mañana y cómo me afecta?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "El precio de la luz mañana se publica hora a hora a las 20:15 en ESIOS, después de la subasta de Red Eléctrica de España. Antes, a las 13:30, OMIE publica una estimación preliminar del pool eléctrico. La tabla de esta página muestra los 24 precios horarios definitivos en €/kWh para la tarifa PVPC, identificando horas valle, llano y punta."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Por qué cambia el precio de la luz mañana cada día?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "El precio de la luz mañana cambia cada día porque depende de las subastas diarias del pool eléctrico, donde la última fuente de generación necesaria para cubrir la demanda marca el precio para todas. Influyen la demanda industrial y doméstica, la producción renovable (días ventosos o soleados abaratan precios), el coste del gas natural y los intercambios con Francia y Portugal."
+          "text": "La tarifa PVPC (Precio Voluntario para el Pequeño Consumidor) es la tarifa regulada para potencias contratadas iguales o inferiores a 10 kW. Con esta tarifa el precio de la luz varía cada hora, por lo que consultar el precio de la luz mañana te ayuda a planificar tu consumo y ahorrar."
         }
       }
     ]
@@ -180,7 +204,6 @@
     "@type": "HowTo",
     "name": "Cómo interpretar el precio de la luz para mañana",
     "description": "Guía práctica para entender y aprovechar la información sobre precios de la electricidad del día siguiente y maximizar tu ahorro",
-    "image": "https://www.apaga-luz.com/images/precio-luz-manana-guia.jpg",
     "totalTime": "PT10M",
     "estimatedCost": {
       "@type": "MonetaryAmount",
@@ -196,36 +219,31 @@
         "@type": "HowToStep",
         "name": "Consulta la tabla de precios",
         "text": "Revisa la tabla de precios por hora para identificar las franjas más económicas y más caras del día siguiente.",
-        "image": "https://www.apaga-luz.com/images/tabla-precios-luz.jpg",
         "url": "https://www.apaga-luz.com/precio-luz-manana/#tabla-precios"
       },
       {
         "@type": "HowToStep",
         "name": "Identifica las horas valle",
         "text": "Localiza las horas con precios más bajos (generalmente durante la madrugada y algunas horas del mediodía).",
-        "image": "https://www.apaga-luz.com/images/horas-valle-luz.jpg",
-        "url": "https://www.apaga-luz.com/precio-luz-manana/#horas-valle"
+        "url": "https://www.apaga-luz.com/precio-luz-manana/#hora-mas-barata"
       },
       {
         "@type": "HowToStep",
         "name": "Planifica el uso de electrodomésticos",
         "text": "Programa el uso de electrodomésticos de alto consumo (lavadora, secadora, lavavajillas) en las horas más económicas.",
-        "image": "https://www.apaga-luz.com/images/plan-electrodomesticos.jpg",
-        "url": "https://www.apaga-luz.com/precio-luz-manana/#planificacion"
+        "url": "https://www.apaga-luz.com/precio-luz-manana/#mejores-horas-electrodomesticos"
       },
       {
         "@type": "HowToStep",
         "name": "Evita las horas punta",
         "text": "Minimiza el consumo energético durante las horas con tarifas más elevadas (generalmente por la tarde-noche).",
-        "image": "https://www.apaga-luz.com/images/evitar-horas-punta.jpg",
-        "url": "https://www.apaga-luz.com/precio-luz-manana/#horas-punta"
+        "url": "https://www.apaga-luz.com/precio-luz-manana/#hora-mas-barata"
       },
       {
         "@type": "HowToStep",
         "name": "Calcula tu ahorro potencial",
         "text": "Estima cuánto puedes ahorrar mensualmente trasladando tu consumo a las horas más económicas.",
-        "image": "https://www.apaga-luz.com/images/calculo-ahorro-luz.jpg",
-        "url": "https://www.apaga-luz.com/precio-luz-manana/#ahorro-estimado"
+        "url": "https://www.apaga-luz.com/precio-luz-manana/#planificar-consumo-manana"
       }
     ]
   }
@@ -645,14 +663,22 @@
   <main>
     <section class="container">
       <article>
-        <h1 class="post-title">Precio de la luz mañana hora a hora</h1>
+        <h1 class="post-title">Precio de la luz mañana, <!--dd:manana.fechaLarga-->hora a hora<!--/dd-->: hora más barata y precio por horas</h1>
 
         <div class="quick-answer">
-          <p>El precio de la luz para mañana se publica en ESIOS a las 20:15, tras la subasta diaria de Red Eléctrica de España. Las horas más baratas suelen caer en la madrugada (00:00–08:00) y los fines de semana, cuando todo el día se considera valle en la tarifa PVPC. Las horas punta más caras se concentran entre las 18:00 y las 22:00. La tabla de esta página se actualiza cada día con los datos oficiales del pool eléctrico.</p>
+          <!--dd:if manana.estado=A-->
+          <p class="post-text">El precio de la luz de mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, se publica a las 13:30 y hora a hora a las 20:15. <!--dd:if hoy.hayDatos-->Hoy, <!--dd:hoy.fechaLarga-->día en curso<!--/dd-->, la hora más barata es <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:hoy.precioMasBarato-->mínimo del día<!--/dd--> €/kWh) y el precio medio de la luz es <!--dd:hoy.precioMedio-->el de la portada<!--/dd--> €/kWh.<!--/dd--><!--dd:if hoy.hayDatos=false-->Mientras tanto, en la portada tienes el <a href="/">precio de la luz de hoy</a> hora a hora, con la hora más barata y la más cara del día.<!--/dd--></p>
+          <!--/dd-->
+          <!--dd:if manana.estado=B-->
+          <p class="post-text">Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio de la luz será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh. La hora más barata será <!--dd:manana.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:manana.precioMasBarato-->mínimo del día<!--/dd--> €/kWh); la más cara, <!--dd:manana.horaMasCara-->por la tarde<!--/dd--> (<!--dd:manana.precioMasCaro-->máximo del día<!--/dd--> €/kWh). El precio hora a hora se publica a las 20:15.</p>
+          <!--/dd-->
+          <!--dd:if manana.estado=C-->
+          <p class="post-text">Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio de la luz en la tarifa PVPC será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh. La hora más barata será <!--dd:manana.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:manana.precioMasBarato-->mínimo del día<!--/dd--> €/kWh); la más cara, <!--dd:manana.horaMasCara-->por la tarde<!--/dd--> (<!--dd:manana.precioMasCaro-->máximo del día<!--/dd--> €/kWh). En esta página tienes la tabla con el precio de cada hora.</p>
+          <!--/dd-->
         </div>
 
         <div class="updated-timestamp">
-          Última actualización: Hoy a las <span class="last-update-time">20:15</span> | Precios para <span class="tomorrow-date">viernes, 19 de abril de 2025</span>
+          Última actualización: Hoy a las <span class="last-update-time">20:15</span> | Precios para <span class="tomorrow-date"><!--dd:manana.fechaLarga-->mañana<!--/dd--></span>
         </div>
 
         <h2 class="post-warning post-warning-orange" id="warning-tomorrow-data"></h2>
@@ -662,11 +688,13 @@
         <div class="toc">
           <h2 class="toc-title">Contenido</h2>
           <ul class="toc-list">
-            <li><a href="#tabla-precios">Tabla de precios de mañana</a></li>
-            <li><a href="#comparativa-precios">Comparativa precio hoy vs mañana</a></li>
+            <li><a href="#cuando-se-publica">¿Cuándo se publica el precio de mañana?</a></li>
+            <li><a href="#comparativa-precios">Precio de hoy frente al de mañana</a></li>
             <li><a href="#mejores-horas-electrodomesticos">Mejores horas para electrodomésticos</a></li>
             <li><a href="#planificar-consumo-manana">Cómo planificar tu consumo</a></li>
             <li><a href="#estrategia-consumo">Tendencias por día de la semana</a></li>
+            <li><a href="#tabla-precios">Tabla de precios de mañana hora a hora</a></li>
+            <li><a href="#hora-mas-barata">¿A qué hora es más barata la luz mañana?</a></li>
             <li><a href="#subastas-explicacion">¿Cómo se fijan los precios?</a></li>
             <li><a href="#mercado-libre-regulado">¿Me afecta según mi tarifa?</a></li>
             <li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
@@ -677,17 +705,26 @@
           Consulta el <strong>precio luz mañana</strong> hora a hora para saber exactamente cuáles son las horas más baratas y organizar tu consumo eléctrico de manera eficiente. Esta <strong>previsión del precio luz mañana</strong> te permite <strong>programar electrodomésticos en horas valle</strong> y ahorrar hasta un 30% en tu factura mensual. Los datos del <strong>precio luz mañana</strong> se actualizan diariamente con información oficial de las subastas OMIE y ESIOS.
         </p>
 
-        <div class="price-highlight">
-          <p><strong>💡 DATO IMPORTANTE:</strong> La <strong>tarifa PVPC mañana</strong> se actualiza dos veces al día:</p>
-          <ul>
-            <li>A las <strong>13:30h</strong>: Primera estimación del pool eléctrico (subasta OMIE)</li>
-            <li>A las <strong>20:15h</strong>: Precio definitivo de la tarifa PVPC mañana (subasta ESIOS de Red Eléctrica de España)</li>
-          </ul>
-          <p>Los precios mostrados en esta página son los definitivos de la <strong>tarifa PVPC mañana</strong> tras la actualización de las 20:15h.</p>
-        </div>
+        <section id="cuando-se-publica" class="planning-section container-cheap">
+          <h2 class="section-subtitle">¿Cuándo se publica el precio de la luz de mañana?</h2>
+          <p class="post-text">
+            El precio de la luz de mañana se publica en dos momentos. A las 13:30 llega el resultado de la subasta diaria de OMIE (Operador del Mercado Ibérico de Energía), un primer avance hora a hora. A las 20:15 Red Eléctrica de España publica en ESIOS el precio definitivo de la tarifa PVPC, con los servicios de ajuste, peajes y costes regulados incluidos.
+          </p>
+          <div class="price-highlight">
+            <p><strong>DATO IMPORTANTE:</strong> La <strong>tarifa PVPC mañana</strong> se actualiza dos veces al día:</p>
+            <ul>
+              <li>A las <strong>13:30h</strong>: Primera estimación del pool eléctrico (subasta OMIE)</li>
+              <li>A las <strong>20:15h</strong>: Precio definitivo de la tarifa PVPC mañana (subasta ESIOS de Red Eléctrica de España)</li>
+            </ul>
+            <p>Entre las 13:30h y las 20:15h la tabla de esta página muestra los precios de la subasta OMIE; desde las 20:15h, los definitivos de la <strong>tarifa PVPC mañana</strong>.</p>
+          </div>
+          <p class="post-text post-warning">
+            <strong>IMPORTANTE:</strong> Si visitas esta página entre las 13:30 y las 20:15 verás el precio de la luz de mañana con los datos de la subasta del Operador del Mercado Ibérico de la Electricidad (OMIE). Si la visitas entre las 20:15 y las 00:00 vas a ver el precio definitivo de la subasta de ESIOS de Red Eléctrica de España para tu tarifa de energía. Así que desde la 13:30 podrás ver el precio de la luz mañana.
+          </p>
+        </section>
 
         <section id="comparativa-precios" class="planning-section container-cheap">
-          <h2 class="section-subtitle">Comparativa Precio Luz Hoy vs Precio Luz Mañana</h2>
+          <h2 class="section-subtitle">¿En qué se diferencia el precio de la luz de hoy y el de mañana?</h2>
           <div class="planning-grid">
             <div class="planning-item">
               <h3>Análisis comparativo diario</h3>
@@ -714,14 +751,14 @@
         </section>
 
         <section id="precio-luz-manana-estrategia" class="planning-section container-cheap">
-          <h2 class="section-subtitle">Precio luz mañana: Estrategia de ahorro inteligente</h2>
+          <h2 class="section-subtitle">¿Por qué conviene consultar el precio de la luz mañana?</h2>
           <p class="post-text">
             Conocer el <strong>precio luz mañana</strong> con antelación te permite implementar una estrategia de ahorro energético efectiva. La previsión PVPC oficial, actualizada diariamente a las 20:15h, te da la oportunidad de planificar tu consumo eléctrico y <strong>reducir hasta un 30% tu factura mensual</strong> programando electrodomésticos en las horas valle más económicas.
           </p>
         </section>
 
         <section id="mejores-horas-electrodomesticos" class="planning-section container-cheap">
-          <h2 class="section-subtitle">Precio Luz Mañana: Mejores Horas para Electrodomésticos</h2>
+          <h2 class="section-subtitle">¿A qué hora poner los electrodomésticos mañana?</h2>
           <div class="planning-grid">
             <div class="planning-item">
               <h3>Electrodomésticos de alto consumo</h3>
@@ -748,7 +785,7 @@
         </section>
 
         <section id="planificar-consumo-manana" class="planning-section container-cheap">
-          <h2 class="section-subtitle">Cómo Planificar tu Consumo según el Precio Luz Mañana</h2>
+          <h2 class="section-subtitle">¿Cómo planificar tu consumo con el precio de la luz mañana?</h2>
           <div class="planning-grid">
             <div class="planning-item">
               <h3>Metodología de planificación paso a paso</h3>
@@ -776,7 +813,7 @@
         </section>
 
         <section id="estrategia-consumo" class="planning-section container-cheap">
-          <h2 class="section-subtitle">Tendencias de Precio por Día de la Semana</h2>
+          <h2 class="section-subtitle">¿Qué días de la semana es más barata la luz?</h2>
           <div class="planning-grid">
             <div class="planning-item">
               <h3>Patrones semanales identificables</h3>
@@ -804,8 +841,10 @@
           <p><a href="/graficas/" class="btn-order btn-newsletter">Ver histórico de precios</a></p>
         </section>
 
-        <p class="post-text post-warning">
-          <strong>IMPORTANTE:</strong> Si visitas esta página entre la 13:30 y las 20:15 verás el precio de la luz de mañana con los datos de la subasta del Operador del Mercado Ibérico de la Electricidad (OMIE). Si la visitas entre las 20:15 y las 00:00 vas a ver el precio definitivo de la subasta de ESIOS de Red Eléctrica de España para tu tarifa de energía. Así que desde la 13:30 podrás ver el precio de la luz mañana.
+
+        <h2 id="tabla-precios" class="section-subtitle">¿Cuál es el precio de la luz mañana hora a hora?</h2>
+        <p class="post-text">
+          El <strong>precio de la luz mañana hora a hora</strong> se publica a las 20:15 en ESIOS, tras la subasta diaria de Red Eléctrica de España. A las 13:30 OMIE adelanta el resultado de su subasta. La tabla muestra el precio de cada hora en €/kWh, marcando horas valle, llano y punta para que puedas planificar tu consumo; puedes ordenarla por precio o por hora.
         </p>
 
         <p class="post-text">
@@ -827,6 +866,18 @@
             </article>
           </div>
         </article>
+
+        <section id="hora-mas-barata" class="planning-section container-cheap">
+          <h2 class="section-subtitle">¿A qué hora es más barata la luz mañana?</h2>
+          <p class="post-text">
+            Las horas más baratas de la <strong>luz mañana</strong> en la tarifa PVPC suelen estar en la madrugada, entre las 02:00 y las 06:00, y en las horas centrales del día cuando hay mucha producción solar. Los fines de semana y festivos nacionales todo el día es periodo valle. La hora exacta cambia cada día: la tabla de arriba, ordenada por precio, muestra primero la hora más barata de mañana.
+          </p>
+          <p class="post-text">Aunque varía diariamente, por franjas las horas más baratas suelen ser:</p>
+          <ul>
+            <li><strong>De lunes a viernes:</strong> Entre las 00:00h y las 08:00h</li>
+            <li><strong>Fines de semana y festivos:</strong> Durante las 24 horas del día</li>
+          </ul>
+        </section>
 
         <article class="sponsor-card">
           <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>
@@ -881,35 +932,9 @@
             Por este motivo, si tienes contrato en el mercado regulado, merece la pena consultar diariamente las <strong>tarifas eléctricas del próximo día</strong> y planificar tu consumo en consecuencia, especialmente para electrodomésticos de alto consumo como lavadoras, secadoras o lavavajillas.
           </p>
 
-          <h2 id="preguntas-frecuentes">Preguntas Frecuentes Precio Mañana</h2>
+          <h2 id="preguntas-frecuentes">Preguntas frecuentes sobre el precio de la luz mañana</h2>
 
           <div class="faq-section">
-            <div class="faq-item">
-              <h3>¿Cuál es la hora más barata de luz mañana?</h3>
-              <p>
-                Las horas más baratas de la <strong>luz mañana</strong> en la tarifa PVPC se sitúan habitualmente en la madrugada, entre las 02:00 y las 06:00, y los fines de semana y festivos durante las 24 horas. La hora valle concreta cambia cada día tras la subasta de ESIOS de las 20:15. Consulta la tabla actualizada arriba en esta página para ver la hora exacta más económica del día siguiente.
-              </p>
-            </div>
-
-            <div class="faq-item">
-              <h3>¿Cuánto cuesta la luz mañana hora a hora?</h3>
-              <p>
-                El <strong>precio de la luz mañana hora a hora</strong> se publica a las 20:15 en ESIOS, tras la subasta diaria de Red Eléctrica de España. A las 13:30 OMIE adelanta una estimación preliminar del pool eléctrico. La tabla de esta página muestra los 24 precios horarios definitivos en €/kWh para la tarifa PVPC, marcando horas valle, llano y punta para que puedas planificar tu consumo.
-              </p>
-            </div>
-
-            <div class="faq-item">
-              <h3>¿A qué hora es más barato el precio luz mañana?</h3>
-              <p>
-                Consultar el <strong>precio luz mañana</strong> es esencial para identificar las horas más económicas. Aunque varía diariamente, generalmente las horas más baratas suelen ser:
-              </p>
-              <ul>
-                <li><strong>De lunes a viernes:</strong> Entre las 00:00h y las 08:00h</li>
-                <li><strong>Fines de semana y festivos:</strong> Durante las 24 horas del día</li>
-              </ul>
-              <p>Consulta nuestra tabla actualizada para ver las horas específicas más económicas para mañana.</p>
-            </div>
-
             <div class="faq-item">
               <h3>¿Por qué varía tanto el precio luz mañana entre días?</h3>
               <p>
