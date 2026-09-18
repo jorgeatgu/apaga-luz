@@ -1,3 +1,56 @@
+// Plugin de Vite: datos del día en el HTML estático.
+//
+// En `vite build` sustituye placeholders del HTML con la fecha y los precios
+// de hoy y de mañana, leídos de public/data/today_price.json,
+// tomorrow_price.json y omie_data.json. Las fechas se calculan en
+// Europe/Madrid, nunca con la hora local del runner. No actúa en `vite dev`:
+// allí se ve el texto de fallback.
+//
+// SINTAXIS (contrato para las páginas que lo usen)
+//
+//   Valor:  <!--dd:hoy.fechaLarga-->hoy<!--/dd-->
+//           Se sustituye por el valor (escapado). Si el dato no existe se deja
+//           el texto de fallback que envuelven los marcadores.
+//   Bloque: <!--dd:if manana.estado=A-->...<!--/dd-->   (igualdad)
+//           <!--dd:if hoy.hayDatos-->...<!--/dd-->      (valor verdadero)
+//           Si se cumple se deja el contenido; si no, se elimina entero.
+//           Los bloques admiten placeholders anidados.
+//   Los marcadores siempre desaparecen del HTML generado. Si hay marcadores
+//   desbalanceados o una directiva no válida, la página se deja sin tocar y se
+//   avisa por consola. Nunca rompe el build.
+//
+// CLAVES (prefijo `hoy.` o `manana.`)
+//
+//   fechaLarga       "viernes 18 de septiembre" (sin año)
+//   diaSemana        "viernes"
+//   fechaIso         "2026-09-18" (útil para dateModified en JSON-LD)
+//   hayDatos         true | false
+//   fuente           "ESIOS" | "OMIE" | null
+//   estado           solo manana: "A" | "B" | "C"
+//   precioMedio      "0,178"  (€/kWh, 3 decimales, coma; sin unidad)
+//   precioMasBarato  "0,020"
+//   horaMasBarata    "de 14:00 a 15:00"  (la 23 es "de 23:00 a 24:00")
+//   precioMasCaro    "0,325"
+//   horaMasCara      "de 20:00 a 21:00"
+//   Empates: gana la hora más temprana. Sin datos, los precios y horas no
+//   existen y se muestra el fallback.
+//
+// ESTADOS DE MAÑANA (decide el dato, no la hora del build)
+//
+//   C  tomorrow_price.json contiene mañana: PVPC de ESIOS (tras las 20:15).
+//   B  si no, omie_data.json contiene mañana: precio de OMIE (tras ~13:30),
+//      cuartos de hora promediados a horas. En el copy: "precio de la luz",
+//      nunca "mayorista", más "El precio hora a hora se publica a las 20:15".
+//   A  ninguno: solo fechas; "se publica a las 13:30 y 20:15".
+//   hoy.hayDatos es false si today_price.json no es del día de hoy (Flat
+//   falló); las fechas siguen siendo las correctas.
+//
+// DÓNDE USARLOS
+//
+//   En el cuerpo funcionan también en `vite dev` como comentarios. Dentro de
+//   <title>, de atributos (meta description, og:*) y de JSON-LD también se
+//   resuelven en build, pero en `vite dev` se ven los marcadores literales.
+
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
