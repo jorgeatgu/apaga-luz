@@ -116,8 +116,8 @@ export default defineConfig({
     open: true,
     headers: {
       'Cache-Control': 'public, max-age=3600',
-      // CSP: unpkg para web-vitals (CDN) y pagead2 para AdSense
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' unpkg.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ws://localhost:* wss://localhost:*; img-src 'self' data: https:; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
+      // CSP: unpkg para web-vitals (CDN), pagead2 para AdSense y googletagmanager/google-analytics para GA4
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' unpkg.com https://pagead2.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ws://localhost:* wss://localhost:* https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; img-src 'self' data: https:; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
     }
   },
   define: {
