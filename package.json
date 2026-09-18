@@ -12,7 +12,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-css": "stylelint source/styles/**",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "test": "node --test 'scripts/__tests__/*.test.mjs'"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
