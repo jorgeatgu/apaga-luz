@@ -56,6 +56,46 @@
       "headers": { "Location": "/noticias/como-ahorrar-precio-luz-por-horas/" }
     },
     {
+      "src": "/Blog(/)?",
+      "status": 301,
+      "headers": { "Location": "/noticias/" }
+    },
+    {
+      "src": "/blog(/)?",
+      "status": 301,
+      "headers": { "Location": "/noticias/" }
+    },
+    {
+      "src": "/precio-luz-manana",
+      "status": 301,
+      "headers": { "Location": "/precio-luz-manana/" }
+    },
+    {
+      "src": "/graficas",
+      "status": 301,
+      "headers": { "Location": "/graficas/" }
+    },
+    {
+      "src": "/horas-baratas-luz",
+      "status": 301,
+      "headers": { "Location": "/horas-baratas-luz/" }
+    },
+    {
+      "src": "/preguntas",
+      "status": 301,
+      "headers": { "Location": "/preguntas/" }
+    },
+    {
+      "src": "/tipos-tarifas-electricas",
+      "status": 301,
+      "headers": { "Location": "/tipos-tarifas-electricas/" }
+    },
+    {
+      "src": "/compensacion-del-gas",
+      "status": 301,
+      "headers": { "Location": "/compensacion-del-gas/" }
+    },
+    {
       "src": "/assets/(.*)",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
