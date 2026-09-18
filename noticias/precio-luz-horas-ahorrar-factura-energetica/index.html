@@ -108,10 +108,10 @@
           },
           {
             "@type": "Question",
-            "name": "¿Cuánto puedo ahorrar al mes adaptando el consumo a las horas baratas?",
+            "name": "¿Cuánto se ahorra al mes según el tipo de hogar?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Según el perfil de consumo, entre 28 € y 170 € al mes. Estimaciones: un hogar de 2 personas en 60 m² ahorra unos 28 € al mes (336 € al año), una familia de 4 personas en 90 m² unos 55 € (660 € al año) y una casa grande con vehículo eléctrico y piscina hasta 170 € (2.040 € al año)."
+              "text": "Aplicando el ahorro por uso de cada electrodoméstico al pasarlo a horas valle: un hogar de 2 personas ahorra unos 3,42 € al mes (41,04 € al año), una familia de 4 personas unos 8,58 € (102,96 € al año) y una casa con vehículo eléctrico unos 23,58 € (282,96 € al año). El termo eléctrico programado en valle se suma aparte."
             }
           },
           {
@@ -334,130 +334,126 @@
           <ol class="post-list">
             <li>Identifica el consumo de cada electrodoméstico (la etiqueta energética o un medidor de enchufe te dan los kWh por uso)</li>
             <li>Calcula cuántas horas funciona cada uno en cada franja</li>
-            <li>Aplica precios medios orientativos: valle 0,10 €/kWh, llano 0,18 €/kWh y punta 0,28 €/kWh</li>
+            <li>Aplica precios orientativos: valle 0,08 €/kWh, llano 0,14 €/kWh y punta 0,26 €/kWh (consulta los del día en la portada)</li>
             <li>Simula el escenario optimizado moviendo a valle todo el consumo que admita temporizador</li>
             <li>La diferencia entre ambos escenarios es tu ahorro potencial mensual</li>
           </ol>
 
           <h2 class="post-subtitle">¿Cuánto se ahorra al mes según el tipo de hogar?</h2>
-          <p class="post-text">Estos tres perfiles muestran estimaciones de ahorro al desplazar a horas valle los electrodomésticos de mayor consumo. Son cifras orientativas: el resultado real depende de la tarifa, la potencia contratada y los hábitos de cada casa.</p>
+          <p class="post-text">Estos tres perfiles aplican el ahorro por uso de la tabla anterior al número de usos típico de cada hogar. Son cifras orientativas: el resultado real depende de la tarifa, la potencia contratada y los hábitos de cada casa.</p>
 
           <h3 class="post-minititle">Familia de 4 personas en un piso de 90 m²</h3>
           <table class="post-table">
             <thead>
               <tr>
-                <th>Concepto</th>
-                <th>Sin optimizar</th>
-                <th>Optimizado</th>
-                <th>Ahorro</th>
+                <th>Electrodoméstico</th>
+                <th>Usos al mes</th>
+                <th>Ahorro por uso</th>
+                <th>Ahorro mensual</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Lavadora (10 usos/mes)</td>
-                <td>18€</td>
-                <td>11€</td>
-                <td>7€</td>
+                <td>Lavadora</td>
+                <td>10 usos</td>
+                <td>0,15€</td>
+                <td>1,50€</td>
               </tr>
               <tr>
-                <td>Secadora (8 usos/mes)</td>
-                <td>32€</td>
-                <td>19€</td>
-                <td>13€</td>
+                <td>Secadora</td>
+                <td>8 usos</td>
+                <td>0,36€</td>
+                <td>2,88€</td>
               </tr>
               <tr>
-                <td>Lavavajillas (20 usos/mes)</td>
-                <td>24€</td>
-                <td>16€</td>
-                <td>8€</td>
-              </tr>
-              <tr>
-                <td>Termo eléctrico (diario)</td>
-                <td>85€</td>
-                <td>58€</td>
-                <td>27€</td>
+                <td>Lavavajillas</td>
+                <td>20 usos</td>
+                <td>0,21€</td>
+                <td>4,20€</td>
               </tr>
               <tr>
                 <td colspan="3"><strong>Ahorro total mensual</strong></td>
-                <td><strong>55€</strong></td>
+                <td><strong>8,58€</strong></td>
               </tr>
             </tbody>
           </table>
-          <p class="post-text"><strong>Ahorro anual estimado: 660€.</strong></p>
+          <p class="post-text"><strong>Ahorro anual estimado: 102,96€.</strong></p>
 
           <h3 class="post-minititle">Hogar de 2 personas en un piso de 60 m²</h3>
           <table class="post-table">
             <thead>
               <tr>
-                <th>Concepto</th>
-                <th>Sin optimizar</th>
-                <th>Optimizado</th>
-                <th>Ahorro</th>
+                <th>Electrodoméstico</th>
+                <th>Usos al mes</th>
+                <th>Ahorro por uso</th>
+                <th>Ahorro mensual</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Lavadora (6 usos/mes)</td>
-                <td>11€</td>
-                <td>7€</td>
-                <td>4€</td>
+                <td>Lavadora</td>
+                <td>6 usos</td>
+                <td>0,15€</td>
+                <td>0,90€</td>
               </tr>
               <tr>
-                <td>Lavavajillas (12 usos/mes)</td>
-                <td>14€</td>
-                <td>10€</td>
-                <td>4€</td>
-              </tr>
-              <tr>
-                <td>Termo eléctrico (diario)</td>
-                <td>65€</td>
-                <td>45€</td>
-                <td>20€</td>
+                <td>Lavavajillas</td>
+                <td>12 usos</td>
+                <td>0,21€</td>
+                <td>2,52€</td>
               </tr>
               <tr>
                 <td colspan="3"><strong>Ahorro total mensual</strong></td>
-                <td><strong>28€</strong></td>
+                <td><strong>3,42€</strong></td>
               </tr>
             </tbody>
           </table>
-          <p class="post-text"><strong>Ahorro anual estimado: 336€.</strong></p>
+          <p class="post-text"><strong>Ahorro anual estimado: 41,04€.</strong></p>
 
           <h3 class="post-minititle">Casa grande con vehículo eléctrico</h3>
           <table class="post-table">
             <thead>
               <tr>
-                <th>Concepto</th>
-                <th>Sin optimizar</th>
-                <th>Optimizado</th>
-                <th>Ahorro</th>
+                <th>Electrodoméstico</th>
+                <th>Usos al mes</th>
+                <th>Ahorro por uso</th>
+                <th>Ahorro mensual</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Electrodomésticos básicos</td>
-                <td>180€</td>
-                <td>125€</td>
-                <td>55€</td>
+                <td>Lavadora</td>
+                <td>12 usos</td>
+                <td>0,15€</td>
+                <td>1,80€</td>
               </tr>
               <tr>
-                <td>Coche eléctrico (8 cargas/mes)</td>
-                <td>240€</td>
-                <td>160€</td>
-                <td>80€</td>
+                <td>Secadora</td>
+                <td>8 usos</td>
+                <td>0,36€</td>
+                <td>2,88€</td>
               </tr>
               <tr>
-                <td>Piscina y jardín</td>
-                <td>95€</td>
-                <td>60€</td>
-                <td>35€</td>
+                <td>Lavavajillas</td>
+                <td>20 usos</td>
+                <td>0,21€</td>
+                <td>4,20€</td>
+              </tr>
+              <tr>
+                <td>Coche eléctrico</td>
+                <td>7 cargas</td>
+                <td>2,10€</td>
+                <td>14,70€</td>
               </tr>
               <tr>
                 <td colspan="3"><strong>Ahorro total mensual</strong></td>
-                <td><strong>170€</strong></td>
+                <td><strong>23,58€</strong></td>
               </tr>
             </tbody>
           </table>
-          <p class="post-text"><strong>Ahorro anual estimado: 2.040€.</strong></p>
+          <p class="post-text"><strong>Ahorro anual estimado: 282,96€.</strong></p>
+
+          <p class="post-text">El termo eléctrico no entra en estos perfiles porque su ahorro depende mucho del tamaño del depósito y del uso de agua caliente: si lo tienes y lo programas en valle, súmalo aparte con la cifra de la tabla anterior.</p>
 
           <h2 class="post-subtitle">¿Qué errores hay que evitar al ahorrar con el precio por horas?</h2>
           <p class="post-text">Estos son los fallos más frecuentes de quien empieza a adaptar su consumo a las franjas horarias:</p>
@@ -596,8 +592,8 @@
           <h3 class="post-minititle">¿Cuál es el precio medio de la electricidad en España?</h3>
           <p class="post-text">La media se sitúa en torno a 0,1409 €/kWh, aunque con variaciones importantes: en hora punta puede alcanzar los 0,26 €/kWh y en hora valle bajar hasta los 0,05 €/kWh. La diferencia supone hasta un 60% de ahorro, lo que hace muy rentable adaptar los hábitos de consumo a las franjas horarias.</p>
 
-          <h3 class="post-minititle">¿Cuánto puedo ahorrar al mes adaptando el consumo a las horas baratas?</h3>
-          <p class="post-text">Según el perfil de consumo, entre 28 € y 170 € al mes. Estimaciones: un hogar de 2 personas en 60 m² ahorra unos 28 € al mes (336 € al año), una familia de 4 personas en 90 m² unos 55 € (660 € al año) y una casa grande con vehículo eléctrico y piscina hasta 170 € (2.040 € al año).</p>
+          <h3 class="post-minititle">¿Cuánto se ahorra al mes según el tipo de hogar?</h3>
+          <p class="post-text">Aplicando el ahorro por uso de cada electrodoméstico al pasarlo a horas valle: un hogar de 2 personas ahorra unos 3,42 € al mes (41,04 € al año), una familia de 4 personas unos 8,58 € (102,96 € al año) y una casa con vehículo eléctrico unos 23,58 € (282,96 € al año). El termo eléctrico programado en valle se suma aparte.</p>
 
           <h3 class="post-minititle">¿Qué errores debo evitar para ahorrar con el precio por horas?</h3>
           <p class="post-text">Los más comunes son no consultar los precios del día siguiente, encender varios electrodomésticos a la vez en horas punta (19:00-22:00), ignorar el consumo fantasma de los aparatos en standby, no aprovechar los festivos nacionales (valle las 24 horas) y no ajustar la potencia contratada en cada periodo.</p>
