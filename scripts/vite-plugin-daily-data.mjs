@@ -34,6 +34,13 @@
 //   horaMasCara      "de 20:00 a 21:00"
 //   Empates: gana la hora más temprana. Sin datos, los precios y horas no
 //   existen y se muestra el fallback.
+//   esLaborable      true | false: false en sábado, domingo y festivos
+//                    nacionales de fecha fija (existe aunque no haya datos)
+//   precioValle      precio medio de la franja valle de la 2.0TD (00-08 h en
+//                    laborable; el día entero si no es laborable)
+//   precioLlano      08-10, 14-18 y 22-24 h; solo en laborable
+//   precioPunta      10-14 y 18-22 h; solo en laborable
+//   Festivos móviles (Viernes Santo) y autonómicos no se detectan.
 //
 // ESTADOS DE MAÑANA (decide el dato, no la hora del build)
 //
@@ -109,6 +116,19 @@ function sameDate(a, b) {
 
 const pad = n => String(n).padStart(2, '0');
 
+// Festivos nacionales de fecha fija que la 2.0TD trata como valle todo el día.
+const FESTIVOS = [
+  '01-01',
+  '01-06',
+  '05-01',
+  '08-15',
+  '10-12',
+  '11-01',
+  '12-06',
+  '12-08',
+  '12-25'
+];
+
 function describeDate(date) {
   const weekday = new Date(
     Date.UTC(date.year, date.month - 1, date.day)
@@ -116,6 +136,10 @@ function describeDate(date) {
   const diaSemana = DIAS[weekday];
   return {
     diaSemana,
+    esLaborable:
+      weekday !== 0 &&
+      weekday !== 6 &&
+      !FESTIVOS.includes(`${pad(date.month)}-${pad(date.day)}`),
     fechaLarga: `${diaSemana} ${date.day} de ${MESES[date.month - 1]}`,
     fechaIso: `${date.year}-${pad(date.month)}-${pad(date.day)}`
   };
@@ -224,6 +248,28 @@ function hourlyPrices(rows, date) {
     .sort((a, b) => a.hour - b.hour);
 }
 
+// Franja 2.0TD de una hora de reloj en día laborable.
+function franja(hour) {
+  if (hour < 8) return 'Valle';
+  if ((hour >= 10 && hour < 14) || (hour >= 18 && hour < 22)) return 'Punta';
+  return 'Llano';
+}
+
+// Precio medio de cada franja. Si no es laborable, todo el día es valle.
+function franjaPrices(prices, esLaborable) {
+  const groups = {};
+  for (const { hour, price } of prices) {
+    const key = esLaborable ? franja(hour) : 'Valle';
+    (groups[key] = groups[key] || []).push(price);
+  }
+  return Object.fromEntries(
+    Object.entries(groups).map(([key, values]) => [
+      `precio${key}`,
+      formatPrice(values.reduce((sum, p) => sum + p, 0) / values.length)
+    ])
+  );
+}
+
 function priceSummary(prices) {
   let cheapest = prices[0];
   let dearest = prices[0];
@@ -262,7 +308,8 @@ export function computeDailyContext({
     Object.assign(
       hoy,
       { fuente: 'ESIOS', hayDatos: true },
-      priceSummary(hoyPrices)
+      priceSummary(hoyPrices),
+      franjaPrices(hoyPrices, hoy.esLaborable)
     );
   } else {
     Object.assign(hoy, { fuente: null, hayDatos: false });
@@ -280,13 +327,15 @@ export function computeDailyContext({
     Object.assign(
       manana,
       { estado: 'C', fuente: 'ESIOS', hayDatos: true },
-      priceSummary(esiosPrices)
+      priceSummary(esiosPrices),
+      franjaPrices(esiosPrices, manana.esLaborable)
     );
   } else if (omiePrices.length) {
     Object.assign(
       manana,
       { estado: 'B', fuente: 'OMIE', hayDatos: true },
-      priceSummary(omiePrices)
+      priceSummary(omiePrices),
+      franjaPrices(omiePrices, manana.esLaborable)
     );
   } else {
     Object.assign(manana, { estado: 'A', fuente: null, hayDatos: false });

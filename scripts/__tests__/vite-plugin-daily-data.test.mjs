@@ -257,6 +257,64 @@ test('formato de precios y horas; empates a la hora más temprana', () => {
   assert.equal(ctx2.hoy.precioMasCaro, '0,123');
 });
 
+test('franjas 2.0TD en laborable: precio medio de valle, llano y punta', () => {
+  // valle 0,05; llano 0,10; punta 0,20
+  const prices = Array.from({ length: 24 }, (_, hour) => {
+    if (hour < 8) return 0.05;
+    if ((hour >= 10 && hour < 14) || (hour >= 18 && hour < 22)) return 0.2;
+    return 0.1;
+  });
+  prices[0] = 0.01; // valle: (0,01 + 7 × 0,05) / 8 = 0,045
+  const ctx = computeDailyContext({
+    today: esiosDay('18/09/2026', prices),
+    now: NOW,
+    warn: () => {}
+  });
+  assert.equal(ctx.hoy.esLaborable, true);
+  assert.equal(ctx.hoy.precioValle, '0,045');
+  assert.equal(ctx.hoy.precioLlano, '0,100');
+  assert.equal(ctx.hoy.precioPunta, '0,200');
+});
+
+test('franjas en fin de semana y festivo: todo el día es valle', () => {
+  const prices = flatPrices(0.1);
+  const mean = prices.reduce((a, b) => a + b, 0) / 24;
+  const saturday = computeDailyContext({
+    today: esiosDay('19/09/2026', prices),
+    now: new Date('2026-09-19T08:00:00Z'),
+    warn: () => {}
+  });
+  assert.equal(saturday.hoy.esLaborable, false);
+  assert.equal(saturday.hoy.precioValle, mean.toFixed(3).replace('.', ','));
+  assert.equal(saturday.hoy.precioLlano, undefined);
+  assert.equal(saturday.hoy.precioPunta, undefined);
+
+  // 12 de octubre de 2026 es lunes y festivo nacional.
+  const holiday = computeDailyContext({
+    today: esiosDay('12/10/2026', prices),
+    now: new Date('2026-10-12T08:00:00Z'),
+    warn: () => {}
+  });
+  assert.equal(holiday.hoy.diaSemana, 'lunes');
+  assert.equal(holiday.hoy.esLaborable, false);
+  assert.equal(holiday.hoy.precioPunta, undefined);
+});
+
+test('esLaborable existe sin datos y funciona en bloques if', () => {
+  const ctx = computeDailyContext({ today: [], now: NOW, warn: () => {} });
+  assert.equal(ctx.hoy.hayDatos, false);
+  assert.equal(ctx.hoy.esLaborable, true);
+  assert.equal(ctx.manana.esLaborable, false);
+  assert.equal(ctx.hoy.precioValle, undefined);
+  const html =
+    '<!--dd:if hoy.esLaborable-->L<!--/dd--><!--dd:if hoy.esLaborable=false-->F<!--/dd-->' +
+    '<!--dd:if manana.esLaborable=false-->M<!--/dd-->';
+  assert.equal(
+    applyPlaceholders(html, ctx, () => {}),
+    'LM'
+  );
+});
+
 test('precios casi nulos negativos no se muestran como -0,000', () => {
   const prices = flatPrices(0.1);
   prices[13] = -0.0003;
