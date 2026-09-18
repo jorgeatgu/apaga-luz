@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
+import { dailyDataPlugin } from './scripts/vite-plugin-daily-data.mjs';
 
 export default defineConfig({
+  plugins: [dailyDataPlugin({ dataDir: 'public/data' })],
   build: {
     outDir: 'build',
     modulePreload: false,

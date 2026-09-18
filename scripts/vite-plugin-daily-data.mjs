@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 const DIAS = [
   'domingo',
   'lunes',
@@ -317,4 +320,49 @@ export function applyPlaceholders(html, ctx, warn = console.warn) {
   const tree = parseMarkers(html, warn);
   if (!tree) return html;
   return render(tree.children, ctx || {}, warn);
+}
+
+function readJson(file, warn) {
+  try {
+    return JSON.parse(readFileSync(file, 'utf8'));
+  } catch (error) {
+    warn(`no se pudo leer ${file}: ${error.message}`);
+    return null;
+  }
+}
+
+export function dailyDataPlugin({ dataDir = 'public/data' } = {}) {
+  let dir = dataDir;
+  let logger;
+  let ctx = null;
+  const warn = message =>
+    logger
+      ? logger.warn(`[daily-data] ${message}`)
+      : console.warn(`[daily-data] ${message}`);
+
+  return {
+    name: 'daily-data',
+    apply: 'build',
+    configResolved(config) {
+      dir = resolve(config.root, dataDir);
+      logger = config.logger;
+    },
+    buildStart() {
+      ctx = computeDailyContext({
+        today: readJson(resolve(dir, 'today_price.json'), warn),
+        tomorrow: readJson(resolve(dir, 'tomorrow_price.json'), warn),
+        omie: readJson(resolve(dir, 'omie_data.json'), warn),
+        now: new Date(),
+        warn
+      });
+      const info = `[daily-data] hoy ${ctx.hoy.fechaIso}, mañana ${ctx.manana.fechaIso} en estado ${ctx.manana.estado}`;
+      logger ? logger.info(info) : console.info(info);
+    },
+    transformIndexHtml: {
+      order: 'pre',
+      handler(html) {
+        return applyPlaceholders(html, ctx, warn);
+      }
+    }
+  };
 }

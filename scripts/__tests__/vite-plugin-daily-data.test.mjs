@@ -2,11 +2,13 @@ process.env.TZ = 'UTC';
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
-import {
-  computeDailyContext,
-  applyPlaceholders
-} from '../vite-plugin-daily-data.mjs';
+import * as dailyData from '../vite-plugin-daily-data.mjs';
+
+const { computeDailyContext, applyPlaceholders, dailyDataPlugin } = dailyData;
 
 // 18 sep 2026 a las 10:00 en Madrid (CEST, UTC+2).
 const NOW = new Date('2026-09-18T08:00:00Z');
@@ -342,5 +344,37 @@ test('applyPlaceholders: marcadores desbalanceados o inválidos devuelven el ori
     const { warn, messages } = collectWarnings();
     assert.equal(applyPlaceholders(html, CTX, warn), html);
     assert.equal(messages.length, 1, html);
+  }
+});
+
+test('el módulo exporta solo el plugin y las dos funciones puras', () => {
+  assert.deepEqual(Object.keys(dailyData).sort(), [
+    'applyPlaceholders',
+    'computeDailyContext',
+    'dailyDataPlugin'
+  ]);
+});
+
+test('plugin: con JSON corrupto o ausente no rompe y deja el fallback', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'daily-data-'));
+  try {
+    writeFileSync(join(dir, 'today_price.json'), '{ corrupto');
+    writeFileSync(join(dir, 'tomorrow_price.json'), '');
+    // omie_data.json no existe
+    const { warn, messages } = collectWarnings();
+    const plugin = dailyDataPlugin({ dataDir: dir });
+    plugin.configResolved({ root: '/', logger: { warn, info: () => {} } });
+    plugin.buildStart();
+
+    assert.equal(plugin.apply, 'build');
+    assert.equal(plugin.transformIndexHtml.order, 'pre');
+    const html =
+      '<h1>Precio <!--dd:hoy.precioMedio-->de hoy<!--/dd--> ' +
+      '<!--dd:hoy.fechaLarga-->hoy<!--/dd--></h1>';
+    const out = plugin.transformIndexHtml.handler(html);
+    assert.match(out, /^<h1>Precio de hoy \S+ \d+ de \S+<\/h1>$/);
+    assert.ok(messages.filter(m => m.includes('no se pudo leer')).length === 3);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
 });
