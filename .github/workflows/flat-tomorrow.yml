@@ -1,8 +1,16 @@
 name: flat-tomorrow
 on:
+  # GitHub delays scheduled runs by hours at times; several slots make sure
+  # tomorrow's PVPC lands soon after ESIOS publishes it (20:15 Madrid) and
+  # before midnight in Madrid. Until then ESIOS still serves today's PVPC,
+  # which is already in tomorrow_price.json, so Flat has nothing to commit.
   schedule:
+    - cron: 37 18 * * *
     - cron: 22 19 * * *
+    - cron: 7 20 * * *
   workflow_dispatch:
+concurrency:
+  group: flat-tomorrow
 jobs:
   scheduled:
     runs-on: ubuntu-latest
