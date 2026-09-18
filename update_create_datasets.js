@@ -17,9 +17,18 @@ const transform_today_data = json_today_prices.PVPC.map(({ Dia, Hora, PCB }) => 
   };
 });
 
+//Día de los datos (dd/mm/aaaa), tomado del propio fichero de ESIOS y no de
+//la fecha del runner: así da igual a qué hora se ejecute el workflow
+const data_day = json_today_prices.PVPC[0].Dia;
+const [data_d, data_m, data_y] = data_day.split('/').map(Number);
+
 //Concatenamos los datos de hoy con el histórico
-//y los guardamos en el archivo del histórico
-let json_all_prices = [...json_all_prices_yesterday, ...transform_today_data]
+//y los guardamos en el archivo del histórico.
+//Si el día ya está (el workflow se ha lanzado dos veces) no se duplica
+const already_in_history = json_all_prices_yesterday.some(({ dia }) => dia === data_day);
+let json_all_prices = already_in_history
+  ? json_all_prices_yesterday
+  : [...json_all_prices_yesterday, ...transform_today_data]
 json_all_prices.forEach(d => {
   d.precio = parseFloat(d.precio)
 })
@@ -103,8 +112,8 @@ function createZone(hour) {
   }
 }
 
-let user_day = new Date();
-user_day.setDate(user_day.getDate() + 1);
+//Mediodía UTC para que getDate() dé el mismo día en cualquier zona horaria
+let user_day = new Date(Date.UTC(data_y, data_m - 1, data_d, 12));
 
 const get_string_day =
   user_day.getDate() < 10 ? `0${user_day.getDate()}` : user_day.getDate();
@@ -119,7 +128,9 @@ const filtered_data_table_by_day = json_all_prices.filter(({ dia }) =>
 
 const last_n_days = n_days =>
   [...Array(n_days)].map((_, index) => {
-    const dates = new Date();
+    //Empieza el día anterior al de los datos, como cuando el workflow
+    //corría antes de medianoche UTC
+    const dates = new Date(Date.UTC(data_y, data_m - 1, data_d - 1, 12));
     dates.setDate(dates.getDate() - index);
     return dates;
   }).map(d => {

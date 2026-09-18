@@ -1,8 +1,15 @@
 name: flat
 on:
+  # Main trigger: cron-job.org calls workflow_dispatch at 00:00 Madrid.
+  # GitHub's schedule lags hours behind, so it is only a fallback
+  # (01:07 Madrid in summer, 00:07 in winter). update_create_datasets.js
+  # takes the day from the ESIOS file and skips days already in the history,
+  # so a second run changes nothing.
   schedule:
-    - cron: '57 21 * * *'
+    - cron: '7 23 * * *'
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
 jobs:
   scheduled:
     runs-on: ubuntu-latest
