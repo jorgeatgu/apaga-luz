@@ -51,9 +51,14 @@
       "headers": { "Location": "/noticias/companias-electricas-mas-baratas-2026/" }
     },
     {
+      "src": "/noticias/como-ahorrar-precio-luz-por-horas(/)?",
+      "status": 301,
+      "headers": { "Location": "/noticias/precio-luz-horas-ahorrar-factura-energetica/" }
+    },
+    {
       "src": "/ahorra-en-tu-factura(/)?",
       "status": 301,
-      "headers": { "Location": "/noticias/como-ahorrar-precio-luz-por-horas/" }
+      "headers": { "Location": "/noticias/precio-luz-horas-ahorrar-factura-energetica/" }
     },
     {
       "src": "/Blog(/)?",

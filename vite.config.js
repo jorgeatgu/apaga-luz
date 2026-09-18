@@ -27,7 +27,6 @@ export default defineConfig({
         'companias-electricas-mas-baratas-2026': 'noticias/companias-electricas-mas-baratas-2026/index.html',
         'como-afecta-tarifa-por-horas-a-tu-factura': 'noticias/como-afecta-tarifa-por-horas-a-tu-factura/index.html',
         'franjas-horarias-luz-hoy': 'noticias/franjas-horarias-luz-hoy/index.html',
-        'como-ahorrar-precio-luz-por-horas': 'noticias/como-ahorrar-precio-luz-por-horas/index.html',
         'mejores-horas-electrodomesticos': 'noticias/mejores-horas-electrodomesticos/index.html',
         'interpretar-graficas-precio-luz-tiempo-real': 'noticias/interpretar-graficas-precio-luz-tiempo-real/index.html',
         'precio-luz-horas-ahorrar-factura-energetica': 'noticias/precio-luz-horas-ahorrar-factura-energetica/index.html',
