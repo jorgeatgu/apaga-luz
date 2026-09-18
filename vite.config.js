@@ -48,6 +48,7 @@ export default defineConfig({
         'precio-luz-iberdrola-hoy': 'noticias/precio-luz-iberdrola-hoy/index.html',
         'precio-luz-naturgy-hoy': 'noticias/precio-luz-naturgy-hoy/index.html',
         'precio-luz-endesa-hoy': 'noticias/precio-luz-endesa-hoy/index.html',
+        'precio-luz-energia-xxi-hoy': 'noticias/precio-luz-energia-xxi-hoy/index.html',
         'tarifa-luz-guia-completa-2026': 'noticias/tarifa-luz-guia-completa-2026/index.html',
         'pvpc-precio-hoy-tarifa-regulada': 'noticias/pvpc-precio-hoy-tarifa-regulada/index.html'
       },
