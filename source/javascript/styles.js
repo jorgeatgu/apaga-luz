@@ -1,4 +1,5 @@
 import './../styles/styles.css';
+import './tomorrow-notice.js';
 import { throttle } from './performance-utils.js';
 import { inpOptimizer } from './inp-optimizer.js';
 

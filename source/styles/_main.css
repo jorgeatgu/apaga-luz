@@ -253,6 +253,62 @@ h3.post-text {
   }
 }
 
+/* Aviso flotante de precios de mañana (tomorrow-notice.js). Fijo, sin ocupar
+   layout: no produce CLS. */
+.tomorrow-notice {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .875rem 1rem;
+  background-color: var(--orange);
+  color: var(--black);
+  border-radius: .5rem;
+  box-shadow: var(--shadow);
+  font-family: var(--text);
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+.tomorrow-notice-esios {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.tomorrow-notice-text {
+  margin: 0;
+  flex: 1;
+}
+
+.tomorrow-notice-link {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.tomorrow-notice-close {
+  flex: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0 .25rem;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 48rem) {
+  .tomorrow-notice {
+    left: auto;
+    max-width: 26rem;
+  }
+}
+
 .post-text-date {
   font-size: .75rem;
   margint-top: .25rem;

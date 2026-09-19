@@ -1,4 +1,5 @@
 import './../styles/styles.css';
+import './tomorrow-notice.js';
 import { line_chart } from './line_chart.js';
 /*import { area_stacked_json } from './area_stacked_json.js';*/
 import { width_mobile, month_names } from './utils.js';

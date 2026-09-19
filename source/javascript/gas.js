@@ -1,4 +1,5 @@
 import './../styles/styles.css';
+import './tomorrow-notice.js';
 import data_gas_omie from '/public/data/omie_compensacion_data.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
@@ -123,17 +124,21 @@ function order_table_tomorrow_by_hour() {
   );
 }
 
-document.getElementById('order-price-next').addEventListener('click', async () => {
-  await yieldToMain();
-  remove_tables_tomorrow();
-  order_table_tomorrow_by_price();
-});
+document
+  .getElementById('order-price-next')
+  .addEventListener('click', async () => {
+    await yieldToMain();
+    remove_tables_tomorrow();
+    order_table_tomorrow_by_price();
+  });
 
-document.getElementById('order-hour-next').addEventListener('click', async () => {
-  await yieldToMain();
-  remove_tables_tomorrow();
-  order_table_tomorrow_by_hour();
-});
+document
+  .getElementById('order-hour-next')
+  .addEventListener('click', async () => {
+    await yieldToMain();
+    remove_tables_tomorrow();
+    order_table_tomorrow_by_hour();
+  });
 
 const line_chart_by_day_options = {
   html_element: 'day-price-gas',

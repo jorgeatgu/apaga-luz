@@ -1,4 +1,5 @@
 import './../styles/styles.css';
+import './tomorrow-notice.js';
 import data_tomorrow from '/public/data/tomorrow_price.json';
 import data_tomorrow_omie from '/public/data/omie_data.json';
 import { table_price_tomorrow, remove_tables_tomorrow } from './table.js';
