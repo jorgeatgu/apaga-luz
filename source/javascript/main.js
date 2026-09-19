@@ -1,5 +1,6 @@
 import './passive-events-polyfill.js';
 import './../styles/styles.css';
+import './tomorrow-notice.js';
 import {
   reload_page,
   get_zone_color,
@@ -359,7 +360,8 @@ class ApagaLuzApp {
 
     // En empate gana la hora más temprana, igual que el Quick Answer generado
     // por scripts/vite-plugin-daily-data.mjs (priceSummary).
-    const earliest = (a, b) => (Number(a.hour) <= Number(b.hour) ? a : b);
+    const earliest = (a, b) =>
+      parseInt(a.hour, 10) <= parseInt(b.hour, 10) ? a : b;
     const max_price = sortedData
       .filter(({ price }) => price === sortedData[0].price)
       .reduce(earliest);

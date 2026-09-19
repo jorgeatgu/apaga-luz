@@ -6,16 +6,25 @@ Nace de la revisión del 19 de septiembre de 2026 del Sprint 01 frente al inform
 
 Regla del sprint: **no tocar las páginas del Sprint 01** (home, `/precio-luz-manana/`, los cinco artículos "hoy", Energía XXI, los dos de indexación) hasta el seguimiento del 30 de octubre. Google tarda 2-6 semanas en reflejar los títulos y el INP de campo es un p75 de 28 días; cualquier cambio contamina la medición. Este sprint va a lo ortogonal.
 
+## Decisiones cerradas (19 sep 2026)
+
+- Home: el Quick Answer se queda bajo el H1; el párrafo "Apaga Luz te muestra…" baja debajo de la tabla. El texto "Aprende Economía Global" que aparecía pegado no está en el repo: es un anuncio de Auto Ads; se separa con margen.
+- Aviso de precios de mañana: en todas las páginas, flotante, decidido por el dato (qué JSON contiene mañana), no por la hora. OMIE = provisional, ESIOS = definitivo.
+- AdSense: el usuario toca el panel (vignette, carga de anuncios) si la medición de INP señala a los anuncios.
+- Flecos previos cerrados antes del sprint: checklists del 01 marcados, empate de hora mínima corregido en `main.js`, `docs/` y `drafts/` commiteados. Pendiente: sesiones GA4 del 19-20 sep en la retro 01 y QA en móvil real.
+
 ## Fases
 
-| # | Fase | Esfuerzo | Estado |
-|---|---|---|---|
-| 1 | Flecos del Sprint 01: checklists marcados, empate de hora mínima unificado con el plugin (`main.js` `calculatePriceStats`), sesiones GA4 del 19-20 sep anotadas en `docs/sprints/01/retro.md`, `docs/` y `drafts/` commiteados | 2-3 h | Checklists y hora mínima hechos el 19 sep; falta GA4 (procesamiento 24-48 h) y el commit |
-| 2 | Sprint INP de la home según `drafts/INP_AUDIT_HANDOFF.md`. Primer paso: resolver `drop_console` para ver la atribución en producción (exceptuar `web-vitals.js` o enviar la atribución como evento GA4). Después medir con Claude para Chrome en móvil con throttling y decidir sobre vignette | 1-2 días | Pendiente |
-| 3 | Refresh `noticias/mejor-comercializadora-pvpc/`: title, og:title y twitter:title dicen "Ranking 2025"; fecha visible mar 2025; cifras "En 2025…"; related-post "Precios 2025". Sin fecha dinámica (fuera del patrón "hoy"), sí año 2026 y `dateModified` | ½ día | Pendiente |
-| 4 | `/graficas/`: title con dato del día vía plugin, Quick Answer, Dataset schema, H2-pregunta. Sustituye al artículo "evolución histórico" descartado en la acción 8 | ½ día | Pendiente |
-| 5 | Ahrefs > Backlinks rotos: listar URLs antiguas con enlaces (histórico 1.200 dominios, hoy 574) y añadir 301 en `vercel.json` | 1-2 h | Pendiente |
-| 6 | Refresh `noticias/tarifas-placas-solares/` (perdió el 97 % de clics, 388 → 9). Solo tras el 30 oct | ½ día | Aplazado |
+| # | Fase | Rama | Esfuerzo | Estado |
+|---|---|---|---|---|
+| 1 | Aviso flotante de precios de mañana (`source/javascript/tomorrow-notice.js`, importado desde las 6 entradas JS + script en `tipos-tarifas-electricas`) y home aligerada | `fase-1-aviso-manana` | ½ día | Hecho 19 sep |
+| 2 | Refresh `noticias/mejor-comercializadora-pvpc/`: "Ranking 2025" → 2026 en title/og/twitter, fechas, peajes, related posts; Quick Answer y FAQ visible que respalde el FAQPage | `fase-2-mejor-comercializadora` | ½ día | Pendiente |
+| 3 | `/graficas/`: title y H1 con dato del día vía plugin, Quick Answer, H2-pregunta, Speakable, enlaces internos | `fase-3-graficas` | ½ día | Pendiente |
+| 4 | Ahrefs > Backlinks rotos → 301 en `vercel.json` | `fase-4-backlinks` | 1-2 h | Pendiente |
+| 5 | INP de la home según `drafts/INP_AUDIT_HANDOFF.md`: medir en producción con Chrome (móvil, CPU 4×), atribuir, decidir AdSense vs JS propio | `fase-5-inp` | 1-2 días + 7 de espera | Pendiente |
+| 6 | Refresh `noticias/tarifas-placas-solares/` (perdió el 97 % de clics). Solo tras el 30 oct | — | ½ día | Aplazado |
+
+Detectado en la fase 1: `tipos-tarifas-electricas/` tiene "[2025]" en el title. Candidato a refresh junto a la fase 2.
 
 ## Fuera de alcance
 

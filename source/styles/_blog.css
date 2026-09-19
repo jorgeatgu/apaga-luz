@@ -325,6 +325,7 @@ body.single-post .post-container {
     position: relative;
     padding-left: 1rem;
     border-left: 4px solid var(--orange);
+    animation-delay: .1s;
   }
 
   .post-minititle {
@@ -334,6 +335,7 @@ body.single-post .post-container {
     color: var(--blue);
     margin-top: 2rem;
     margin-bottom: 1rem;
+    animation-delay: .15s;
     line-height: 1.3;
     position: relative;
   }
@@ -738,14 +740,6 @@ body.single-post .post-container {
     animation: fadeIn .5s ease forwards;
   }
 
-  .post-subtitle {
-    animation-delay: .1s;
-  }
-
-  .post-minititle {
-    animation-delay: .15s;
-  }
-
   .post-text,
   .post-list {
     animation-delay: .2s;
@@ -779,4 +773,10 @@ body.single-post .post-container {
       page-break-inside: avoid;
     }
   }
+}
+
+/* Quick Answer de la home: separación con lo que venga debajo (Auto Ads
+   inyecta anuncios entre bloques). */
+.definition-snippet {
+  margin: .5rem 0 1rem;
 }
