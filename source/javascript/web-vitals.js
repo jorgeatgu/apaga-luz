@@ -200,6 +200,11 @@ class WebVitalsMonitor {
     // Análisis en tiempo real
     this.analyzeINPTrend();
 
+    // Campos de atribución que viajan con el evento INP a GA4 (ver
+    // sendMetricToAnalytics). Permiten atribuir el INP de campo por
+    // elemento, fase dominante y script culpable sin reproducirlo en local.
+    inpMetric.analyticsParams = this.buildINPAnalyticsParams(attribution);
+
     // Procesar como métrica normal
     this.handleMetric(inpMetric);
 
@@ -207,6 +212,39 @@ class WebVitalsMonitor {
     if (inpMetric.value > this.inpThreshold) {
       this.handleCriticalINP(inpMetric, attribution);
     }
+  }
+
+  /**
+   * Parámetros de atribución para el evento INP de GA4. En GA4 hay que
+   * registrarlos como dimensiones personalizadas de evento: metric_target,
+   * inp_phase, load_state y top_script (los tres tiempos van como métricas).
+   */
+  buildINPAnalyticsParams(attribution) {
+    const phases = {
+      input_delay: attribution.inputDelay,
+      processing: attribution.processingDuration,
+      presentation: attribution.presentationDelay
+    };
+    const dominant = Object.keys(phases).reduce((best, key) =>
+      phases[key] > phases[best] ? key : best
+    );
+    const scripts = (attribution.longAnimationFrameEntries || [])
+      .flatMap(entry => entry.scripts || [])
+      .sort((a, b) => (b.duration || 0) - (a.duration || 0));
+    const topScript = scripts[0];
+    const topSource =
+      topScript &&
+      (topScript.sourceURL || topScript.invoker || topScript.invokerType);
+
+    return {
+      metric_target: String(attribution.target).slice(0, 100),
+      inp_phase: dominant,
+      input_delay: attribution.inputDelay,
+      processing_duration: attribution.processingDuration,
+      presentation_delay: attribution.presentationDelay,
+      load_state: attribution.loadState,
+      top_script: topSource ? String(topSource).slice(0, 100) : 'none'
+    };
   }
 
   /**
@@ -491,7 +529,9 @@ class WebVitalsMonitor {
           ),
           metric_rating: metric.rating,
           metric_delta: metric.delta,
-          non_interaction: true
+          non_interaction: true,
+          page_path: window.location.pathname,
+          ...(metric.analyticsParams || {})
         });
       }
     }
