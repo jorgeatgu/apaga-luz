@@ -357,8 +357,16 @@ class ApagaLuzApp {
       }))
       .sort(({ price: a }, { price: b }) => b - a);
 
-    const max_price = sortedData[0];
-    const min_price = sortedData[sortedData.length - 1];
+    // En empate gana la hora más temprana, igual que el Quick Answer generado
+    // por scripts/vite-plugin-daily-data.mjs (priceSummary).
+    const earliest = (a, b) => (Number(a.hour) <= Number(b.hour) ? a : b);
+    const max_price = sortedData
+      .filter(({ price }) => price === sortedData[0].price)
+      .reduce(earliest);
+    const minValue = sortedData[sortedData.length - 1].price;
+    const min_price = sortedData
+      .filter(({ price }) => price === minValue)
+      .reduce(earliest);
     const prices = sortedData.map(({ price }) => price);
     const avg_price = prices.reduce((a, b) => a + b, 0) / prices.length;
 
