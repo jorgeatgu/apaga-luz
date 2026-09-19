@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Gráfica del precio de la electricidad en España | Apaga Luz</title>
-  <meta name="description" content="Gráficas del precio de la electricidad en España: histórico diario, mensual y anual del PVPC. Datos oficiales de OMIE/ESIOS desde abril de 2014.">
+  <title>Evolución del precio de la luz en España<!--dd:if hoy.hayDatos-->: hoy <!--dd:hoy.fechaLarga--><!--/dd--> a <!--dd:hoy.precioMedio--><!--/dd--> €/kWh<!--/dd-->, histórico desde 2014 | Apaga Luz</title>
+  <meta name="description" content="Evolución del precio de la luz en España<!--dd:if hoy.hayDatos-->: hoy <!--dd:hoy.fechaLarga--><!--/dd--> el PVPC medio es <!--dd:hoy.precioMedio--><!--/dd--> €/kWh<!--/dd-->. Gráficas del histórico diario, mensual y anual desde abril de 2014 con datos de OMIE y ESIOS.">
   <meta name="author" content="Jorge Aznar">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,7 +21,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Gráficas del precio de la luz en España",
+    "name": "Evolución del precio de la luz en España: gráficas e histórico desde 2014",
     "description": "Gráficas del precio de la electricidad en España: histórico diario, mensual y anual del PVPC. Datos oficiales de OMIE/ESIOS desde abril de 2014.",
     "url": "https://www.apaga-luz.com/graficas/",
     "mainEntityOfPage": {
@@ -37,7 +37,11 @@
       }
     },
     "datePublished": "2021-06-01T00:00:00+02:00",
-    "dateModified": "2026-05-07T00:00:00+02:00"
+    "dateModified": "<!--dd:hoy.fechaIso-->2026-09-19<!--/dd-->",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".container-chart-title", ".quick-answer"]
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -374,9 +378,9 @@
   </header>
   <main>
     <section class="container-chart">
-      <h1 class="container-chart-title">Gráficas del precio de la luz en España</h1>
+      <h1 class="container-chart-title">Evolución del precio de la luz en España: gráficas e histórico desde 2014</h1>
       <div class="quick-answer">
-        <p>Esta página reúne el histórico del precio de la luz en España desde abril de 2014, con datos oficiales de ESIOS y OMIE. Encontrarás la evolución diaria, mensual y anual del PVPC, la comparativa del último año y una tabla del precio por hora para cada año desde 2014. Los datos previos al 1 de junio de 2021 corresponden al peaje 2.0A, la tarifa por defecto antes de la reforma.</p>
+        <p><!--dd:if hoy.hayDatos-->Hoy, <!--dd:hoy.fechaLarga-->día en curso<!--/dd-->, el precio medio de la luz en España es de <strong><!--dd:hoy.precioMedio-->el de la tabla<!--/dd--> €/kWh</strong>, con la hora más barata <!--dd:hoy.horaMasBarata-->en valle<!--/dd--> (<!--dd:hoy.precioMasBarato-->mínimo<!--/dd--> €/kWh) y la más cara <!--dd:hoy.horaMasCara-->en punta<!--/dd--> (<!--dd:hoy.precioMasCaro-->máximo<!--/dd--> €/kWh). <!--/dd-->Esta página reúne el histórico del precio de la luz en España desde abril de 2014, con datos oficiales de ESIOS y OMIE. Encontrarás la evolución diaria, mensual y anual del PVPC, la comparativa del último año y una tabla del precio por hora para cada año desde 2014. Los datos previos al 1 de junio de 2021 corresponden al peaje 2.0A, la tarifa por defecto antes de la reforma.</p>
       </div>
       <p class="charts-text">Todos los datos han sido extraídos de la API de ESIOS. La serie de datos disponible comienza en abril de 2014. Con estos datos he construído unas cuantas gráficas para tratar de aportar algo de contexto, saber de que precios venimos y comparar la locura actual con el pasado.</p>
       <p class="charts-warning">
@@ -394,7 +398,7 @@
       </article>
     </section>
     <section id="precio-medio-luz-mes" class="container-chart">
-      <h2 class="container-chart-title">Precio medio de la luz por mes</h2>
+      <h2 class="container-chart-title">¿Cómo ha evolucionado el precio medio de la luz por mes?</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio medio de la luz por mes. El precio medio se calcula sumando el precio medio de cada día del mes y diviendo el resultado entre el número de días que tiene el mes.</p>
       <article class="line-chart-month-price charts">
         <svg>
@@ -403,7 +407,7 @@
       </article>
     </section>
     <section id="precio-medio-luz-ultimo-year" class="container-chart">
-      <h2 class="container-chart-title">Precio de la luz durante el último año</h2>
+      <h2 class="container-chart-title">¿Cómo ha sido el precio de la luz durante el último año?</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por dia a lo largo del último año.</p>
       <article class="line-chart-day-price-last-year charts">
         <svg>
@@ -412,7 +416,7 @@
       </article>
     </section>
     <section id="precio-medio-luz-ultimo-mes" class="container-chart">
-      <h2 class="container-chart-title">Precio de la luz durante el último mes</h2>
+      <h2 class="container-chart-title">¿Cómo ha sido el precio de la luz durante el último mes?</h2>
       <p class="charts-text">En esta gráfica puedes ver la evolución del precio de la luz por hora a lo largo de los últimos 30 días.</p>
       <article class="line-chart-main-line-price charts">
         <svg>
@@ -421,7 +425,7 @@
       </article>
     </section>
     <section id="consumo-energia-espana" class="container-chart">
-      <h2 class="container-chart-title">Consumo de energía en España</h2>
+      <h2 class="container-chart-title">¿Cómo ha evolucionado el consumo de energía en España?</h2>
       <p class="charts-text">En esta gráfica puedes ver el consumo de energía de España por tipo de energía entre 1965 y 2020.</p>
       <p class="charts-text">Los datos utilizados para esta gráfica pertenecen a Our World in Data. Hannah Ritchie, Max Roser and Pablo Rosado (2020) - "Energy". <a href="https://ourworldindata.org/energy">Published online at OurWorldInData.org</a></p>
       <p class="charts-text">Un teravatio-hora (TWh) es una unidad de potencia equivalente a un billón de vatios-hora (1012 Wh). <a href="https://es.wikipedia.org/wiki/Vatio-hora">Wikipedia</a></p>
