@@ -41,6 +41,12 @@
 //   precioLlano      08-10, 14-18 y 22-24 h; solo en laborable
 //   precioPunta      10-14 y 18-22 h; solo en laborable
 //   Festivos móviles (Viernes Santo) y autonómicos no se detectan.
+//   tablaIzquierdaHtml / tablaDerechaHtml
+//                    las 24 horas ordenadas por precio (12 y 12) con el mismo
+//                    marcado que pinta table.js (color por rango de precio y
+//                    franja 2.0TD). Solo existen si hay datos. Las claves que
+//                    terminan en `Html` se insertan sin escapar: el JS vacía
+//                    estos contenedores antes de hidratar.
 //
 // ESTADOS DE MAÑANA (decide el dato, no la hora del build)
 //
@@ -270,6 +276,37 @@ function franjaPrices(prices, esLaborable) {
   );
 }
 
+// Franja 2.0TD de una hora tal y como la etiqueta tomorrow.js (clase CSS).
+function tramoClass(hour, esLaborable) {
+  if (!esLaborable) return 'tramo-valle';
+  if (hour < 8) return 'tramo-valle';
+  if ((hour >= 8 && hour < 10) || (hour >= 14 && hour < 18) || hour >= 22) {
+    return 'tramo-llano';
+  }
+  return 'tramo-punta';
+}
+
+// Mismo marcado que table_price_tomorrow() en table.js: 24 horas ordenadas
+// por precio, las 8 más baratas en verde, las 8 siguientes en amarillo y el
+// resto en rojo. Precio con punto y 3 decimales, como en el JS.
+function tableHtml(prices, esLaborable) {
+  const sorted = [...prices].sort((a, b) => a.price - b.price);
+  const rows = sorted.map(({ hour, price }, index) => {
+    const color =
+      index < 8 ? 'price-green' : index < 16 ? 'price-yellow' : 'price-red';
+    return (
+      `<div class="container-table-price-element">` +
+      `<span class="container-table-price-element-hour ${color} ${tramoClass(hour, esLaborable)}">${pad(hour)}:00</span>` +
+      `<span class="container-table-price-element-price">${price.toFixed(3)} € kWh</span>` +
+      `</div>`
+    );
+  });
+  return {
+    tablaIzquierdaHtml: rows.slice(0, 12).join(''),
+    tablaDerechaHtml: rows.slice(12).join('')
+  };
+}
+
 function priceSummary(prices) {
   let cheapest = prices[0];
   let dearest = prices[0];
@@ -309,7 +346,8 @@ export function computeDailyContext({
       hoy,
       { fuente: 'ESIOS', hayDatos: true },
       priceSummary(hoyPrices),
-      franjaPrices(hoyPrices, hoy.esLaborable)
+      franjaPrices(hoyPrices, hoy.esLaborable),
+      tableHtml(hoyPrices, hoy.esLaborable)
     );
   } else {
     Object.assign(hoy, { fuente: null, hayDatos: false });
@@ -328,14 +366,16 @@ export function computeDailyContext({
       manana,
       { estado: 'C', fuente: 'ESIOS', hayDatos: true },
       priceSummary(esiosPrices),
-      franjaPrices(esiosPrices, manana.esLaborable)
+      franjaPrices(esiosPrices, manana.esLaborable),
+      tableHtml(esiosPrices, manana.esLaborable)
     );
   } else if (omiePrices.length) {
     Object.assign(
       manana,
       { estado: 'B', fuente: 'OMIE', hayDatos: true },
       priceSummary(omiePrices),
-      franjaPrices(omiePrices, manana.esLaborable)
+      franjaPrices(omiePrices, manana.esLaborable),
+      tableHtml(omiePrices, manana.esLaborable)
     );
   } else {
     Object.assign(manana, { estado: 'A', fuente: null, hayDatos: false });
@@ -423,7 +463,8 @@ function render(nodes, ctx, warn) {
         warn(`sin dato para ${node.path}: se deja el fallback`);
         out += render(node.children, ctx, warn);
       } else {
-        out += escapeHtml(value);
+        // Las claves *Html son marcado generado aquí mismo, no datos externos.
+        out += node.path.endsWith('Html') ? value : escapeHtml(value);
       }
       continue;
     }
