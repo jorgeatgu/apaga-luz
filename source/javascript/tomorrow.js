@@ -121,6 +121,9 @@ for (let element of filter_data_tomorrow) {
   }
 }
 
+// El build deja la tabla ya pintada en el HTML (plugin daily-data); se vacía
+// antes de hidratar para no duplicar filas.
+remove_tables_tomorrow();
 order_table_tomorrow_by_price();
 if (its_time_to_show_the_content && check_the_day_in_data) {
   container_table_tomorrow.style.display = 'grid';

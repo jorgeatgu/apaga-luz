@@ -482,3 +482,46 @@ test('plugin: con JSON corrupto o ausente no rompe y deja el fallback', () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('tabla de 24 horas en HTML: 12 y 12 ordenadas por precio, colores y franjas', () => {
+  const prices = flatPrices(0.1).reverse(); // la hora 23 es la más barata
+  // Lunes 21 sep 2026: mañana es martes (laborable).
+  const { manana } = computeDailyContext({
+    today: [],
+    tomorrow: esiosDay('22/09/2026', prices),
+    omie: [],
+    now: new Date('2026-09-21T08:00:00Z'),
+    warn: () => {}
+  });
+  const count = html => (html.match(/container-table-price-element"/g) || []).length;
+  assert.equal(count(manana.tablaIzquierdaHtml), 12);
+  assert.equal(count(manana.tablaDerechaHtml), 12);
+  assert.match(manana.tablaIzquierdaHtml, /^<div class="container-table-price-element"><span class="container-table-price-element-hour price-green tramo-llano">23:00<\/span><span class="container-table-price-element-price">0\.100 € kWh<\/span><\/div>/);
+  assert.equal((manana.tablaIzquierdaHtml.match(/price-green/g) || []).length, 8);
+  assert.equal((manana.tablaDerechaHtml.match(/price-red/g) || []).length, 8);
+  assert.match(manana.tablaDerechaHtml, /price-red tramo-valle">00:00/);
+});
+
+test('tabla en fin de semana: todas las horas son valle; sin datos no existe', () => {
+  const sabado = computeDailyContext({
+    today: [],
+    tomorrow: esiosDay('19/09/2026', flatPrices()),
+    omie: [],
+    now: NOW,
+    warn: () => {}
+  }).manana;
+  assert.equal(sabado.esLaborable, false);
+  assert.equal((sabado.tablaIzquierdaHtml + sabado.tablaDerechaHtml).match(/tramo-valle/g).length, 24);
+  const sinDatos = computeDailyContext({ today: [], tomorrow: [], omie: [], now: NOW, warn: () => {} }).manana;
+  assert.equal(sinDatos.tablaIzquierdaHtml, undefined);
+});
+
+test('applyPlaceholders: las claves *Html se insertan sin escapar', () => {
+  const ctx = { manana: { tablaIzquierdaHtml: '<div class="x">1</div>', precioMedio: '<b>' } };
+  const out = applyPlaceholders(
+    '<i><!--dd:manana.tablaIzquierdaHtml-->f<!--/dd--></i><!--dd:manana.precioMedio-->f<!--/dd-->',
+    ctx,
+    () => {}
+  );
+  assert.equal(out, '<i><div class="x">1</div></i>&lt;b&gt;');
+});

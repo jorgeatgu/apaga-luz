@@ -685,16 +685,52 @@
 
         <h4 id="table-next-day-data" class="sponsor-card" style="display: none"></h4>
 
+        <h2 id="tabla-precios" class="section-subtitle">¿Cuál es el precio de la luz mañana hora a hora?</h2>
+        <p class="post-text">
+          El <strong>precio de la luz mañana hora a hora</strong> se publica a las 20:15 en ESIOS, tras la subasta diaria de Red Eléctrica de España. A las 13:30 OMIE adelanta el resultado de su subasta. La tabla muestra el precio de cada hora en €/kWh, marcando horas valle, llano y punta para que puedas planificar tu consumo; puedes ordenarla por precio o por hora.
+        </p>
+
+        <p class="post-text">
+          Si quieres comparar los precios de mañana con los actuales, consulta los <a href="/">datos en tiempo real de hoy</a> para hacer una comparativa efectiva. También te puede interesar conocer más sobre <a href="/noticias/mejor-comercializadora-pvpc/">las mejores comercializadoras PVPC</a> para optimizar tu tarifa.
+        </p>
+
+        <article class="table-next-day">
+          <!--dd:if manana.hayDatos--><summary><h2 class="container-table-next-day-title"><span style="font-weight: normal; pointer-events:none;">El precio de la luz mañana </span> <!--dd:manana.fechaLarga-->día siguiente<!--/dd--></h2></summary><!--/dd-->
+          <a class="btn-whatsapp" id="btn-whatsapp-manana" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte los precios por WhatsApp</span></a>
+          <div class="container-table-next-day-grid container-table-next-day-grid-tomorrow">
+            <div class="container-btns-order">
+              <button class="btn-order" id="order-price-next">Ordenar por precio</button>
+              <button class="btn-order" id="order-hour-next">Ordenar por hora</button>
+            </div>
+            <article class="table-next-day-grid">
+              <div class="table-next-day-grid-left"><!--dd:if manana.hayDatos--><!--dd:manana.tablaIzquierdaHtml--><!--/dd--><!--/dd--></div>
+              <div class="table-next-day-grid-right"><!--dd:if manana.hayDatos--><!--dd:manana.tablaDerechaHtml--><!--/dd--><!--/dd--></div>
+            </article>
+          </div>
+        </article>
+
+        <section id="hora-mas-barata" class="planning-section container-cheap">
+          <h2 class="section-subtitle">¿A qué hora es más barata la luz mañana?</h2>
+          <p class="post-text">
+            Las horas más baratas de la <strong>luz mañana</strong> en la tarifa PVPC suelen estar en la madrugada, entre las 02:00 y las 06:00, y en las horas centrales del día cuando hay mucha producción solar. Los fines de semana y festivos nacionales todo el día es periodo valle. La hora exacta cambia cada día: la tabla de arriba, ordenada por precio, muestra primero la hora más barata de mañana.
+          </p>
+          <p class="post-text">Aunque varía diariamente, por franjas las horas más baratas suelen ser:</p>
+          <ul>
+            <li><strong>De lunes a viernes:</strong> Entre las 00:00h y las 08:00h</li>
+            <li><strong>Fines de semana y festivos:</strong> Durante las 24 horas del día</li>
+          </ul>
+        </section>
+
         <div class="toc">
           <h2 class="toc-title">Contenido</h2>
           <ul class="toc-list">
+            <li><a href="#tabla-precios">Tabla de precios de mañana hora a hora</a></li>
+            <li><a href="#hora-mas-barata">¿A qué hora es más barata la luz mañana?</a></li>
             <li><a href="#cuando-se-publica">¿Cuándo se publica el precio de mañana?</a></li>
             <li><a href="#comparativa-precios">Precio de hoy frente al de mañana</a></li>
             <li><a href="#mejores-horas-electrodomesticos">Mejores horas para electrodomésticos</a></li>
             <li><a href="#planificar-consumo-manana">Cómo planificar tu consumo</a></li>
             <li><a href="#estrategia-consumo">Tendencias por día de la semana</a></li>
-            <li><a href="#tabla-precios">Tabla de precios de mañana hora a hora</a></li>
-            <li><a href="#hora-mas-barata">¿A qué hora es más barata la luz mañana?</a></li>
             <li><a href="#subastas-explicacion">¿Cómo se fijan los precios?</a></li>
             <li><a href="#mercado-libre-regulado">¿Me afecta según mi tarifa?</a></li>
             <li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
@@ -842,42 +878,6 @@
         </section>
 
 
-        <h2 id="tabla-precios" class="section-subtitle">¿Cuál es el precio de la luz mañana hora a hora?</h2>
-        <p class="post-text">
-          El <strong>precio de la luz mañana hora a hora</strong> se publica a las 20:15 en ESIOS, tras la subasta diaria de Red Eléctrica de España. A las 13:30 OMIE adelanta el resultado de su subasta. La tabla muestra el precio de cada hora en €/kWh, marcando horas valle, llano y punta para que puedas planificar tu consumo; puedes ordenarla por precio o por hora.
-        </p>
-
-        <p class="post-text">
-          Si quieres comparar los precios de mañana con los actuales, consulta los <a href="/">datos en tiempo real de hoy</a> para hacer una comparativa efectiva. También te puede interesar conocer más sobre <a href="/noticias/mejor-comercializadora-pvpc/">las mejores comercializadoras PVPC</a> para optimizar tu tarifa.
-        </p>
-
-        <article class="table-next-day">
-          <a class="btn-whatsapp" id="btn-whatsapp-manana" href=""><i class="icon-whatsapp"></i><span class="btn-whatsapp-text">Comparte los precios por WhatsApp</span></a>
-          <div class="container-table-next-day-grid container-table-next-day-grid-tomorrow">
-            <div class="container-btns-order">
-              <button class="btn-order" id="order-price-next">Ordenar por precio</button>
-              <button class="btn-order" id="order-hour-next">Ordenar por hora</button>
-            </div>
-            <article class="table-next-day-grid">
-              <div class="table-next-day-grid-left">
-              </div>
-              <div class="table-next-day-grid-right">
-              </div>
-            </article>
-          </div>
-        </article>
-
-        <section id="hora-mas-barata" class="planning-section container-cheap">
-          <h2 class="section-subtitle">¿A qué hora es más barata la luz mañana?</h2>
-          <p class="post-text">
-            Las horas más baratas de la <strong>luz mañana</strong> en la tarifa PVPC suelen estar en la madrugada, entre las 02:00 y las 06:00, y en las horas centrales del día cuando hay mucha producción solar. Los fines de semana y festivos nacionales todo el día es periodo valle. La hora exacta cambia cada día: la tabla de arriba, ordenada por precio, muestra primero la hora más barata de mañana.
-          </p>
-          <p class="post-text">Aunque varía diariamente, por franjas las horas más baratas suelen ser:</p>
-          <ul>
-            <li><strong>De lunes a viernes:</strong> Entre las 00:00h y las 08:00h</li>
-            <li><strong>Fines de semana y festivos:</strong> Durante las 24 horas del día</li>
-          </ul>
-        </section>
 
         <article class="sponsor-card">
           <p class="sponsor-card-text">Puedes apoyar económicamente este proyecto en:</p>
