@@ -10,16 +10,10 @@ import {
   is_week_end
 } from './utils.js';
 
-import {
-  table_price,
-  table_price_tomorrow,
-  remove_tables,
-  remove_tables_tomorrow
-} from './table.js';
+import { table_price, remove_tables } from './table.js';
 
 import { initNavigation } from './navigation.js';
 import {
-  debounce,
   throttle,
   chunkedTask,
   batchDOMUpdates,
@@ -46,10 +40,8 @@ class ApagaLuzApp {
   constructor() {
     this.dataToday = null;
     this.dataCanary = null;
-    this.tomorrowData = null;
     this.tomorrowOmieData = null;
     this.filterDataToday = null;
-    this.filterDataTomorrow = null;
     this.typeOfOrder = 'hour';
     this.priceCalculationsCache = new LRUCache(20);
     this.processingTask = null;
@@ -483,172 +475,50 @@ class ApagaLuzApp {
   }
 
   async initializeTomorrowDataIfNeeded(userHour, userMinutes) {
-    const TWENTY_PAST_EIGHT_MINUTES = 1220;
-    const QUARTER_PAST_ONE = 790;
+    const TEN_PAST_ONE = 790;
     const currentMinutes = userHour * 60 + userMinutes;
 
-    // Separate time conditions for OMIE and ESIOS data
-    const isTimeForOmieData =
-      currentMinutes >= QUARTER_PAST_ONE &&
-      currentMinutes < TWENTY_PAST_EIGHT_MINUTES;
-
-    const isTimeForEsiosData =
-      currentMinutes >= TWENTY_PAST_EIGHT_MINUTES && userHour < 24;
-
-    // Only load data if it's the right time
-    if (isTimeForOmieData || isTimeForEsiosData) {
+    // Show the link to /precio-luz-manana/ once OMIE has tomorrow's prices
+    if (currentMinutes >= TEN_PAST_ONE) {
       if ('requestIdleCallback' in window) {
-        requestIdleCallback(() =>
-          this.loadTomorrowData(isTimeForOmieData, isTimeForEsiosData)
-        );
+        requestIdleCallback(() => this.loadTomorrowData());
       } else {
-        setTimeout(
-          () => this.loadTomorrowData(isTimeForOmieData, isTimeForEsiosData),
-          100
-        );
+        setTimeout(() => this.loadTomorrowData(), 100);
       }
     }
   }
 
-  async loadTomorrowData(isTimeForOmieData, isTimeForEsiosData) {
-    if (this.tomorrowData && this.tomorrowOmieData) {
-      // Data already loaded, just process for display
-      this.processTomorrowData(isTimeForOmieData, isTimeForEsiosData);
-      return;
-    }
-
+  async loadTomorrowData() {
     try {
-      const [omieResponse, tomorrowResponse] = await Promise.all([
-        fetch('/data/omie_data.json'),
-        fetch('/data/tomorrow_price.json')
-      ]);
-
+      const omieResponse = await fetch('/data/omie_data.json');
       this.tomorrowOmieData = await omieResponse.json();
-      this.tomorrowData = await tomorrowResponse.json();
-
-      this.processTomorrowData(isTimeForOmieData, isTimeForEsiosData);
+      this.showTomorrowLink();
     } catch (error) {
       console.warn('Failed to load tomorrow data:', error);
     }
   }
 
-  processTomorrowData(isTimeForOmieData, isTimeForEsiosData) {
-    if (!this.tomorrowData || !this.tomorrowOmieData) {
-      console.warn('Tomorrow data not available yet');
-      return;
-    }
-
-    // Check if we have valid data with dates
-    if (!this.tomorrowOmieData[0] || !this.tomorrowData[0]) {
-      console.warn('Tomorrow data structure is invalid');
-      return;
-    }
+  showTomorrowLink() {
+    const getButtonNextDay = document.getElementById('button-prices-next-day');
+    if (!getButtonNextDay || !this.tomorrowOmieData?.[0]) return;
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    // Date validations
-    const getDayFromDataOmie = +this.tomorrowOmieData[0].day;
-    const getMonthFromDataOmie = +this.tomorrowOmieData[0].month;
-    const getDayFromDataEsios = +this.tomorrowData[0].day.split('/')[0];
-    const getMonthFromDataEsios = +this.tomorrowData[0].day.split('/')[1];
-
     const checkTheDayInDataOmie =
-      getDayFromDataOmie === tomorrow.getDate() &&
-      getMonthFromDataOmie === tomorrow.getMonth() + 1;
+      +this.tomorrowOmieData[0].day === tomorrow.getDate() &&
+      +this.tomorrowOmieData[0].month === tomorrow.getMonth() + 1;
 
-    const itsTheRightDay =
-      getDayFromDataEsios === tomorrow.getDate() &&
-      getMonthFromDataEsios === tomorrow.getMonth() + 1;
-
-    // Show OMIE button if conditions are met
-    const getButtonNextDay = document.getElementById('button-prices-next-day');
-    if (getButtonNextDay) {
-      if (isTimeForOmieData && checkTheDayInDataOmie) {
-        const options = { weekday: 'long', month: 'long', day: 'numeric' };
-        getButtonNextDay.style.display = 'inline-block';
-        getButtonNextDay.textContent = `Precios de la luz por horas para: ${tomorrow.toLocaleDateString(
-          'es-ES',
-          options
-        )}`;
-      } else {
-        getButtonNextDay.style.display = 'none';
-      }
+    if (checkTheDayInDataOmie) {
+      const options = { weekday: 'long', month: 'long', day: 'numeric' };
+      getButtonNextDay.style.display = 'inline-block';
+      getButtonNextDay.textContent = `Precio de la luz mañana: ${tomorrow.toLocaleDateString(
+        'es-ES',
+        options
+      )}`;
+    } else {
+      getButtonNextDay.style.display = 'none';
     }
-
-    // Show ESIOS table if conditions are met
-    const containerTableTomorrow = document.querySelector('.table-next-day');
-    if (containerTableTomorrow) {
-      if (isTimeForEsiosData && itsTheRightDay) {
-        // Process the data for display
-        // First, create a copy sorted by price to assign colors
-        const sortedByPrice = [...this.tomorrowData].sort(
-          (a, b) => a.price - b.price
-        );
-
-        // Create a map for price-based color assignment
-        const priceColorMap = new Map();
-        sortedByPrice.forEach((item, index) => {
-          let priceColor;
-          if (index < 8) {
-            priceColor = 'price-green'; // 8 cheapest - green
-          } else if (index < 16) {
-            priceColor = 'price-yellow'; // 8 middle - yellow
-          } else {
-            priceColor = 'price-red'; // 8 most expensive - red
-          }
-          priceColorMap.set(Number(item.hour), priceColor);
-        });
-
-        this.filterDataTomorrow = this.tomorrowData
-          .map(({ price, hour, ...rest }) => ({
-            originalPrice: price,
-            price: price.toFixed(3),
-            hour,
-            priceColor: priceColorMap.get(Number(hour)),
-            ...rest
-          }))
-          .sort(({ originalPrice: a }, { originalPrice: b }) => a - b);
-
-        // Add tramo information for labels
-        this.filterDataTomorrow.forEach(element => {
-          // Tramo based on time slots
-          if (element.hour >= 0 && element.hour < 8 && !is_week_end(tomorrow)) {
-            element.tramo = 'valle';
-          } else if (
-            (element.hour >= 8 &&
-              element.hour < 10 &&
-              !is_week_end(tomorrow)) ||
-            (element.hour >= 14 &&
-              element.hour < 18 &&
-              !is_week_end(tomorrow)) ||
-            (element.hour >= 22 && element.hour < 24 && !is_week_end(tomorrow))
-          ) {
-            element.tramo = 'llano';
-          } else {
-            element.tramo = 'punta';
-          }
-
-          if (is_week_end(tomorrow)) {
-            element.tramo = 'valle';
-          }
-        });
-
-        containerTableTomorrow.style.display = 'block';
-        this.orderTableTomorrowByPrice();
-      } else {
-        containerTableTomorrow.style.display = 'none';
-      }
-    }
-
-    // Debug log to help troubleshoot
-    console.log('Tomorrow data conditions:', {
-      isTimeForOmieData,
-      isTimeForEsiosData,
-      checkTheDayInDataOmie,
-      itsTheRightDay,
-      currentTime: `${new Date().getHours()}:${new Date().getMinutes()}`
-    });
   }
 
   setupUI() {
@@ -683,12 +553,7 @@ class ApagaLuzApp {
       }
     });
 
-    // Initialize tomorrow's elements as hidden by default
-    const containerTableTomorrow = document.querySelector('.table-next-day');
-    if (containerTableTomorrow) {
-      containerTableTomorrow.style.display = 'none';
-    }
-
+    // Initialize tomorrow's link as hidden by default
     const getButtonNextDay = document.getElementById('button-prices-next-day');
     if (getButtonNextDay) {
       getButtonNextDay.style.display = 'none';
@@ -736,9 +601,6 @@ class ApagaLuzApp {
 
     // Color blindness and tramos toggles
     this.setupToggleEvents();
-
-    // Setup tomorrow data handlers
-    this.setupTomorrowHandlers();
   }
 
   setupToggleEvents() {
@@ -755,79 +617,6 @@ class ApagaLuzApp {
         { passive: true }
       );
     }
-  }
-
-  setupTomorrowHandlers() {
-    // Optimized handlers for tomorrow's data with better INP
-    const debouncedOrderTomorrowByPrice = debounce(
-      () => {
-        requestAnimationFrame(() => {
-          remove_tables_tomorrow();
-          this.orderTableTomorrowByPrice();
-        });
-      },
-      150,
-      { leading: true, trailing: false }
-    );
-
-    const debouncedOrderTomorrowByHour = debounce(
-      () => {
-        requestAnimationFrame(() => {
-          remove_tables_tomorrow();
-          this.orderTableTomorrowByHour();
-        });
-      },
-      150,
-      { leading: true, trailing: false }
-    );
-
-    const orderPriceNextBtn = document.getElementById('order-price-next');
-    const orderHourNextBtn = document.getElementById('order-hour-next');
-
-    if (orderPriceNextBtn)
-      orderPriceNextBtn.addEventListener(
-        'click',
-        debouncedOrderTomorrowByPrice,
-        { passive: true }
-      );
-    if (orderHourNextBtn)
-      orderHourNextBtn.addEventListener('click', debouncedOrderTomorrowByHour, {
-        passive: true
-      });
-  }
-
-  orderTableTomorrowByPrice() {
-    if (!this.filterDataTomorrow) return;
-
-    this.filterDataTomorrow = this.filterDataTomorrow.sort(
-      ({ price: a }, { price: b }) => parseFloat(a) - parseFloat(b)
-    );
-
-    table_price_tomorrow(
-      this.filterDataTomorrow.slice(0, 12),
-      '.table-next-day-grid-left'
-    );
-    table_price_tomorrow(
-      this.filterDataTomorrow.slice(12, 24),
-      '.table-next-day-grid-right'
-    );
-  }
-
-  orderTableTomorrowByHour() {
-    if (!this.filterDataTomorrow) return;
-
-    // Sort by hour but keep the zones that were assigned based on price ranking
-    this.filterDataTomorrow = this.filterDataTomorrow.sort(
-      ({ hour: a }, { hour: b }) => a - b
-    );
-    table_price_tomorrow(
-      this.filterDataTomorrow.slice(0, 12),
-      '.table-next-day-grid-left'
-    );
-    table_price_tomorrow(
-      this.filterDataTomorrow.slice(12, 24),
-      '.table-next-day-grid-right'
-    );
   }
 }
 

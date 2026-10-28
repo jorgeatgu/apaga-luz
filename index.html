@@ -94,9 +94,7 @@
     }
 
     .container-table-price-left,
-    .container-table-price-right,
-    .table-next-day-grid-left,
-    .table-next-day-grid-right {
+    .container-table-price-right {
       min-height: 450px !important;
       /* Prevent reflows from affecting parent */
       contain: layout style;
@@ -394,7 +392,7 @@
       <article class="container-blog-index">
         <div class="blog-grid-element">
           <h1 class="blog-grid-element-title">Precio de la luz hoy<!--dd:if hoy.fechaLarga-->, <!--dd:hoy.fechaLarga-->hoy<!--/dd-->,<!--/dd--> hora a hora</h1>
-          <p class="definition-snippet"><!--dd:if hoy.hayDatos-->Hoy, <!--dd:hoy.fechaLarga-->día en curso<!--/dd-->, el precio medio de la luz es <!--dd:hoy.precioMedio-->el de la tabla<!--/dd--> €/kWh. La hora más barata es <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:hoy.precioMasBarato-->mínimo del día<!--/dd--> €/kWh) y la más cara, <!--dd:hoy.horaMasCara-->por la tarde<!--/dd--> (<!--dd:hoy.precioMasCaro-->máximo del día<!--/dd--> €/kWh).<!--/dd--><!--dd:if hoy.hayDatos=false-->El precio de la luz hoy cambia cada hora. En la tabla de esta página tienes el precio de cada hora, el precio medio del día y las horas más baratas y más caras para poner la lavadora o el lavavajillas.<!--/dd--> <!--dd:if manana.estado=A-->El <a href="/precio-luz-manana/">precio de la luz mañana</a> se publica a las 13:30 y, hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=B-->Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh; el <a href="/precio-luz-manana/">precio de la luz mañana</a> hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=C-->Mañana, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, el precio medio será <!--dd:manana.precioMedio-->el de la tabla<!--/dd--> €/kWh; consulta el <a href="/precio-luz-manana/">precio de la luz mañana</a> hora a hora.<!--/dd--></p>
+          <p class="definition-snippet"><!--dd:if hoy.hayDatos-->Hoy, <!--dd:hoy.fechaLarga-->día en curso<!--/dd-->, el precio medio de la luz es <!--dd:hoy.precioMedio-->el de la tabla<!--/dd--> €/kWh. La hora más barata es <!--dd:hoy.horaMasBarata-->de madrugada<!--/dd--> (<!--dd:hoy.precioMasBarato-->mínimo del día<!--/dd--> €/kWh) y la más cara, <!--dd:hoy.horaMasCara-->por la tarde<!--/dd--> (<!--dd:hoy.precioMasCaro-->máximo del día<!--/dd--> €/kWh).<!--/dd--><!--dd:if hoy.hayDatos=false-->El precio de la luz hoy cambia cada hora. En la tabla de esta página tienes el precio de cada hora, el precio medio del día y las horas más baratas y más caras para poner la lavadora o el lavavajillas.<!--/dd--> <!--dd:if manana.estado=A-->El <a href="/precio-luz-manana/">precio de la luz mañana</a> se publica a las 13:30 y, hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=B-->Ya está publicado el <a href="/precio-luz-manana/">precio de la luz mañana</a>, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->; hora a hora, a las 20:15.<!--/dd--><!--dd:if manana.estado=C-->Ya está publicado el <a href="/precio-luz-manana/">precio de la luz mañana</a>, <!--dd:manana.fechaLarga-->día siguiente<!--/dd-->, hora a hora.<!--/dd--></p>
         </div>
       </article>
       <article class="container-hour">
@@ -430,7 +428,7 @@
                   <li><strong>Horno eléctrico</strong>: Entre 1-2 kWh por hora de uso</li>
                   <li><strong>Plancha</strong>: Alrededor de 1 kWh por hora</li>
                 </ul>
-                <p>Para una planificación más efectiva, puedes <a href="/precio-luz-manana/">consultar la estrategia de ahorro para mañana</a> y optimizar tu consumo del día siguiente.</p>
+                <p>Para una planificación más efectiva, puedes consultar el <a href="/precio-luz-manana/">precio de la luz mañana</a> y optimizar tu consumo del día siguiente.</p>
                 </ul>
               </div>
               <div class="best-hours-usage-item">
@@ -444,25 +442,11 @@
                 <p>Recuerda que el ahorro acumulado a lo largo del mes puede suponer una diferencia significativa en tu factura.</p>
               </div>
             </div>
-            <p class="post-text">Conocer los precios por hora te permite <strong>ahorrar hasta un 30%</strong> en tu factura si concentras el consumo de mayor potencia en las horas más económicas. Para aprovechar al máximo estas tarifas, es importante entender que el precio varía constantemente a lo largo del día. Complementa esta información con nuestra <a href="/precio-luz-manana/">herramienta de planificación para mañana</a> y maximiza tu ahorro energético.</p>
+            <p class="post-text">Conocer los precios por hora te permite <strong>ahorrar hasta un 30%</strong> en tu factura si concentras el consumo de mayor potencia en las horas más económicas. Para aprovechar al máximo estas tarifas, es importante entender que el precio varía constantemente a lo largo del día. Complementa esta información con el <a href="/precio-luz-manana/">precio de la luz mañana</a> y maximiza tu ahorro energético.</p>
             <p><a href="/precio-luz-manana/" class="btn-order btn-newsletter">Ver precio luz mañana y planificar ahorro</a></p>
           </div>
         </section>
         <a href="/precio-luz-manana/" id="button-prices-next-day"></a>
-        <details class="table-next-day">
-          <div class="container-table-next-day-grid">
-            <div class="container-btns-order">
-              <button class="btn-order" id="order-price-next">Ordenar por precio</button>
-              <button class="btn-order" id="order-hour-next">Ordenar por hora</button>
-            </div>
-            <article class="table-next-day-grid">
-              <div class="table-next-day-grid-left">
-              </div>
-              <div class="table-next-day-grid-right">
-              </div>
-            </article>
-          </div>
-        </details>
         <article class="container-cheap">
           <h2 class="section-subtitle">El precio de la luz hoy hora a hora, <span id="section-subtitle-date"></span>
           </h2>
@@ -487,7 +471,7 @@
             </div>
           </article>
           <p>Con toda la fluctuación que tenemos en el mercado mayorista de la electricidad en España, es esencial consultar el <strong>precio luz hoy</strong> por hora, especialmente si tienes tarifa PVPC y quieres gestionar eficientemente tus recursos. El precio kWh actual varía según las subastas de <strong>OMIE</strong> (Operador del Mercado Ibérico de Energía), por lo que programar electrodomésticos en las horas más baratas de hoy puede generar ahorros significativos.
-            Por eso, nuestra plataforma te muestra el precio electricidad en tiempo real para cada hora del día actual. Los datos provienen de <strong>ESIOS</strong> (Sistema de Información del Operador del Sistema), el sistema oficial de Red Eléctrica de España, ayudándote a identificar los mejores momentos para consumir electricidad según los datos PVPC actualizados. Para una visión completa, también consulta las <a href="/precio-luz-manana/">tarifas de mañana</a> y planifica tu consumo con antelación.</p>
+            Por eso, nuestra plataforma te muestra el precio electricidad en tiempo real para cada hora del día actual. Los datos provienen de <strong>ESIOS</strong> (Sistema de Información del Operador del Sistema), el sistema oficial de Red Eléctrica de España, ayudándote a identificar los mejores momentos para consumir electricidad según los datos PVPC actualizados. Para una visión completa, también consulta el <a href="/precio-luz-manana/">precio de la luz mañana</a> y planifica tu consumo con antelación.</p>
           <p class="post-text"><strong>Precio luz en Canarias:</strong> Los precios PVPC mostrados corresponden a la Península y Baleares. En Canarias, el horario de la luz tiene una diferencia de -1 hora respecto a la Península, por lo que las franjas horarias más baratas se desplazan una hora hacia atrás.</p>
           <p class="post-text">Este precio PVPC es el mismo en todas las comercializadoras de referencia. Consulta el <a href="/noticias/precio-luz-iberdrola-hoy/">precio luz hoy Iberdrola</a>, el <a href="/noticias/precio-luz-naturgy-hoy/">precio luz hoy Naturgy</a>, el <a href="/noticias/precio-luz-endesa-hoy/">precio luz hoy Endesa</a> y el <a href="/noticias/precio-luz-energia-xxi-hoy/">precio luz hoy Energía XXI</a>.</p>
           <p class="blog-grid-element-text">Apaga Luz te muestra el <strong>precio de la luz hoy</strong> hora a hora de forma sencilla. Consulta la <strong>tarifa luz hoy</strong> y descubre cuándo es más barato poner la lavadora o el lavavajillas. Además, te mostramos una tabla con el precio electricidad por franjas horarias, separando las horas más baratas de las más caras.</p>
@@ -613,7 +597,7 @@
           <h2 class="section-title">¿A qué hora es más barata la luz hoy? Precio por horas actualizado</h2>
           <p class="post-text">
             Las horas más baratas de hoy suelen ser la madrugada y algunas horas del mediodía. Sin embargo, el <strong>precio luz hoy</strong> cambia diariamente; por ello, nuestro servicio te permite consultar la <strong>tarifa luz por horas actualizada PVPC</strong> en tiempo real y ajustar el consumo según la información actualizada. El <strong>precio kWh España tiempo real oficial</strong> te ayuda a identificar los mejores momentos para usar electrodomésticos de alto consumo.
-            Además, puedes usar nuestra <a href="/precio-luz-manana/">estrategia de optimización para mañana</a> y planificar tu consumo con antelación. También depende si estás buscando una compañía del mercado libre de la luz, ya que estas van a ir ajustando sus ofertas para dar un <strong>coste luz actual mercado mayorista español</strong> más competitivo.
+            Además, puedes consultar el <a href="/precio-luz-manana/">precio de la luz mañana</a> y planificar tu consumo con antelación. También depende si estás buscando una compañía del mercado libre de la luz, ya que estas van a ir ajustando sus ofertas para dar un <strong>coste luz actual mercado mayorista español</strong> más competitivo.
           </p>
           <p class="post-text">Puedes ponerte en contacto conmigo a través de este email: <a href="mailto:contacto@apaga-luz.com">contacto@apaga-luz.com</a>.</p>
       </section>
