@@ -34,7 +34,7 @@
         "npm:postcss@8.5.25",
         "npm:pre-commit@^1.2.2",
         "npm:prettier@^2.5.1",
-        "npm:stylelint@^14.3.0",
+        "npm:stylelint@^17.16.0",
         "npm:terser@^5.39.0",
         "npm:vanillajs-datepicker@^1.2.0",
         "npm:vercel@^41.7.8",
