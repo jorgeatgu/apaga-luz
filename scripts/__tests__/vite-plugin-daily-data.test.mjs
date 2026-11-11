@@ -564,7 +564,9 @@ test('updateSitemapLastmod: cambia solo las URL pedidas y deja el resto igual', 
 });
 
 test('updateSitemapLastmod: un sitemap sin esas URL queda intacto', () => {
-  const xml = SITEMAP.split('<url>').filter(b => b.includes('subastas') || b.startsWith('<?xml')).join('<url>');
+  const xml =
+    '<urlset>\n<url>\n  <loc>https://www.apaga-luz.com/noticias/subastas-precio-luz-manana/</loc>\n' +
+    '  <lastmod>2026-01-14T12:00:00+00:00</lastmod>\n</url>\n</urlset>\n';
   assert.equal(dailyData.updateSitemapLastmod(xml, LASTMOD_PATHS, '2026-11-11T20:15:00+01:00'), xml);
 });
 
@@ -611,7 +613,42 @@ test('plugin: sin sitemap de salida avisa y no rompe', () => {
     plugin.configResolved({ root, build: { outDir: 'out' }, logger: { warn, info: () => {} } });
     plugin.buildStart();
     assert.doesNotThrow(() => plugin.closeBundle());
-    assert.ok(messages.some(m => m.includes('sitemap')));
+    assert.ok(messages.some(m => m.includes('no se pudo actualizar el lastmod')));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('plugin: si el build falla, closeBundle no toca el sitemap', () => {
+  const root = mkdtempSync(join(tmpdir(), 'daily-data-sitemap-'));
+  try {
+    mkdirSync(join(root, 'out'));
+    writeFileSync(join(root, 'out', 'sitemap.xml'), SITEMAP);
+    const { warn, messages } = collectWarnings();
+    const plugin = dailyDataPlugin({ dataDir: root });
+    plugin.configResolved({ root, build: { outDir: 'out' }, logger: { warn, info: () => {} } });
+    plugin.buildStart();
+    plugin.closeBundle(new Error('build roto'));
+    assert.equal(readFileSync(join(root, 'out', 'sitemap.xml'), 'utf8'), SITEMAP);
+    assert.ok(!messages.some(m => m.includes('lastmod')));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('plugin: avisa si el sitemap no tiene las URL del lastmod', () => {
+  const root = mkdtempSync(join(tmpdir(), 'daily-data-sitemap-'));
+  try {
+    mkdirSync(join(root, 'out'));
+    const xml = '<urlset>\n<url>\n  <loc>https://www.apaga-luz.com/graficas/</loc>\n  <lastmod>2026-01-14T12:00:00+00:00</lastmod>\n</url>\n</urlset>\n';
+    writeFileSync(join(root, 'out', 'sitemap.xml'), xml);
+    const { warn, messages } = collectWarnings();
+    const plugin = dailyDataPlugin({ dataDir: root });
+    plugin.configResolved({ root, build: { outDir: 'out' }, logger: { warn, info: () => {} } });
+    plugin.buildStart();
+    plugin.closeBundle();
+    assert.equal(readFileSync(join(root, 'out', 'sitemap.xml'), 'utf8'), xml);
+    assert.ok(messages.some(m => m.includes('lastmod')));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

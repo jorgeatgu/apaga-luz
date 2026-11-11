@@ -102,11 +102,16 @@ const madridDateFormat = new Intl.DateTimeFormat('en-CA', {
   day: '2-digit'
 });
 
+// Partes con nombre ({ year, month, ... }) de un formateador de Intl.
+function partsOf(format, now) {
+  return Object.fromEntries(
+    format.formatToParts(now).map(({ type, value }) => [type, value])
+  );
+}
+
 // Fecha civil { year, month, day } de Madrid para un instante dado.
 function madridDate(now) {
-  const parts = Object.fromEntries(
-    madridDateFormat.formatToParts(now).map(({ type, value }) => [type, value])
-  );
+  const parts = partsOf(madridDateFormat, now);
   return { year: +parts.year, month: +parts.month, day: +parts.day };
 }
 
@@ -124,9 +129,7 @@ const madridDateTimeFormat = new Intl.DateTimeFormat('en-CA', {
 
 // Instante en hora de Madrid con su offset: "2026-11-11T20:15:30+01:00".
 export function madridIsoDateTime(now) {
-  const p = Object.fromEntries(
-    madridDateTimeFormat.formatToParts(now).map(({ type, value }) => [type, value])
-  );
+  const p = partsOf(madridDateTimeFormat, now);
   const offset = p.timeZoneName.replace('GMT', '') || '+00:00';
   return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}:${p.second}${offset}`;
 }
@@ -529,21 +532,19 @@ const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function updateSitemapLastmod(xml, paths, isoDate) {
   let out = xml;
   for (const path of paths) {
-    const block = new RegExp(
-      `(<loc>https?://[^/<]+${escapeRegExp(path)}</loc>\\s*<lastmod>)[^<]*(</lastmod>)`,
-      'g'
-    );
-    out = out.replace(block, `$1${isoDate}$2`);
+    const loc = `<loc>https?://[^/<]+${escapeRegExp(path)}</loc>`;
+    const block = new RegExp(`(${loc}\\s*<lastmod>)[^<]*(</lastmod>)`, 'g');
+    out = out.replace(block, (_, open, close) => open + isoDate + close);
   }
   return out;
 }
 
-export function dailyDataPlugin({
-  dataDir = 'public/data',
-  lastmodPaths = ['/', '/precio-luz-manana/']
-} = {}) {
+// URL del sitemap cuyo contenido cambia con cada build.
+const LASTMOD_PATHS = ['/', '/precio-luz-manana/'];
+
+export function dailyDataPlugin({ dataDir = 'public/data' } = {}) {
   let dir = dataDir;
-  let outDir = 'build';
+  let outDir;
   let logger;
   let ctx = null;
   let builtAt = null;
@@ -581,11 +582,19 @@ export function dailyDataPlugin({
     },
     // Vite ya ha copiado public/ en outDir: se reescribe la copia, nunca
     // public/sitemap.xml.
-    closeBundle() {
+    // Si el build ha fallado, outDir no se ha preparado: no se toca.
+    closeBundle(buildError) {
+      if (buildError || !builtAt) return;
       const file = resolve(outDir, 'sitemap.xml');
       try {
         const xml = readFileSync(file, 'utf8');
-        writeFileSync(file, updateSitemapLastmod(xml, lastmodPaths, builtAt));
+        const out = updateSitemapLastmod(xml, LASTMOD_PATHS, builtAt);
+        if (out === xml) {
+          const paths = LASTMOD_PATHS.join(', ');
+          warn(`${file} no tiene <loc>/<lastmod> para ${paths}: lastmod sin actualizar`);
+          return;
+        }
+        writeFileSync(file, out);
       } catch (error) {
         warn(`no se pudo actualizar el lastmod de ${file}: ${error.message}`);
       }
