@@ -6,6 +6,10 @@
 // Europe/Madrid, nunca con la hora local del runner. No actúa en `vite dev`:
 // allí se ve el texto de fallback.
 //
+// Al cerrar el build pone en build/sitemap.xml el <lastmod> de `/` y
+// `/precio-luz-manana/` con la hora del build en Madrid
+// ("2026-11-11T20:15:30+01:00"). public/sitemap.xml no se toca.
+//
 // SINTAXIS (contrato para las páginas que lo usen)
 //
 //   Valor:  <!--dd:hoy.fechaLarga-->hoy<!--/dd-->
@@ -64,7 +68,7 @@
 //   <title>, de atributos (meta description, og:*) y de JSON-LD también se
 //   resuelven en build, pero en `vite dev` se ven los marcadores literales.
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const DIAS = [
@@ -104,6 +108,27 @@ function madridDate(now) {
     madridDateFormat.formatToParts(now).map(({ type, value }) => [type, value])
   );
   return { year: +parts.year, month: +parts.month, day: +parts.day };
+}
+
+const madridDateTimeFormat = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Europe/Madrid',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hourCycle: 'h23',
+  timeZoneName: 'longOffset'
+});
+
+// Instante en hora de Madrid con su offset: "2026-11-11T20:15:30+01:00".
+export function madridIsoDateTime(now) {
+  const p = Object.fromEntries(
+    madridDateTimeFormat.formatToParts(now).map(({ type, value }) => [type, value])
+  );
+  const offset = p.timeZoneName.replace('GMT', '') || '+00:00';
+  return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}:${p.second}${offset}`;
 }
 
 // Suma días a una fecha civil con aritmética UTC (independiente del TZ del runner).
@@ -497,10 +522,31 @@ function readJson(file, warn) {
   }
 }
 
-export function dailyDataPlugin({ dataDir = 'public/data' } = {}) {
+const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Cambia el <lastmod> de las URL del sitemap cuyo <loc> tiene exactamente esa
+// ruta (en cualquier host). El resto del XML queda igual, byte a byte.
+export function updateSitemapLastmod(xml, paths, isoDate) {
+  let out = xml;
+  for (const path of paths) {
+    const block = new RegExp(
+      `(<loc>https?://[^/<]+${escapeRegExp(path)}</loc>\\s*<lastmod>)[^<]*(</lastmod>)`,
+      'g'
+    );
+    out = out.replace(block, `$1${isoDate}$2`);
+  }
+  return out;
+}
+
+export function dailyDataPlugin({
+  dataDir = 'public/data',
+  lastmodPaths = ['/', '/precio-luz-manana/']
+} = {}) {
   let dir = dataDir;
+  let outDir = 'build';
   let logger;
   let ctx = null;
+  let builtAt = null;
   const warn = message =>
     logger
       ? logger.warn(`[daily-data] ${message}`)
@@ -511,14 +557,17 @@ export function dailyDataPlugin({ dataDir = 'public/data' } = {}) {
     apply: 'build',
     configResolved(config) {
       dir = resolve(config.root, dataDir);
+      outDir = resolve(config.root, config.build?.outDir ?? 'build');
       logger = config.logger;
     },
     buildStart() {
+      const now = new Date();
+      builtAt = madridIsoDateTime(now);
       ctx = computeDailyContext({
         today: readJson(resolve(dir, 'today_price.json'), warn),
         tomorrow: readJson(resolve(dir, 'tomorrow_price.json'), warn),
         omie: readJson(resolve(dir, 'omie_data.json'), warn),
-        now: new Date(),
+        now,
         warn
       });
       const info = `[daily-data] hoy ${ctx.hoy.fechaIso}, mañana ${ctx.manana.fechaIso} en estado ${ctx.manana.estado}`;
@@ -528,6 +577,17 @@ export function dailyDataPlugin({ dataDir = 'public/data' } = {}) {
       order: 'pre',
       handler(html) {
         return applyPlaceholders(html, ctx, warn);
+      }
+    },
+    // Vite ya ha copiado public/ en outDir: se reescribe la copia, nunca
+    // public/sitemap.xml.
+    closeBundle() {
+      const file = resolve(outDir, 'sitemap.xml');
+      try {
+        const xml = readFileSync(file, 'utf8');
+        writeFileSync(file, updateSitemapLastmod(xml, lastmodPaths, builtAt));
+      } catch (error) {
+        warn(`no se pudo actualizar el lastmod de ${file}: ${error.message}`);
       }
     }
   };

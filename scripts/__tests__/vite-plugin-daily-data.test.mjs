@@ -2,7 +2,7 @@ process.env.TZ = 'UTC';
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -451,11 +451,13 @@ test('applyPlaceholders: marcadores desbalanceados o inválidos devuelven el ori
   }
 });
 
-test('el módulo exporta solo el plugin y las dos funciones puras', () => {
+test('el módulo exporta solo el plugin y sus funciones puras', () => {
   assert.deepEqual(Object.keys(dailyData).sort(), [
     'applyPlaceholders',
     'computeDailyContext',
-    'dailyDataPlugin'
+    'dailyDataPlugin',
+    'madridIsoDateTime',
+    'updateSitemapLastmod'
   ]);
 });
 
@@ -524,4 +526,93 @@ test('applyPlaceholders: las claves *Html se insertan sin escapar', () => {
     () => {}
   );
   assert.equal(out, '<i><div class="x">1</div></i>&lt;b&gt;');
+});
+
+const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>https://www.apaga-luz.com/</loc>
+  <lastmod>2026-01-14T12:00:00+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.apaga-luz.com/noticias/subastas-precio-luz-manana/</loc>
+  <lastmod>2026-01-14T12:00:00+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.apaga-luz.com/precio-luz-manana/</loc>
+  <lastmod>2026-05-27T12:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+</urlset>
+`;
+
+const LASTMOD_PATHS = ['/', '/precio-luz-manana/'];
+
+test('updateSitemapLastmod: cambia solo las URL pedidas y deja el resto igual', () => {
+  const out = dailyData.updateSitemapLastmod(SITEMAP, LASTMOD_PATHS, '2026-11-11T20:15:00+01:00');
+  const expected = SITEMAP.replace(
+    '<loc>https://www.apaga-luz.com/</loc>\n  <lastmod>2026-01-14T12:00:00+00:00</lastmod>',
+    '<loc>https://www.apaga-luz.com/</loc>\n  <lastmod>2026-11-11T20:15:00+01:00</lastmod>'
+  ).replace(
+    '<lastmod>2026-05-27T12:00:00+00:00</lastmod>',
+    '<lastmod>2026-11-11T20:15:00+01:00</lastmod>'
+  );
+  assert.equal(out, expected);
+  assert.match(out, /subastas-precio-luz-manana\/<\/loc>\n  <lastmod>2026-01-14T12:00:00\+00:00/);
+});
+
+test('updateSitemapLastmod: un sitemap sin esas URL queda intacto', () => {
+  const xml = SITEMAP.split('<url>').filter(b => b.includes('subastas') || b.startsWith('<?xml')).join('<url>');
+  assert.equal(dailyData.updateSitemapLastmod(xml, LASTMOD_PATHS, '2026-11-11T20:15:00+01:00'), xml);
+});
+
+test('madridIsoDateTime: hora de Madrid con su offset en verano e invierno', () => {
+  assert.equal(dailyData.madridIsoDateTime(NOW), '2026-09-18T10:00:00+02:00');
+  assert.equal(
+    dailyData.madridIsoDateTime(new Date('2026-11-11T19:15:30Z')),
+    '2026-11-11T20:15:30+01:00'
+  );
+  // 23:30 UTC del 10 nov ya es el 11 nov en Madrid.
+  assert.equal(
+    dailyData.madridIsoDateTime(new Date('2026-11-10T23:30:00Z')),
+    '2026-11-11T00:30:00+01:00'
+  );
+});
+
+test('plugin: closeBundle pone la fecha del build en el sitemap de salida', () => {
+  const root = mkdtempSync(join(tmpdir(), 'daily-data-sitemap-'));
+  try {
+    mkdirSync(join(root, 'out'));
+    writeFileSync(join(root, 'out', 'sitemap.xml'), SITEMAP);
+    const { warn } = collectWarnings();
+    const plugin = dailyDataPlugin({ dataDir: root });
+    plugin.configResolved({ root, build: { outDir: 'out' }, logger: { warn, info: () => {} } });
+    plugin.buildStart();
+    plugin.closeBundle();
+
+    const out = readFileSync(join(root, 'out', 'sitemap.xml'), 'utf8');
+    const dates = [...out.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(m => m[1]);
+    assert.equal(dates.length, 3);
+    assert.match(dates[0], /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+0[12]:00$/);
+    assert.equal(dates[1], '2026-01-14T12:00:00+00:00');
+    assert.equal(dates[2], dates[0]);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('plugin: sin sitemap de salida avisa y no rompe', () => {
+  const root = mkdtempSync(join(tmpdir(), 'daily-data-sitemap-'));
+  try {
+    const { warn, messages } = collectWarnings();
+    const plugin = dailyDataPlugin({ dataDir: root });
+    plugin.configResolved({ root, build: { outDir: 'out' }, logger: { warn, info: () => {} } });
+    plugin.buildStart();
+    assert.doesNotThrow(() => plugin.closeBundle());
+    assert.ok(messages.some(m => m.includes('sitemap')));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
