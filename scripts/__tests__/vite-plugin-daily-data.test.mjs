@@ -528,6 +528,31 @@ test('applyPlaceholders: las claves *Html se insertan sin escapar', () => {
   assert.equal(out, '<i><div class="x">1</div></i>&lt;b&gt;');
 });
 
+const MANANA_HTML = readFileSync(
+  new URL('../../precio-luz-manana/index.html', import.meta.url),
+  'utf8'
+);
+
+// Google corta por píxeles; 60 caracteres es la aproximación de la spec.
+test('precio-luz-manana: el title cabe en 60 caracteres con la fecha más larga', () => {
+  const titleMatch = MANANA_HTML.match(/<title>([\s\S]*?)<\/title>/);
+  const headlineMatch = MANANA_HTML.match(/"headline":\s*"([^"]*)"/);
+  assert.ok(titleMatch, 'la página no tiene <title>');
+  assert.ok(headlineMatch, 'el Article no tiene headline');
+
+  // Hoy martes 29 sep 2026 → mañana "miércoles 30 de septiembre", la fecha más larga.
+  const ctx = computeDailyContext({
+    now: new Date('2026-09-29T10:00:00Z'),
+    warn: () => {}
+  });
+  assert.equal(ctx.manana.fechaLarga, 'miércoles 30 de septiembre');
+
+  const title = applyPlaceholders(titleMatch[1], ctx, () => {});
+  assert.ok(title.startsWith('Precio de la luz mañana'), title);
+  assert.ok(title.length <= 60, `${title.length} caracteres: ${title}`);
+  assert.equal(headlineMatch[1], titleMatch[1]);
+});
+
 const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
