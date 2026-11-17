@@ -149,13 +149,22 @@ class WebVitalsMonitor {
   /**
    * Maneja métricas generales con optimización
    */
-  handleMetric({ name, value, rating, delta, navigationType }) {
+  handleMetric({
+    name,
+    value,
+    rating,
+    delta,
+    navigationType,
+    analyticsParams
+  }) {
     const metric = {
       name,
       value,
       rating,
       delta,
       navigationType,
+      // Atribución del INP (handleINPMetric); sin ella no llega a GA4
+      analyticsParams,
       timestamp: Date.now(),
       url: window.location.pathname,
       connection: this.getConnectionInfo()
