@@ -170,3 +170,43 @@ test('INP sin script largo: top_script es none y la fase dominante sale de los t
   assert.equal(sent[0].params.inp_phase, 'presentation');
   assert.equal(sent[0].params.top_script, 'none');
 });
+
+test('atribución incompleta: mismos valores por defecto que la medición anterior', () => {
+  const { library, callbacks } = fakeLibrary();
+  const { sent, send } = spySend();
+  startFieldMetrics({ ...library, send, location: PROD });
+
+  callbacks.INP({
+    ...INP,
+    // 10,4 frente a 10,2: sin redondear gana input_delay; redondeados empatan (10 y 10) y
+    // gana la primera fase, como antes.
+    attribution: { inputDelay: 10.2, processingDuration: 10.4 }
+  });
+
+  const {
+    metric_target,
+    inp_phase,
+    input_delay,
+    presentation_delay,
+    load_state,
+    top_script
+  } = sent[0].params;
+  assert.deepEqual(
+    {
+      metric_target,
+      inp_phase,
+      input_delay,
+      presentation_delay,
+      load_state,
+      top_script
+    },
+    {
+      metric_target: 'unknown',
+      inp_phase: 'input_delay',
+      input_delay: 10,
+      presentation_delay: 0,
+      load_state: 'unknown',
+      top_script: 'none'
+    }
+  );
+});

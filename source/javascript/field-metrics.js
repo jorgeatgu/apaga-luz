@@ -2,10 +2,11 @@
 // están registrados como dimensiones de evento: metric_target, inp_phase, load_state y
 // top_script; los tres tiempos van como métricas.
 export function inpParams(attribution) {
+  // Redondeados antes de elegir la fase dominante, como hacía la medición anterior.
   const phases = {
-    input_delay: attribution.inputDelay,
-    processing: attribution.processingDuration,
-    presentation: attribution.presentationDelay
+    input_delay: Math.round(attribution.inputDelay || 0),
+    processing: Math.round(attribution.processingDuration || 0),
+    presentation: Math.round(attribution.presentationDelay || 0)
   };
   const dominant = Object.keys(phases).reduce((best, phase) =>
     phases[phase] > phases[best] ? phase : best
@@ -19,10 +20,10 @@ export function inpParams(attribution) {
       100
     ),
     inp_phase: dominant,
-    input_delay: Math.round(attribution.inputDelay),
-    processing_duration: Math.round(attribution.processingDuration),
-    presentation_delay: Math.round(attribution.presentationDelay),
-    load_state: attribution.loadState,
+    input_delay: phases.input_delay,
+    processing_duration: phases.processing,
+    presentation_delay: phases.presentation,
+    load_state: attribution.loadState || 'unknown',
     top_script: topScript ? String(topScript).slice(0, 100) : 'none'
   };
 }
