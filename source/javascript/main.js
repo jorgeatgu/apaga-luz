@@ -1,4 +1,3 @@
-import './passive-events-polyfill.js';
 import './../styles/styles.css';
 import './tomorrow-notice.js';
 import {
