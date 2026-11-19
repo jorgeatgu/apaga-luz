@@ -1,5 +1,5 @@
 // Cálculo de INP, fases, ICP y LoAF a partir de lo que recoge `observer.mjs`.
-// Método del apartado 3 de docs/investigacion/inp-movil.md.
+// Método del apartado 3 del diagnóstico (docs/investigacion/inp-movil.md, fuera de git).
 
 const round = value => Math.round(value);
 
@@ -14,7 +14,7 @@ export function median(values) {
 
 // Agrupa por `interactionId`. INP = `duration` máxima del grupo; inputDelay =
 // min(processingStart) − startTime; processing = max(processingEnd) − min(processingStart);
-// presentation = lo que queda hasta startTime + duration.
+// presentation = lo que queda hasta el final de la entrada que más tarda en terminar.
 export function interactionsFrom(store) {
   const groups = new Map();
   for (const entry of store.events) {
@@ -25,6 +25,8 @@ export function interactionsFrom(store) {
   return [...groups].map(([interactionId, entries]) => {
     const startTime = Math.min(...entries.map(e => e.startTime));
     const duration = Math.max(...entries.map(e => e.duration));
+    // Cada entrada (pointerdown, click…) tiene su propio inicio: el fin es el más tardío.
+    const end = Math.max(...entries.map(e => e.startTime + e.duration));
     const processingStart = Math.min(...entries.map(e => e.processingStart));
     const processingEnd = Math.max(...entries.map(e => e.processingEnd));
     const icps = store.icp.filter(e => e.interactionId === interactionId);
@@ -36,7 +38,7 @@ export function interactionsFrom(store) {
         inputDelay: round(processingStart - startTime),
         processing: round(processingEnd - processingStart),
         // `duration` viene redondeada a 8 ms: sin el máximo, la resta puede salir negativa.
-        presentation: round(Math.max(0, startTime + duration - processingEnd))
+        presentation: round(Math.max(0, end - processingEnd))
       },
       icp: icps.length ? round(Math.max(...icps.map(e => e.duration))) : null,
       events: [...new Set(entries.map(e => e.name))]
@@ -44,8 +46,7 @@ export function interactionsFrom(store) {
   });
 }
 
-export function worstInteraction(store) {
-  const interactions = interactionsFrom(store);
+export function worstInteraction(interactions) {
   if (interactions.length === 0) return null;
   return interactions.reduce((worst, i) => (i.inp > worst.inp ? i : worst));
 }
@@ -54,6 +55,7 @@ export function worstInteraction(store) {
 export function summarizeRuns(page, id, runs) {
   const measured = runs.filter(Boolean);
   const inps = measured.map(r => r.inp);
+  // El ICP, con las pasadas que pintaron contenido nuevo; null solo si no lo hizo ninguna.
   const icps = measured.map(r => r.icp).filter(v => v != null);
   return {
     page,
@@ -70,8 +72,8 @@ export function summarizeRuns(page, id, runs) {
           presentation: median(measured.map(r => r.phases.presentation))
         }
       : null,
-    // Solo cuenta si la mayoría de las pasadas pintó contenido nuevo.
-    icp: icps.length * 2 > measured.length ? median(icps) : null
+    icp: median(icps),
+    icpMeasured: icps.length
   };
 }
 
@@ -98,13 +100,16 @@ export function scriptLabel(script, pageUrl) {
     return `${url.host}/${first ?? ''}${rest.length ? '/…' : ''}`;
   }
   const file = url.pathname.split('/').pop();
-  return file.replace(/-[\w-]{8}\.js$/, '.js');
+  // Vite añade a los ficheros de `assets/` un hash de 8 caracteres: `main-AbC_12-z.js`.
+  return url.pathname.startsWith('/assets/')
+    ? file.replace(/-[\w-]{8}\.js$/, '.js')
+    : file;
 }
 
-// Suma, por script, la duración en los LoAF de 50 ms o más de una pasada.
-export function loafByScript(store, pageUrl, { minDuration = 50 } = {}) {
+// Suma, por script, la duración en los LoAF de una pasada (por defecto, los de 50 ms o más).
+export function loafByScript(frames, pageUrl, { minDuration = 50 } = {}) {
   const totals = {};
-  for (const frame of store.loaf) {
+  for (const frame of frames) {
     if (frame.duration < minDuration) continue;
     for (const script of frame.scripts) {
       const label = scriptLabel(script, pageUrl);
@@ -129,3 +134,8 @@ export function summarizeLoaf(perRun) {
     })
     .sort((a, b) => b.median - a.median || b.max - a.max);
 }
+
+export const formatPhases = phases =>
+  phases
+    ? `${phases.inputDelay} / ${phases.processing} / ${phases.presentation}`
+    : '—';

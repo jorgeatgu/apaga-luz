@@ -9,6 +9,7 @@ import { chromium, devices } from 'playwright';
 
 import { installObservers } from './observer.mjs';
 
+export const DEVICE = 'Pixel 7';
 export const CPU_RATE = 4;
 export const RESULTS_DIR = 'docs/sprints/06/medicion';
 const PORT = 4173;
@@ -76,7 +77,7 @@ export function launchBrowser() {
 
 // Contexto nuevo por pasada, con los observadores inyectados antes de cargar.
 export async function openPage(browser, { network } = {}) {
-  const context = await browser.newContext({ ...devices['Pixel 7'] });
+  const context = await browser.newContext({ ...devices[DEVICE] });
   await context.addInitScript(installObservers);
   const page = await context.newPage();
   const cdp = await context.newCDPSession(page);
@@ -127,16 +128,13 @@ export const defaultOut = name =>
     `${name}-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
   );
 
-// Ejecuta las tareas con `concurrency` en paralelo y conserva el orden de los resultados.
-export async function pool(tasks, concurrency) {
-  const results = new Array(tasks.length);
-  let next = 0;
-  const worker = async () => {
-    while (next < tasks.length) {
-      const index = next++;
-      results[index] = await tasks[index]();
-    }
-  };
-  await Promise.all(Array.from({ length: concurrency }, worker));
-  return results;
-}
+// Cabecera común de los resultados.
+export const runMeta = ({ script, target, origin, browser }) => ({
+  script,
+  target: target ?? 'local (vite build + vite preview)',
+  origin,
+  device: DEVICE,
+  cpu: CPU_RATE,
+  browser: browser.version(),
+  date: new Date().toISOString()
+});

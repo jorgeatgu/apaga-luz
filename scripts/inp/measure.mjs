@@ -2,14 +2,16 @@
 //
 // Uso:
 //   npm run inp:measure -- [--out=<fichero.json>] [--runs=5] [--page=/ruta/] [--target=<URL>]
-//                          [--concurrency=1] [--skip-build]
+//                          [--skip-build]
 //
 // Sin `--target` hace un build de producción en una carpeta temporal y lo sirve con
 // `vite preview` en el puerto 4173. Con `--target=https://www.apaga-luz.com` mide producción.
 // Cada pasada: contexto nuevo de Chromium con `devices['Pixel 7']` y CPU a 4×; carga (`load` +
 // `networkidle` de hasta 4 s), lleva el elemento a la vista, espera 2,5 s y lo toca con
-// `touchscreen.tap`. Mediana de las pasadas (5 por defecto) por interacción. Las páginas y los
-// selectores están en `pages.mjs`. Por defecto escribe en docs/sprints/06/medicion/.
+// `touchscreen.tap`. Las pasadas van en serie e intercaladas (la 1 de todas las interacciones,
+// luego la 2…), y se da la mediana (5 por defecto). Las páginas y los selectores están en
+// `pages.mjs`. Por defecto escribe en docs/sprints/06/medicion/; para la línea base de una fase,
+// `--out=docs/sprints/06/medicion/fase-N-{antes,despues}.json`.
 //
 // Antes de tocar se espera a que haya cargado `gtag/js` (lo dispara el `scroll` o el temporizador
 // de 5 s): su frame de ~165 ms no debe caer en el toque. La tabla de `/precio-luz-manana/` solo
@@ -19,19 +21,24 @@
 import { parseArgs } from 'node:util';
 
 import {
-  CPU_RATE,
   defaultOut,
   launchBrowser,
   openPage,
-  pool,
   readStore,
+  runMeta,
   sleep,
   startTarget,
   tapCenter,
   waitForGtag,
   writeResult
 } from './harness.mjs';
-import { interactionsFrom, scriptLabel, summarizeRuns } from './metrics.mjs';
+import {
+  formatPhases,
+  interactionsFrom,
+  scriptLabel,
+  summarizeRuns,
+  worstInteraction
+} from './metrics.mjs';
 import { PAGES } from './pages.mjs';
 
 const { values: args } = parseArgs({
@@ -40,7 +47,6 @@ const { values: args } = parseArgs({
     runs: { type: 'string', default: '5' },
     page: { type: 'string' },
     target: { type: 'string' },
-    concurrency: { type: 'string', default: '1' },
     'skip-build': { type: 'boolean', default: false }
   }
 });
@@ -68,9 +74,10 @@ async function measureOnce(browser, url, interaction) {
     await sleep(1500);
 
     const store = await readStore(page);
-    const after = interactionsFrom(store).filter(i => i.startTime >= tapAt - 1);
-    if (after.length === 0) return { error: 'sin entradas de Event Timing' };
-    const worst = after.reduce((a, b) => (b.inp > a.inp ? b : a));
+    const worst = worstInteraction(
+      interactionsFrom(store).filter(i => i.startTime >= tapAt - 1)
+    );
+    if (!worst) return { error: 'sin entradas de Event Timing' };
     const end = worst.startTime + worst.inp;
     const loaf = store.loaf
       .filter(
@@ -105,58 +112,51 @@ async function main() {
   const browser = await launchBrowser();
   try {
     const jobs = pages.flatMap(page =>
-      page.interactions.map(interaction => ({ page, interaction }))
+      page.interactions.map(interaction => ({ page, interaction, runs: [] }))
     );
-    // Pasadas intercaladas (la 1 de todas, luego la 2…): el arranque en frío y cualquier deriva
-    // del equipo se reparten entre interacciones en lugar de caer en las primeras.
-    const tasks = Array.from({ length: runs }, (_, run) =>
-      jobs.map(({ page, interaction }) => async () => {
+    // Intercaladas: el arranque en frío y la deriva del equipo se reparten entre interacciones.
+    for (let run = 1; run <= runs; run++) {
+      for (const job of jobs) {
         const result = await measureOnce(
           browser,
-          server.origin + page.path,
-          interaction
+          server.origin + job.page.path,
+          job.interaction
         );
+        job.runs.push(result);
         const shown =
           result.error ?? `${result.inp} ms (ICP ${result.icp ?? '—'})`;
         console.log(
-          `[${run + 1}/${runs}] ${page.path} ${interaction.id}: ${shown}`
+          `[${run}/${runs}] ${job.page.path} ${job.interaction.id}: ${shown}`
         );
-        return result;
-      })
-    ).flat();
-    const results = await pool(tasks, Number(args.concurrency));
+      }
+    }
 
-    const raw = jobs.map(({ page, interaction }, index) => ({
+    const measured = jobs.map(({ page, interaction, runs: results }) => ({
       page: page.path,
       id: interaction.id,
       label: interaction.label,
       selector: interaction.selector,
-      runs: Array.from(
-        { length: runs },
-        (_, run) => results[run * jobs.length + index]
-      )
+      runs: results
     }));
-    const interactions = raw.map(r =>
+    const interactions = measured.map(m =>
       summarizeRuns(
-        r.page,
-        r.id,
-        r.runs.map(run => (run.error ? null : run))
+        m.page,
+        m.id,
+        m.runs.map(result => (result.error ? null : result))
       )
     );
 
     writeResult(args.out ?? defaultOut('measure'), {
       meta: {
-        script: 'measure',
-        target: args.target ?? 'local (vite build + vite preview)',
-        origin: server.origin,
-        device: 'Pixel 7',
-        cpu: CPU_RATE,
-        runs,
-        concurrency: Number(args.concurrency),
-        browser: browser.version(),
-        date: new Date().toISOString()
+        ...runMeta({
+          script: 'measure',
+          target: args.target,
+          origin: server.origin,
+          browser
+        }),
+        runs
       },
-      runs: raw,
+      runs: measured,
       summary: { interactions }
     });
     console.table(
@@ -165,9 +165,7 @@ async function main() {
         interacción: i.id,
         INP: i.inp?.median ?? '—',
         'mín-máx': i.inp ? `${i.inp.min}-${i.inp.max}` : '—',
-        fases: i.phases
-          ? `${i.phases.inputDelay} / ${i.phases.processing} / ${i.phases.presentation}`
-          : '—',
+        fases: formatPhases(i.phases),
         ICP: i.icp ?? '—',
         medidas: `${i.measured}/${i.runs}`
       }))

@@ -103,3 +103,18 @@ test('una interacción nueva solo se informa y no falla', () => {
   assert.deepEqual(report.added, [{ page: '/graficas/', id: 'menu' }]);
   assert.equal(report.ok, true);
 });
+
+test('una métrica que no estaba en la base se informa y no falla', () => {
+  const base = result(
+    interaction('/precio-luz-manana/', 'order-price', null, null)
+  );
+  const next = result(
+    interaction('/precio-luz-manana/', 'order-price', 32, 237)
+  );
+  const report = compareSummaries(base, next);
+  assert.deepEqual(report.added, [
+    { page: '/precio-luz-manana/', id: 'order-price', metric: 'inp' },
+    { page: '/precio-luz-manana/', id: 'order-price', metric: 'icp' }
+  ]);
+  assert.equal(report.ok, true);
+});

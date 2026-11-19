@@ -1,4 +1,5 @@
-// Páginas e interacciones medidas: las del apartado 4 de docs/investigacion/inp-movil.md.
+// Páginas e interacciones medidas: las del apartado 4 del diagnóstico
+// (docs/investigacion/inp-movil.md, fuera de git).
 // El `id` es la clave con la que el comparador cruza dos resultados: no se cambia.
 
 const MENU = { id: 'menu', label: 'Abrir menú', selector: '.menu-toggle' };

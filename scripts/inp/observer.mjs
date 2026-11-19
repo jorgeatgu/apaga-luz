@@ -32,21 +32,13 @@ export function installObservers() {
     store.loaf.push({
       startTime: entry.startTime,
       duration: entry.duration,
-      blockingDuration: entry.blockingDuration,
-      renderStart: entry.renderStart,
-      styleAndLayoutStart: entry.styleAndLayoutStart,
-      // Separan recálculo de estilos y layout en la presentación (con alternativa combinada).
+      // Separan recálculo de estilos y layout: explican una presentación cara sin scripts.
       styleDuration: entry.styleDuration,
       layoutDuration: entry.layoutDuration,
       scripts: entry.scripts.map(script => ({
         sourceURL: script.sourceURL,
-        sourceFunctionName: script.sourceFunctionName,
         invoker: script.invoker,
-        invokerType: script.invokerType,
-        duration: script.duration,
-        forcedStyleAndLayoutDuration: script.forcedStyleAndLayoutDuration,
-        forcedStyleDuration: script.forcedStyleDuration,
-        forcedLayoutDuration: script.forcedLayoutDuration
+        duration: script.duration
       }))
     });
   });
