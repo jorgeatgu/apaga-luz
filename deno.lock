@@ -9,7 +9,6 @@
       "dependencies": [
         "npm:@babel/eslint-parser@^7.16.5",
         "npm:@babel/preset-env@^7.16.11",
-        "npm:@builder.io/partytown@^0.10.3",
         "npm:d3-array@^3.1.1",
         "npm:d3-axis@^3.0.0",
         "npm:d3-collection@^1.0.7",
