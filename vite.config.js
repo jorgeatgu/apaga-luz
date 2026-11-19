@@ -67,6 +67,10 @@ export default defineConfig({
           if (id.includes('d3-')) {
             return 'd3-libs';
           }
+          // Módulo de terceros: un chunk que comparten las 42 páginas
+          if (id.includes('third-parties')) {
+            return 'third-parties';
+          }
           // Medición de campo (web-vitals incluida): un chunk que comparten las 42 páginas
           if (
             id.includes('field-metrics') ||
