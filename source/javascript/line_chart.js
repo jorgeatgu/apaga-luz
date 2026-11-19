@@ -9,10 +9,7 @@ import { format } from 'd3-format';
 import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
 import { day_names, month_names, width_mobile } from './utils.js';
-import {
-  throttle as performanceThrottle,
-  chunkedTask
-} from './performance-utils.js';
+import { throttle as performanceThrottle } from './performance-utils.js';
 import { inpOptimizer } from './inp-optimizer.js';
 import { d3WorkerManager } from './d3-worker-manager.js';
 
@@ -608,58 +605,49 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     }
   }
 
+  // Fechas 'dd/mm/yyyy' a Date; el resto, con new Date
+  function parse_date(value) {
+    if (typeof value === 'string') {
+      const [day, month, year] = value.split('/');
+      return new Date(`${month}/${day}/${year}`);
+    }
+    return value instanceof Date ? value : new Date(value);
+  }
+
+  // Como parse_date, pero guarda además el día y el año en d.day y d.year
+  function parse_date_with_day_year(d) {
+    const value = d[x_axis_prop];
+    if (typeof value === 'string') {
+      [d.day, , d.year] = value.split('/');
+      d[x_axis_prop] = parse_date(value);
+    } else if (!(value instanceof Date)) {
+      d[x_axis_prop] = new Date(value);
+      d.day = d[x_axis_prop].getDate();
+      d.year = d[x_axis_prop].getFullYear();
+    }
+  }
+
   async function initializeChart() {
     if (!select_html) {
       if (main_chart) {
-        await chunkedTask(
-          line_chart_data,
-          d => {
-            d[y_axis_prop] = d[y_axis_prop] / 1000;
+        line_chart_data.forEach(d => {
+          d[y_axis_prop] = d[y_axis_prop] / 1000;
+          d[x_axis_prop] = parse_date(d[x_axis_prop]);
 
-            // Verificar tipo antes de procesar fecha
-            if (typeof d[x_axis_prop] === 'string') {
-              d[x_axis_prop] = new Date(
-                `${d[x_axis_prop].split('/')[1]}/${
-                  d[x_axis_prop].split('/')[0]
-                }/${d[x_axis_prop].split('/')[2]}`
-              );
-            } else if (!(d[x_axis_prop] instanceof Date)) {
-              d[x_axis_prop] = new Date(d[x_axis_prop]);
-            }
-
-            if (d.hora && typeof d.hora === 'string') {
-              d[x_axis_prop].setHours(
-                d[x_axis_prop].getHours() + parseInt(d.hora.split('-')[0])
-              );
-            }
-          },
-          { chunkSize: 50 }
-        );
+          if (d.hora && typeof d.hora === 'string') {
+            d[x_axis_prop].setHours(
+              d[x_axis_prop].getHours() + parseInt(d.hora.split('-')[0])
+            );
+          }
+        });
         line_chart_data.sort(
           (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
         );
       } else if (html_element === 'hour-price-gas') {
-        await chunkedTask(
-          line_chart_data,
-          d => {
-            // Verificar tipo antes de procesar fecha
-            if (typeof d[x_axis_prop] === 'string') {
-              d.day = d[x_axis_prop].split('/')[0];
-              d.year = d[x_axis_prop].split('/')[2];
-              d[x_axis_prop] = new Date(
-                `${d[x_axis_prop].split('/')[1]}/${
-                  d[x_axis_prop].split('/')[0]
-                }/${d[x_axis_prop].split('/')[2]}`
-              );
-            } else if (!(d[x_axis_prop] instanceof Date)) {
-              d[x_axis_prop] = new Date(d[x_axis_prop]);
-              d.day = d[x_axis_prop].getDate();
-              d.year = d[x_axis_prop].getFullYear();
-            }
-            d[x_axis_prop].setHours(d[x_axis_prop].getHours() + d.hora);
-          },
-          { chunkSize: 50 }
-        );
+        line_chart_data.forEach(d => {
+          parse_date_with_day_year(d);
+          d[x_axis_prop].setHours(d[x_axis_prop].getHours() + d.hora);
+        });
         line_chart_data.sort(
           (a, b) => new Date(a[x_axis_prop]) - new Date(b[x_axis_prop])
         );
@@ -667,18 +655,14 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         await setup_scales();
         await update_chart(line_chart_data);
       } else {
-        await chunkedTask(
-          line_chart_data,
-          d => {
-            d[y_axis_prop] =
-              html_element === 'day-price-gas' ||
-              html_element === 'month-price-gas'
-                ? d[y_axis_prop]
-                : d[y_axis_prop] / 1000;
-            d[x_axis_prop] = new Date(d[x_axis_prop]);
-          },
-          { chunkSize: 50 }
-        );
+        line_chart_data.forEach(d => {
+          d[y_axis_prop] =
+            html_element === 'day-price-gas' ||
+            html_element === 'month-price-gas'
+              ? d[y_axis_prop]
+              : d[y_axis_prop] / 1000;
+          d[x_axis_prop] = new Date(d[x_axis_prop]);
+        });
       }
 
       setup_elements();
@@ -697,14 +681,10 @@ export function line_chart(data_chart, element_options, selected_value = '') {
   async function transform_data_day(data) {
     let data_return = data;
     if (html_element === 'day-week-price') {
-      await chunkedTask(
-        data_return,
-        d => {
-          d[y_axis_prop] = d[y_axis_prop] / 1000;
-          d[x_axis_prop] = new Date(d[x_axis_prop]);
-        },
-        { chunkSize: 50 }
-      );
+      data_return.forEach(d => {
+        d[y_axis_prop] = d[y_axis_prop] / 1000;
+        d[x_axis_prop] = new Date(d[x_axis_prop]);
+      });
 
       data_return = data_return.map(({ date, ...rest }) => {
         return {
@@ -716,32 +696,15 @@ export function line_chart(data_chart, element_options, selected_value = '') {
         };
       });
     } else {
-      await chunkedTask(
-        data_return,
-        d => {
-          d[y_axis_prop] = d[y_axis_prop] / 1000;
+      data_return.forEach(d => {
+        d[y_axis_prop] = d[y_axis_prop] / 1000;
 
-          if (d.hora && typeof d.hora === 'string') {
-            d.hora = d.hora.split('-')[0];
-          }
+        if (d.hora && typeof d.hora === 'string') {
+          d.hora = d.hora.split('-')[0];
+        }
 
-          // Verificar tipo antes de procesar fecha
-          if (typeof d[x_axis_prop] === 'string') {
-            d.day = d[x_axis_prop].split('/')[0];
-            d.year = d[x_axis_prop].split('/')[2];
-            d[x_axis_prop] = new Date(
-              `${d[x_axis_prop].split('/')[1]}/${
-                d[x_axis_prop].split('/')[0]
-              }/${d[x_axis_prop].split('/')[2]}`
-            );
-          } else if (!(d[x_axis_prop] instanceof Date)) {
-            d[x_axis_prop] = new Date(d[x_axis_prop]);
-            d.day = d[x_axis_prop].getDate();
-            d.year = d[x_axis_prop].getFullYear();
-          }
-        },
-        { chunkSize: 50 }
-      );
+        parse_date_with_day_year(d);
+      });
     }
 
     return data_return.sort(
