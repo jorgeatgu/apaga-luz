@@ -243,15 +243,9 @@ export function create_new_table(data_table, selector, type_of_filter) {
       ...data_filter_hours.map(({ precio }) => precio)
     );
 
-    data_filter_hours.forEach(({ precio, dia }, index) => {
+    data_filter_hours.forEach(({ precio }) => {
       const new_cell = document.createElement('td');
       new_cell.textContent = `${(precio / 1000).toFixed(3)} €`;
-
-      if (dia !== 'Hora' && type_of_filter === 'day') {
-        let parse_date_content = `${dia.split('/')[1]}/${dia.split('/')[0]}/${
-          dia.split('/')[2]
-        }`;
-      }
 
       if (precio === max_value) {
         new_cell.style.backgroundColor = 'var(--red-light)';
@@ -316,35 +310,28 @@ export function create_new_table(data_table, selector, type_of_filter) {
         getCellValue(asc ? b : a, idx)
       );
     let asc = true;
-    // Usar delegación de eventos
-    const tableHeader = document.querySelector(
-      `#${selector} table .header-same-day`
-    );
-    if (tableHeader) {
-      const handleSort = event => {
-        const th = event.target.closest('td');
-        if (!th) return;
+    // La tabla aún no está en el documento (se inserta en el rAF de arriba),
+    // así que el listener va directo a su cabecera
+    const handleSort = event => {
+      const th = event.target.closest('td');
+      if (!th) return;
 
-        sortDirectionIcon(asc, th);
-        const table = th.closest('table');
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        const sortedFragment = document.createDocumentFragment();
+      sortDirectionIcon(asc, th);
+      const table = th.closest('table');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const sortedFragment = document.createDocumentFragment();
 
-        rows
-          .sort(
-            comparer(
-              Array.from(th.parentNode.children).indexOf(th),
-              (asc = !asc)
-            )
-          )
-          .forEach(tr => sortedFragment.appendChild(tr));
+      rows
+        .sort(
+          comparer(Array.from(th.parentNode.children).indexOf(th), (asc = !asc))
+        )
+        .forEach(tr => sortedFragment.appendChild(tr));
 
-        tbody.appendChild(sortedFragment);
-      };
+      tbody.appendChild(sortedFragment);
+    };
 
-      tableHeader.addEventListener('click', handleSort, { passive: true });
-    }
+    header.addEventListener('click', handleSort, { passive: true });
   }
 
   function sortDirectionIcon(asc, target) {
@@ -525,7 +512,7 @@ export function table_price(data_hours, element) {
     )}`;
   }
 
-  // Use DocumentFragment for better performance with batch processing
+  // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
 
   for (let elements of data_hours) {
