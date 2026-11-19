@@ -110,6 +110,28 @@ test('anti-copias: un HTML con su propio bloque de GA4 o de AdSense hace fallar 
   assert.throws(() => transform(withAdsense), /adsbygoogle/);
 });
 
+test('anti-copias: también detecta los terceros cargados desde un script en línea', () => {
+  const gtm = `<html><head><script>
+  (function(w,d){var j=d.createElement('script');j.src='https://www.googletagmanager.com/gtm.js?id=GTM-X';d.head.appendChild(j);})(window,document);
+  </script></head><body></body></html>`;
+  const adsense = `<html><head><script>
+  const s = document.createElement('script');
+  s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+  document.head.appendChild(s);
+  </script></head><body></body></html>`;
+  assert.equal(findThirdPartyCopies(gtm).length, 1);
+  assert.equal(findThirdPartyCopies(adsense).length, 1);
+});
+
+test('anti-copias: los estilos de los anuncios y los scripts propios no cuentan', () => {
+  const html = `<html><head>
+  <style>.adsbygoogle { min-height: 280px; }</style>
+  <script>document.body.style.padding = '0';</script>
+  <script type="application/ld+json">{"@type":"Article"}</script>
+</head><body></body></html>`;
+  assert.deepEqual(findThirdPartyCopies(html), []);
+});
+
 test('anti-copias: nombrar Google Analytics en el texto no cuenta como copia', () => {
   const html =
     '<html><head></head><body><p>Usamos Google Analytics (googletagmanager.com) y AdSense.</p></body></html>';

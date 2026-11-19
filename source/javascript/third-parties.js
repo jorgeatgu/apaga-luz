@@ -1,10 +1,11 @@
-// Módulo de terceros: el único sitio que carga gtag de GA4 en todas las páginas. Lo inyecta el
-// plugin `third-parties` (scripts/vite-plugin-third-parties.mjs) a través de
-// third-parties-entry.js. AdSense entra como etiqueta `<script defer>` que pone el propio plugin.
+// Módulo de terceros: carga gtag de GA4 en todas las páginas. Lo inyecta el plugin
+// `third-parties` (scripts/vite-plugin-third-parties.mjs) a través de third-parties-entry.js, y
+// el mismo plugin pone la etiqueta `<script defer>` de AdSense.
 //
-// Política de carga de terceros: gtag al primer gesto o a los 5 s, lo que llegue antes.
+// Política de carga de terceros: gtag al primer gesto o a los 5 s, lo que llegue antes, y
+// AdSense con `defer`.
 
-export const GA_ID = 'G-E9V8ZPM3P0';
+const GA_ID = 'G-E9V8ZPM3P0';
 const GTAG_SRC = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
 const FIRST_GESTURES = ['click', 'scroll', 'keydown', 'touchstart'];
 const GTAG_FALLBACK_MS = 5000;
@@ -31,8 +32,8 @@ export function startThirdParties({ window, document, setTimeout }) {
     };
   };
 
-  FIRST_GESTURES.forEach(event => {
-    document.addEventListener(event, loadGtag, { once: true, passive: true });
+  FIRST_GESTURES.forEach(type => {
+    document.addEventListener(type, loadGtag, { once: true, passive: true });
   });
   setTimeout(loadGtag, GTAG_FALLBACK_MS);
 }

@@ -36,19 +36,11 @@ for (const file of articles) {
 
   const original = html;
 
-  // 1) defer en styles.js
-  if (html.includes(OLD_STYLES)) {
-    html = html.replace(OLD_STYLES, NEW_STYLES);
-  } else if (!html.includes('defer src="/source/javascript/styles.js"')) {
-    // El artículo puede no usar styles.js, no es error
-  }
+  // 1) defer en styles.js (el artículo puede no usarlo)
+  html = html.replace(OLD_STYLES, NEW_STYLES);
 
-  // 2) defer en blog.js
-  if (html.includes(OLD_BLOG)) {
-    html = html.replace(OLD_BLOG, NEW_BLOG);
-  } else if (!html.includes('defer src="/source/javascript/blog.js"')) {
-    // No todos lo usan, no es error
-  }
+  // 2) defer en blog.js (no todos lo usan)
+  html = html.replace(OLD_BLOG, NEW_BLOG);
 
   if (html === original) {
     alreadyOk++;

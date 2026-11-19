@@ -68,7 +68,7 @@ export default defineConfig({
             return 'd3-libs';
           }
           // Módulo de terceros: un chunk que comparten las 42 páginas
-          if (id.includes('third-parties')) {
+          if (id.includes('/source/javascript/third-parties')) {
             return 'third-parties';
           }
           // Medición de campo (web-vitals incluida): un chunk que comparten las 42 páginas

@@ -12,9 +12,10 @@ INP, FCP, TTFB) con la librería `web-vitals` y los envía a GA4, con la atribuc
 _Evitar_: RUM casero, monitor, optimizador.
 
 **Módulo de terceros**: el único sitio que carga scripts de terceros (gtag de GA4 y AdSense) en
-todas las páginas. Lo inyecta un plugin de Vite; los HTML no llevan copias propias.
+todas las páginas. Lo inyecta un plugin de Vite, que también pone la etiqueta de AdSense; los HTML
+no llevan copias propias.
 _Evitar_: cargador de GA4, snippet.
 
 **Política de carga de terceros**: la regla que decide cuándo entra cada tercero (hoy, gtag al
-primer gesto o a los 5 s, y AdSense con `defer`). Vive dentro del módulo de terceros y se cambia
-con datos de campo, no por intuición.
+primer gesto o a los 5 s, y AdSense con `defer`). Vive en el módulo de terceros (gtag) y en el
+plugin que lo inyecta (la etiqueta de AdSense), y se cambia con datos de campo, no por intuición.
