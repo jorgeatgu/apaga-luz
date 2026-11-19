@@ -53,6 +53,7 @@
     "d3-shape": "^3.1.0",
     "d3-time-format": "^4.1.0",
     "d3-transition": "^3.0.1",
-    "vanillajs-datepicker": "^1.2.0"
+    "vanillajs-datepicker": "^1.2.0",
+    "web-vitals": "5.3.0"
   }
 }

@@ -14,7 +14,6 @@ class INPOptimizer {
   }
 
   init() {
-    this.setupInteractionTracking();
     this.monitorLongTasks();
     this.optimizeExistingEvents();
   }
@@ -145,41 +144,6 @@ class INPOptimizer {
         }
       });
     };
-  }
-
-  /**
-   * Rastrea interacciones para identificar problemas de INP
-   */
-  setupInteractionTracking() {
-    if (!('PerformanceObserver' in window)) return;
-
-    try {
-      const observer = new PerformanceObserver(list => {
-        for (const entry of list.getEntries()) {
-          if (entry.duration > 200) {
-            console.warn(
-              `🚨 INP alto detectado: ${entry.name} - ${entry.duration.toFixed(
-                2
-              )}ms`
-            );
-
-            // Enviar a analytics si está disponible
-            if (window.gtag) {
-              window.gtag('event', 'inp_issue', {
-                event_category: 'performance',
-                event_label: entry.name,
-                value: Math.round(entry.duration),
-                non_interaction: true
-              });
-            }
-          }
-        }
-      });
-
-      observer.observe({ type: 'event', buffered: true });
-    } catch (error) {
-      console.warn('INP tracking not supported:', error);
-    }
   }
 
   /**

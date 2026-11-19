@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import { dailyDataPlugin } from './scripts/vite-plugin-daily-data.mjs';
+import { thirdPartiesPlugin } from './scripts/vite-plugin-third-parties.mjs';
 
 export default defineConfig({
-  plugins: [dailyDataPlugin({ dataDir: 'public/data' })],
+  plugins: [dailyDataPlugin({ dataDir: 'public/data' }), thirdPartiesPlugin()],
   build: {
     outDir: 'build',
     modulePreload: false,
@@ -66,18 +67,19 @@ export default defineConfig({
           if (id.includes('d3-')) {
             return 'd3-libs';
           }
+          // Medición de campo (web-vitals incluida): un chunk que comparten las 42 páginas
+          if (
+            id.includes('field-metrics') ||
+            id.includes('node_modules/web-vitals')
+          ) {
+            return 'field-metrics';
+          }
           // Separar librerías de terceros
           if (id.includes('node_modules')) {
             if (id.includes('vanillajs-datepicker')) {
               return 'datepicker';
             }
-            if (id.includes('web-vitals')) {
-              return 'web-vitals';
-            }
             return 'vendor';
-          }
-          if (id.includes('web-vitals.js')) {
-            return 'web-vitals-monitor';
           }
           if (id.includes('inp-optimizer.js')) {
             return 'inp-optimizer';
@@ -95,12 +97,7 @@ export default defineConfig({
         drop_console: true,
         dead_code: true,
         pure_funcs: ['console.log', 'console.debug', 'console.info'],
-        passes: 2,
-        // Mantener nombres de funciones importantes para debugging
-        keep_fnames: /webVitals/
-      },
-      mangle: {
-        reserved: ['webVitalsMonitor']
+        passes: 2
       }
     },
     cssCodeSplit: true
@@ -110,20 +107,14 @@ export default defineConfig({
       'd3-array', 'd3-axis', 'd3-fetch', 'd3-format',
       'd3-scale', 'd3-selection', 'd3-shape',
       'd3-time-format', 'd3-transition'
-    ],
-    // Excluir librerías que se cargan de forma lazy
-    exclude: ['web-vitals']
+    ]
   },
   server: {
     open: true,
     headers: {
       'Cache-Control': 'public, max-age=3600',
-      // CSP: unpkg para web-vitals (CDN), pagead2 para AdSense y googletagmanager/google-analytics para GA4
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' unpkg.com https://pagead2.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ws://localhost:* wss://localhost:* https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; img-src 'self' data: https:; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
+      // CSP: pagead2 para AdSense y googletagmanager/google-analytics para GA4
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ws://localhost:* wss://localhost:* https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; img-src 'self' data: https:; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com"
     }
-  },
-  define: {
-    __WEB_VITALS_ENABLED__: true,
-    __INP_THRESHOLD__: 200
   }
 });

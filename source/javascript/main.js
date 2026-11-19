@@ -24,17 +24,6 @@ import {
 // Importar optimizador INP para mejor rendimiento
 import { inpOptimizer } from './inp-optimizer.js';
 
-// Lazy load Web Vitals monitoring
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => {
-    import('./web-vitals.js').then(module => module.initWebVitals());
-  });
-} else {
-  setTimeout(() => {
-    import('./web-vitals.js').then(module => module.initWebVitals());
-  }, 2000);
-}
-
 // Performance-optimized main application
 class ApagaLuzApp {
   constructor() {
