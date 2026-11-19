@@ -81,9 +81,6 @@ export default defineConfig({
             }
             return 'vendor';
           }
-          if (id.includes('inp-optimizer.js')) {
-            return 'inp-optimizer';
-          }
           // Separar módulos de navegación compartidos
           if (id.includes('navigation.js')) {
             return 'navigation';

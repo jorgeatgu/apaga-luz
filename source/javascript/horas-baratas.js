@@ -2,7 +2,6 @@ import './../styles/styles.css';
 import './tomorrow-notice.js';
 import data_today from '/public/data/today_price.json';
 import { throttle, debounce } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   // Inicializar componentes principales
@@ -121,53 +120,49 @@ function initSavingsCalculator() {
     passive: true
   });
 
-  // Función para calcular el ahorro - optimizada con INP optimizer
-  const optimizedCalculate = inpOptimizer.createOptimizedHandler(
-    function () {
-      // Obtener valores
-      const monthlyConsumption =
-        parseFloat(monthlyConsumptionInput.value) || 300;
-      const highUsage = parseFloat(highUsageInput.value) / 100;
-      const shiftPotential = parseFloat(shiftPotentialInput.value) / 100;
+  // Función para calcular el ahorro
+  const calculate = function () {
+    // Obtener valores
+    const monthlyConsumption = parseFloat(monthlyConsumptionInput.value) || 300;
+    const highUsage = parseFloat(highUsageInput.value) / 100;
+    const shiftPotential = parseFloat(shiftPotentialInput.value) / 100;
 
-      // Precios aproximados en €/kWh
-      const pricePeak = 0.25; // Precio hora punta
-      const priceValley = 0.15; // Precio hora valle
-      const priceDifference = pricePeak - priceValley;
+    // Precios aproximados en €/kWh
+    const pricePeak = 0.25; // Precio hora punta
+    const priceValley = 0.15; // Precio hora valle
+    const priceDifference = pricePeak - priceValley;
 
-      // Cálculos
-      const consumptionInPeakHours = monthlyConsumption * highUsage;
-      const consumptionToShift = consumptionInPeakHours * shiftPotential;
-      const monthlySavingsValue = consumptionToShift * priceDifference;
-      const annualSavingsValue = monthlySavingsValue * 12;
+    // Cálculos
+    const consumptionInPeakHours = monthlyConsumption * highUsage;
+    const consumptionToShift = consumptionInPeakHours * shiftPotential;
+    const monthlySavingsValue = consumptionToShift * priceDifference;
+    const annualSavingsValue = monthlySavingsValue * 12;
 
-      // Mostrar resultados con animación
-      animateValue(monthlySavings, 0, monthlySavingsValue.toFixed(2), 1000);
-      animateValue(annualSavings, 0, annualSavingsValue.toFixed(2), 1500);
+    // Mostrar resultados con animación
+    animateValue(monthlySavings, 0, monthlySavingsValue.toFixed(2), 1000);
+    animateValue(annualSavings, 0, annualSavingsValue.toFixed(2), 1500);
 
-      // Mostrar resultados con efecto visual optimizado para INP
-      const resultBoxes = document.querySelectorAll('.result-box');
-      requestAnimationFrame(() => {
-        resultBoxes.forEach(box => {
-          box.style.transform = 'scale(1.05)';
-          box.style.willChange = 'transform'; // Hint para GPU
-        });
-
-        // Usar rAF en lugar de setTimeout para mejor timing
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            resultBoxes.forEach(box => {
-              box.style.transform = 'scale(1)';
-              box.style.willChange = 'auto'; // Limpiar hint
-            });
-          }, 200); // Duración más corta
-        });
+    // Mostrar resultados con efecto visual optimizado para INP
+    const resultBoxes = document.querySelectorAll('.result-box');
+    requestAnimationFrame(() => {
+      resultBoxes.forEach(box => {
+        box.style.transform = 'scale(1.05)';
+        box.style.willChange = 'transform'; // Hint para GPU
       });
-    },
-    { priority: 'high' }
-  );
 
-  calculateButton.addEventListener('click', optimizedCalculate, {
+      // Usar rAF en lugar de setTimeout para mejor timing
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          resultBoxes.forEach(box => {
+            box.style.transform = 'scale(1)';
+            box.style.willChange = 'auto'; // Limpiar hint
+          });
+        }, 200); // Duración más corta
+      });
+    });
+  };
+
+  calculateButton.addEventListener('click', calculate, {
     passive: true
   });
 

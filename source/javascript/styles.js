@@ -1,30 +1,25 @@
 import './../styles/styles.css';
 import './tomorrow-notice.js';
 import { throttle } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.querySelector('.menu-toggle');
   const header = document.querySelector('.site-header');
 
   if (menuToggle) {
-    // Optimizar click handler con INP optimizer
-    const optimizedMenuToggle = inpOptimizer.createOptimizedHandler(
-      function () {
-        header.classList.toggle('menu-open');
-        const isExpanded = header.classList.contains('menu-open');
-        menuToggle.setAttribute('aria-expanded', isExpanded);
+    const handleMenuToggle = function () {
+      header.classList.toggle('menu-open');
+      const isExpanded = header.classList.contains('menu-open');
+      menuToggle.setAttribute('aria-expanded', isExpanded);
 
-        if (isExpanded) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
-      },
-      { priority: 'high' }
-    );
+      if (isExpanded) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    };
 
-    menuToggle.addEventListener('click', optimizedMenuToggle, {
+    menuToggle.addEventListener('click', handleMenuToggle, {
       passive: true
     });
   }

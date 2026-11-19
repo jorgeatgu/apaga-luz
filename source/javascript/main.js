@@ -21,9 +21,6 @@ import {
   yieldToMain
 } from './performance-utils.js';
 
-// Importar optimizador INP para mejor rendimiento
-import { inpOptimizer } from './inp-optimizer.js';
-
 // Performance-optimized main application
 class ApagaLuzApp {
   constructor() {

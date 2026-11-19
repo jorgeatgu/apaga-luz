@@ -10,7 +10,6 @@ import { interpolatePath } from 'd3-interpolate-path';
 import 'd3-transition';
 import { day_names, month_names, width_mobile } from './utils.js';
 import { throttle as performanceThrottle } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 import { d3WorkerManager } from './d3-worker-manager.js';
 
 // Usar throttle optimizado de performance-utils para mejor INP
@@ -228,46 +227,39 @@ export function line_chart(data_chart, element_options, selected_value = '') {
   }
 
   async function draw_axes(g) {
-    // Chunked axis rendering para evitar blocking
-    await inpOptimizer.scheduleTask(() => {
-      const axisX = d3
-        .axisBottom(scales.count.x)
-        .tickPadding(4)
-        .tickFormat(d => {
-          if (main_chart || html_element.includes('gas')) {
-            return new Intl.DateTimeFormat('es-ES', {
-              day: 'numeric',
-              month: 'numeric'
-            }).format(d);
-          } else {
-            return d.getFullYear();
-          }
-        })
-        .ticks(5);
+    const axisX = d3
+      .axisBottom(scales.count.x)
+      .tickPadding(4)
+      .tickFormat(d => {
+        if (main_chart || html_element.includes('gas')) {
+          return new Intl.DateTimeFormat('es-ES', {
+            day: 'numeric',
+            month: 'numeric'
+          }).format(d);
+        } else {
+          return d.getFullYear();
+        }
+      })
+      .ticks(5);
 
-      g.select('.axis-x')
-        .attr('transform', `translate(0,${height})`)
-        .call(axisX);
-    }, 'high');
+    g.select('.axis-x').attr('transform', `translate(0,${height})`).call(axisX);
 
-    await inpOptimizer.scheduleTask(() => {
-      const axisY = d3
-        .axisLeft(scales.count.y)
-        .tickPadding(15)
-        .tickFormat(d =>
-          d < 0.1
-            ? `${d3.format('.2n')(d)} €/kWh`
-            : `${d3.format('.3n')(d)} €/kWh`
-        )
-        .tickSize(-width)
-        .ticks(8);
+    const axisY = d3
+      .axisLeft(scales.count.y)
+      .tickPadding(15)
+      .tickFormat(d =>
+        d < 0.1
+          ? `${d3.format('.2n')(d)} €/kWh`
+          : `${d3.format('.3n')(d)} €/kWh`
+      )
+      .tickSize(-width)
+      .ticks(8);
 
-      g.select('.axis-y')
-        .transition()
-        .duration(300) // Reducido de 450ms para mejor INP
-        .ease(d3.easeLinear)
-        .call(axisY);
-    }, 'high');
+    g.select('.axis-y')
+      .transition()
+      .duration(300) // Reducido de 450ms para mejor INP
+      .ease(d3.easeLinear)
+      .call(axisY);
   }
 
   async function update_chart(data) {
