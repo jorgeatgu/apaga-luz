@@ -244,50 +244,23 @@ class ApagaLuzApp {
       ...rest
     }));
 
-    // Process tramo information asynchronously for large datasets
-    if (processed.length > 12) {
-      // Use chunked processing for better performance
-      chunkedTask(
-        processed,
-        element => {
-          // Tramo based on time slots (for labels when checkbox is activated)
-          const isWeekend = is_week_end(userDay);
-          if (isWeekend) {
-            element.tramo = 'valle';
-          } else if (element.hour >= 0 && element.hour < 8) {
-            element.tramo = 'valle';
-          } else if (
-            (element.hour >= 8 && element.hour < 10) ||
-            (element.hour >= 14 && element.hour < 18) ||
-            (element.hour >= 22 && element.hour < 24)
-          ) {
-            element.tramo = 'llano';
-          } else {
-            element.tramo = 'punta';
-          }
-        },
-        { chunkSize: 6 }
-      );
-    } else {
-      // Process synchronously for small datasets
-      processed.forEach(element => {
-        // Tramo based on time slots (for labels when checkbox is activated)
-        const isWeekend = is_week_end(userDay);
-        if (isWeekend) {
-          element.tramo = 'valle';
-        } else if (element.hour >= 0 && element.hour < 8) {
-          element.tramo = 'valle';
-        } else if (
-          (element.hour >= 8 && element.hour < 10) ||
-          (element.hour >= 14 && element.hour < 18) ||
-          (element.hour >= 22 && element.hour < 24)
-        ) {
-          element.tramo = 'llano';
-        } else {
-          element.tramo = 'punta';
-        }
-      });
-    }
+    // Tramo based on time slots (for labels when checkbox is activated)
+    const isWeekend = is_week_end(userDay);
+    processed.forEach(element => {
+      if (isWeekend) {
+        element.tramo = 'valle';
+      } else if (element.hour >= 0 && element.hour < 8) {
+        element.tramo = 'valle';
+      } else if (
+        (element.hour >= 8 && element.hour < 10) ||
+        (element.hour >= 14 && element.hour < 18) ||
+        (element.hour >= 22 && element.hour < 24)
+      ) {
+        element.tramo = 'llano';
+      } else {
+        element.tramo = 'punta';
+      }
+    });
 
     return processed;
   }
