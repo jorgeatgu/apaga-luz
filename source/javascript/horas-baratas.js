@@ -1,7 +1,7 @@
 import './../styles/styles.css';
 import './tomorrow-notice.js';
 import data_today from '/public/data/today_price.json';
-import { throttle, debounce } from './performance-utils.js';
+import { throttle } from './performance-utils.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   // Inicializar componentes principales
@@ -239,12 +239,12 @@ function initTariffComparison() {
   if (profileOptions.length > 0) {
     updateRecommendation('morning');
 
-    // Añadir event listeners optimizados a las opciones de perfil
+    // Añadir event listeners a las opciones de perfil
     profileOptions.forEach(option => {
       const radio = option.querySelector('input[type="radio"]');
 
-      // Usar debounce para evitar múltiples actualizaciones rápidas
-      const optimizedChange = debounce(
+      radio.addEventListener(
+        'change',
         function () {
           if (this.checked) {
             const profile = option.dataset.profile;
@@ -253,11 +253,8 @@ function initTariffComparison() {
             });
           }
         },
-        150,
-        { leading: true, trailing: false }
+        { passive: true }
       );
-
-      radio.addEventListener('change', optimizedChange, { passive: true });
     });
   }
 

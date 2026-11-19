@@ -5,22 +5,15 @@ import {
   get_zone_color,
   get_price_color,
   width_mobile,
-  day_names_us,
-  is_week_end
+  day_names_us
 } from './utils.js';
+import { processHourlyData } from './hourly-data.js';
 
 import { table_price, remove_tables } from './table.js';
 
 import { initNavigation } from './navigation.js';
-import {
-  throttle,
-  chunkedTask,
-  batchDOMUpdates,
-  LRUCache,
-  yieldToMain
-} from './performance-utils.js';
+import { LRUCache } from './performance-utils.js';
 
-// Performance-optimized main application
 class ApagaLuzApp {
   constructor() {
     this.dataToday = null;
@@ -29,7 +22,6 @@ class ApagaLuzApp {
     this.filterDataToday = null;
     this.typeOfOrder = 'hour';
     this.priceCalculationsCache = new LRUCache(20);
-    this.processingTask = null;
 
     this.init();
   }
@@ -77,40 +69,7 @@ class ApagaLuzApp {
     this.updateTimeDisplay(userHour, userMinutes);
     this.updatePriceDisplay(currentPriceData.price);
 
-    // Process data for tables usando chunked task si es necesario
-    const dataSize = dataPrices.length;
-    if (dataSize > 24) {
-      // Para datasets grandes, usar procesamiento en chunks
-      chunkedTask(
-        [dataPrices],
-        data => {
-          this.filterDataToday = this.processHourlyData(
-            data,
-            userHour,
-            userDay
-          );
-        },
-        {
-          chunkSize: 1,
-          onComplete: () => {
-            // Defer full table initialization for better INP
-            this.deferCompleteInitialization(
-              userHour,
-              userMinutes,
-              currentPriceData,
-              userDay
-            );
-          }
-        }
-      );
-      return; // Salir temprano para evitar ejecución síncrona
-    } else {
-      this.filterDataToday = this.processHourlyData(
-        dataPrices,
-        userHour,
-        userDay
-      );
-    }
+    this.filterDataToday = processHourlyData(dataPrices, userHour, userDay);
 
     // Defer full table initialization for better INP
     this.deferCompleteInitialization(
@@ -199,55 +158,6 @@ class ApagaLuzApp {
         }, 100);
       }
     });
-  }
-
-  processHourlyData(data, userHour, userDay) {
-    // First, create a copy sorted by price to determine color assignment
-    const sortedByPrice = [...data].sort((a, b) => a.price - b.price);
-
-    // Create a map for price-based color assignment
-    const priceColorMap = new Map();
-    sortedByPrice.forEach((item, index) => {
-      let priceColor;
-      if (index < 8) {
-        priceColor = 'price-green'; // 8 cheapest - green
-      } else if (index < 16) {
-        priceColor = 'price-yellow'; // 8 middle - yellow
-      } else {
-        priceColor = 'price-red'; // 8 most expensive - red
-      }
-      priceColorMap.set(Number(item.hour), priceColor);
-    });
-
-    // Process data with ranking info
-    const processed = data.map(({ hour, price, ...rest }) => ({
-      hourHasPassed: +hour < userHour,
-      originalPrice: price,
-      price: price.toFixed(3),
-      hour,
-      priceColor: priceColorMap.get(Number(hour)),
-      ...rest
-    }));
-
-    // Tramo based on time slots (for labels when checkbox is activated)
-    const isWeekend = is_week_end(userDay);
-    processed.forEach(element => {
-      if (isWeekend) {
-        element.tramo = 'valle';
-      } else if (element.hour >= 0 && element.hour < 8) {
-        element.tramo = 'valle';
-      } else if (
-        (element.hour >= 8 && element.hour < 10) ||
-        (element.hour >= 14 && element.hour < 18) ||
-        (element.hour >= 22 && element.hour < 24)
-      ) {
-        element.tramo = 'llano';
-      } else {
-        element.tramo = 'punta';
-      }
-    });
-
-    return processed;
   }
 
   updateTimeDisplay(hour, minutes) {
@@ -519,32 +429,23 @@ class ApagaLuzApp {
   }
 
   bindEvents() {
-    const handleOrderByPrice = async () => {
-      await yieldToMain();
-      requestAnimationFrame(() => {
-        remove_tables();
+    const handleOrderByPrice = () => {
+      remove_tables();
+      this.orderByPrice();
+    };
+
+    const handleOrderByHour = () => {
+      remove_tables();
+      this.orderByHour();
+    };
+
+    const handleCheckboxChange = () => {
+      remove_tables();
+      if (this.typeOfOrder === 'price') {
         this.orderByPrice();
-      });
-    };
-
-    const handleOrderByHour = async () => {
-      await yieldToMain();
-      requestAnimationFrame(() => {
-        remove_tables();
+      } else {
         this.orderByHour();
-      });
-    };
-
-    const handleCheckboxChange = async () => {
-      await yieldToMain();
-      requestAnimationFrame(() => {
-        remove_tables();
-        if (this.typeOfOrder === 'price') {
-          this.orderByPrice();
-        } else {
-          this.orderByHour();
-        }
-      });
+      }
     };
 
     const orderPriceBtn = document.getElementById('order-price');
