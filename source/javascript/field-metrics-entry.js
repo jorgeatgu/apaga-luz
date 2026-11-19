@@ -1,6 +1,6 @@
 // Entrada de la medición de campo. La inyecta en todas las páginas el plugin `third-parties`
 // (scripts/vite-plugin-third-parties.mjs): conecta web-vitals con GA4 a través del stub de
-// `gtag` que cada HTML define en línea antes de cargar los módulos.
+// `gtag` que define el módulo de terceros (third-parties-entry.js, inyectada antes que esta).
 import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals/attribution';
 
 import { isDebug, startFieldMetrics } from './field-metrics.js';

@@ -21,7 +21,6 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@babel/preset-env": "^7.16.11",
-    "@builder.io/partytown": "^0.10.3",
     "eslint": "^7.5.0",
     "eslint-config-standard": "16.0.2",
     "lighthouse": "^12.8.2",
