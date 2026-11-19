@@ -109,5 +109,4 @@ export const last_n_days = n_days =>
       return `${get_string_day}/${get_string_month}/${d.getFullYear()}`;
     });
 
-export const is_week_end = date =>
-  date.getDay() === 0 || date.getDay() === 7 ? true : false;
+export { is_week_end } from './hourly-data.js';

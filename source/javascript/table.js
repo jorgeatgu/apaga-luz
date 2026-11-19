@@ -1,10 +1,5 @@
 import { width_mobile } from './utils.js';
-import {
-  chunkedTask,
-  batchDOMUpdates,
-  throttle,
-  yieldToMain
-} from './performance-utils.js';
+import { throttle } from './performance-utils.js';
 
 // Event delegation manager para tablas
 class TableEventManager {
@@ -232,109 +227,44 @@ export function create_new_table(data_table, selector, type_of_filter) {
   // Crear todas las filas en memoria antes de insertarlas
   const rowsFragment = document.createDocumentFragment();
 
-  // Process rows in chunks for better INP performance (optimized threshold)
-  if (array_of_hours.length > 8) {
-    // For large tables, use chunked processing
-    chunkedTask(
-      array_of_hours,
-      th => {
-        let data_filter_hours = data.filter(({ hora }) => hora === th);
-        const row = document.createElement('tr');
-        row.classList.add('row-same-day');
+  array_of_hours.forEach(th => {
+    let data_filter_hours = data.filter(({ hora }) => hora === th);
+    const row = document.createElement('tr');
+    row.classList.add('row-same-day');
 
-        const firstCell = document.createElement('td');
-        firstCell.textContent = `${data_filter_hours[0].hora.split('-')[0]}:00`;
-        row.appendChild(firstCell);
+    const firstCell = document.createElement('td');
+    firstCell.textContent = `${data_filter_hours[0].hora.split('-')[0]}:00`;
+    row.appendChild(firstCell);
 
-        const max_value = Math.max(
-          ...data_filter_hours.map(({ precio }) => precio)
-        );
-        const min_value = Math.min(
-          ...data_filter_hours.map(({ precio }) => precio)
-        );
-
-        data_filter_hours.forEach(({ precio, dia }, index) => {
-          const new_cell = document.createElement('td');
-          new_cell.textContent = `${(precio / 1000).toFixed(3)} €`;
-
-          if (dia !== 'Hora' && type_of_filter === 'day') {
-            let parse_date_content = `${dia.split('/')[1]}/${
-              dia.split('/')[0]
-            }/${dia.split('/')[2]}`;
-          }
-
-          if (precio === max_value) {
-            new_cell.style.backgroundColor = 'var(--red-light)';
-            new_cell.style.fontWeight = 'bold';
-          }
-
-          if (precio === min_value) {
-            new_cell.style.fontWeight = 'bold';
-            new_cell.style.backgroundColor = 'var(--green-light)';
-          }
-
-          row.appendChild(new_cell);
-        });
-
-        rowsFragment.appendChild(row);
-      },
-      {
-        chunkSize: 4, // Smaller chunks for better INP
-        onComplete: () => {
-          // Use rAF for smooth insertion
-          requestAnimationFrame(() => {
-            body.appendChild(rowsFragment);
-          });
-        }
-      }
+    const max_value = Math.max(
+      ...data_filter_hours.map(({ precio }) => precio)
     );
-  } else {
-    // For small tables, process synchronously
-    array_of_hours.forEach(th => {
-      let data_filter_hours = data.filter(({ hora }) => hora === th);
-      const row = document.createElement('tr');
-      row.classList.add('row-same-day');
+    const min_value = Math.min(
+      ...data_filter_hours.map(({ precio }) => precio)
+    );
 
-      const firstCell = document.createElement('td');
-      firstCell.textContent = `${data_filter_hours[0].hora.split('-')[0]}:00`;
-      row.appendChild(firstCell);
+    data_filter_hours.forEach(({ precio }) => {
+      const new_cell = document.createElement('td');
+      new_cell.textContent = `${(precio / 1000).toFixed(3)} €`;
 
-      const max_value = Math.max(
-        ...data_filter_hours.map(({ precio }) => precio)
-      );
-      const min_value = Math.min(
-        ...data_filter_hours.map(({ precio }) => precio)
-      );
+      if (precio === max_value) {
+        new_cell.style.backgroundColor = 'var(--red-light)';
+        new_cell.style.fontWeight = 'bold';
+      }
 
-      data_filter_hours.forEach(({ precio, dia }, index) => {
-        const new_cell = document.createElement('td');
-        new_cell.textContent = `${(precio / 1000).toFixed(3)} €`;
+      if (precio === min_value) {
+        new_cell.style.fontWeight = 'bold';
+        new_cell.style.backgroundColor = 'var(--green-light)';
+      }
 
-        if (dia !== 'Hora' && type_of_filter === 'day') {
-          let parse_date_content = `${dia.split('/')[1]}/${dia.split('/')[0]}/${
-            dia.split('/')[2]
-          }`;
-        }
-
-        if (precio === max_value) {
-          new_cell.style.backgroundColor = 'var(--red-light)';
-          new_cell.style.fontWeight = 'bold';
-        }
-
-        if (precio === min_value) {
-          new_cell.style.fontWeight = 'bold';
-          new_cell.style.backgroundColor = 'var(--green-light)';
-        }
-
-        row.appendChild(new_cell);
-      });
-
-      rowsFragment.appendChild(row);
+      row.appendChild(new_cell);
     });
 
-    // Insert all rows at once
-    body.appendChild(rowsFragment);
-  }
+    rowsFragment.appendChild(row);
+  });
+
+  // Insert all rows at once
+  body.appendChild(rowsFragment);
 
   // Añadir la tabla completa al documento
   fragment.appendChild(table);
@@ -380,39 +310,28 @@ export function create_new_table(data_table, selector, type_of_filter) {
         getCellValue(asc ? b : a, idx)
       );
     let asc = true;
-    // Usar delegación de eventos con throttling para mejorar el rendimiento
-    const tableHeader = document.querySelector(
-      `#${selector} table .header-same-day`
-    );
-    if (tableHeader) {
-      const handleSort = throttle(async event => {
-        const th = event.target.closest('td');
-        if (!th) return;
+    // La tabla aún no está en el documento (se inserta en el rAF de arriba),
+    // así que el listener va directo a su cabecera
+    const handleSort = event => {
+      const th = event.target.closest('td');
+      if (!th) return;
 
-        await yieldToMain();
+      sortDirectionIcon(asc, th);
+      const table = th.closest('table');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const sortedFragment = document.createDocumentFragment();
 
-        requestAnimationFrame(() => {
-          sortDirectionIcon(asc, th);
-          const table = th.closest('table');
-          const tbody = table.querySelector('tbody');
-          const rows = Array.from(tbody.querySelectorAll('tr'));
-          const sortedFragment = document.createDocumentFragment();
+      rows
+        .sort(
+          comparer(Array.from(th.parentNode.children).indexOf(th), (asc = !asc))
+        )
+        .forEach(tr => sortedFragment.appendChild(tr));
 
-          rows
-            .sort(
-              comparer(
-                Array.from(th.parentNode.children).indexOf(th),
-                (asc = !asc)
-              )
-            )
-            .forEach(tr => sortedFragment.appendChild(tr));
+      tbody.appendChild(sortedFragment);
+    };
 
-          tbody.appendChild(sortedFragment);
-        });
-      }, 50);
-
-      tableHeader.addEventListener('click', handleSort, { passive: true });
-    }
+    header.addEventListener('click', handleSort, { passive: true });
   }
 
   function sortDirectionIcon(asc, target) {
@@ -593,65 +512,9 @@ export function table_price(data_hours, element) {
     )}`;
   }
 
-  // Use DocumentFragment for better performance with batch processing
+  // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
 
-  // Process elements in chunks for better INP (optimized threshold)
-  if (data_hours.length > 48) {
-    chunkedTask(
-      data_hours,
-      elements => {
-        const { price, hour, priceColor, hourHasPassed, tramo } = elements;
-        const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
-        const hour_has_passed_class =
-          hourHasPassed && get_value_checkbox_hours
-            ? 'element-hour-disabled'
-            : '';
-
-        // Create DOM elements with CSS containment hints
-        const blockDiv = document.createElement('div');
-        blockDiv.className = `${hour_has_passed_class} container-table-price-element`;
-        blockDiv.style.contain = 'layout style'; // Performance hint
-
-        const hourSpan = document.createElement('span');
-        hourSpan.className = `container-table-price-element-hour ${priceColor} tramo-${tramo}`;
-        hourSpan.textContent = transform_hour;
-
-        const priceSpan = document.createElement('span');
-        priceSpan.className = 'container-table-price-element-price';
-        priceSpan.textContent = `${price} € kWh`;
-
-        blockDiv.appendChild(hourSpan);
-        blockDiv.appendChild(priceSpan);
-        fragment.appendChild(blockDiv);
-      },
-      {
-        chunkSize: 4, // Smaller chunks for better responsiveness
-        onComplete: () => {
-          // Use rAF for smooth insertion and better INP
-          requestAnimationFrame(() => {
-            container.appendChild(fragment);
-            // Initialize event delegation after DOM is ready
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(
-                () => {
-                  tableEventManager.init();
-                },
-                { timeout: 500 }
-              );
-            } else {
-              setTimeout(() => {
-                tableEventManager.init();
-              }, 0);
-            }
-          });
-        }
-      }
-    );
-    return; // Exit early to avoid synchronous processing
-  }
-
-  // Synchronous processing for small datasets
   for (let elements of data_hours) {
     const { price, hour, priceColor, hourHasPassed, tramo } = elements;
     const transform_hour = hour < 10 ? `0${hour}:00` : `${hour}:00`;
