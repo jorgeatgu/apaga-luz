@@ -120,8 +120,7 @@ function initSavingsCalculator() {
     passive: true
   });
 
-  // Función para calcular el ahorro
-  const calculate = function () {
+  const calculateSavings = function () {
     // Obtener valores
     const monthlyConsumption = parseFloat(monthlyConsumptionInput.value) || 300;
     const highUsage = parseFloat(highUsageInput.value) / 100;
@@ -142,7 +141,7 @@ function initSavingsCalculator() {
     animateValue(monthlySavings, 0, monthlySavingsValue.toFixed(2), 1000);
     animateValue(annualSavings, 0, annualSavingsValue.toFixed(2), 1500);
 
-    // Mostrar resultados con efecto visual optimizado para INP
+    // Mostrar resultados con un pequeño efecto visual
     const resultBoxes = document.querySelectorAll('.result-box');
     requestAnimationFrame(() => {
       resultBoxes.forEach(box => {
@@ -162,7 +161,7 @@ function initSavingsCalculator() {
     });
   };
 
-  calculateButton.addEventListener('click', calculate, {
+  calculateButton.addEventListener('click', calculateSavings, {
     passive: true
   });
 

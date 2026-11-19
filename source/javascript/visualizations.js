@@ -303,7 +303,7 @@ class ChartLazyLoader {
   }
 
   loadTablesDeferred() {
-    // Cargar tablas al final, cuando ya están todas las gráficas
+    // Cargar tablas al final, tras lanzar todas las gráficas
     create_new_table(data_historic_today, 'table-year', 'year');
     create_new_table(data_last_week, 'table-week', 'day');
   }

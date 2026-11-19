@@ -226,7 +226,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
     y.range([height, 0]);
   }
 
-  async function draw_axes(g) {
+  function draw_axes(g) {
     const axisX = d3
       .axisBottom(scales.count.x)
       .tickPadding(4)
@@ -480,7 +480,7 @@ export function line_chart(data_chart, element_options, selected_value = '') {
       }
     }
 
-    await draw_axes(g);
+    draw_axes(g);
   }
 
   async function handle_select() {
