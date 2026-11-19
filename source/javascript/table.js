@@ -5,7 +5,6 @@ import {
   throttle,
   yieldToMain
 } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 
 // Event delegation manager para tablas
 class TableEventManager {
@@ -34,17 +33,12 @@ class TableEventManager {
     this.tableContainers.forEach(selector => {
       const container = document.querySelector(selector);
       if (container) {
-        // Optimizar hover y click events usando delegación
-        const optimizedHandler = inpOptimizer.createOptimizedHandler(
-          this.handleTableInteraction.bind(this),
-          { priority: 'normal' }
-        );
-
         // Event delegation para clicks
-        container.addEventListener('click', optimizedHandler, {
-          passive: true
-        });
-
+        container.addEventListener(
+          'click',
+          this.handleTableInteraction.bind(this),
+          { passive: true }
+        );
       }
     });
   }
@@ -61,7 +55,6 @@ class TableEventManager {
       this.handlePriceElementClick(priceElement, e);
     }
   }
-
 
   handlePriceElementClick(element, event) {
     // Aquí se pueden agregar comportamientos específicos al hacer click

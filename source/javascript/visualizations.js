@@ -23,7 +23,6 @@ async function loadJsonData() {
 import { create_new_table } from './table.js';
 import { initNavigation } from './navigation.js';
 import { chunkedTask, throttle } from './performance-utils.js';
-import { inpOptimizer } from './inp-optimizer.js';
 
 const user_day = new Date();
 
@@ -221,37 +220,35 @@ class ChartLazyLoader {
     }
 
     try {
-      await inpOptimizer.scheduleTask(async () => {
-        switch (element.id) {
-          case 'precio-medio-luz-dia':
-            await line_chart(
-              '/data/group_prices_by_day.json',
-              line_chart_by_day_options
-            );
-            break;
+      switch (element.id) {
+        case 'precio-medio-luz-dia':
+          await line_chart(
+            '/data/group_prices_by_day.json',
+            line_chart_by_day_options
+          );
+          break;
 
-          case 'precio-medio-luz-mes':
-            await line_chart(
-              '/data/group_prices_by_month.json',
-              line_chart_by_month_options
-            );
-            break;
+        case 'precio-medio-luz-mes':
+          await line_chart(
+            '/data/group_prices_by_month.json',
+            line_chart_by_month_options
+          );
+          break;
 
-          case 'precio-medio-luz-ultimo-year':
-            await line_chart(
-              '/data/last_year_group_price.json',
-              line_chart_group_by_day_options
-            );
-            break;
+        case 'precio-medio-luz-ultimo-year':
+          await line_chart(
+            '/data/last_year_group_price.json',
+            line_chart_group_by_day_options
+          );
+          break;
 
-          case 'precio-medio-luz-ultimo-mes':
-            await line_chart(
-              '/data/last_month_price.json',
-              line_chart_by_day_of_month_options
-            );
-            break;
-        }
-      }, 'high');
+        case 'precio-medio-luz-ultimo-mes':
+          await line_chart(
+            '/data/last_month_price.json',
+            line_chart_by_day_of_month_options
+          );
+          break;
+      }
     } catch (error) {
       console.error(`Failed to load chart for ${element.id}:`, error);
       // Remover de loadedCharts para permitir reintentos
@@ -305,15 +302,10 @@ class ChartLazyLoader {
     }
   }
 
-  async loadTablesDeferred() {
-    // Cargar tablas al final con baja prioridad
-    await inpOptimizer.scheduleTask(() => {
-      create_new_table(data_historic_today, 'table-year', 'year');
-    }, 'low');
-
-    await inpOptimizer.scheduleTask(() => {
-      create_new_table(data_last_week, 'table-week', 'day');
-    }, 'low');
+  loadTablesDeferred() {
+    // Cargar tablas al final, tras lanzar todas las gráficas
+    create_new_table(data_historic_today, 'table-year', 'year');
+    create_new_table(data_last_week, 'table-week', 'day');
   }
 
   destroy() {
